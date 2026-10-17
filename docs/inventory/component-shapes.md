@@ -35,3 +35,39 @@ semantics; a component cannot authorize it. Version selection, strict unknown
 field rejection, row/byte/nesting bounds and accessibility fields are for the
 zeocore/renderer/Broker owners to settle in the reviewed contract. No package
 will implement against an unreviewed proposal here.
+
+## Shape fit check on the owner's proposed design
+
+Read zeocore-SOW-38 rev 3 at
+`matorclawson/org-zeroemployeeorg@7179ffe2cea91eaa0c83028fc6aa7510a4072aac`,
+`projects/zeocore/sow/zeocore/zeocore-SOW-38-data-only-ui-component-schema.md`
+(SHA256 `8aa231381ffd3e74ee7d11b44ec5061f0ef1d813528d729e0b816ceeed22343e`).
+This is a consumer shape fit check, not acceptance or implementation of a new
+contract. The contract owner and council decide its resolution.
+
+The five source families fit bounded card/table summaries with authoritative
+structured results retained separately. Long message bodies, arbitrary Notion
+properties, nested attendee/member data and long provider strings do not fit
+losslessly into the proposed scalar cells and 12 card facts; use an explicit
+summary and an admitted read/paging interface. Do not label a summary as a
+complete export. Missing/null values and inert provider links must stay
+distinct from zero/false and actionable URLs. The inventory has no need for
+scatter charts, executable JSX or components that authorize effects.
+
+Three design details need owner clarification before an accepted version:
+
+- Section 3 still says 200 table rows and 1,000 chart points, and refusal vector
+  V9 uses 201/1,001, while the reconciled section 5 budget says 100/500. The
+  vocabulary, examples and boundary vectors must use one bound.
+- Counting every object/array toward 100 nodes per component conflicts with a
+  100-row table: each `{id, cells}` row requires at least two object nodes, so
+  100 rows need at least 200 nodes before columns, metadata and arrays. The
+  effective page budget needs a precise counting rule and acceptance/refusal
+  vectors; a producer cannot promise 100 rows under both limits.
+- A 4 KiB fallback cannot reproduce an arbitrary large authoritative result.
+  Clarify that it is a bounded, explicit summary, how omissions/partial views
+  are represented, and how to access the authoritative recorded result. Never
+  silently truncate an actionable preview to meet the budget.
+
+These observations preserve the data-only boundary. No schema, fixture payload,
+renderer, provider route, action or extra dependency is introduced here.

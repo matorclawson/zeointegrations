@@ -47,7 +47,8 @@ are in [snapshot.json](snapshot.json). All inspected Python parsed successfully.
    schema, not direct frontend copying.
 7. `veyrax_auth` is VeyraX's own Supabase-backed credential store with shared
    encryption; catalog `none` is not credential-free execution. `veyrax` is
-   internal workflow support. Both remain outside the provider-port queue.
+   a per-user memory store over Supabase `users_memory`. Both remain outside
+   the provider-port queue.
 
 ## Proposed order
 

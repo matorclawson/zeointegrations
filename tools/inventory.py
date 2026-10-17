@@ -123,7 +123,7 @@ OVERLAP = {
 
 AUTH_OVERRIDES = {
     "common": "shared auth/custody support; not a provider",
-    "veyrax": "VeyraX internal workflow support; not a provider port",
+    "veyrax": "VeyraX per-user memory store (server Supabase); not a provider port",
     "veyrax_auth": "VeyraX credential store (Supabase/encryption); not a provider port",
     "gmail": "OAuth (imported but unregistered in router registry/catalog)",
     "docusign": "OAuth (unregistered; route uses TokenService)",

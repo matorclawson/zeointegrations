@@ -1747,7 +1747,7 @@
       ],
       "directory": "veyrax",
       "files": 5,
-      "observed_auth": "VeyraX internal workflow support; not a provider port",
+      "observed_auth": "VeyraX per-user memory store (server Supabase); not a provider port",
       "parse_errors": [],
       "python_lines_including_tests": 270,
       "python_test_lines": 0,

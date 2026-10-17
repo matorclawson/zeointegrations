@@ -81,7 +81,7 @@ Dependencies are direct, static, non-standard-library **import roots**, excludin
 | typeform | typeform | api_key | fastapi, pydantic, requests, starlette | 1020 | none |
 | uploadthing | uploadthing | api_key | fastapi, pydantic, requests, starlette | 1730 | none |
 | vercel | vercel | oauth | fastapi, pydantic, requests | 1773 | none |
-| veyrax | veyrax | VeyraX internal workflow support; not a provider port | fastapi, pydantic | 270 | none |
+| veyrax | veyrax | VeyraX per-user memory store (server Supabase); not a provider port | fastapi, pydantic | 270 | none |
 | veyrax-mcp | — | bearer plus server Upstash token (unregistered) | fastapi, httpx, pydantic, starlette, upstash_vector | 331 | none |
 | veyrax_auth | veyrax-auth | VeyraX credential store (Supabase/encryption); not a provider port | fastapi, pydantic, requests, supabase | 290 | none |
 | whatsapp | whatsapp | whatsapp-qr | fastapi, pydantic, qrcode, requests | 1658 | none |
