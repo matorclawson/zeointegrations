@@ -1,0 +1,17 @@
+zeointegrations
+Copyright (c) 2026 Zero Employee Organizations
+Distributed under the MIT License; see LICENSE.
+
+Initial skeleton: no implementation source has been copied from VeyraX or
+zeocore. docs/inventory contains source-derived metadata, not provider code.
+
+Inventory source: VeyraX, rodriveracom/veyrax-platform,
+commit 1cdddde9d5d76b9891896ca78a95e069647e81df.
+Its MIT license states Copyright (c) 2025 VeyraX.
+The full source notice is preserved in docs/licenses/VeyraX-MIT.txt.
+
+Inventory source: zeroemployeeorg/zeocore,
+commit 2e7cb11fa9aaf133876c02c1eea8f1ccd94bba04 (MIT).
+
+Future ports must add a per-file source-to-destination provenance map here and
+in their package NOTICE, and retain source copyright and permission notices.
