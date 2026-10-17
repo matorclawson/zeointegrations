@@ -1,6 +1,6 @@
 # VeyraX source inventory
 
-Source: `rodriveracom/veyrax-platform@1cdddde9d5d76b9891896ca78a95e069647e81df`. All 84 tracked integration directories are listed, including shared code and unregistered directories. `routers` is the exact `INTEGRATION_ROUTERS` key, or an em dash when absent.
+Canonical source: `VeyraX/veyrax-platform@1cdddde9d5d76b9891896ca78a95e069647e81df`, read through the identical local `rodriveracom/veyrax-platform` fork. All 84 tracked integration directories are listed, including shared code and unregistered directories. `routers` is the exact `INTEGRATION_ROUTERS` key, or an em dash when absent.
 
 Dependencies are direct, static, non-standard-library **import roots**, excluding VeyraX modules; they are not a proposed install set. Shared `common` dependencies apply where imported. Test-only additions, exact byte sizes, all source requirement pins and parse errors are in [snapshot.json](snapshot.json). Lines count tracked Python files including tests; no source is imported or executed.
 
@@ -81,9 +81,9 @@ Dependencies are direct, static, non-standard-library **import roots**, excludin
 | typeform | typeform | api_key | fastapi, pydantic, requests, starlette | 1020 | none |
 | uploadthing | uploadthing | api_key | fastapi, pydantic, requests, starlette | 1730 | none |
 | vercel | vercel | oauth | fastapi, pydantic, requests | 1773 | none |
-| veyrax | veyrax | none | fastapi, pydantic | 270 | none |
+| veyrax | veyrax | VeyraX internal workflow support; not a provider port | fastapi, pydantic | 270 | none |
 | veyrax-mcp | — | bearer plus server Upstash token (unregistered) | fastapi, httpx, pydantic, starlette, upstash_vector | 331 | none |
-| veyrax_auth | veyrax-auth | none | fastapi, pydantic, requests, supabase | 290 | none |
+| veyrax_auth | veyrax-auth | VeyraX credential store (Supabase/encryption); not a provider port | fastapi, pydantic, requests, supabase | 290 | none |
 | whatsapp | whatsapp | whatsapp-qr | fastapi, pydantic, qrcode, requests | 1658 | none |
 | x | x | custom | fastapi, pydantic, requests | 1410 | none |
 | yelp | yelp | server RapidAPI key (catalog says none) | fastapi, pydantic, requests, starlette | 683 | none |

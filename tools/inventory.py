@@ -123,6 +123,8 @@ OVERLAP = {
 
 AUTH_OVERRIDES = {
     "common": "shared auth/custody support; not a provider",
+    "veyrax": "VeyraX internal workflow support; not a provider port",
+    "veyrax_auth": "VeyraX credential store (Supabase/encryption); not a provider port",
     "gmail": "OAuth (imported but unregistered in router registry/catalog)",
     "docusign": "OAuth (unregistered; route uses TokenService)",
     "hilvl": "API key (unregistered; validate_provider_api_key)",
@@ -226,12 +228,12 @@ def main() -> None:
     parser.add_argument("--zeocore", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
-    result = build(args.veyrax, args.zeocore)
     # Refuse to write the report into either source repository.
     output = args.output.resolve()
     for repo in (args.veyrax, args.zeocore):
         if output.is_relative_to(repo.resolve()):
             parser.error("output must be outside the inventoried repositories")
+    result = build(args.veyrax, args.zeocore)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
 

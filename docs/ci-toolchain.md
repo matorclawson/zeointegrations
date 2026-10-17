@@ -11,7 +11,7 @@ received; draft PR jobs are skipped. No provider implementation is executed.
 | Job filesystem / Python | `docker.io/library/python:3.14.3-bookworm@sha256:647fc2dbb7df74521c75aac3f21668234b7e91433bda558abcf2547ee84c3ad3` (linux/amd64) |
 | Container config | `sha256:743fa48c85547dcd834e4733974a8e278f913be7c03720c144c3a8614e80df83`; registry config declares `PYTHON_VERSION=3.14.3` |
 | checkout | `actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683` |
-| uv installer | `astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff` |
+| uv installer | `astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e` (v6.8.0 commit, peeled from the annotated v6 tag) |
 | uv | `0.12.2`, linux x86_64 GNU archive SHA256 `d66e96b5f1ca3b99806eee283a8125d33a0bd669e6e6d9bc4ab7ffda63c41bf4` |
 | Ruff | `0.15.5`; selected platform wheel and sdist hashes are recorded in `uv.lock` |
 | Python acquisition | Preinstalled exact container Python; `UV_PYTHON_DOWNLOADS=never` |
@@ -37,3 +37,17 @@ publishing are outside this job.
 
 Local checks use the installed development tools and count as author results.
 Attach actual GitHub run and source-head identities separately when received.
+
+Council SOURCE verdict `zc-zi1-8de0-v1` identified the previous setup-uv pin as
+an annotated tag object, not a commit. The corrected pin above was verified
+through GitHub's tag and commit APIs. Both pinned actions use node20. Checkout
+does not persist its token. Before the gate, CI adds only the workspace path
+to Git's safe.directory list, accounting for the container/runner UID boundary.
+The whitespace gate compares the empty tree to committed HEAD, so a clean
+checkout still checks all committed text.
+
+Draft jobs are skipped and GitHub may count that as a passing required check.
+When adding `verify` to the ruleset, the Architect must retain the lane's draft
+refusal and require an actual successful run on the reviewed head. A skipped
+draft job is not qualification. Source review and tool-pin acceptance remain
+distinct from the first real CI outcome.

@@ -73,7 +73,8 @@ each package's NOTICE and the root NOTICE. The first VeyraX port requires counci
 license compatibility review. Do not copy its credential store or frontend code.
 
 Ask zeo-rt to mint SOW ids. Every commit includes `sow: <minted id>`; line 1 of a
-PR body is exactly that line. Push branches to the fork and open one upstream PR
+PR body is exactly that line. Push `zeointegrations/<slug>` branches to the fork
+and open one upstream PR
 at a time. Council reviews, the Architect signs, and the merging app merges.
 After this CI lands, the Architect adds its `verify` check to the main ruleset.
 PyPI publication waits for operator-approved trusted-publisher setup; there is

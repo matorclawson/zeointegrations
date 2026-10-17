@@ -5,7 +5,8 @@ execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
 
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing packaging.
 - Run `make setup`, then `make verify`. CI runs the same gate, without credentials.
-- Work on a branch in the fork; one open PR at a time. The first PR body line and
+- Work on a `zeointegrations/<slug>` branch in the fork; one open PR at a time.
+  The lane derives the seat from the prefix before `/`. The first PR body line and
   a line in every commit must be `sow: <runtime-minted id>`. Never invent an id.
 - Council reviews, the Architect signs, and the merging app merges. Keep the
   upstream push URL disabled. No direct main pushes, tags, or PyPI publication.

@@ -4,7 +4,7 @@ Source: `zeroemployeeorg/zeocore@2e7cb11fa9aaf133876c02c1eea8f1ccd94bba04`. Exac
 
 | Entry point | Source directory | Auth | Dependency import roots | Python lines | Proposed package | Existing extra |
 |---|---|---|---|---:|---|---|
-| github | github | token / GitHub App (signer stays in core) | cryptography, httpx, pydantic, requests | 3527 | zeo-integration-github | github |
+| github | github | token / GitHub App (signer stays in core) | cryptography, httpx, pydantic, requests | 3527 | zeo-integration-github | github, github-app (local signer) |
 | google.mail | google/mail | OAuth 2 | googleapiclient, pydantic | 1523 | zeo-integration-google | google, gmail |
 | google.drive | google/drive | OAuth 2 | googleapiclient, pydantic | 2729 | zeo-integration-google | google, drive |
 | google.calendar | google/calendar | OAuth 2 | googleapiclient, pydantic | 1312 | zeo-integration-google | google, calendar |

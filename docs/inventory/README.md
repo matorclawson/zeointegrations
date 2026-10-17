@@ -5,7 +5,8 @@ Prepared 2026-10-17 by the zeointegrations seat under charter v1 and runtime-min
 `matorclawson/org-zeroemployeeorg@d72aba45ac75f20d302295352dd50f3572894ffb:projects/zeointegrations/sow/zeointegrations/zeointegrations-SOW-01-integration-inventory-packaging-skeleton-and.md`.
 Sources:
 
-- VeyraX: `rodriveracom/veyrax-platform@1cdddde9d5d76b9891896ca78a95e069647e81df`.
+- VeyraX: canonical `VeyraX/veyrax-platform@1cdddde9d5d76b9891896ca78a95e069647e81df`,
+  inventoried through the identical local `rodriveracom/veyrax-platform` fork.
 - zeocore: `zeroemployeeorg/zeocore@2e7cb11fa9aaf133876c02c1eea8f1ccd94bba04`.
 - Council-reviewed design: zeocore-SOW-36 rev 5,
   `matorclawson/org-zeroemployeeorg@0f2bf62e2`, with Architect rulings
@@ -44,6 +45,9 @@ are in [snapshot.json](snapshot.json). All inspected Python parsed successfully.
    infrastructure belongs to ZEOconnect and will not be copied into packages.
    Existing HTML/component assets need translation into zeocore's data-only
    schema, not direct frontend copying.
+7. `veyrax_auth` is VeyraX's own Supabase-backed credential store with shared
+   encryption; catalog `none` is not credential-free execution. `veyrax` is
+   internal workflow support. Both remain outside the provider-port queue.
 
 ## Proposed order
 
