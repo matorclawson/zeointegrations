@@ -71,3 +71,27 @@ Three design details need owner clarification before an accepted version:
 
 These observations preserve the data-only boundary. No schema, fixture payload,
 renderer, provider route, action or extra dependency is introduced here.
+
+## Recheck of the owner's council-reviewed revision 8
+
+Read the self-contained zeocore-SOW-38 rev 8 at
+`matorclawson/org-zeroemployeeorg@e1371cc84ec27b219422a1ef6d5eff4522eb68bd`,
+SHA256 `00d62145c766b2f2f1eb38ed23f285b0a341b90bf703d289f20b5b12f579e9e1`.
+The owner reports council DESIGN ADEQUATE, verdict `zc-zcore38-e137-design-v1`.
+The three revision-3 shape findings above are resolved: 100 rows/500 chart
+points and consistent boundary vectors, no node-count cap (byte/depth/count
+bounds apply), and a required `complete` boolean with a bounded summary and
+disabled effectful actions when the authoritative preview is incomplete.
+
+Shape fit is confirmed for bounded card/table summaries of the inspected source
+families, with nested/large data retained separately. Oversized or unrepresentable
+provider cursors stay in the retained result; omit next_page and show partial
+and incomplete status rather than truncate or rewrite the cursor. Provider links
+remain inert text. The council's carried note that partial/next-page tables
+must have `complete: false` is retained as a pilot limitation.
+
+Revision 8 is the owner's and council's recommended pilot pin, subject to the
+Architect's decision and the producer's exact-pin confirmation including the
+required `complete` key. Revision 6 and revision 8 must not be treated as wire
+compatible merely because both name zeo.ui-result/v1. No pilot, schema, renderer
+or component implementation is created by this inventory fit check.
