@@ -51,3 +51,33 @@ When adding `verify` to the ruleset, the Architect must retain the lane's draft
 refusal and require an actual successful run on the reviewed head. A skipped
 draft job is not qualification. Source review and tool-pin acceptance remain
 distinct from the first real CI outcome.
+
+## Pinned installer source check
+
+Read-only review of setup-uv v6.8.0 at the exact commit above addresses the
+question of installing uv 0.12.2 after that action was released. In
+`src/download/download-version.ts`, an explicit version is retained; a missing
+local manifest entry falls back to the corresponding GitHub release archive.
+On the download path, the supplied checksum is validated before extraction.
+`src/utils/platforms.ts` maps linux/x64 with glibc to the GNU x86_64 artifact
+whose URL and digest are recorded above. There is no static maximum-version
+check on that path. This supports the proposed route; it does not prove an
+actual installation or execution of the bundled action.
+
+There is a separate tool-cache path: `src/setup-uv.ts` first tries the runner's
+tool cache and returns a hit without entering the download/checksum function.
+`enable-cache: false` controls restoration of uv's dependency cache, not that
+early tool-cache lookup. Thus the prior cache statement means no cross-run uv
+dependency-cache restoration; it does not prove a cache miss for the uv binary.
+Before claiming tool closure, the approved run must retain which installer
+path occurred and the installed tool identity; a version string alone cannot
+prove the archive checksum was applied to a tool-cache hit. Fresh-tool-cache
+selection or installed-binary verification remains an Architect/Runtime review
+decision. No new tool was installed or executed for this source check.
+
+Immutable upstream references:
+
+- [Version and download path](https://github.com/astral-sh/setup-uv/blob/d0cc045d04ccac9d8b7881df0226f9e82c39688e/src/download/download-version.ts)
+- [Tool-cache branch](https://github.com/astral-sh/setup-uv/blob/d0cc045d04ccac9d8b7881df0226f9e82c39688e/src/setup-uv.ts)
+- [Checksum handling](https://github.com/astral-sh/setup-uv/blob/d0cc045d04ccac9d8b7881df0226f9e82c39688e/src/download/checksum/checksum.ts)
+- [Platform selection](https://github.com/astral-sh/setup-uv/blob/d0cc045d04ccac9d8b7881df0226f9e82c39688e/src/utils/platforms.ts)
