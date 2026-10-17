@@ -2,6 +2,7 @@ name: verify
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
@@ -16,13 +17,25 @@ concurrency:
 jobs:
   verify:
     name: verify
-    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-24.04
+    container:
+      image: docker.io/library/python:3.14.3-bookworm@sha256:647fc2dbb7df74521c75aac3f21668234b7e91433bda558abcf2547ee84c3ad3
     timeout-minutes: 10
+    env:
+      UV_PYTHON: /usr/local/bin/python3.14
+      UV_PYTHON_DOWNLOADS: never
+      UV_LINK_MODE: copy
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
         with:
           version: "0.12.2"
-          enable-cache: true
-      - run: uv python install
+          checksum: d66e96b5f1ca3b99806eee283a8125d33a0bd669e6e6d9bc4ab7ffda63c41bf4
+          enable-cache: false
+      - name: Record execution environment
+        run: |
+          python --version
+          uv --version
+          printf 'runner image: %s %s\n' "$ImageOS" "$ImageVersion"
       - run: make verify
