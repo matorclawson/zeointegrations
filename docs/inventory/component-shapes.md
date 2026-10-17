@@ -36,7 +36,7 @@ field rejection, row/byte/nesting bounds and accessibility fields are for the
 zeocore/renderer/Broker owners to settle in the reviewed contract. No package
 will implement against an unreviewed proposal here.
 
-## Shape fit check on the owner's proposed design
+## Historical revision-3 fit check (superseded)
 
 Read zeocore-SOW-38 rev 3 at
 `matorclawson/org-zeroemployeeorg@7179ffe2cea91eaa0c83028fc6aa7510a4072aac`,
@@ -54,7 +54,8 @@ complete export. Missing/null values and inert provider links must stay
 distinct from zero/false and actionable URLs. The inventory has no need for
 scatter charts, executable JSX or components that authorize effects.
 
-Three design details need owner clarification before an accepted version:
+The following three findings were open at revision 3. All are resolved by the
+revision-8 recheck below; they are retained only as historical evidence:
 
 - Section 3 still says 200 table rows and 1,000 chart points, and refusal vector
   V9 uses 201/1,001, while the reconciled section 5 budget says 100/500. The
@@ -72,7 +73,7 @@ Three design details need owner clarification before an accepted version:
 These observations preserve the data-only boundary. No schema, fixture payload,
 renderer, provider route, action or extra dependency is introduced here.
 
-## Recheck of the owner's council-reviewed revision 8
+## Current fit check: owner's council-reviewed revision 8
 
 Read the self-contained zeocore-SOW-38 rev 8 at
 `matorclawson/org-zeroemployeeorg@e1371cc84ec27b219422a1ef6d5eff4522eb68bd`,

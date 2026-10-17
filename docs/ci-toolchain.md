@@ -42,7 +42,8 @@ Local checks use the installed development tools and count as author results.
 Attach actual GitHub run and source-head identities separately when received.
 
 Council SOURCE verdict `zc-zi1-8de0-v1` identified the previous setup-uv pin as
-an annotated tag object, not a commit. The corrected pin above was verified
+an annotated tag object, not a commit. The corrected historical pin
+`d0cc045d04ccac9d8b7881df0226f9e82c39688e` was verified
 through GitHub's tag and commit APIs. That earlier setup-uv step is now replaced
 in the fresh-acquisition proposal; the remaining checkout action uses node20.
 Checkout does not persist its token. Before the gate, CI adds only the workspace path
@@ -58,11 +59,14 @@ distinct from the first real CI outcome.
 
 ## Earlier pinned-installer source check
 
-Read-only review of setup-uv v6.8.0 at the exact commit above addresses the
+Read-only review of setup-uv v6.8.0 at that historical commit addresses the
 question of installing uv 0.12.2 after that action was released. In
 `src/download/download-version.ts`, an explicit version is retained; a missing
 local manifest entry falls back to the corresponding GitHub release archive.
 On the download path, the supplied checksum is validated before extraction.
+That explicit checksum input was its only integrity check for uv 0.12.2:
+the bundled known checksums stop at 0.8.20, so omitting the input would allow
+an unchecked download for that unknown version.
 `src/utils/platforms.ts` maps linux/x64 with glibc to the GNU x86_64 artifact
 whose URL and digest are recorded above. There is no static maximum-version
 check on that path. This supports the proposed route; it does not prove an
@@ -112,5 +116,9 @@ is downloaded, installed or executed locally. Controls cover checksum failure,
 duplicate/link members, path traversal not being extracted, existing directory
 preservation, platform/context refusal, size bounds and receipt contents.
 Actual acquisition, installation compatibility and non-skipped CI remain
-unproved until the Architect accepts this source proposal and the ordered
-configuration-installation prerequisite is received.
+unproved until the Architect accepts this source proposal. Council confirmed
+the ordered configuration-installation prerequisite in `ans_2dab2f9961302e4c`:
+installed config SHA256
+`844083b9c0803a2e2d1c3ed92f3638c848c790ad5ab7116906bb369c722e0ae7`,
+observed on matormini at 2026-10-17 18:16:03Z after installation at 18:14:47Z.
+This closes admission installation, not source acceptance or CI execution.
