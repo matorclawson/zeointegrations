@@ -145,6 +145,52 @@ class InventoryFixtureTests(unittest.TestCase):
         with self.assertRaises(FixtureRefusal):
             compare_fixture(encoded + b" " * (16_385 - len(encoded)))
 
+    def test_duplicate_keys_in_otherwise_accepted_fixture_refuse(self):
+        encoded = json.dumps(fixture()).encode()
+        duplicates = (
+            encoded.replace(
+                b'"fixture_version": 1',
+                b'"fixture_version": 1, "fixture_version": 1',
+                1,
+            ),
+            encoded.replace(
+                b'"version": "2"', b'"version": "2", "version": "2"', 1
+            ),
+        )
+        for payload in duplicates:
+            with self.subTest(payload=payload[:80]):
+                with self.assertRaises(FixtureRefusal):
+                    compare_fixture(payload)
+
+    def test_each_artifact_array_at_64_and_65_items(self):
+        for key in ("admitted_artifacts", "installed_artifacts"):
+            with self.subTest(key=key):
+                value = fixture()
+                value["required_names"] = []
+                value["admitted_artifacts"] = []
+                value["installed_artifacts"] = []
+                value[key] = [artifact(name=str(index)) for index in range(64)]
+                # Admission alternatives alone grant nothing. Installed extras
+                # are a comparison refusal, not a malformed-array refusal.
+                result = compare(value)
+                self.assertEqual(result.accepted, key == "admitted_artifacts")
+                value[key].append(artifact(name="65th"))
+                with self.assertRaises(FixtureRefusal):
+                    compare(value)
+
+    def test_unicode_codepoint_and_encoded_byte_limits_are_distinct(self):
+        value = fixture()
+        value["case_id"] = "é" * 256
+        encoded = json.dumps(value, ensure_ascii=False).encode("utf-8")
+        self.assertTrue(compare_fixture(encoded).accepted)
+        padded = encoded + b" " * (16_384 - len(encoded))
+        self.assertTrue(compare_fixture(padded).accepted)
+        with self.assertRaises(FixtureRefusal):
+            compare_fixture(padded + b" ")
+        value["case_id"] += "é"
+        with self.assertRaises(FixtureRefusal):
+            compare(value)
+
 
 if __name__ == "__main__":
     unittest.main()

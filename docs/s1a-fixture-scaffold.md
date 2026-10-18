@@ -37,3 +37,35 @@ duplicate JSON keys, Unicode, and byte/array limits. Those are planned assertion
 not successful qualification evidence. Existing `make verify` is the intended
 gate only after Runtime binds its venue. S1c remains public GitHub
 `get_repository`/`get_issue` after actual foundation PR2 merge and separate gates.
+
+## Prepared mutation qualification, not executed
+
+Each row below is a planned isolated semantic mutation and the behavioral
+assertion that must kill it. These are ten test methods in prepared source,
+not ten successful runs or kills. The eventual gate must run the unmodified
+baseline first, apply one mutant at a time to an isolated copy, and verify the
+named assertion fails while the mutant still imports and runs. Restore the
+baseline between rows. Record killed/survived/accepted/not-applied/invalid
+separately; import/build failure, panic, and timeout are not assertion kills.
+No mutation runner or source execution is authorized by this plan.
+
+| Planned mutation | Required behavioral assertion |
+| --- | --- |
+| Remove duplicate JSON-key rejection | Otherwise valid root and artifact duplicate keys raise `FixtureRefusal`; malformed roots alone are insufficient |
+| Permit duplicate installed names | Two admitted copies of `demo` produce refusal |
+| Permit missing or extra installed names | Empty installation or extra distribution refuses against required `demo` |
+| Ignore installed version | Unadmitted version refuses |
+| Ignore artifact digest | Changed artifact digest refuses |
+| Ignore dependency digest | Changed closure and mixed rollback tuple refuse |
+| Reject all rollback alternatives | Exact admitted version1/artifact/closure accepts |
+| Let expected override actual comparison | Valid set with expected=refuse still accepts and fails the expected assertion |
+| Accept uppercase/nonhex digest | Uppercase or nonhex digest raises `FixtureRefusal` |
+| Remove byte bound or count characters | Exactly16384 UTF8 bytes accepts; one extra byte refuses, including multibyte labels |
+| Permit65 array entries | Each artifact array accepts64 structurally;65 raises `FixtureRefusal` |
+| Count UTF8 bytes as string codepoints | Label of256 multibyte codepoints accepts;257 refuses |
+
+The artifact-array boundary fixtures distinguish malformed input from valid
+comparison refusal:64 extra installed names refuse at comparison, while65 fail
+shape validation. An eventual signed receipt must name the exact qualified
+candidate head, readable log hash and honest mutation result split. Current
+source remains **NOT_RUN**, without a signed receipt or submission approval.
