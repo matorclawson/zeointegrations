@@ -18,7 +18,10 @@ control characters and malformed types are refused. Distribution names compare
 after lowercase and replacement of runs of dash/underscore/dot with dash.
 The pilot minimum version is an exact numeric major.minor.patch, matching the
 literal dependency floor; this is deliberately not a general PEP440 parser.
-The chosen dependency window is `zeocore>=0.24.0,<0.25.0`, for owner review.
+The dependency is `zeocore>=0.24.0`, as the core maintainer requires. A
+`<0.25.0` ceiling would exclude the following core release that removes its
+in-tree registration, preventing the transition the plugin exists to support.
+The manifest minimum remains 0.24.0.
 
 Provenance uses an HTTPS GitHub repository, a 40-lowercase-hex commit and relative
 POSIX paths: no absolute, backslash, empty, dot or parent segments. Metadata never
@@ -33,10 +36,18 @@ refusal cases; they neither import the plugin nor prove media behavior. Existing
 skeleton tests still use inert/mock fixtures. The complete local author gate
 does not replace package qualification or actual hosted CI.
 
-Hatchling1.27.0 is proposed as the exact build backend; it has not been acquired
+Hatchling 1.32.0 is proposed as the exact build backend, aligning with the version
+identified by council in core's existing toolchain. The earlier 1.27.0 preparation
+pin had no demonstrated compatibility reason to differ and is superseded.
+It has not been acquired
 or executed here. New builder/dependency acquisition and installed testing need
 the reviewed tool inputs and appropriate evidence, separately from skeleton
-tool acceptance. Do not describe a declared backend as qualified.
+tool acceptance. All build/runtime/transitive dependencies are new to this
+repository: operator approval through Architect is required before adoption or
+a pilot PR, in addition to Runtime/owner qualification. The Python 3.14-only
+candidate environment is deliberate initial coverage; it does not qualify every
+future Python version allowed by the package's open-ended `>=3.14` declaration.
+Do not describe a declared backend as qualified.
 
 Before opening the pilot PR after the skeleton lands: obtain builder/dependency
 input review; build wheel/sdist and inspect contents/notices/namespace; perform

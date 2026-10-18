@@ -116,7 +116,7 @@ def validate(data: bytes, project: dict) -> dict:
         raise ValueError("minimum must be an exact numeric release")
     # This pilot accepts the reviewed numeric-release form, not arbitrary PEP440.
     dependencies = project.get("dependencies", [])
-    if f"zeocore>={minimum},<0.25.0" not in dependencies:
+    if f"zeocore>={minimum}" not in dependencies:
         raise ValueError("minimum differs from pilot dependency floor")
     if manifest["license"] != "MIT" or project.get("license") != "MIT":
         raise ValueError("pilot license mismatch")

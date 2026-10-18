@@ -22,4 +22,7 @@ acquisition, wheel/sdist build and contents, clean installed entry-point
 and duplicate refusal tests, fake media-operation behavior, core-owner shim/
 extra smoke, license review and operator-approved release. No PyPI publication
 or native media invocation is performed by this branch's metadata tests.
-Hatchling1.27.0 is a proposed exact build input, not an installed/qualified tool.
+Hatchling 1.32.0 is a proposed exact build input, not an installed/qualified tool.
+Operator approval through Architect is required before adopting this backend,
+the runtime dependency set or its transitives, and before the pilot PR. The
+candidate's initial Python 3.14 test scope does not qualify later interpreters.

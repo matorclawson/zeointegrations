@@ -99,6 +99,17 @@ class ManifestTests(unittest.TestCase):
         changed["provenance"][0]["fetch"] = "never"
         self.check_bad(changed)
 
+    def test_core_dependency_allows_the_following_transition_release(self):
+        self.assertIn("zeocore>=0.24.0", self.project["dependencies"])
+        validate(json.dumps(self.manifest).encode(), self.project)
+        project = copy.deepcopy(self.project)
+        project["dependencies"] = [
+            value.replace("zeocore>=0.24.0", "zeocore>=0.24.0,<0.25.0")
+            for value in project["dependencies"]
+        ]
+        with self.assertRaisesRegex(ValueError, "dependency floor"):
+            validate(json.dumps(self.manifest).encode(), project)
+
 
 if __name__ == "__main__":
     unittest.main()
