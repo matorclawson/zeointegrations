@@ -4,7 +4,9 @@ This seat owns this repository. Coordinate package moves with zeocore and Broker
 execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
 
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing packaging.
-- Run `make setup`, then `make verify`. CI runs the same gate, without credentials.
+- Run `make setup`, then full local `make verify`. Council repeats the exact-head
+  gate until pomar CI supplies its signed gate; public Actions is one optional
+  three-minute smoke job under DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18.
 - Work on a `zeointegrations/<slug>` branch in the fork; one open PR at a time.
   The lane derives the seat from the prefix before `/`. The first PR body line and
   a line in every commit must be `sow: <runtime-minted id>`. Never invent an id.

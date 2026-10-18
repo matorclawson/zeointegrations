@@ -76,6 +76,11 @@ Ask zeo-rt to mint SOW ids. Every commit includes `sow: <minted id>`; line 1 of 
 PR body is exactly that line. Push `zeointegrations/<slug>` branches to the fork
 and open one upstream PR at a time. Council reviews, the Architect signs, and
 the merging app merges.
-After this CI lands, the Architect adds its `verify` check to the main ruleset.
+Full qualification runs locally and independently at council until pomar CI on
+ENG-UK posts its signed gate. Public Actions is one three-minute dependency-free
+PR smoke job, not the full gate. Under the operator's
+DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18, zeo-rt aligns required
+checks with the smoke/council gate and later `zeo-ci/gate`; no removed full-CI
+job may remain required. See docs/ci-toolchain.md for exact inputs and limits.
 PyPI publication waits for operator-approved trusted-publisher setup; there is
 no publishing workflow in this skeleton.
