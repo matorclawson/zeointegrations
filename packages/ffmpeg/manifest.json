@@ -1,0 +1,49 @@
+{
+  "name": "zeo-plugin-ffmpeg",
+  "kind": "plugin",
+  "entry_points": [
+    "ffmpeg"
+  ],
+  "secrets": [],
+  "operations": [
+    "probe",
+    "convert",
+    "transcode_h264",
+    "extract_audio",
+    "thumbnail"
+  ],
+  "minimum_zeo_core": "0.24.0",
+  "license": "MIT",
+  "provenance": [
+    {
+      "repository": "https://github.com/zeroemployeeorg/zeocore",
+      "commit": "3682eb120c6b02b3927c97e6530c9cd1d976be3a",
+      "source": "src/zeo_core/integrations/ffmpeg/__init__.py",
+      "destination": "src/zeo_integrations/ffmpeg/__init__.py"
+    },
+    {
+      "repository": "https://github.com/zeroemployeeorg/zeocore",
+      "commit": "3682eb120c6b02b3927c97e6530c9cd1d976be3a",
+      "source": "src/zeo_core/integrations/ffmpeg/config.py",
+      "destination": "src/zeo_integrations/ffmpeg/config.py"
+    },
+    {
+      "repository": "https://github.com/zeroemployeeorg/zeocore",
+      "commit": "3682eb120c6b02b3927c97e6530c9cd1d976be3a",
+      "source": "src/zeo_core/integrations/ffmpeg/models.py",
+      "destination": "src/zeo_integrations/ffmpeg/models.py"
+    },
+    {
+      "repository": "https://github.com/zeroemployeeorg/zeocore",
+      "commit": "3682eb120c6b02b3927c97e6530c9cd1d976be3a",
+      "source": "src/zeo_core/integrations/ffmpeg/protocols.py",
+      "destination": "src/zeo_integrations/ffmpeg/protocols.py"
+    },
+    {
+      "repository": "https://github.com/zeroemployeeorg/zeocore",
+      "commit": "3682eb120c6b02b3927c97e6530c9cd1d976be3a",
+      "source": "src/zeo_core/integrations/ffmpeg/service.py",
+      "destination": "src/zeo_integrations/ffmpeg/service.py"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "zeo-plugin-ffmpeg"
+version = "0.1.0"
+description = "Optional local FFmpeg plugin for zeocore"
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = ["zeocore>=0.24.0,<0.25.0", "ffmpeg-zeo>=0.1.0", "pydantic>=2,<3"]
+
+[project.entry-points."zeo_core.integrations"]
+ffmpeg = "zeo_integrations.ffmpeg:create_integration"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/zeo_integrations"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"manifest.json" = "zeo_integrations/ffmpeg/manifest.json"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/manifest.json"]

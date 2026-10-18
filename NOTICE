@@ -17,3 +17,7 @@ Its MIT license states Copyright (c) 2026 Rod Rivera.
 
 Future ports must add a per-file source-to-destination provenance map here and
 in their package NOTICE, and retain source copyright and permission notices.
+
+Prepared ffmpeg pilot: five source modules from zeroemployeeorg/zeocore at
+3682eb120c6b02b3927c97e6530c9cd1d976be3a; MIT Copyright (c) 2026 Rod Rivera.
+See packages/ffmpeg/NOTICE for exact per-file provenance and source hashes.

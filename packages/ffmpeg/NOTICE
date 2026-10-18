@@ -1,0 +1,15 @@
+zeo-plugin-ffmpeg source provenance
+
+Copyright (c) 2026 Rod Rivera. MIT license retained in LICENSE.
+Source: https://github.com/zeroemployeeorg/zeocore at 3682eb120c6b02b3927c97e6530c9cd1d976be3a
+
+- src/zeo_core/integrations/ffmpeg/__init__.py -> src/zeo_integrations/ffmpeg/__init__.py; source SHA256 edce0a4d833f0ddc9f22c4b20c2344548d86d39840a7d27ee650e403eb7bf2e5
+- src/zeo_core/integrations/ffmpeg/config.py -> src/zeo_integrations/ffmpeg/config.py; source SHA256 7bf20be62b81977dcf335bebc8390a0b041d8759f15fa7cf2bf3f8c04d7e6f49
+- src/zeo_core/integrations/ffmpeg/models.py -> src/zeo_integrations/ffmpeg/models.py; source SHA256 a2797ed7bb3d94b200e9a313c554192e608b4d391f2974d752836afaf98843cf
+- src/zeo_core/integrations/ffmpeg/protocols.py -> src/zeo_integrations/ffmpeg/protocols.py; source SHA256 50426e9f6e25e44510cd5e67a705d931d3d73a50ed6b73c0bb8573ddb80156ed
+- src/zeo_core/integrations/ffmpeg/service.py -> src/zeo_integrations/ffmpeg/service.py; source SHA256 a2360334c50c4f27f6a20e701badd71e8bde6b5d1e1b5dca32b33b73d4fee98b
+
+Mechanical changes: own-package imports use zeo_integrations.ffmpeg; added
+per-file copyright/provenance pointer; repository formatter applied. Shared
+zeocore contract imports and legacy public factories remain unchanged.
+No VeyraX code, provider credentials or ffmpeg binaries are included.

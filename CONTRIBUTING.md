@@ -3,7 +3,8 @@
 The approved direction is zeocore-SOW-36 rev 5 at
 `matorclawson/org-zeroemployeeorg@0f2bf62e2`, with the Architect's rulings
 `ans_cbd9dfb83a794f92`. This repository starts with tooling and an inventory;
-no provider package or release is present yet.
+the ffmpeg plugin candidate is under `packages/ffmpeg`. It has not been built,
+installed or released; see its README for remaining qualification stages.
 
 ## Development
 
