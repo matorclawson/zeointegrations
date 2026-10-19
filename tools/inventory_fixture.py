@@ -104,7 +104,7 @@ def compare_fixture(payload: bytes) -> Comparison:
             object_pairs_hook=_object,
             parse_constant=_constant,
         )
-    except (UnicodeDecodeError, json.JSONDecodeError, RecursionError, ValueError):
+    except UnicodeDecodeError, json.JSONDecodeError, RecursionError, ValueError:
         raise FixtureRefusal("invalid-json") from None
     if not isinstance(root, dict) or root.keys() != ROOT_KEYS:
         raise FixtureRefusal("invalid-root-fields")

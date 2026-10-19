@@ -2,9 +2,11 @@
 
 sow: zeointegrations-SOW-02
 
-Prepared source, **NOT_RUN** pending Runtime's own admitted venue/resources/queue.
-No parser, imports, tests, formatter, lint, or full gate has been executed for this
-slice. Source approval, production admission, and package qualification are pending.
+Prepared source, **NOT_RUN** pending Pomar's admitted shared runner. Static source
+lint, formatting and syntax checks are recorded separately; product baseline,
+tests and semantic mutations have not been executed. Source approval, production
+admission and package qualification are pending. RULING-476 parks all consumer
+executors; this repository supplies only the product command and assertions.
 
 The coordination source is
 `matorclawson/org-zeroemployeeorg@e08c51f2e1c6211ea4914dabcf383020063354df:projects/zeoconnect/evidence/zeoconnect-tools/zeoconnect-tools-SOW-02/catalogue-source-and-qualification-handoff-v1.md`,
@@ -40,14 +42,43 @@ gate only after Runtime binds its venue. S1c remains public GitHub
 
 ## Prepared mutation qualification, not executed
 
-Each row below is a planned isolated semantic mutation and the behavioral
+Each row below is a fixed isolated semantic mutation and the behavioral
 assertion that must kill it. These are ten test methods in prepared source,
 not ten successful runs or kills. The eventual gate must run the unmodified
 baseline first, apply one mutant at a time to an isolated copy, and verify the
 named assertion fails while the mutant still imports and runs. Restore the
 baseline between rows. Record killed/survived/accepted/not-applied/invalid
 separately; import/build failure, panic, and timeout are not assertion kills.
-No mutation runner or source execution is authorized by this plan.
+Run the following product command only through the admitted shared runner:
+
+```sh
+make qualify-inventory
+```
+
+This target runs the existing `make verify` prerequisite, then
+`uv run --frozen python -m tools.qualify_inventory`. The latter calibrates the
+unchanged fixture assertions first, then applies the twelve fixed changes to
+fresh in-memory copies of this trusted development parser. Test globals and
+candidate modules are restored between copies; the baseline file is never
+modified. This is application assertion logic: no job admission, process
+launch/signals, deadlines, resource policy, log bounds, retention or execution
+receipts. Pomar owns those shared-runner responsibilities and captures ordinary
+stdout/stderr. The JSON output contains only semantic results and an honest
+count split, with no execution authority or provenance assertion. Extra command
+arguments and externally supplied source paths are not accepted.
+
+An assertion failure without errors kills a mutant; import/compile/runtime
+errors, empty or skipped coverage, and unexpected/expected failures are invalid.
+A failed baseline prevents the mutation cases from running. Missing/nonunique
+anchors are not-applied and unchanged behavior is survived; neither is a kill.
+All twelve must be killed for this product command to exit zero. The five
+qualification tests check these distinctions and restoration, but remain
+**NOT_RUN** until the shared runner executes the full command.
+
+The codepoint mutant uses surrogate-pass encoding only for its length
+calculation so the parser's separate strict surrogate refusal remains intact.
+The valid-Unicode assertion explicitly fails on `FixtureRefusal`; a behavioral
+length rejection therefore counts as an assertion failure, not a runtime error.
 
 | Planned mutation | Required behavioral assertion |
 | --- | --- |

@@ -153,9 +153,7 @@ class InventoryFixtureTests(unittest.TestCase):
                 b'"fixture_version": 1, "fixture_version": 1',
                 1,
             ),
-            encoded.replace(
-                b'"version": "2"', b'"version": "2", "version": "2"', 1
-            ),
+            encoded.replace(b'"version": "2"', b'"version": "2", "version": "2"', 1),
         )
         for payload in duplicates:
             with self.subTest(payload=payload[:80]):
@@ -182,7 +180,11 @@ class InventoryFixtureTests(unittest.TestCase):
         value = fixture()
         value["case_id"] = "é" * 256
         encoded = json.dumps(value, ensure_ascii=False).encode("utf-8")
-        self.assertTrue(compare_fixture(encoded).accepted)
+        try:
+            accepted = compare_fixture(encoded).accepted
+        except FixtureRefusal:
+            self.fail("256 valid Unicode codepoints must not be rejected")
+        self.assertTrue(accepted)
         padded = encoded + b" " * (16_384 - len(encoded))
         self.assertTrue(compare_fixture(padded).accepted)
         with self.assertRaises(FixtureRefusal):
