@@ -2,9 +2,11 @@
 
 sow: zeointegrations-SOW-02
 
-Prepared source, **NOT_RUN** pending Pomar's admitted shared runner. Static source
-lint, formatting and syntax checks are recorded separately; product baseline,
-tests and semantic mutations have not been executed. Source approval, production
+Full qualification is **NOT_RUN** pending Pomar's admitted shared runner. At
+source a62e5af, ten fixture unit tests and five qualification-classifier unit
+tests passed in independent bounded development checks; this does not establish
+the full gate or the twelve semantic mutation results. Static source lint,
+formatting and syntax checks are recorded separately. Source approval, production
 admission and package qualification are pending. RULING-476 parks all consumer
 executors; this repository supplies only the product command and assertions.
 
@@ -35,16 +37,16 @@ The source uses only the standard library. It does not read paths, import packag
 discover entry points, install dependencies, call providers, store keys, or change
 Broker composition. Prepared tests cover forward/rollback membership, mismatched
 dependency closure, duplicate/missing/extra names, malformed/unknown fields,
-duplicate JSON keys, Unicode, and byte/array limits. Those are planned assertions,
-not successful qualification evidence. Existing `make verify` is the intended
+duplicate JSON keys, Unicode, and byte/array limits. The ten fixture unit tests
+passed at a62e5af; these checks are not a full qualification receipt. Existing `make verify` is the intended
 gate only after Runtime binds its venue. S1c remains public GitHub
 `get_repository`/`get_issue` after actual foundation PR2 merge and separate gates.
 
 ## Prepared mutation qualification, not executed
 
 Each row below is a fixed isolated semantic mutation and the behavioral
-assertion that must kill it. These are ten test methods in prepared source,
-not ten successful runs or kills. The eventual gate must run the unmodified
+assertion that must kill it. Ten fixture test methods cover twelve planned
+mutations; the development test passes do not establish mutation kills. The eventual gate must run the unmodified
 baseline first, apply one mutant at a time to an isolated copy, and verify the
 named assertion fails while the mutant still imports and runs. Restore the
 baseline between rows. Record killed/survived/accepted/not-applied/invalid
@@ -56,8 +58,8 @@ make qualify-inventory
 ```
 
 This target runs the existing `make verify` prerequisite, then
-`uv run --frozen python -m tools.qualify_inventory`. The latter calibrates the
-unchanged fixture assertions first, then applies the twelve fixed changes to
+`uv run --frozen --offline --no-sync python -m tools.qualify_inventory`. It
+calibrates the unchanged fixture assertions first, then applies the twelve fixed changes to
 fresh in-memory copies of this trusted development parser. Test globals and
 candidate modules are restored between copies; the baseline file is never
 modified. This is application assertion logic: no job admission, process
@@ -72,8 +74,9 @@ errors, empty or skipped coverage, and unexpected/expected failures are invalid.
 A failed baseline prevents the mutation cases from running. Missing/nonunique
 anchors are not-applied and unchanged behavior is survived; neither is a kill.
 All twelve must be killed for this product command to exit zero. The five
-qualification tests check these distinctions and restoration, but remain
-**NOT_RUN** until the shared runner executes the full command.
+qualification tests check these distinctions and restoration; all five passed
+at a62e5af in development. The full command and its twelve semantic mutations
+remain **NOT_RUN** until executed through the shared runner.
 
 The codepoint mutant uses surrogate-pass encoding only for its length
 calculation so the parser's separate strict surrogate refusal remains intact.
@@ -99,4 +102,22 @@ The artifact-array boundary fixtures distinguish malformed input from valid
 comparison refusal:64 extra installed names refuse at comparison, while65 fail
 shape validation. An eventual signed receipt must name the exact qualified
 candidate head, readable log hash and honest mutation result split. Current
-source remains **NOT_RUN**, without a signed receipt or submission approval.
+full qualification remains **NOT_RUN**, without a signed receipt or submission
+approval.
+
+## Offline gate dependencies
+
+Every `uv run` in verification and qualification now uses `--frozen`,
+`--offline` and `--no-sync`. The receiver must supply the complete already-installed locked
+environment, Python >=3.14 and the locked Ruff tool before executing the gate.
+These flags prevent verification from synchronizing or downloading missing
+dependencies; they do not prove that a receiver has the required environment.
+`make setup` remains a separate installation command and is not part of the
+shared-runner workload. A missing tool or environment is a receiving dependency,
+not permission to install during qualification.
+
+The current gate also needs Git metadata for its existing exact-HEAD whitespace
+check. A history-free source archive alone cannot run that unchanged check.
+Use an owner-supported source checkout with the required Git objects, or agree
+a separately reviewed gate adaptation; do not silently omit the check or infer
+source authority from an unverified archive manifest.

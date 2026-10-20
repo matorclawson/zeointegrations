@@ -4,10 +4,10 @@ setup:
 	uv sync --frozen
 
 verify:
-	uv run --frozen ruff check .
-	uv run --frozen ruff format --check .
-	uv run --frozen python -m unittest discover -s tests -v
+	uv run --frozen --offline --no-sync ruff check .
+	uv run --frozen --offline --no-sync ruff format --check .
+	uv run --frozen --offline --no-sync python -m unittest discover -s tests -v
 	git diff --check 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD
 
 qualify-inventory: verify
-	uv run --frozen python -m tools.qualify_inventory
+	uv run --frozen --offline --no-sync python -m tools.qualify_inventory
