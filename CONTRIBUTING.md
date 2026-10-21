@@ -7,12 +7,19 @@ no provider package or release is present yet.
 
 ## Development
 
-Install Python 3.14 and uv, then run:
+Development uses Python 3.14, uv and the exact locked Ruff dependency. Prepare
+the environment only through its approved dependency/setup path; setup is
+separate from qualification and is not a shared-runner workload:
 
 ```sh
 make setup
 make verify
 ```
+
+Run the full gate at the committed source head through the admitted Pomar
+shared runner, scheduled by zeo-rt-sched. Verification uses the complete existing
+locked environment with frozen, offline operation and no synchronization.
+A missing tool does not authorize a download or installation during the gate.
 
 The root is a development project, not a distribution or an umbrella installer.
 The locked development dependency is Ruff; verification uses the standard-library
@@ -74,10 +81,15 @@ license compatibility review. Do not copy its credential store or frontend code.
 
 Ask zeo-rt to mint SOW ids. Every commit includes `sow: <minted id>`; line 1 of a
 PR body is exactly that line. Push `zeointegrations/<slug>` branches to the fork
-and open one upstream PR at a time. Council reviews, the Architect signs, and
-the merging app merges.
-Full qualification runs locally and independently at council until pomar CI on
-ENG-UK posts its signed gate. Public Actions is one three-minute dependency-free
+and open one upstream PR at a time. Ordinary product review goes to zeoreviewer;
+sensitive C1-C6 changes go to Council. Review binds the exact committed head and
+its retained evidence. The Architect signs required lane evidence and sequences
+the supported merge route; a seat never self-merges.
+Full qualification uses the admitted shared runner. Council reviews exact-head
+evidence; it does not imply an independent Python rerun. Python reruns are
+scheduled through zeo-rt-sched. Under RULING-476, shared-runner owners retain
+admission, deadlines, resource limits, process cleanup, log bounds and receipts;
+consumers supply the application command and assertions. Public Actions is one three-minute dependency-free
 PR smoke job, not the full gate. Under the operator's
 DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18, zeo-rt aligns required
 checks with the smoke/council gate and later `zeo-ci/gate`; no removed full-CI

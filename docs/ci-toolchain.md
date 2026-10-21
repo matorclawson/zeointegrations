@@ -1,27 +1,40 @@
-# Local gate and minimal public smoke
+# Full gate and minimal public smoke
 
-Updated 2026-10-18 under zeointegrations-SOW-01. The operator ruling
-DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18 supersedes the earlier
-full GitHub CI/fresh-uv-acquisition proposal. Architect instruction
-ans_e86749d038ad9111 directs this PR to a minimal smoke workflow and local gate
-plus council's own run at the head. No actual GitHub run is required to prove the
-full gate under this transitional ruling. A smoke outcome never replaces it.
+Updated 2026-10-21 under zeointegrations-SOW-02. This follow-up corrects the
+review and execution wording from the approved foundation without changing its
+workflow, tool pins, tests or required checks. The operator's
+DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18 replaced the earlier
+full GitHub CI/fresh-uv-acquisition proposal. Its later evidence-review addendum
+and RULING-476 control the execution boundary described here. A public smoke
+outcome never replaces the full gate.
 
 ## Full qualification gate
 
 Run `make verify` at the committed source head: frozen Ruff lint/format,
 standard-library inventory/artifact tests and whole committed-tree whitespace.
-The local development inputs remain Python 3.14, uv with required-version
->=0.12.2 and Ruff 0.15.5 in the unchanged hash-bearing uv.lock. These existing
-local tools were used for author verification; no new local tool was installed.
-Put the exact head, command, test count and outcome in the PR body. Council runs
-the full gate independently at that head before its final verdict.
+Current verification commands use `uv run --frozen --offline --no-sync`; the
+receiver must provide and qualify the complete existing locked environment.
+No-sync does not prove that an installed executable matches the lock.
 
-The permanent full gate belongs to isolated pomar CI on ENG-UK, scheduled by
-zeo-rt-sched with retained signed receipt and separate CI identity posting
-`zeo-ci/gate`. Until that receipt/status exists, the operator ruling uses the
-seat's full local gate plus council's run. This repository does not implement a
-new runner, CI identity, scheduler, native installation or permission grant.
+The development inputs remain Python >=3.14, uv >=0.12.2 and Ruff 0.15.5 in the
+unchanged hash-bearing uv.lock. Setup/acquisition is a separate approved act;
+missing dependencies cannot be installed or downloaded during qualification.
+Keep the whole committed-tree whitespace check, not a working-tree-only check.
+A receiver using Git history must retain the actual pinned source identity;
+history-free input is not an automatic replacement for that gate.
+
+Full qualification runs through the owner-admitted Pomar shared runner,
+scheduled by zeo-rt-sched. Runner owners retain admission, deadlines, resource
+limits, process cleanup, log bounds and execution receipts under RULING-476.
+The project supplies its fixed application command and behavioral assertions,
+not another executor. Source preparation or a queued request grants no venue.
+
+Record the exact head, command, environment/tool bindings, test count and outcome
+in the review evidence. Distinguish author development checks, actual shared-runner
+qualification, any independent rerun and optional smoke. Council reviews the
+exact-head evidence; a Council verdict does not imply a Python rerun. Schedule
+required Python reruns through zeo-rt-sched in the admitted venue. No signed
+runner receipt or posting of `zeo-ci/gate` is implied by this documentation.
 
 ## Optional public PR smoke
 
@@ -47,10 +60,19 @@ remain separately reviewed under their own dependency/executor/publication gates
 
 ## Review and merge
 
-The PR body distinguishes author gate, council gate and optional smoke. Source
-approval from an earlier head does not approve changed workflow bytes. Council
-reviews this minimal workflow class and independently runs the exact-head gate;
-Architect includes approved workflow-file changes in the operator's hand-merge
-batch. No seat self-merges. zeo-rt owns required-check alignment: replace any
-removed full-CI check requirements with the ruling's smoke/council/transitional
-local gate, later zeo-ci/gate. Never leave an obsolete check blocking every PR.
+The PR body distinguishes author development evidence, actual full gate,
+independent reruns and optional smoke. Approval from an earlier head does not
+approve changed source or workflow bytes. Ordinary product review goes to
+zeoreviewer; sensitive C1-C6 changes go to Council. Reviews bind the exact head
+and retain any unmet conditions.
+
+The Architect signs required lane evidence and sequences a supported merge
+route, including workflow-capable handling when needed. No seat self-merges or
+changes actor permissions to make a merge succeed. A posted approval is not a
+claim that a merge has happened or a receiving environment is installed.
+
+zeo-rt owns required-check alignment. Do not add an obsolete full-CI or `verify`
+job requirement: current installed lane/check policy and its reviewed successor
+control the names. The intended signed Pomar gate is not an installed check
+merely because it is documented here. This follow-up changes no workflow,
+required-check configuration, tool pin or runner implementation.
