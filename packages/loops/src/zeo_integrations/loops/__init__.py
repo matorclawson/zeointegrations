@@ -1,18 +1,7 @@
 """API-client-only Loops package. Importing never discovers credentials or connects."""
 
-from .client import (
-    AuthenticationError,
-    InvalidResponseError,
-    LoopsClient,
-    LoopsError,
-    LoopsRejected,
-    LoopsUnknown,
-    NotFoundError,
-    PayloadTooLargeError,
-    RateLimitError,
-    RevisionConflictError,
-    TransportError,
-)
+from .client import LoopsClient
+from .contacts import LoopsContactsClient
 from .models import (
     Account,
     ActivityCondition,
@@ -33,6 +22,18 @@ from .models import (
     UploadedAsset,
     UploadTicket,
 )
+from .transport import (
+    AuthenticationError,
+    ConflictError,
+    InvalidResponseError,
+    LoopsError,
+    LoopsRejected,
+    LoopsUnknown,
+    NotFoundError,
+    PayloadTooLargeError,
+    RateLimitError,
+    TransportError,
+)
 from .webhooks import VerifiedWebhook, WebhookVerificationError, verify_webhook
 
 LoopsApi = LoopsClient
@@ -52,6 +53,7 @@ __all__ = [
     "EmailUpdate",
     "InvalidResponseError",
     "LoopsClient",
+    "LoopsContactsClient",
     "LoopsApi",
     "LoopsError",
     "LoopsRejected",
@@ -62,7 +64,7 @@ __all__ = [
     "PayloadTooLargeError",
     "PropertyCondition",
     "RateLimitError",
-    "RevisionConflictError",
+    "ConflictError",
     "Suppression",
     "ThemePage",
     "TransportError",

@@ -39,6 +39,7 @@ def verify_webhook(
         or not isinstance(webhook_id, str)
         or not 1 <= len(webhook_id) <= 256
         or any(ord(c) < 33 or ord(c) > 126 for c in webhook_id)
+        or "." in webhook_id
         or not isinstance(timestamp, str)
         or not timestamp.isascii()
         or not timestamp.isdigit()
@@ -68,10 +69,11 @@ def verify_webhook(
             candidates.append(candidate)
     accepted = False
     for secret in secrets:
+        key = None
         try:
             key = base64.b64decode(secret.removeprefix("whsec_"), validate=True)
         except AttributeError, binascii.Error, ValueError:
-            raise WebhookVerificationError("invalid injected webhook secret") from None
+            pass
         if not key:
             raise WebhookVerificationError("invalid injected webhook secret")
         expected = hmac.digest(key, signed, "sha256")

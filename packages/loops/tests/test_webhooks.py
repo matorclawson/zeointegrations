@@ -61,3 +61,16 @@ class WebhookTests(unittest.TestCase):
             with self.subTest(changes=changes):
                 with self.assertRaises(WebhookVerificationError):
                     verify_webhook(self.body, **(self.args | changes))
+
+    def test_webhook_input_caps_and_ambiguous_id(self):
+        for changes in (
+            {"webhook_id": "fixture.1"},
+            {"webhook_id": "x" * 257},
+            {"signature": "x" * 8193},
+            {"timestamp": "1" * 17},
+            {"secrets": (self.secret,) * 3},
+        ):
+            with self.assertRaises(WebhookVerificationError):
+                verify_webhook(self.body, **(self.args | changes))
+        with self.assertRaises(WebhookVerificationError):
+            verify_webhook(b"x" * 8_000_001, **self.args)

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling==1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -23,3 +23,7 @@ line-length = 88
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.uv]
+# Match the receiving Broker lock rather than a newly published transitive release.
+constraint-dependencies = ["certifi==2026.7.22", "idna==3.19"]

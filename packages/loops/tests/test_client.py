@@ -4,6 +4,7 @@ import importlib.metadata
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import httpx
 from pydantic import ValidationError
@@ -46,16 +47,15 @@ def message():
 
 
 class ClientTests(unittest.TestCase):
-    def make_client(self, status=200, data=None, headers=None):
+    def make_client(self, status=200, data=None, headers=None, *, contacts=False):
         calls = []
 
         def handle(request):
             calls.append(request)
             return httpx.Response(status, json=data, headers=headers)
 
-        client = loops.LoopsClient(
-            "synthetic-key", transport=httpx.MockTransport(handle)
-        )
+        client_class = loops.LoopsContactsClient if contacts else loops.LoopsClient
+        client = client_class("synthetic-key", transport=httpx.MockTransport(handle))
         self.addCleanup(client.close)
         return client, calls
 
@@ -72,7 +72,7 @@ class ClientTests(unittest.TestCase):
             401: loops.AuthenticationError,
             403: loops.AuthenticationError,
             404: loops.NotFoundError,
-            409: loops.RevisionConflictError,
+            409: loops.ConflictError,
             413: loops.PayloadTooLargeError,
             429: loops.RateLimitError,
             302: loops.LoopsError,
@@ -107,6 +107,7 @@ class ClientTests(unittest.TestCase):
                 client.create_campaign("Fixture")
         self.assertEqual(len(calls), 1)
         self.assertNotIn("synthetic-key", str(caught.exception))
+        self.assertIsNone(caught.exception.__context__)
 
     def test_invalid_provider_shape_is_sanitized(self):
         for data in ({"success": True}, {"success": 1, "teamName": "Fixture"}, []):
@@ -200,22 +201,24 @@ class ClientTests(unittest.TestCase):
 
     def test_contact_find_and_suppression_bind_requested_email(self):
         client, calls = self.make_client(
+            contacts=True,
             data=[
                 {
                     "id": "contact_1",
                     "email": "fixture@example.test",
                     "subscribed": False,
                 }
-            ]
+            ],
         )
         self.assertFalse(client.find_contact("fixture@example.test")[0].subscribed)
         self.assertEqual(calls[0].url.params["email"], "fixture@example.test")
         client, _ = self.make_client(
+            contacts=True,
             data={
                 "contact": {"id": "c", "email": "another@example.test", "userId": None},
                 "isSuppressed": True,
                 "removalQuota": {"limit": 5, "remaining": 4},
-            }
+            },
         )
         with self.assertRaises(loops.InvalidResponseError):
             client.check_suppression("fixture@example.test")
@@ -307,8 +310,12 @@ class ClientTests(unittest.TestCase):
             loops.ContactUpdate(
                 email="fixture@example.test", properties={"subscribed": True}
             )
-        client, calls = self.make_client(data={"success": True, "id": "contact_1"})
-        client.unsubscribe_contact("fixture@example.test")
+        client, calls = self.make_client(
+            data={"success": True, "id": "contact_1"}, contacts=True
+        )
+        client.update_contact(
+            loops.ContactUpdate(email="fixture@example.test", subscribed=False)
+        )
         self.assertEqual(
             json.loads(calls[0].content),
             {"email": "fixture@example.test", "subscribed": False},
@@ -318,11 +325,11 @@ class ClientTests(unittest.TestCase):
         client, calls = self.make_client(
             data={
                 "emailAssetId": "asset_1",
-                "presignedUrl": "https://storage.invalid/signed",
+                "presignedUrl": "https://loops-assets.s3.amazonaws.com/uploads/asset_1?signature=synthetic",
             }
         )
         ticket = client.create_upload("image/png", 100)
-        self.assertNotIn("storage.invalid", repr(ticket))
+        self.assertNotIn("signature=synthetic", repr(ticket))
         with self.assertRaises(ValueError):
             client.create_upload("image/png", 4_000_001)
         self.assertEqual(len(calls), 1)
@@ -343,3 +350,137 @@ class ClientTests(unittest.TestCase):
         self.assertTrue(
             any(str(path).endswith("loops/client.py") for path in distribution.files)
         )
+
+    def test_contacts_are_separate_from_draft_surface(self):
+        client, _ = self.make_client()
+        for name in (
+            "create_contact",
+            "update_contact",
+            "find_contact",
+            "check_suppression",
+            "unsubscribe_contact",
+        ):
+            self.assertFalse(hasattr(client, name))
+        contacts, _ = self.make_client(contacts=True)
+        self.assertFalse(hasattr(contacts, "create_campaign"))
+        self.assertFalse(hasattr(contacts, "unsubscribe_contact"))
+
+    def test_upload_urls_refuse_unapproved_authorities_and_paths(self):
+        urls = (
+            "https://storage.invalid/signed",
+            "http://loops-assets.s3.amazonaws.com/uploads/asset_1",
+            "https://loops-assets.s3.amazonaws.com:443/uploads/asset_1",
+            "https://user@loops-assets.s3.amazonaws.com/uploads/asset_1",
+            "https://loops-assets.s3.amazonaws.com/uploads/another",
+            "https://loops-assets.s3.amazonaws.com/uploads/asset_1#fragment",
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                client, _ = self.make_client(
+                    data={"emailAssetId": "asset_1", "presignedUrl": url}
+                )
+                with self.assertRaises(loops.InvalidResponseError):
+                    client.create_upload("image/png", 100)
+        for host in ("assets.loops.so", "images.vialoops.com"):
+            client, _ = self.make_client(
+                data={
+                    "emailAssetId": "asset_1",
+                    "finalUrl": f"https://{host}/image.png",
+                }
+            )
+            client.complete_upload("asset_1")
+        for url in (
+            "https://assets.loops.so.evil.invalid/a",
+            "https://assets.loops.so:443/a",
+        ):
+            client, _ = self.make_client(
+                data={"emailAssetId": "asset_1", "finalUrl": url}
+            )
+            with self.assertRaises(loops.InvalidResponseError):
+                client.complete_upload("asset_1")
+
+    def test_slow_unbuffered_stream_expires_without_retry(self):
+        clock = [0.0]
+
+        class SlowStream(httpx.SyncByteStream):
+            def __iter__(self):
+                for _ in range(10):
+                    clock[0] += 9
+                    yield b" "
+
+        calls = []
+
+        def handle(request):
+            calls.append(request)
+            return httpx.Response(200, stream=SlowStream())
+
+        with patch(
+            "zeo_integrations.loops.transport.time.monotonic",
+            side_effect=lambda: clock[0],
+        ):
+            with loops.LoopsClient(
+                "synthetic-key", transport=httpx.MockTransport(handle)
+            ) as client:
+                with self.assertRaises(loops.TransportError) as caught:
+                    client.test_api_key()
+        self.assertTrue(caught.exception.outcome_unknown)
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(clock[0], 36)
+
+    def test_response_cap_and_invalid_json_have_no_exception_context(self):
+        for body in (b"x" * 1_048_577, b"[" * 2000, b"{bad-json"):
+            with self.subTest(length=len(body)):
+                with loops.LoopsClient(
+                    "synthetic-key",
+                    transport=httpx.MockTransport(
+                        lambda _, body=body: httpx.Response(200, content=body)
+                    ),
+                ) as client:
+                    with self.assertRaises(loops.InvalidResponseError) as caught:
+                        client.test_api_key()
+                    self.assertIsNone(caught.exception.__context__)
+
+    def test_encoding_timeout_and_proxy_guards(self):
+        with patch.dict("os.environ", {"HTTPS_PROXY": "http://invalid.invalid:1"}):
+            client, calls = self.make_client(
+                data={"success": True, "teamName": "Fixture"}
+            )
+            client.test_api_key()
+            self.assertFalse(client._http._trust_env)
+            self.assertEqual(calls[0].headers["Accept-Encoding"], "identity")
+            self.assertEqual(calls[0].extensions["timeout"]["read"], 10.0)
+        with loops.LoopsClient(
+            "synthetic-key",
+            transport=httpx.MockTransport(
+                lambda _: httpx.Response(
+                    200,
+                    headers={"Content-Encoding": "gzip"},
+                    stream=httpx.ByteStream(b"not-decoded"),
+                )
+            ),
+        ) as client:
+            with self.assertRaises(loops.InvalidResponseError):
+                client.test_api_key()
+        for timeout in (0, -1, float("nan"), 61, True):
+            with self.assertRaises(ValueError):
+                loops.LoopsClient("synthetic-key", timeout=timeout)
+
+    def test_request_bound_counts_actual_escaped_json(self):
+        client, calls = self.make_client(data=message())
+        client.update_email_message(
+            "email_1", "r", "s", "p", "n", "hello", "\x00" * 60000
+        )
+        self.assertLess(len(calls[0].content), 400_000)
+        contacts, calls = self.make_client(contacts=True)
+        with self.assertRaises(ValueError):
+            contacts.update_contact(
+                loops.ContactUpdate(
+                    email="fixture@example.test", properties={"large": "x" * 400_001}
+                )
+            )
+        self.assertEqual(calls, [])
+
+    def test_audience_update_refuses_non_draft_result(self):
+        client, _ = self.make_client(data=campaign() | {"status": "Sent"})
+        with self.assertRaises(loops.InvalidResponseError):
+            client.update_campaign_audience("campaign_1", mailing_list_id="list_1")

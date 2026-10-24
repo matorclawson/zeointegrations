@@ -37,7 +37,7 @@ response or credential is used as a fixture.
 | Audience | `update_campaign_audience(id, mailing_list_id / audience_segment_id / audience_filter)`; typed schema, reject `scheduling`, no generic update payload. |
 | Supporting reads | `list_themes()`, `list_mailing_lists()`, preserving specified pagination/completeness rather than inventing all-pages success. |
 | Assets | Typed upload creation/completion; actual upload destination/authorization handling must follow the spec and cannot leak the API key to another origin. |
-| Contacts | Typed create/update-upsert/find/unsubscribe and suppression check. No automatic consent repair or retries of uncertain writes. |
+| Contacts | Separate `LoopsContactsClient`: typed create/update-upsert/find and suppression check; absent from draft `LoopsClient`. Atomic update-only unsubscribe is unavailable in OpenAPI 1.22.6 and awaits Council/Broker disposition. No automatic consent repair or uncertain-write retries. |
 | Webhooks | Signature verification against the official signing contract; no guessed signature encoding or custody store. |
 
 Typed errors distinguish authentication/authorization (401/403), missing resource
@@ -67,3 +67,21 @@ pin by 11:00 UTC on October 24, conditional on actual inputs and venue. Architec
 If no qualified pin exists then, Broker may use its scoped temporary same-interface
 fallback rather than miss delivery; one behavior contract and eventual removal
 of the fallback are required. No fallback implementation is claimed approved here.
+
+Council correction checkpoint (2026-10-24, ans_cd6f12755dad4313):
+
+- 409 is neutral `ConflictError`, not proof of a changed revision.
+- Upload tickets accept only HTTPS, no userinfo/port/fragment, exact
+  loops-assets.s3.amazonaws.com and `/uploads/{checked emailAssetId}`.
+  Final assets accept only assets.loops.so and images.vialoops.com.
+- A 30-second monotonic deadline is checked at headers, every unbuffered chunk,
+  and decoding. Per-phase timeout bounds an in-flight blocking read; this is
+  not a hard process wall deadline. Responses over 1 MiB or with content encoding
+  other than identity fail with unknown outcome. The request wire bytes are
+  encoded once and limited to 400,000 bytes, preserving 60,000-byte escaped LMX.
+- The contact client is a distinct review surface. No fake update-only wrapper
+  uses the provider upsert. The proposed unsubscribe omission is a substantive
+  scope decision, not claimed accepted or delivered.
+- Broker must check Draft status before writes, enforce an aggregate team rate
+  limit, use test_api_key for enrollment, and independently qualify its typed-model
+  and ThemePage adapter diff. Package availability alone is not adoption.
