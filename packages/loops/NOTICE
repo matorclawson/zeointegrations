@@ -1,0 +1,6 @@
+zeo-integration-loops is original MIT-licensed implementation in zeointegrations.
+API field/route references: Loops OpenAPI 1.22.6, official app.loops.so/openapi.json,
+received SHA256 518500f5f94aeba4c242d8474ce050b0607dd356f4875dc0279a6120df18a811.
+No Loops SDK, VeyraX code, credential store or live provider response is copied.
+Webhook verification follows the documented raw-body HMAC algorithm recorded in
+zeoconnect/memos/reader-database-design-rev-e.md section 3.2 (Architect pin27a8a897).
