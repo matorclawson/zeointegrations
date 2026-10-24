@@ -8,11 +8,14 @@ execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
   gate until pomar CI supplies its signed gate; public Actions is one optional
   three-minute smoke job under DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18.
 - Work on a `zeointegrations/<slug>` branch in the fork; one open non-draft PR
-  per repository. Open draft PRs early when the change has a concrete shape;
-  a draft does not require a green full gate. See CONTRIBUTING.md for the
+  per repository. Open a new PR only when the work is ready and its full gate
+  has passed on the exact head, including new draft PRs. Existing drafts stay
+  draft until their gate passes. See CONTRIBUTING.md for the
   own-fork `zeointegrations/wip/<topic>` backup and quick-check policy.
   The lane derives the seat from the prefix before `/`. The first PR body line and
   a line in every commit must be `sow: <runtime-minted id>`. Never invent an id.
+- Test regularly on the work branch in your own lane; PR creation or updates
+  must never trigger the heavy suite. Keep PR checks light.
 - Full exact-head verification is required before every non-WIP push and before
   final approval, signing or merge. Record HEAD, DIRTY, host, EXIT and the full
   log SHA256 in the PR body. Never skip baseline failures or bypass a hook.

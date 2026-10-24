@@ -74,16 +74,21 @@ license compatibility review. Do not copy its credential store or frontend code.
 
 Ask zeo-rt to mint SOW ids. Every commit includes `sow: <minted id>`; line 1 of a
 PR body is exactly that line. Push `zeointegrations/<slug>` branches to the fork
-with at most one open non-draft upstream PR per repository. Open draft PRs as
-soon as the change has a concrete shape for visibility and dependency review;
-a green full gate is not a prerequisite for a draft. Council reviews, the
+with at most one open non-draft upstream PR per repository. Open a new PR only
+when the work is ready and the full repository gate has passed on that exact
+head, including new draft PRs. Existing drafts stay draft until their gate passes.
+Council reviews, the
 Architect signs, and the merging app merges.
 
 ### Own-fork backups and required gates
 
 Push daily backups to your own fork's `zeointegrations/wip/<topic>` branch.
 Only that own-fork WIP route uses root Ruff lint and format checks instead of
-running the full suite for the backup push. A draft PR may use that branch.
+running the full suite for the backup push. Test regularly on the work branch
+with the full gate in your own lane, independently of backup pushes. A PR may
+use that branch only after the exact-head full gate passes. Opening or updating
+a PR must never start the heavy suite; PR checks remain light. Later scheduler
+placement does not turn the PR into the full-gate trigger.
 Before descendant Git/check commands, clear Git-local environment variables in
 an isolated subshell using `git rev-parse --local-env-vars` and `unset` so a
 parent hook's repository context cannot leak into another checkout. Run root
@@ -99,8 +104,8 @@ Every other push requires full own-repository `make setup` and `make verify` on
 the exact candidate head in the maintainer's own lane (ENG-UK by default).
 Before any final approval, Architect signature or merge, record that full gate's
 HEAD, clean DIRTY status, host, EXIT and complete log SHA256 in the PR body.
-The requirement also applies when a draft becomes ready; rerun on any changed
-candidate head. A backup, quick check or draft is not qualification, release or
+The requirement also applies before a new PR opens and when an existing draft
+becomes ready; rerun on any changed candidate head before updating its PR. A backup, quick check or draft is not qualification, release or
 consumer acceptance. Preserve disabled upstream pushes and normal independent
 Council review, Architect signing and merging-app integration.
 
