@@ -9,7 +9,8 @@ Source inspected: `zeroemployeeorg/zeocore` at
 clients and transport, shared base, and registered entry points). This replaces
 the old inventory as the extraction starting point; each move repins its base.
 PR #2 merged at 03:26:26 UTC on October 24 as `60988bde`; do not rewrite that PR
-or create a duplicate workflow follow-up. No provider package is delivered yet.
+or create a duplicate workflow follow-up. Loops PR #3 subsequently merged at
+`a69372b1db2a1151f57ee361669c28a440e27f1a`; consumer deployment remains separate.
 
 ## Order
 
@@ -18,7 +19,7 @@ Shared infrastructure stays in Core; families can contain several providers.
 
 | Wave | Existing directories | Destination / acceptance dependency |
 | --- | --- | --- |
-| 1 | `kit`, `hubspot` | `zeo-integration-kit`, `zeo-integration-hubspot`; newsletter consumers first. Preserve `kit.marketing` and `hubspot.marketing`, public types, review/confirmation guards and transport behavior. |
+| 1 | `kit`, `hubspot` | `zeo-integration-kit` is current-API read-only migration/audit only, with no package entry point or legacy-write compatibility. Core retains `kit.marketing`. `zeo-integration-hubspot` preserves `hubspot.marketing`, public types, review/confirmation guards and transport behavior. |
 | 2 | `ffmpeg`, `pandoc`, `jupytext`, `notebook` | Optional `zeo-plugin-*` packages; preserve the three existing registered names and notebook direct imports. Reuse parked ffmpeg preparation only after its coverage is reactivated. |
 | 3 | `github`, `notion`, `social` | Optional integration packages; preserve `github`, `notion`, `social.bluesky`. Move GitHub provider code only after its App signer is separated in Core. Classify other social subproviders separately. |
 | 4 | `google`, `meetings` | One `zeo-integration-google` for all six existing Google names; meetings follows its Google/Notion dependencies. No duplicated Google distributions or custody stores. |
@@ -61,11 +62,30 @@ availability alone is not Broker composition or permission. Keep MIT notices and
 per-file source provenance. Delete old implementation only after package, shim,
 installed-discovery and consuming newsletter tests pass under independent review.
 
+## Kit exception: current read-only migration and audit
+
+Architect `ans_5a4c21e67ff1d50a`, carried by SOW-02 rev4/rev5, supersedes
+the general compatibility and entry-point transfer plan above for Kit. Only
+subscribers with their states, tags, forms and custom fields are included.
+Broadcasts and sequences (including reads), activation, enrollment, tagging,
+subscription writes and other subscriber mutations are excluded. No legacy API
+compatibility or automatic forwarding of old write consumers is provided.
+
+Core retains service/factory/lifecycle, KIT_* environment discovery, optional
+extras and the sole `kit.marketing` entry point. Package source and tests import
+no Core; any genuinely needed migration/audit receiving change belongs to Core.
+The package registers no entry point or invented manifest. Current API reads use
+injected credentials and synthetic HTTP fixtures; form URL resolution is excluded
+and the documented provider side-effect uncertainty remains unresolved.
+
 ## Immediate acceptance checkpoints
 
-1. Kit/HubSpot: owner-agreed pinned exports/dependencies, package contents and
-   isolated installed tests; Core-owned shims/registry/extras; newsletter consumer
-   runs against those packages with provider doubles before a live rollout.
+1. Kit: read-only installed-package and bounded transport/refusal controls,
+   provenance and full root/package gate; independent review, then Core-owned
+   necessary migration/audit receiving and actual pinned consumer acceptance.
+   No legacy write shim, entry-point transfer or provider retirement is claimed.
+   HubSpot retains its planned Core-owned shims/registry/extras and newsletter
+   consumer tests with provider doubles before a live rollout.
 2. Loops: zeoconnect agrees canonical API/LMX/signature contract and import target;
    build API client and refusal/contract tests with injected credentials/transport.
    Verify absence of send/schedule and credential persistence; draft PR target

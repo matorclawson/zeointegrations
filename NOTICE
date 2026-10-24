@@ -2,8 +2,8 @@ zeointegrations
 Copyright (c) 2026 Zero Employee Organizations
 Distributed under the MIT License; see LICENSE.
 
-Initial skeleton: no implementation source has been copied from VeyraX or
-zeocore. docs/inventory contains source-derived metadata, not provider code.
+The initial skeleton copied no implementation source. docs/inventory contains
+source-derived metadata, not provider code. Later package ports are listed below.
 
 Canonical source: VeyraX/veyrax-platform; inventoried through the local
 rodriveracom/veyrax-platform fork at the identical
@@ -17,3 +17,15 @@ Its MIT license states Copyright (c) 2026 Rod Rivera.
 
 Future ports must add a per-file source-to-destination provenance map here and
 in their package NOTICE, and retain source copyright and permission notices.
+
+Kit read-only client port: zeroemployeeorg/zeocore at
+25a9c899c17ac6cdf54f4949e54b0fcc800cce91, Copyright (c) 2026 Rod Rivera.
+MIT permission and copyright notice are retained verbatim in packages/kit/LICENSE
+and referenced in packages/kit/NOTICE; adapted modules retain per-file headers.
+Source-to-destination mapping:
+src/zeo_core/integrations/kit/client.py -> packages/kit/src/zeo_integrations/kit/client.py
+src/zeo_core/integrations/kit/models.py -> packages/kit/src/zeo_integrations/kit/models.py
+src/zeo_core/integrations/kit/transport.py -> packages/kit/src/zeo_integrations/kit/transport.py
+LICENSE -> packages/kit/LICENSE
+Only the current-API read-only subset is adapted; service, registry, credential
+custody and private Broker fixtures are excluded. See package NOTICE for details.
