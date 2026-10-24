@@ -7,9 +7,15 @@ execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
 - Run `make setup`, then full local `make verify`. Council repeats the exact-head
   gate until pomar CI supplies its signed gate; public Actions is one optional
   three-minute smoke job under DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18.
-- Work on a `zeointegrations/<slug>` branch in the fork; one open PR at a time.
+- Work on a `zeointegrations/<slug>` branch in the fork; one open non-draft PR
+  per repository. Open draft PRs early when the change has a concrete shape;
+  a draft does not require a green full gate. See CONTRIBUTING.md for the
+  own-fork `zeointegrations/wip/<topic>` backup and quick-check policy.
   The lane derives the seat from the prefix before `/`. The first PR body line and
   a line in every commit must be `sow: <runtime-minted id>`. Never invent an id.
+- Full exact-head verification is required before every non-WIP push and before
+  final approval, signing or merge. Record HEAD, DIRTY, host, EXIT and the full
+  log SHA256 in the PR body. Never skip baseline failures or bypass a hook.
 - Council reviews, the Architect signs, and the merging app merges. Keep the
   upstream push URL disabled. No direct main pushes, tags, or PyPI publication.
 - No secrets in source, fixtures, logs, PRs or messages. Never call live providers
