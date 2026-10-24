@@ -78,12 +78,15 @@ class KitClient:
             or after == page.after
         ):
             raise KitAPIError("RESPONSE", "Kit returned an invalid or repeated cursor")
+        invalid = False
         try:
             selected = [
                 model.model_validate(row).model_dump(mode="json") for row in rows
             ]
         except ValidationError:
-            raise KitAPIError("RESPONSE", "Kit returned invalid read data") from None
+            invalid = True
+        if invalid:
+            raise KitAPIError("RESPONSE", "Kit returned invalid read data")
         identities = [row["id"] for row in selected]
         if len(set(identities)) != len(identities):
             raise KitAPIError("RESPONSE", "Kit returned duplicate resource identities")

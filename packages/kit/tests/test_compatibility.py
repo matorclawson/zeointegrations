@@ -64,3 +64,16 @@ class PackageScope(unittest.TestCase):
                 ]
             )
         )
+
+    def test_installed_modules_match_current_source_bytes(self):
+        from zeo_integrations import kit
+        from zeo_integrations.kit import client, models, transport
+
+        root = pathlib.Path(__file__).resolve().parents[1]
+        for module in [kit, client, models, transport]:
+            installed = pathlib.Path(module.__file__).resolve()
+            source = root / "src" / "zeo_integrations" / "kit" / installed.name
+            self.assertNotEqual(installed, source.resolve())
+            self.assertEqual(
+                installed.read_bytes(), source.read_bytes(), installed.name
+            )

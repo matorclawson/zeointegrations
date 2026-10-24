@@ -38,7 +38,13 @@ No qualified pure-read live execution is claimed. Preserve this uncertainty in
 migration receiving evidence; source preparation is not live authorization.
 
 Only injected credentials; fixed HTTPS origin, no environment proxy/redirects,
-no automatic retries (including401), no logged provider bodies or retained errors.
+no automatic retries (including401), no logged provider bodies or retained original
+exception context. Identity-encoded response bytes are streamed with a 1 MiB cap,
+a 30-second monotonic deadline checked per unbuffered chunk and finite phase
+timeouts (default10s, maximum30s). Encoded responses and JSON nesting over64
+levels are refused. Direct transport callers also receive strict page/cursor/
+status bounds. Injected credentials are nonempty printable ASCII, at most8192
+characters; timeout values must be finite numbers, never booleans.
 Transport itself refuses any non-GET or path outside these four exact lists.
 Core retains service/lifecycle/KIT_* discovery and sole kit.marketing entrypoint;
 no zeo_core imports, package entrypoint, compatibility redirect or Core dependency.

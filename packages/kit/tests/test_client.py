@@ -132,3 +132,11 @@ class ClientReads(unittest.TestCase):
         with self.assertRaises(ValueError):
             client.list_subscribers(status="pending")
         self.assertEqual(self.requests, [])
+
+    def test_provider_model_error_does_not_retain_validation_context(self):
+        row = {"id": "synthetic-private-marker", "name": "audit"}
+        with self.assertRaises(KitAPIError) as raised:
+            self.client(envelope("tags", [row])).list_tags()
+        self.assertIsNone(raised.exception.__context__)
+        self.assertIsNone(raised.exception.__cause__)
+        self.assertNotIn("synthetic-private-marker", str(raised.exception))

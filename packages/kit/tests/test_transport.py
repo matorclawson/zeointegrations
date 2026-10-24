@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 # Original synthetic controls; no private Broker fixture copying.
 import unittest
+from unittest.mock import patch
 
 import httpx
 from pydantic import SecretStr
@@ -105,3 +106,151 @@ class TransportBoundary(unittest.TestCase):
             self.boundary(fail).request("GET", "/v4/tags")
         self.assertEqual(raised.exception.code, "TRANSPORT")
         self.assertNotIn("private diagnostics", str(raised.exception))
+
+
+class _Chunks(httpx.SyncByteStream):
+    def __init__(self, chunks, clock=None):
+        self.chunks = chunks
+        self.clock = clock
+        self.seen = 0
+        self.closed = False
+
+    def __iter__(self):
+        for chunk in self.chunks:
+            self.seen += 1
+            if self.clock is not None:
+                self.clock[0] += 16
+            yield chunk
+
+    def close(self):
+        self.closed = True
+
+
+class StreamBounds(unittest.TestCase):
+    boundary = TransportBoundary.boundary
+
+    def test_oversize_stops_stream_and_closes(self):
+        stream = _Chunks([b"x" * 1_048_576, b"x", b"must-not-read"])
+        boundary = self.boundary(lambda request: httpx.Response(200, stream=stream))
+        with self.assertRaises(KitAPIError) as raised:
+            boundary.request("GET", "/v4/tags")
+        self.assertEqual(raised.exception.code, "RESPONSE")
+        self.assertEqual(stream.seen, 2)
+        self.assertTrue(stream.closed)
+
+    def test_unbuffered_slow_trickle_exceeds_whole_deadline(self):
+        clock = [0.0]
+        stream = _Chunks([b'{"tags":', b"[]}", b"must-not-read"], clock)
+        boundary = self.boundary(lambda request: httpx.Response(200, stream=stream))
+        with patch(
+            "zeo_integrations.kit.transport.time.monotonic",
+            side_effect=lambda: clock[0],
+        ):
+            with self.assertRaises(KitAPIError) as raised:
+                boundary.request("GET", "/v4/tags")
+        self.assertEqual(raised.exception.code, "TRANSPORT")
+        self.assertEqual(stream.seen, 2)
+        self.assertTrue(stream.closed)
+
+    def test_encoding_and_declared_size_refused_before_body(self):
+        for headers in [
+            {"Content-Encoding": "gzip"},
+            {"Content-Encoding": "br"},
+            {"Content-Length": "1048577"},
+        ]:
+            stream = _Chunks([b"must-not-read"])
+            boundary = self.boundary(
+                lambda request, headers=headers, stream=stream: httpx.Response(
+                    200, headers=headers, stream=stream
+                )
+            )
+            with self.subTest(headers=headers), self.assertRaises(KitAPIError):
+                boundary.request("GET", "/v4/tags")
+            self.assertEqual(stream.seen, 0)
+            self.assertTrue(stream.closed)
+
+    def test_raw_query_bounds_before_http(self):
+        def forbidden(request):
+            self.fail("invalid query reached HTTP")
+
+        boundary = self.boundary(forbidden)
+        cases = [{"per_page": value} for value in [True, 0, 1001, "10", 1.0]]
+        cases += [{"after": value} for value in [None, "", "x" * 2049, "x\n", "é"]]
+        cases += [{"status": "pending"}, {"status": []}, {"slim": "false"}]
+        for params in cases:
+            with self.subTest(params=params), self.assertRaises(ValueError):
+                boundary.request("GET", "/v4/subscribers", params=params)
+
+    def test_identity_encoding_and_bounded_query_on_wire(self):
+        calls = []
+
+        def reply(request):
+            calls.append(request)
+            return httpx.Response(200, json={})
+
+        self.boundary(reply).request(
+            "GET",
+            "/v4/subscribers",
+            params={
+                "per_page": 1000,
+                "after": "cursor==",
+                "status": "cancelled",
+                "slim": False,
+            },
+        )
+        self.assertEqual(calls[0].headers["Accept-Encoding"], "identity")
+        self.assertEqual(calls[0].url.params["per_page"], "1000")
+        self.assertEqual(calls[0].url.params["after"], "cursor==")
+
+    def test_normalized_errors_drop_original_context(self):
+        def transport_fail(request):
+            raise httpx.ReadError("synthetic-private-marker", request=request)
+
+        cases = [transport_fail]
+        for content in [
+            b"\xff",
+            b'{"n":NaN}',
+            b'{"n":Infinity}',
+            b'{"x":' * 2000 + b"0" + b"}" * 2000,
+        ]:
+            cases.append(
+                lambda request, content=content: httpx.Response(
+                    200, stream=_Chunks([content])
+                )
+            )
+        for handler in cases:
+            with self.subTest(handler=handler):
+                with self.assertRaises(KitAPIError) as raised:
+                    self.boundary(handler).request("GET", "/v4/tags")
+                self.assertIsNone(raised.exception.__context__)
+                self.assertIsNone(raised.exception.__cause__)
+                self.assertNotIn("synthetic-private-marker", str(raised.exception))
+
+    def test_invalid_credential_or_timeout_before_http_client(self):
+        for value in ["", " ", "bad\r\nheader", "é", "x" * 8193]:
+            with self.subTest(value=len(value)), self.assertRaises(ValueError):
+                KitTransport(SecretStr(value))
+        for value in [True, False, float("nan"), float("inf"), -1, 0, 31, "1"]:
+            with self.subTest(timeout=value), self.assertRaises(ValueError):
+                KitTransport(SecretStr("synthetic-test-only"), timeout=value)
+
+    def test_json_depth_bound_respects_strings_and_escapes(self):
+        import json
+
+        content = json.dumps({"text": '[{"\\' * 1000}).encode()
+        response = self.boundary(
+            lambda request: httpx.Response(200, stream=_Chunks([content]))
+        ).request("GET", "/v4/tags")
+        self.assertEqual(response["text"], '[{"\\' * 1000)
+        for depth in [64, 65]:
+            content = b'{"x":' * depth + b"0" + b"}" * depth
+            boundary = self.boundary(
+                lambda request, content=content: httpx.Response(
+                    200, stream=_Chunks([content])
+                )
+            )
+            if depth == 64:
+                self.assertIsInstance(boundary.request("GET", "/v4/tags"), dict)
+            else:
+                with self.assertRaises(KitAPIError):
+                    boundary.request("GET", "/v4/tags")
