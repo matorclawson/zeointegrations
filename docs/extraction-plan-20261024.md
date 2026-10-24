@@ -27,7 +27,9 @@ Shared infrastructure stays in Core; families can contain several providers.
 | 7 | `revolut` | Preserve `revolut.business`; separate principal-host enrollment with no entry point. Credentialed execution and enrollment custody must not migrate into a general package. |
 | Retained infrastructure | `core`, `hosted`, `environments` | Keep generic contracts, registry/loader, custody class and hosted/environment machinery in Core. Move provider-specific catalog entries/adapters out in their matching provider wave. |
 
-**Loops is new work alongside wave 1**, born only in `packages/loops`:
+**Loops goes FIRST**, per Architect `ans_e2264e94650214a6`; open the Kit/HubSpot
+PR immediately after Loops merges, keeping one open PR at a time. Loops is born
+only in `packages/loops`:
 campaigns, LMX email messages, audience, uploads, contacts and webhook signature
 checking. No key custody, send or schedule operation. Broker supplies credentials
 and owns execution/permissions. Agree the canonical API and connector consumption
@@ -72,6 +74,8 @@ installed-discovery and consuming newsletter tests pass under independent review
    is not an extraction prerequisite. Its withdrawn receiving request is parked;
    GitHub S1c source remains preserved at `4c19eac` without priority over extraction.
 
-Issuer must fold this scope into the existing SOW/extraction chain before the
-new implementation. Two requested PR deadlines also need sequential acceptance
-or an explicit temporary exception to the one-open-PR rule; do not self-grant it.
+The same Architect ruling explicitly covers this implementation under the
+operator's extraction direction; no further issuer coverage is a source-start
+condition. Request the Python gate on ENG-UK through Runtime independently of
+Pomar91. If no venue is bound by 11:00 UTC, open the Loops PR marked NOT_RUN;
+Council may review it, but merge waits for the actual green gate.

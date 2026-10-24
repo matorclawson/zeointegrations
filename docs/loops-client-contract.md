@@ -62,7 +62,8 @@ live account entitlement. Package build, installed import/discovery and full
 exact-head gate remain separate acceptance steps in an actually permitted venue.
 
 Target first account/draft/content/audience source by 10:00 UTC and a qualified
-pin by 11:00 UTC on October 24, conditional on actual coverage, inputs and venue.
+pin by 11:00 UTC on October 24, conditional on actual inputs and venue. Architect
+`ans_e2264e94650214a6` explicitly clears implementation coverage under SOW-02.
 If no qualified pin exists then, Broker may use its scoped temporary same-interface
 fallback rather than miss delivery; one behavior contract and eventual removal
 of the fallback are required. No fallback implementation is claimed approved here.
