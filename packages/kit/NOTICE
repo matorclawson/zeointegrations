@@ -1,0 +1,26 @@
+zeo-integration-kit
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; full text in LICENSE.
+
+Source preparation under zeointegrations-SOW-02 rev4.
+Upstream: zeroemployeeorg/zeocore
+Commit: 25a9c899c17ac6cdf54f4949e54b0fcc800cce91
+LICENSE -> packages/kit/LICENSE (verbatim MIT notice).
+
+Adapted source mapping (read-only subset; all write/legacy surface removed):
+src/zeo_core/integrations/kit/client.py -> src/zeo_integrations/kit/client.py
+src/zeo_core/integrations/kit/models.py -> src/zeo_integrations/kit/models.py
+src/zeo_core/integrations/kit/transport.py -> src/zeo_integrations/kit/transport.py
+Each adapted module carries upstream commit/path and MIT notice in its header.
+Pagination/refusal/logging/auth injection adapted; new forms/custom-field reads
+and typed read schemas follow official current API references in README.
+No upstream registry/service tests or private Broker fixture copied.
+
+Core's service.py, legacy entrypoint, environment discovery and tool registry
+are excluded. Private Broker2cc fixtures are behavioral reference only, never
+copied or relicensed into this package. No vendor API contract fixture copied.
+
+Packaging layout reference (not provider code):
+matorclawson/zeointegrations@e91037839db0e8a29128e8765654d56e384ff3ab
+packages/loops/pyproject.toml -> packages/kit/pyproject.toml (name/description)
+packages/loops/Makefile -> packages/kit/Makefile (unchanged layout tooling)
