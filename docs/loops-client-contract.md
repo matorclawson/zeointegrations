@@ -37,7 +37,7 @@ response or credential is used as a fixture.
 | Audience | `update_campaign_audience(id, mailing_list_id / audience_segment_id / audience_filter)`; typed schema, reject `scheduling`, no generic update payload. |
 | Supporting reads | `list_themes()`, `list_mailing_lists()`, preserving specified pagination/completeness rather than inventing all-pages success. |
 | Assets | Typed upload creation/completion; actual upload destination/authorization handling must follow the spec and cannot leak the API key to another origin. |
-| Contacts | Separate `LoopsContactsClient`: typed create/update-upsert/find and suppression check; absent from draft `LoopsClient`. Atomic update-only unsubscribe is unavailable in OpenAPI 1.22.6 and awaits Council/Broker disposition. No automatic consent repair or uncertain-write retries. |
+| Contacts | Separate `LoopsContactsClient`: typed create/update-upsert/find and suppression check; absent from draft `LoopsClient`. Atomic update-only unsubscribe is unavailable in OpenAPI 1.22.6 and is withheld by Architect ans_0fc17ba75cdb8222. No automatic consent repair or uncertain-write retries. |
 | Webhooks | Signature verification against the official signing contract; no guessed signature encoding or custody store. |
 
 Typed errors distinguish authentication/authorization (401/403), missing resource

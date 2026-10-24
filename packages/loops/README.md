@@ -38,7 +38,7 @@ The draft client has no contact methods. `LoopsContactsClient` is a separate
 review surface; its create/update methods are provider upserts, including their
 subscription and custom-property policy. It has no unsubscribe convenience method:
 the documented provider update endpoint creates unmatched contacts, so atomic
-update-only unsubscribe remains an explicit Council/Broker scope decision.
+update-only unsubscribe is withheld by Architect ans_0fc17ba75cdb8222.\nLoops handles its unsubscribe link and the receiver records its signed webhook;\nrevisit this API surface only if the provider adds an update-only operation.
 
 A monotonic 30-second response deadline is checked at headers, each unbuffered
 chunk and decoding. A blocked read is still bounded by the configured phase
