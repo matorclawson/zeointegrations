@@ -1,0 +1,2439 @@
+{
+  "method": "committed snapshots, AST only, no imports or provider calls",
+  "sources": {
+    "veyrax": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "zeocore": "2e7cb11fa9aaf133876c02c1eea8f1ccd94bba04"
+  },
+  "veyrax_directories": [
+    {
+      "additional_test_import_roots": [],
+      "bytes": 34522,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "airbnb",
+      "files": 6,
+      "observed_auth": "none",
+      "parse_errors": [],
+      "python_lines_including_tests": 635,
+      "python_test_lines": 0,
+      "router_tags": [
+        "airbnb"
+      ],
+      "third_party_import_roots": [
+        "bs4",
+        "fastapi",
+        "httpx",
+        "pydantic",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 76455,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "airtable",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1247,
+      "python_test_lines": 0,
+      "router_tags": [
+        "airtable"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 37099,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "amazon",
+      "files": 6,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 512,
+      "python_test_lines": 0,
+      "router_tags": [
+        "amazon"
+      ],
+      "third_party_import_roots": [
+        "amazon_paapi",
+        "fastapi",
+        "pydantic"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 38666,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "apollo",
+      "files": 6,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 579,
+      "python_test_lines": 0,
+      "router_tags": [
+        "apollo"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 81803,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "asana",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1589,
+      "python_test_lines": 190,
+      "router_tags": [
+        "asana"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 134047,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "bannerbear",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1945,
+      "python_test_lines": 0,
+      "router_tags": [
+        "bannerbear"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 24215,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "binance_p2p",
+      "files": 7,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 280,
+      "python_test_lines": 102,
+      "router_tags": [
+        "binance_p2p"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 39426,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "brave",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 529,
+      "python_test_lines": 0,
+      "router_tags": [
+        "brave"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 40149,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "browser_use",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 451,
+      "python_test_lines": 0,
+      "router_tags": [
+        "browser-use"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 62569,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "browserbase",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1006,
+      "python_test_lines": 0,
+      "router_tags": [
+        "browserbase"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 21150,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "bybit_p2p",
+      "files": 7,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 257,
+      "python_test_lines": 102,
+      "router_tags": [
+        "bybit_p2p"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 45732,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "cal",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 849,
+      "python_test_lines": 0,
+      "router_tags": [
+        "cal"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 14980,
+      "catalog_auth": [
+        "db_access"
+      ],
+      "directory": "clickhouse",
+      "files": 6,
+      "observed_auth": "db_access",
+      "parse_errors": [],
+      "python_lines_including_tests": 360,
+      "python_test_lines": 0,
+      "router_tags": [
+        "clickhouse"
+      ],
+      "third_party_import_roots": [
+        "clickhouse_driver",
+        "fastapi",
+        "pydantic"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 48883,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "cloudinary",
+      "files": 7,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 978,
+      "python_test_lines": 203,
+      "router_tags": [
+        "cloudinary"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 77520,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "coda",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1380,
+      "python_test_lines": 0,
+      "router_tags": [
+        "coda"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 135231,
+      "catalog_auth": [],
+      "directory": "common",
+      "files": 22,
+      "observed_auth": "shared auth/custody support; not a provider",
+      "parse_errors": [],
+      "python_lines_including_tests": 3584,
+      "python_test_lines": 58,
+      "router_tags": [],
+      "third_party_import_roots": [
+        "PyPDF2",
+        "aiohttp",
+        "cryptography",
+        "dotenv",
+        "fastapi",
+        "google",
+        "openai",
+        "pydantic",
+        "pydantic_core",
+        "requests",
+        "sentry_sdk",
+        "starlette",
+        "upstash_vector",
+        "yaml"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 44728,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "confluence",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 702,
+      "python_test_lines": 197,
+      "router_tags": [
+        "confluence"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 35804,
+      "catalog_auth": [],
+      "directory": "docusign",
+      "files": 6,
+      "observed_auth": "OAuth (unregistered; route uses TokenService)",
+      "parse_errors": [],
+      "python_lines_including_tests": 565,
+      "python_test_lines": 0,
+      "router_tags": [],
+      "third_party_import_roots": [
+        "PyPDF2",
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 52506,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "dropbox",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 872,
+      "python_test_lines": 175,
+      "router_tags": [
+        "dropbox"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 67514,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "dub",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1285,
+      "python_test_lines": 0,
+      "router_tags": [
+        "dub"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 12510,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "duckduckgo",
+      "files": 6,
+      "observed_auth": "none",
+      "parse_errors": [],
+      "python_lines_including_tests": 293,
+      "python_test_lines": 0,
+      "router_tags": [
+        "duckduckgo"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 52003,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "e2b",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 773,
+      "python_test_lines": 0,
+      "router_tags": [
+        "e2b"
+      ],
+      "third_party_import_roots": [
+        "e2b_code_interpreter",
+        "fastapi",
+        "pydantic"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 15311,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "exa",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 356,
+      "python_test_lines": 0,
+      "router_tags": [
+        "exa"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 82545,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "facebook",
+      "files": 6,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 1264,
+      "python_test_lines": 0,
+      "router_tags": [
+        "facebook"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 32153,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "falai",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 593,
+      "python_test_lines": 0,
+      "router_tags": [
+        "falai"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "httpx",
+        "pydantic",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 43468,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "figma",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 617,
+      "python_test_lines": 0,
+      "router_tags": [
+        "figma"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 36190,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "firecrawl",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 718,
+      "python_test_lines": 0,
+      "router_tags": [
+        "firecrawl"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 172706,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "github",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1986,
+      "python_test_lines": 603,
+      "router_tags": [
+        "github"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette",
+        "yaml"
+      ],
+      "zeocore_overlap": "github"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 58541,
+      "catalog_auth": [],
+      "directory": "gmail",
+      "files": 7,
+      "observed_auth": "OAuth (imported but unregistered in router registry/catalog)",
+      "parse_errors": [],
+      "python_lines_including_tests": 872,
+      "python_test_lines": 230,
+      "router_tags": [],
+      "third_party_import_roots": [
+        "dateutil",
+        "fastapi",
+        "google",
+        "googleapiclient",
+        "pydantic"
+      ],
+      "zeocore_overlap": "google.mail"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 43830,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "google_calendar",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 505,
+      "python_test_lines": 92,
+      "router_tags": [
+        "google-calendar"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "google",
+        "googleapiclient",
+        "pydantic"
+      ],
+      "zeocore_overlap": "google.calendar"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 24955,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "google_docs",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 434,
+      "python_test_lines": 0,
+      "router_tags": [
+        "google-docs"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "google",
+        "googleapiclient",
+        "pydantic"
+      ],
+      "zeocore_overlap": "google.docs"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 71311,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "google_drive",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1310,
+      "python_test_lines": 353,
+      "router_tags": [
+        "google-drive"
+      ],
+      "third_party_import_roots": [
+        "aiohttp",
+        "dateutil",
+        "fastapi",
+        "google",
+        "googleapiclient",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "google.drive"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 32737,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "google_maps",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 706,
+      "python_test_lines": 0,
+      "router_tags": [
+        "google-maps"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 41196,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "google_sheets",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 722,
+      "python_test_lines": 0,
+      "router_tags": [
+        "google-sheets"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "google",
+        "googleapiclient",
+        "pydantic"
+      ],
+      "zeocore_overlap": "google.sheets"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 25865,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "hacker_news",
+      "files": 6,
+      "observed_auth": "none",
+      "parse_errors": [],
+      "python_lines_including_tests": 538,
+      "python_test_lines": 0,
+      "router_tags": [
+        "hacker-news"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 65969,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "heygen",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1410,
+      "python_test_lines": 0,
+      "router_tags": [
+        "heygen"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 175495,
+      "catalog_auth": [],
+      "directory": "hilvl",
+      "files": 6,
+      "observed_auth": "API key (unregistered; validate_provider_api_key)",
+      "parse_errors": [],
+      "python_lines_including_tests": 3555,
+      "python_test_lines": 0,
+      "router_tags": [],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 11584,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "http_request",
+      "files": 6,
+      "observed_auth": "none",
+      "parse_errors": [],
+      "python_lines_including_tests": 240,
+      "python_test_lines": 0,
+      "router_tags": [
+        "http-request"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 79281,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "hunterio",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 961,
+      "python_test_lines": 189,
+      "router_tags": [
+        "hunterio"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 46603,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "instagram",
+      "files": 6,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 684,
+      "python_test_lines": 0,
+      "router_tags": [
+        "instagram"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 29855,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "ipinfo",
+      "files": 7,
+      "observed_auth": "server API token (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 340,
+      "python_test_lines": 86,
+      "router_tags": [
+        "ipinfo"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 109274,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "jira",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1143,
+      "python_test_lines": 293,
+      "router_tags": [
+        "jira"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 102352,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "linear",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1318,
+      "python_test_lines": 195,
+      "router_tags": [
+        "linear"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 89182,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "linkedin",
+      "files": 6,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 1608,
+      "python_test_lines": 0,
+      "router_tags": [
+        "linkedin"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 106089,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "mail",
+      "files": 7,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 2063,
+      "python_test_lines": 247,
+      "router_tags": [
+        "mail"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 77505,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "motion",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1146,
+      "python_test_lines": 0,
+      "router_tags": [
+        "motion"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 94765,
+      "catalog_auth": [
+        "api_key_with_base"
+      ],
+      "directory": "n8n",
+      "files": 6,
+      "observed_auth": "api_key_with_base",
+      "parse_errors": [],
+      "python_lines_including_tests": 1602,
+      "python_test_lines": 0,
+      "router_tags": [
+        "n8n"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 7252,
+      "catalog_auth": [
+        "db_access"
+      ],
+      "directory": "neondb",
+      "files": 3,
+      "observed_auth": "database credentials; delegates to postgresql",
+      "parse_errors": [],
+      "python_lines_including_tests": 68,
+      "python_test_lines": 0,
+      "router_tags": [
+        "neondb"
+      ],
+      "third_party_import_roots": [
+        "fastapi"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 238213,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "notion",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 2890,
+      "python_test_lines": 181,
+      "router_tags": [
+        "notion"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "notion"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 22983,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "okx_p2p",
+      "files": 7,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 257,
+      "python_test_lines": 87,
+      "router_tags": [
+        "okx_p2p"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 28641,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "openweather",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 243,
+      "python_test_lines": 33,
+      "router_tags": [
+        "openweather"
+      ],
+      "third_party_import_roots": [
+        "dotenv",
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 77018,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "outlook",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 839,
+      "python_test_lines": 114,
+      "router_tags": [
+        "outlook"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 30734,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "perplexity",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 214,
+      "python_test_lines": 57,
+      "router_tags": [
+        "perplexity"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 16276,
+      "catalog_auth": [
+        "db_access"
+      ],
+      "directory": "postgresql",
+      "files": 6,
+      "observed_auth": "db_access",
+      "parse_errors": [],
+      "python_lines_including_tests": 355,
+      "python_test_lines": 0,
+      "router_tags": [
+        "postgresql"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "psycopg2",
+        "pydantic"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 123967,
+      "catalog_auth": [
+        "api_key_with_base"
+      ],
+      "directory": "posthog",
+      "files": 6,
+      "observed_auth": "api_key_with_base",
+      "parse_errors": [],
+      "python_lines_including_tests": 1874,
+      "python_test_lines": 0,
+      "router_tags": [
+        "posthog"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 64092,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "postman",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1136,
+      "python_test_lines": 0,
+      "router_tags": [
+        "postman"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 17679,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "readwise",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 342,
+      "python_test_lines": 0,
+      "router_tags": [
+        "readwise"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 61786,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "reddit",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1320,
+      "python_test_lines": 0,
+      "router_tags": [
+        "reddit"
+      ],
+      "third_party_import_roots": [
+        "aiohttp",
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 153342,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "replicate",
+      "files": 8,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 2345,
+      "python_test_lines": 181,
+      "router_tags": [
+        "replicate"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 111633,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "resend",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1504,
+      "python_test_lines": 260,
+      "router_tags": [
+        "resend"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 64251,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "revid",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 467,
+      "python_test_lines": 0,
+      "router_tags": [
+        "revid"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 66796,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "sentry",
+      "files": 6,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 1257,
+      "python_test_lines": 0,
+      "router_tags": [
+        "sentry"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 95978,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "skyscanner",
+      "files": 8,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 1158,
+      "python_test_lines": 0,
+      "router_tags": [
+        "skyscanner"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 65157,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "slack",
+      "files": 7,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 734,
+      "python_test_lines": 156,
+      "router_tags": [
+        "slack"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "slack_sdk"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 17484,
+      "catalog_auth": [
+        "db_access"
+      ],
+      "directory": "snowflake",
+      "files": 6,
+      "observed_auth": "db_access",
+      "parse_errors": [],
+      "python_lines_including_tests": 378,
+      "python_test_lines": 0,
+      "router_tags": [
+        "snowflake"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "snowflake"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 7320,
+      "catalog_auth": [
+        "db_access"
+      ],
+      "directory": "supabase",
+      "files": 3,
+      "observed_auth": "database credentials; delegates to postgresql",
+      "parse_errors": [],
+      "python_lines_including_tests": 68,
+      "python_test_lines": 0,
+      "router_tags": [
+        "supabase"
+      ],
+      "third_party_import_roots": [
+        "fastapi"
+      ],
+      "zeocore_overlap": "supabase (different API: SQL, not SDK)"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 11289,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "svgl",
+      "files": 6,
+      "observed_auth": "none",
+      "parse_errors": [],
+      "python_lines_including_tests": 239,
+      "python_test_lines": 0,
+      "router_tags": [
+        "svgl"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 41651,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "tavily",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 312,
+      "python_test_lines": 0,
+      "router_tags": [
+        "tavily"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 27922,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "ticktick",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 403,
+      "python_test_lines": 0,
+      "router_tags": [
+        "ticktick"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 74637,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "todoist",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1484,
+      "python_test_lines": 0,
+      "router_tags": [
+        "todoist"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 41976,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "trello",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 758,
+      "python_test_lines": 0,
+      "router_tags": [
+        "trello"
+      ],
+      "third_party_import_roots": [
+        "dotenv",
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 11585,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "twentyfirst_dev",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 224,
+      "python_test_lines": 0,
+      "router_tags": [
+        "twentyfirst_dev"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 124937,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "typeform",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1020,
+      "python_test_lines": 0,
+      "router_tags": [
+        "typeform"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 91867,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "uploadthing",
+      "files": 7,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 1730,
+      "python_test_lines": 582,
+      "router_tags": [
+        "uploadthing"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 87067,
+      "catalog_auth": [
+        "oauth"
+      ],
+      "directory": "vercel",
+      "files": 6,
+      "observed_auth": "oauth",
+      "parse_errors": [],
+      "python_lines_including_tests": 1773,
+      "python_test_lines": 0,
+      "router_tags": [
+        "vercel"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 12795,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "veyrax",
+      "files": 5,
+      "observed_auth": "VeyraX per-user memory store (server Supabase); not a provider port",
+      "parse_errors": [],
+      "python_lines_including_tests": 270,
+      "python_test_lines": 0,
+      "router_tags": [
+        "veyrax"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 15797,
+      "catalog_auth": [],
+      "directory": "veyrax-mcp",
+      "files": 6,
+      "observed_auth": "bearer plus server Upstash token (unregistered)",
+      "parse_errors": [],
+      "python_lines_including_tests": 331,
+      "python_test_lines": 0,
+      "router_tags": [],
+      "third_party_import_roots": [
+        "fastapi",
+        "httpx",
+        "pydantic",
+        "starlette",
+        "upstash_vector"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 14561,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "veyrax_auth",
+      "files": 6,
+      "observed_auth": "VeyraX credential store (Supabase/encryption); not a provider port",
+      "parse_errors": [],
+      "python_lines_including_tests": 290,
+      "python_test_lines": 0,
+      "router_tags": [
+        "veyrax-auth"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "supabase"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 68908,
+      "catalog_auth": [
+        "whatsapp-qr"
+      ],
+      "directory": "whatsapp",
+      "files": 8,
+      "observed_auth": "whatsapp-qr",
+      "parse_errors": [],
+      "python_lines_including_tests": 1658,
+      "python_test_lines": 336,
+      "router_tags": [
+        "whatsapp"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "qrcode",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 107737,
+      "catalog_auth": [
+        "custom"
+      ],
+      "directory": "x",
+      "files": 6,
+      "observed_auth": "custom",
+      "parse_errors": [],
+      "python_lines_including_tests": 1410,
+      "python_test_lines": 0,
+      "router_tags": [
+        "x"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 34705,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "yelp",
+      "files": 6,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 683,
+      "python_test_lines": 0,
+      "router_tags": [
+        "yelp"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 39106,
+      "catalog_auth": [
+        "api_key"
+      ],
+      "directory": "youtube",
+      "files": 6,
+      "observed_auth": "api_key",
+      "parse_errors": [],
+      "python_lines_including_tests": 437,
+      "python_test_lines": 0,
+      "router_tags": [
+        "youtube"
+      ],
+      "third_party_import_roots": [
+        "dateutil",
+        "fastapi",
+        "googleapiclient",
+        "pydantic",
+        "youtube_transcript_api"
+      ],
+      "zeocore_overlap": "google/youtube (unregistered)"
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 83692,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "zillow",
+      "files": 6,
+      "observed_auth": "server RapidAPI key (catalog says none)",
+      "parse_errors": [],
+      "python_lines_including_tests": 1214,
+      "python_test_lines": 0,
+      "router_tags": [
+        "zillow"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests",
+        "starlette"
+      ],
+      "zeocore_overlap": "none"
+    },
+    {
+      "additional_test_import_roots": [
+        "pytest"
+      ],
+      "bytes": 19788,
+      "catalog_auth": [
+        "none"
+      ],
+      "directory": "zip_code",
+      "files": 7,
+      "observed_auth": "none",
+      "parse_errors": [],
+      "python_lines_including_tests": 249,
+      "python_test_lines": 101,
+      "router_tags": [
+        "zip_code"
+      ],
+      "third_party_import_roots": [
+        "fastapi",
+        "pydantic",
+        "requests"
+      ],
+      "zeocore_overlap": "none"
+    }
+  ],
+  "veyrax_registered_router_count": 79,
+  "veyrax_requirements": [
+    "anyio==4.4.0",
+    "aiosqlite==0.20.0",
+    "alembic==1.13.2",
+    "asyncpg==0.29.0",
+    "fastapi==0.115.8",
+    "pydantic==2.10.0",
+    "pydantic_core==2.27.0",
+    "SQLAlchemy==2.0.32",
+    "uvicorn==0.30.6",
+    "gunicorn==23.0.0",
+    "requests==2.26.0",
+    "supabase==2.13.0",
+    "google-auth-oauthlib==1.2.1",
+    "google-auth-httplib2==0.2.0",
+    "google-api-python-client==2.160.0",
+    "python-dotenv==1.0.1",
+    "notion-client==2.3.0",
+    "slack-sdk==3.34.0",
+    "httpx==0.28.1",
+    "python-multipart==0.0.20",
+    "qdrant-client==1.10.1",
+    "openai[datalib]==1.66.2",
+    "openai-agents==0.0.3",
+    "celery[redis]==5.4.0",
+    "redis==5.2.1",
+    "flower==2.0.1",
+    "PyPDF2==3.0.1",
+    "docx==0.2.4",
+    "openpyxl==3.1.2 ",
+    "pytest==8.3.4",
+    "sentry-sdk[fastapi]==2.22.0",
+    "certifi==2024.2.2",
+    "urllib3==1.26.18",
+    "pyyaml==6.0.2",
+    "youtube-transcript-api==0.6.3",
+    "sentry-sdk[fastapi]==2.22.0",
+    "certifi==2024.2.2",
+    "urllib3==1.26.18",
+    "cryptography==44.0.2",
+    "snowflake-connector-python==3.14.0",
+    "psycopg2-binary==2.9.10",
+    "clickhouse-driver==0.2.9",
+    "e2b==1.1.0",
+    "e2b-code-interpreter==1.1.0",
+    "packaging==24.2",
+    "python-amazon-paapi==5.0.1",
+    "pympler==1.1 # for memory profiling",
+    "objgraph==3.6.2",
+    "posthog==3.23.0",
+    "beautifulsoup4==4.13.0",
+    "",
+    "qrcode==8.1  # whatsapp qr code",
+    "upstash-vector==0.8.0",
+    "google-cloud-tasks>=2.16.0",
+    "",
+    "aiohttp==3.11.13"
+  ],
+  "zeocore_entry_points": [
+    {
+      "additional_test_import_roots": [],
+      "bytes": 116914,
+      "directory": "github",
+      "files": 15,
+      "name": "github",
+      "parse_errors": [],
+      "python_lines_including_tests": 3527,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.github:create_integration",
+      "third_party_import_roots": [
+        "cryptography",
+        "httpx",
+        "pydantic",
+        "requests"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 51369,
+      "directory": "google/mail",
+      "files": 10,
+      "name": "google.mail",
+      "parse_errors": [],
+      "python_lines_including_tests": 1523,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.google.mail:create_integration",
+      "third_party_import_roots": [
+        "googleapiclient",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 97708,
+      "directory": "google/drive",
+      "files": 14,
+      "name": "google.drive",
+      "parse_errors": [],
+      "python_lines_including_tests": 2729,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.google.drive:create_integration",
+      "third_party_import_roots": [
+        "googleapiclient",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 49479,
+      "directory": "google/calendar",
+      "files": 4,
+      "name": "google.calendar",
+      "parse_errors": [],
+      "python_lines_including_tests": 1312,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.google.calendar:create_integration",
+      "third_party_import_roots": [
+        "googleapiclient",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 47812,
+      "directory": "google/docs",
+      "files": 5,
+      "name": "google.docs",
+      "parse_errors": [],
+      "python_lines_including_tests": 1206,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.google.docs:create_integration",
+      "third_party_import_roots": [
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 63334,
+      "directory": "google/sheets",
+      "files": 5,
+      "name": "google.sheets",
+      "parse_errors": [],
+      "python_lines_including_tests": 1574,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.google.sheets:create_integration",
+      "third_party_import_roots": [
+        "googleapiclient",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 40321,
+      "directory": "google/slides",
+      "files": 5,
+      "name": "google.slides",
+      "parse_errors": [],
+      "python_lines_including_tests": 983,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.google.slides:create_integration",
+      "third_party_import_roots": [
+        "googleapiclient",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 220846,
+      "directory": "pandoc",
+      "files": 20,
+      "name": "pandoc",
+      "parse_errors": [],
+      "python_lines_including_tests": 5821,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.pandoc:create_integration",
+      "third_party_import_roots": [
+        "bs4",
+        "docx",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 156207,
+      "directory": "llms",
+      "files": 19,
+      "name": "llms",
+      "parse_errors": [],
+      "python_lines_including_tests": 4377,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.llms:create_integration",
+      "third_party_import_roots": [
+        "anthropic",
+        "openai",
+        "pydantic",
+        "requests",
+        "tiktoken"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 33657,
+      "directory": "ffmpeg",
+      "files": 5,
+      "name": "ffmpeg",
+      "parse_errors": [],
+      "python_lines_including_tests": 884,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.ffmpeg:create_integration",
+      "third_party_import_roots": [
+        "ffmpeg_zeo",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 94670,
+      "directory": "notion",
+      "files": 10,
+      "name": "notion",
+      "parse_errors": [],
+      "python_lines_including_tests": 2553,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.notion:create_integration",
+      "third_party_import_roots": [
+        "httpx",
+        "notion_client",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 65306,
+      "directory": "database/supabase",
+      "files": 10,
+      "name": "supabase",
+      "parse_errors": [],
+      "python_lines_including_tests": 1939,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.database.supabase:create_integration",
+      "third_party_import_roots": [
+        "pydantic",
+        "supabase"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 46309,
+      "directory": "hubspot",
+      "files": 6,
+      "name": "hubspot.marketing",
+      "parse_errors": [],
+      "python_lines_including_tests": 1270,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.hubspot:create_integration",
+      "third_party_import_roots": [
+        "httpx",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 42574,
+      "directory": "kit",
+      "files": 5,
+      "name": "kit.marketing",
+      "parse_errors": [],
+      "python_lines_including_tests": 1199,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.kit:create_integration",
+      "third_party_import_roots": [
+        "httpx",
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 81143,
+      "directory": "jupytext",
+      "files": 11,
+      "name": "jupytext",
+      "parse_errors": [],
+      "python_lines_including_tests": 2214,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.jupytext:create_integration",
+      "third_party_import_roots": [
+        "pydantic"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 52894,
+      "directory": "social/bluesky",
+      "files": 8,
+      "name": "social.bluesky",
+      "parse_errors": [],
+      "python_lines_including_tests": 1281,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.social.bluesky:create_integration",
+      "third_party_import_roots": [
+        "platformdirs",
+        "requests"
+      ]
+    },
+    {
+      "additional_test_import_roots": [],
+      "bytes": 79707,
+      "directory": "revolut",
+      "files": 11,
+      "name": "revolut.business",
+      "parse_errors": [],
+      "python_lines_including_tests": 2231,
+      "python_test_lines": 0,
+      "target": "zeo_core.integrations.revolut:create_integration",
+      "third_party_import_roots": [
+        "cryptography",
+        "httpx",
+        "platformdirs",
+        "pydantic"
+      ]
+    }
+  ],
+  "zeocore_extras": {
+    "all": [
+      "nbclient>=0.11,<0.12",
+      "ipykernel>=7.3,<8",
+      "psutil>=7.2,<8",
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0",
+      "notion-client>=3.1.0",
+      "supabase>=2.31.0,<3",
+      "pypandoc",
+      "beautifulsoup4",
+      "tiktoken",
+      "openai",
+      "anthropic",
+      "jupytext>=1.16.0",
+      "nbformat>=5.10.0",
+      "requests",
+      "ffmpeg-zeo>=0.1.0",
+      "cryptography>=45"
+    ],
+    "bluesky": [
+      "requests",
+      "platformdirs>=4.0.0"
+    ],
+    "calendar": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "dev": [
+      "pytest>=7.0.0",
+      "pytest-cov>=7.1",
+      "ruff>=0.2.0",
+      "mypy>=1.8.0",
+      "isort",
+      "hatchling",
+      "build>=1.0.0",
+      "black>=23.0.0",
+      "hypothesis",
+      "python-docx",
+      "types-PyYAML",
+      "coverage>=7.10"
+    ],
+    "docs": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "drive": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "ffmpeg": [
+      "ffmpeg-zeo>=0.1.0"
+    ],
+    "github": [
+      "requests"
+    ],
+    "github-app": [
+      "cryptography>=45"
+    ],
+    "gmail": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "google": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "http": [
+      "fastapi>=0.112",
+      "uvicorn[standard]>=0.30",
+      "pydantic>=2"
+    ],
+    "http-dev": [
+      "fastapi>=0.112",
+      "uvicorn[standard]>=0.30",
+      "pydantic>=2",
+      "pytest-asyncio>=0.21"
+    ],
+    "jupytext": [
+      "jupytext>=1.16.0",
+      "nbformat>=5.10.0"
+    ],
+    "lint": [
+      "import-linter>=2.5"
+    ],
+    "llms": [
+      "tiktoken",
+      "openai",
+      "anthropic"
+    ],
+    "mcp": [
+      "mcp>=2.0.0,<3"
+    ],
+    "mcp-dev": [
+      "mcp>=2.0.0,<3",
+      "pytest-asyncio>=0.21"
+    ],
+    "notebook": [
+      "nbclient>=0.11,<0.12",
+      "ipykernel>=7.3,<8",
+      "psutil>=7.2,<8"
+    ],
+    "notion": [
+      "notion-client>=3.1.0"
+    ],
+    "pandoc": [
+      "pypandoc",
+      "beautifulsoup4"
+    ],
+    "revolut": [
+      "cryptography>=45",
+      "platformdirs>=4.0.0"
+    ],
+    "runtime-host": [
+      "jsonschema==4.26.0",
+      "rfc8785==0.1.4"
+    ],
+    "sheets": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "slides": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0"
+    ],
+    "supabase": [
+      "supabase>=2.31.0,<3"
+    ],
+    "youtube": [
+      "google-api-python-client>=2.0.0",
+      "google-auth-httplib2>=0.1.0",
+      "google-auth-oauthlib>=0.4.0",
+      "platformdirs>=4.0.0",
+      "requests"
+    ]
+  },
+  "zeocore_google_family": {
+    "additional_test_import_roots": [],
+    "bytes": 516618,
+    "files": 58,
+    "parse_errors": [],
+    "python_lines_including_tests": 13936,
+    "python_test_lines": 0,
+    "third_party_import_roots": [
+      "google",
+      "google_auth_oauthlib",
+      "googleapiclient",
+      "httpx",
+      "platformdirs",
+      "pydantic"
+    ]
+  }
+}

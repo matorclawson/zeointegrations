@@ -1,0 +1,22 @@
+# zeointegrations
+
+This seat owns this repository. Coordinate package moves with zeocore and Broker
+execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
+
+- Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing packaging.
+- Run `make setup`, then full local `make verify`. Council repeats the exact-head
+  gate until pomar CI supplies its signed gate; public Actions is one optional
+  three-minute smoke job under DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18.
+- Work on a `zeointegrations/<slug>` branch in the fork; one open PR at a time.
+  The lane derives the seat from the prefix before `/`. The first PR body line and
+  a line in every commit must be `sow: <runtime-minted id>`. Never invent an id.
+- Council reviews, the Architect signs, and the merging app merges. Keep the
+  upstream push URL disabled. No direct main pushes, tags, or PyPI publication.
+- No secrets in source, fixtures, logs, PRs or messages. Never call live providers
+  during verification. Use injected credentials only inside ZEOconnect.
+- Keep MIT notices and per-file provenance on copied code; update NOTICE.
+- Keep existing entry-point names. Google is one package for its six entry points.
+- Contracts belong to zeocore; UI components are data only, without provider HTML
+  or JavaScript. Coordinate the machine manifest contract before implementing it.
+- Send seat mail as `zeointegrations` through the zeo-messenger skill. Send the
+  Architect completed slices or concrete blockers.
