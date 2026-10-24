@@ -74,7 +74,6 @@ class ReadModels(unittest.TestCase):
 
     def test_invalid_provider_dates_fail_without_coercion(self):
         invalid = [
-            None,
             True,
             1700000000,
             1.5,
@@ -102,7 +101,15 @@ class ReadModels(unittest.TestCase):
         for value in invalid:
             with self.subTest(value=value), self.assertRaises(ValidationError):
                 Subscriber(**self.subscriber_row(created_at=value))
-        row = self.subscriber_row()
-        del row["created_at"]
-        with self.assertRaises(ValidationError):
-            Subscriber(**row)
+
+    def test_missing_and_null_provider_dates_remain_unknown(self):
+        for state in ["active", "inactive", "bounced", "complained", "cancelled"]:
+            missing = self.subscriber_row(state=state)
+            del missing["created_at"]
+            for row in [missing, {**missing, "created_at": None}]:
+                with self.subTest(state=state, row=row):
+                    model = Subscriber(**row)
+                    self.assertIsNone(model.created_at)
+                    self.assertIsNone(model.model_dump(mode="json")["created_at"])
+                    self.assertIsNone(json.loads(model.model_dump_json())["created_at"])
+                    self.assertEqual(model.state, state)

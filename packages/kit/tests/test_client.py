@@ -151,7 +151,7 @@ class ClientReads(unittest.TestCase):
         self.assertIsNone(raised.exception.__cause__)
         self.assertNotIn("synthetic-private-marker", str(raised.exception))
 
-    def test_invalid_or_missing_provider_date_refuses_the_page_safely(self):
+    def test_present_invalid_provider_date_refuses_the_page_safely(self):
         row = {
             "id": 1,
             "state": "active",
@@ -160,17 +160,13 @@ class ClientReads(unittest.TestCase):
             "fields": {},
         }
         cases = [
-            row,
-            *[
-                {**row, "created_at": value}
-                for value in [
-                    None,
-                    1700000000,
-                    "synthetic-private-marker",
-                    "2023-02-29T00:00:00Z",
-                    "2024-02-29T00:00:00",
-                ]
-            ],
+            {**row, "created_at": value}
+            for value in [
+                1700000000,
+                "synthetic-private-marker",
+                "2023-02-29T00:00:00Z",
+                "2024-02-29T00:00:00",
+            ]
         ]
         for candidate in cases:
             with self.subTest(candidate=candidate):
@@ -181,6 +177,29 @@ class ClientReads(unittest.TestCase):
                 self.assertIsNone(raised.exception.__cause__)
                 self.assertNotIn("synthetic-private-marker", str(raised.exception))
                 self.assertEqual(len(self.requests), 1)
+
+    def test_missing_and_null_provider_dates_preserve_compatible_pages(self):
+        rows = []
+        for state in ["active", "inactive", "bounced", "complained", "cancelled"]:
+            for supplied in [False, True]:
+                row = {
+                    "id": len(rows) + 1,
+                    "state": state,
+                    "email_address": "user@example.invalid",
+                    "first_name": None,
+                    "fields": {},
+                }
+                if supplied:
+                    row["created_at"] = None
+                rows.append(row)
+        page = self.client(envelope("subscribers", rows)).list_subscribers()
+        self.assertEqual(len(page.results), 10)
+        self.assertEqual([r["state"] for r in page.results], [r["state"] for r in rows])
+        self.assertTrue(all(r["created_at"] is None for r in page.results))
+        self.assertEqual([r["id"] for r in page.results], [r["id"] for r in rows])
+        self.assertTrue(page.complete)
+        self.assertIsNone(page.next_after)
+        self.assertEqual(len(self.requests), 1)
 
     def test_terminal_page_can_finish_cursor_chain_with_complete_false(self):
         requests = []

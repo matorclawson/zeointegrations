@@ -31,11 +31,12 @@ exist. This does not itself mean a failed full scan. The receiver validates the
 bounded full cursor chain, history and rate controls; Page.complete is not a
 full-scan completion or historical-event guarantee.
 
-Provider created_at is required: an extended ISO8601 calendar date and time with
+When present, provider created_at is an extended ISO8601 calendar date and time with
 seconds and explicit Z or numeric UTC offset, at most64 characters, with optional
 fractional seconds. Calendar/time/timezone validation preserves the exact input
-string, including offset and fraction, in JSON output. Missing/null/nonstring,
-naive and malformed dates refuse the page; no capture-now fallback or timestamp
+string, including offset and fraction, in JSON output. Missing or null dates remain
+honest unknowns, represented as JSON null, preserving compatible pages. Present
+nonstring, naive and malformed dates refuse the page; no capture-now fallback or timestamp
 normalization is performed. The value is the provider creation date, not evidence
 of a consent or stop event. All five raw states remain unchanged; the receiver
 owns their consent mapping (including inactive/unknown eligibility), source=kit,

@@ -35,14 +35,16 @@ class ReadRecord(BaseModel):
 
 class Subscriber(ReadRecord):
     state: SubscriberState
-    created_at: str = Field(min_length=20, max_length=64)
+    created_at: str | None = Field(default=None, min_length=20, max_length=64)
     email_address: str
     first_name: str | None
     fields: dict[str, str | None]
 
     @field_validator("created_at")
     @classmethod
-    def valid_provider_creation_time(cls, value: str) -> str:
+    def valid_provider_creation_time(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
         if not re.fullmatch(
             r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-5][0-9]:[0-5][0-9]"
             r"(?:\.[0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])",
