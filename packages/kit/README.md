@@ -9,7 +9,7 @@ writes, activation, enrollment, sends or scheduling; no write models/factories.
 
 | Method | GET path | Response array / selected schema | Official contract |
 |---|---|---|---|
-| list_subscribers | /v4/subscribers | subscribers: id, state, email_address, first_name, fields | [Subscribers](https://developers.kit.com/api-reference/subscribers/list-subscribers) |
+| list_subscribers | /v4/subscribers | subscribers: id, state, created_at, email_address, first_name, fields | [Subscribers](https://developers.kit.com/api-reference/subscribers/list-subscribers) |
 | list_tags | /v4/tags | tags: id, name | [Tags](https://developers.kit.com/api-reference/tags/list-tags) |
 | list_forms | /v4/forms | forms: id, name, type, archived | [Forms](https://developers.kit.com/api-reference/forms/list-forms) |
 | list_custom_fields | /v4/custom_fields | custom_fields: id, name, key, label | [Custom fields](https://developers.kit.com/api-reference/custom-fields/list-custom-fields) |
@@ -26,6 +26,25 @@ Missing/malformed pagination, repeated cursor, invalid/duplicate row identity or
 missing subscriber state raises a safe RESPONSE error, never complete=true.
 complete means a single first/last page, not an atomic account snapshot or
 permission to reactivate subscribers. Eventual consistency limits audit snapshots.
+A terminal page can have next_after=null and complete=false when earlier pages
+exist. This does not itself mean a failed full scan. The receiver validates the
+bounded full cursor chain, history and rate controls; Page.complete is not a
+full-scan completion or historical-event guarantee.
+
+Provider created_at is required: an extended ISO8601 calendar date and time with
+seconds and explicit Z or numeric UTC offset, at most64 characters, with optional
+fractional seconds. Calendar/time/timezone validation preserves the exact input
+string, including offset and fraction, in JSON output. Missing/null/nonstring,
+naive and malformed dates refuse the page; no capture-now fallback or timestamp
+normalization is performed. The value is the provider creation date, not evidence
+of a consent or stop event. All five raw states remain unchanged; the receiver
+owns their consent mapping (including inactive/unknown eligibility), source=kit,
+snapshot/received time, dedupe, stop-event reconciliation and export counts.
+The current list snapshot cannot reconstruct event history or missing stop dates.
+No include=canceled_at query is added; that field requires status=cancelled and
+separate source/receiving coverage. No subscriber addresses, logs or CSV are
+handled by seats during this synthetic source work.
+
 Form embed scripts/URLs and unknown extra fields are excluded from returned data.
 
 Forms side effects remain uncertain: the official REST reference describes
