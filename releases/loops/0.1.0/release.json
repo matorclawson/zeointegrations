@@ -1,0 +1,52 @@
+{
+  "sow": "zeointegrations-SOW-02",
+  "distribution": "zeo-integration-loops",
+  "version": "0.1.0",
+  "license": "MIT",
+  "artifact": {
+    "file": "zeo_integration_loops-0.1.0-py3-none-any.whl",
+    "bytes": 14630,
+    "sha256": "d53daa757b3195ac4ad69e039de93573bd01cbc7a78d272d0845df8421650bbd"
+  },
+  "source": {
+    "repository": "https://github.com/zeroemployeeorg/zeointegrations",
+    "commit": "a69372b1db2a1151f57ee361669c28a440e27f1a",
+    "tree": "4298eb70cd06515ad5dc43acd8569538b70ac144",
+    "subdirectory": "packages/loops"
+  },
+  "build": {
+    "host": "eng-uk-0006",
+    "python": "uv-managed 3.14.3",
+    "python_sha256": "fe027e1504df20b6b93b1c9dbc2695a3dc592cd0dc7916b1a3349c97d9104527",
+    "uv": "0.12.2",
+    "hatchling": "1.27.0",
+    "offline": true
+  },
+  "reproducibility": {
+    "independent_clean_checkouts": 2,
+    "byte_identical": true,
+    "builds": [
+      {
+        "head": "a69372b1db2a1151f57ee361669c28a440e27f1a",
+        "dirty": 0,
+        "exit": 0,
+        "wheel_sha256": "d53daa757b3195ac4ad69e039de93573bd01cbc7a78d272d0845df8421650bbd",
+        "log_sha256": "8cd53e2c79e4c943e90afa95fc32958748a35d92624cbbabff0f09ede062ef58"
+      },
+      {
+        "head": "a69372b1db2a1151f57ee361669c28a440e27f1a",
+        "dirty": 0,
+        "exit": 0,
+        "wheel_sha256": "d53daa757b3195ac4ad69e039de93573bd01cbc7a78d272d0845df8421650bbd",
+        "log_sha256": "03f4b3f2518cddbaaf340d53375e99383e063d13c3736201ae1fa2131e88a4b9"
+      }
+    ]
+  },
+  "qualified_source_head": "e91037839db0e8a29128e8765654d56e384ff3ab",
+  "qualified_source_gate": "https://github.com/zeroemployeeorg/zeointegrations/pull/3#issuecomment-6384751292",
+  "delivery": {
+    "route": "zeoconnect-ops vendors exact artifact into producer feed",
+    "condition": "Only after separately reviewed Broker consumer diff; validate hashes and install local artifacts without runtime Git fetch",
+    "no_live_acceptance_claim": true
+  }
+}
