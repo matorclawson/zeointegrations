@@ -9,7 +9,7 @@ description = "Typed draft-only Loops API client with injected credentials"
 requires-python = ">=3.14"
 license = "MIT"
 readme = "README.md"
-dependencies = ["httpx==0.28.1", "pydantic==2.13.5"]
+dependencies = ["httpx==0.28.1", "pydantic==2.13.4"]
 
 [dependency-groups]
 dev = ["ruff==0.15.5"]

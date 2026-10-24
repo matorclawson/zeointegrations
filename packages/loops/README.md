@@ -48,8 +48,10 @@ Ticket repr omits its signed URL. API `fromEmail` values are sender local-parts.
 Install from the reviewed full Git commit using `subdirectory=packages/loops`,
 then commit the consumer lockfile and retain the offline build closure. No PyPI
 release or qualified pin is available at this source checkpoint. Uses existing
-Core/Broker dependencies httpx0.28.1/pydantic2.13.5 and Core's hatchling build backend;
+Approved dependencies httpx0.28.1/pydantic2.13.4 and Core's hatchling build backend;
 exact locked versions/artifacts must be received before qualification.
+Broker's current lock is pydantic2.13.5; its adoption needs the coordinated lock
+alignment requested after the Architect's explicit 2.13.4 dependency ruling.
 
 OpenAPI reference: official `https://app.loops.so/openapi.json`, version1.22.6,
 received SHA256 `518500f5f94aeba4c242d8474ce050b0607dd356f4875dc0279a6120df18a811`.
