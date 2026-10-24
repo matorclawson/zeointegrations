@@ -41,7 +41,7 @@ response or credential is used as a fixture.
 | Webhooks | Signature verification against the official signing contract; no guessed signature encoding or custody store. |
 
 Typed errors distinguish authentication/authorization (401/403), missing resource
-(404), revision conflict (409), payload size (413), rate limit (429 with validated
+(404), neutral conflict (409), payload size (413), rate limit (429 with validated
 Retry-After), transport failure and invalid provider response. Provider bodies,
 request headers and API keys must not leak through error messages or logs.
 
@@ -80,8 +80,9 @@ Council correction checkpoint (2026-10-24, ans_cd6f12755dad4313):
   other than identity fail with unknown outcome. The request wire bytes are
   encoded once and limited to 400,000 bytes, preserving 60,000-byte escaped LMX.
 - The contact client is a distinct review surface. No fake update-only wrapper
-  uses the provider upsert. The proposed unsubscribe omission is a substantive
-  scope decision, not claimed accepted or delivered.
+  uses the provider upsert. Architect ans_0fc17ba75cdb8222 authorizes withholding
+  unsubscribe: provider links and signed webhook ingestion serve issue 1. Revisit
+  only when an atomic provider update-only endpoint exists.
 - Broker must check Draft status before writes, enforce an aggregate team rate
   limit, use test_api_key for enrollment, and independently qualify its typed-model
   and ThemePage adapter diff. Package availability alone is not adoption.

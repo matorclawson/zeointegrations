@@ -38,7 +38,9 @@ The draft client has no contact methods. `LoopsContactsClient` is a separate
 review surface; its create/update methods are provider upserts, including their
 subscription and custom-property policy. It has no unsubscribe convenience method:
 the documented provider update endpoint creates unmatched contacts, so atomic
-update-only unsubscribe is withheld by Architect ans_0fc17ba75cdb8222.\nLoops handles its unsubscribe link and the receiver records its signed webhook;\nrevisit this API surface only if the provider adds an update-only operation.
+update-only unsubscribe is withheld by Architect ans_0fc17ba75cdb8222.
+Loops handles its unsubscribe link and the receiver records its signed webhook;
+revisit this API surface only if the provider adds an update-only operation.
 
 A monotonic 30-second response deadline is checked at headers, each unbuffered
 chunk and decoding. A blocked read is still bounded by the configured phase
@@ -49,7 +51,8 @@ Encoded responses are refused and the client requests identity encoding.
 Campaign methods build explicit payloads with no `scheduling`. All API writes,
 including contact upserts that can subscribe an address, remain subject to Broker
 approval and consent policy. A signature-verified webhook is not itself a consent
-decision. The receiver must reject duplicate webhook-* headers before calling the verifier.\nIt owns replay deduplication, event validation, two-secret
+decision. The receiver must reject duplicate webhook-* headers before calling the verifier.
+It owns replay deduplication, event validation, two-secret
 rotation policy, durable commit and HTTP acknowledgment. Signature verification
 accepts raw bytes and rejects timestamps more than 300 seconds from its clock.
 
