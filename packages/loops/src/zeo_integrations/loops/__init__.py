@@ -5,6 +5,8 @@ from .client import (
     InvalidResponseError,
     LoopsClient,
     LoopsError,
+    LoopsRejected,
+    LoopsUnknown,
     NotFoundError,
     PayloadTooLargeError,
     RateLimitError,
@@ -33,6 +35,8 @@ from .models import (
 )
 from .webhooks import VerifiedWebhook, WebhookVerificationError, verify_webhook
 
+LoopsApi = LoopsClient
+
 __all__ = [
     "Account",
     "ActivityCondition",
@@ -48,7 +52,10 @@ __all__ = [
     "EmailUpdate",
     "InvalidResponseError",
     "LoopsClient",
+    "LoopsApi",
     "LoopsError",
+    "LoopsRejected",
+    "LoopsUnknown",
     "MailingList",
     "NotFoundError",
     "OptInCondition",

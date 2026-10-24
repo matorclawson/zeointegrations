@@ -25,6 +25,15 @@ The conservative 60-attempt/60-second per-client limiter does not infer which
 different keys belong to the same team: Broker must also enforce its aggregate
 per-team limit. Lists preserve pagination; there is no hidden all-pages loop.
 
+`LoopsRejected` (with `.status` and `outcome_unknown=False`) covers definite
+400/401/403/404/405/409/410/413/415/422/429 refusals. `LoopsUnknown` covers
+408, 5xx, redirects, transport faults and invalid answers; specific typed errors
+inherit the appropriate group. `LoopsApi` aliases `LoopsClient` for consumption.
+Typed models use snake_case attributes; adapters may call `model_dump()` at their
+own boundary. Theme pages retain `.data` and pagination, not just an item list.
+LMX is limited to 60,000 UTF-8 bytes, audience filters to 20 conditions and request
+JSON to 64 KiB. Official required response fields are not silently defaulted.
+
 Campaign methods build explicit payloads with no `scheduling`. All API writes,
 including contact upserts that can subscribe an address, remain subject to Broker
 approval and consent policy. A signature-verified webhook is not itself a consent
@@ -39,7 +48,7 @@ Ticket repr omits its signed URL. API `fromEmail` values are sender local-parts.
 Install from the reviewed full Git commit using `subdirectory=packages/loops`,
 then commit the consumer lockfile and retain the offline build closure. No PyPI
 release or qualified pin is available at this source checkpoint. Uses existing
-Core/Broker dependency families httpx/pydantic and Core's hatchling build backend;
+Core/Broker dependencies httpx0.28.1/pydantic2.13.5 and Core's hatchling build backend;
 exact locked versions/artifacts must be received before qualification.
 
 OpenAPI reference: official `https://app.loops.so/openapi.json`, version1.22.6,

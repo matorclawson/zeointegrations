@@ -119,6 +119,51 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(client.create_campaign("Fixture").status, "Draft")
         self.assertEqual(json.loads(calls[0].content), {"name": "Fixture"})
 
+    def test_definite_refusals_and_unknown_outcomes_are_separate(self):
+        definite = {400, 401, 403, 404, 405, 409, 410, 413, 415, 422, 429}
+        for status in definite | {302, 408, 500, 502, 503, 504}:
+            with self.subTest(status=status):
+                client, calls = self.make_client(status, {"message": "private"})
+                expected = (
+                    loops.LoopsRejected if status in definite else loops.LoopsUnknown
+                )
+                with self.assertRaises(expected) as caught:
+                    client.create_campaign("Fixture")
+                self.assertEqual(len(calls), 1)
+                self.assertEqual(
+                    caught.exception.outcome_unknown, status not in definite
+                )
+                if status in definite:
+                    self.assertEqual(caught.exception.status, status)
+
+    def test_lmx_limit_is_utf8_bytes_and_rejected_before_call(self):
+        client, calls = self.make_client(data=message())
+        for lmx in ("a" * 60001, "é" * 30001, ""):
+            with self.subTest(length=len(lmx)):
+                with self.assertRaises(ValidationError):
+                    client.update_email_message(
+                        "email_1", "revision_1", "s", "p", "n", "hello", lmx
+                    )
+        self.assertEqual(calls, [])
+        loops.EmailUpdate(
+            expected_revision_id="revision_1",
+            subject="s",
+            preview_text="p",
+            from_name="n",
+            from_email="hello",
+            lmx="é" * 30000,
+        )
+
+    def test_audience_condition_count_is_bounded(self):
+        with self.assertRaises(ValidationError):
+            loops.AudienceFilter(
+                match="all",
+                conditions=[
+                    loops.PropertyCondition(key="secondary", operator="isFalse")
+                ]
+                * 21,
+            )
+
     def test_scheduling_is_rejected_before_transport(self):
         client, calls = self.make_client()
         with self.assertRaises(TypeError):

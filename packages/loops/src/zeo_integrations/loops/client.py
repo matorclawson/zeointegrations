@@ -33,34 +33,50 @@ from .models import (
 class LoopsError(RuntimeError):
     """Sanitized error; mutation success is not implied by a failed response."""
 
+    outcome_unknown = True
 
-class AuthenticationError(LoopsError):
+
+class LoopsRejected(LoopsError):
+    """Definite refusal, with a status safe for Broker policy."""
+
+    outcome_unknown = False
+
+    def __init__(self, status: int) -> None:
+        super().__init__(f"Loops request refused ({status})")
+        self.status = status
+
+
+class LoopsUnknown(LoopsError):
+    """A response does not establish whether a mutation took effect."""
+
+
+class AuthenticationError(LoopsRejected):
     pass
 
 
-class NotFoundError(LoopsError):
+class NotFoundError(LoopsRejected):
     pass
 
 
-class RevisionConflictError(LoopsError):
+class RevisionConflictError(LoopsRejected):
     pass
 
 
-class PayloadTooLargeError(LoopsError):
+class PayloadTooLargeError(LoopsRejected):
     pass
 
 
-class RateLimitError(LoopsError):
+class RateLimitError(LoopsRejected):
     def __init__(self, retry_after: float | None = None) -> None:
-        super().__init__("Loops rate limit exceeded; no retry attempted")
+        super().__init__(429)
         self.retry_after = retry_after
 
 
-class TransportError(LoopsError):
+class TransportError(LoopsUnknown):
     """One attempt failed; a mutation may have reached the provider."""
 
 
-class InvalidResponseError(LoopsError):
+class InvalidResponseError(LoopsUnknown):
     pass
 
 
@@ -68,7 +84,7 @@ def _id(value: str) -> str:
     if (
         not isinstance(value, str)
         or not value
-        or len(value) > 256
+        or len(value) > 128
         or any(not (c.isascii() and (c.isalnum() or c in "_-")) for c in value)
     ):
         raise ValueError("invalid Loops resource identity")
@@ -146,10 +162,12 @@ class LoopsClient:
     ) -> T:
         if body is not None:
             try:
-                encoded = json.dumps(body, allow_nan=False).encode("utf-8")
+                encoded = json.dumps(body, allow_nan=False, ensure_ascii=False).encode(
+                    "utf-8"
+                )
             except ValueError, TypeError:
                 raise ValueError("invalid Loops request data") from None
-            if len(encoded) > 2_000_000:
+            if len(encoded) > 65536:
                 raise ValueError("Loops request exceeds byte bound")
         self._reserve_attempt()
         try:
@@ -165,17 +183,19 @@ class LoopsClient:
                     413: PayloadTooLargeError,
                 }.get(status)
                 if error is not None:
-                    raise error(f"Loops request refused ({status})")
+                    raise error(status)
                 if status == 429:
                     raise RateLimitError(
                         _retry_after(response.headers.get("Retry-After"))
                     )
+                if status in {400, 405, 410, 415, 422}:
+                    raise LoopsRejected(status)
                 if not 200 <= status < 300:
                     # Includes redirects: never forward the credential elsewhere.
-                    raise LoopsError(f"Loops request refused ({status})")
+                    raise LoopsUnknown(f"Loops request outcome unknown ({status})")
                 content = bytearray()
                 for chunk in response.iter_bytes(chunk_size=65536):
-                    if len(content) + len(chunk) > 8_000_000:
+                    if len(content) + len(chunk) > 1_048_576:
                         raise InvalidResponseError("Loops response exceeds byte bound")
                     content.extend(chunk)
             data = json.loads(content)
@@ -197,7 +217,7 @@ class LoopsClient:
         return self._request("GET", "api-key", Account)
 
     def create_campaign(self, name: str) -> Campaign:
-        if not isinstance(name, str) or not name.strip() or len(name) > 1024:
+        if not isinstance(name, str) or not name.strip() or len(name) > 200:
             raise ValueError("campaign name is required and bounded")
         result = self._request("POST", "campaigns", Campaign, body={"name": name})
         if result.status != "Draft":

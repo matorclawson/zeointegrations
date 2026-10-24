@@ -68,17 +68,21 @@ class EmailMessage(Result):
 
 
 class EmailUpdate(Request):
-    expected_revision_id: str = Field(min_length=1, max_length=256)
-    subject: str = Field(max_length=4096)
-    preview_text: str = Field(max_length=4096)
-    from_name: str = Field(max_length=1024)
+    expected_revision_id: str = Field(
+        min_length=1, max_length=128, pattern=r"^[A-Za-z0-9_-]+$"
+    )
+    subject: str = Field(max_length=998)
+    preview_text: str = Field(max_length=998)
+    from_name: str = Field(max_length=998)
     from_email: str = Field(min_length=1, max_length=256)
-    lmx: str = Field(max_length=1_000_000)
+    lmx: str = Field(min_length=1, max_length=60000)
 
     @model_validator(mode="after")
     def sender_is_local_part(self):
         if "@" in self.from_email or any(c.isspace() for c in self.from_email):
             raise ValueError("from_email must be the sender local-part")
+        if len(self.lmx.encode("utf-8")) > 60000:
+            raise ValueError("LMX exceeds 60000 UTF-8 bytes")
         return self
 
 
@@ -157,7 +161,7 @@ Condition = Annotated[
 
 class AudienceFilter(Request):
     match: Literal["all", "any"]
-    conditions: list[Condition] = Field(min_length=1, max_length=100)
+    conditions: list[Condition] = Field(min_length=1, max_length=20)
 
 
 class AudienceUpdate(Request):
