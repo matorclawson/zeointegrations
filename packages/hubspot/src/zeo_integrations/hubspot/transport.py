@@ -286,6 +286,16 @@ class HubSpotTransport:
             )
         finally:
             _private_request.reset(private_token)
+        # EOF and response cleanup can consume the remaining budget without
+        # yielding another chunk. Preserve any earlier provider failure.
+        if failure is None and time.monotonic() - started > self._whole_timeout:
+            failure = (
+                "TRANSPORT",
+                "HubSpot request exceeded its whole deadline; reconcile before retry",
+                None,
+                mutation,
+                None,
+            )
         # Raise only after handlers finish: normalized errors must not retain an
         # HTTP request, provider body or injected credential as __context__.
         if failure is not None:

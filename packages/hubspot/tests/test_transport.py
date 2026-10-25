@@ -172,6 +172,54 @@ class TransportBoundary(unittest.TestCase):
             self.assertIsNone(raised.exception.__context__)
             self.assertNotIn("synthetic-sensitive-body", str(raised.exception))
 
+    def test_late_clean_eof_refuses_success_without_overriding_provider_failure(self):
+        class LateStream(Stream):
+            def __init__(self, clock):
+                super().__init__([])
+                self.clock = clock
+
+            def __iter__(self):
+                self.clock[0] = 1
+                yield b'{"ok":true}'
+                self.clock[0] = 31
+
+            def close(self):
+                self.clock[0] = 31
+                super().close()
+
+        for method in ["GET", "POST"]:
+            for status in [200, 401]:
+                clock = [0]
+                calls = []
+
+                stream = LateStream(clock)
+
+                def respond(request, calls=calls, status=status, stream=stream):
+                    calls.append(request)
+                    return httpx.Response(status, stream=stream)
+
+                client = self.boundary(respond, timeout=30)
+                with (
+                    self.subTest(method=method, status=status),
+                    patch(
+                        "zeo_integrations.hubspot.transport.time.monotonic",
+                        side_effect=lambda clock=clock: clock[0],
+                    ),
+                    self.assertRaises(HubSpotAPIError) as raised,
+                ):
+                    client.request(method, "/marketing/emails/2026-03")
+                error = raised.exception
+                self.assertEqual(
+                    error.code, "TRANSPORT" if status == 200 else "AUTHENTICATION"
+                )
+                self.assertEqual(
+                    error.outcome_unknown, status == 200 and method == "POST"
+                )
+                self.assertIsNone(error.__context__)
+                self.assertIsNone(error.__cause__)
+                self.assertTrue(stream.closed)
+                self.assertEqual(len(calls), 1)
+
     def test_invalid_timeout_and_credential_before_http_initialization(self):
         for timeout in [True, 0, 121, math.nan, math.inf]:
             with self.subTest(timeout=timeout), self.assertRaises(ValueError):
