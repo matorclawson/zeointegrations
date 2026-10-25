@@ -10,7 +10,7 @@ client.py -> client.py; source blob e36ec1c646b1d1b16184e500bdb9bb6008d97a7c
 models.py -> models.py; source blob a0d95437b736cf7a3198acf1d0f88849aad32903
 transport.py -> transport.py; source blob 7e5b9d0be1f54e33ffe999704a042d125beb67a3
 workflow.py -> workflow.py; source blob 97d628d4b42986332c134dfd2d2db25a24bd67b9
-LICENSE -> packages/hubspot/LICENSE; MIT copyright and permission retained.
+LICENSE [blob ff593bd47616c4602615f901b800f4d0965c805b] -> packages/hubspot/LICENSE; MIT copyright and permission retained.
 
 The first source commit copies the four modules byte-for-byte. Subsequent
 transport hardening and formatting are separate reviewable changes, preserving

@@ -9,7 +9,14 @@ from zeo_integrations.hubspot.workflow import validate_workflow
 
 class Workflow(unittest.TestCase):
     def flow(self):
-        return EmailSequence(name="linear", steps=(SequenceStep(email_id="one"), SequenceStep(email_id="two", delay_minutes=5)), suppression_list_ids=(1,)).to_api()
+        return EmailSequence(
+            name="linear",
+            steps=(
+                SequenceStep(email_id="one"),
+                SequenceStep(email_id="two", delay_minutes=5),
+            ),
+            suppression_list_ids=(1,),
+        ).to_api()
 
     def test_supported_graph_round_trip(self):
         flow = self.flow()
@@ -19,7 +26,11 @@ class Workflow(unittest.TestCase):
         self.assertEqual(result.to_api(), flow)
 
     def test_unknown_trigger_setting_and_reenrollment_refused(self):
-        for key, value in [("unknownTrigger", {}), ("canEnrollFromSalesforce", True), ("enrollmentCriteria", {"type": "MANUAL", "shouldReEnroll": True})]:
+        for key, value in [
+            ("unknownTrigger", {}),
+            ("canEnrollFromSalesforce", True),
+            ("enrollmentCriteria", {"type": "MANUAL", "shouldReEnroll": True}),
+        ]:
             flow = self.flow()
             flow[key] = value
             with self.subTest(key=key), self.assertRaises(ValueError):
@@ -28,7 +39,11 @@ class Workflow(unittest.TestCase):
     def test_branch_unknown_action_and_dangling_delay_refused(self):
         original = self.flow()
         variants = []
-        for action_key, value in [("actionTypeId", "unknown"), ("connection", {"edgeType": "BRANCH", "nextActionId": "3"}), ("actionTypeVersion", True)]:
+        for action_key, value in [
+            ("actionTypeId", "unknown"),
+            ("connection", {"edgeType": "BRANCH", "nextActionId": "3"}),
+            ("actionTypeVersion", True),
+        ]:
             flow = copy.deepcopy(original)
             flow["actions"][0][action_key] = value
             variants.append(flow)
