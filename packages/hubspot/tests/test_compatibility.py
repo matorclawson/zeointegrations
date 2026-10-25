@@ -16,16 +16,23 @@ class Compatibility(unittest.TestCase):
         self.assertEqual(dist.metadata["Requires-Python"], ">=3.12")
         self.assertFalse(dist.entry_points)
         for name in ["__init__", "client", "models", "transport", "workflow"]:
-            module = importlib.import_module(f"zeo_integrations.hubspot{'.' + name if name != '__init__' else ''}")
+            module = importlib.import_module(
+                f"zeo_integrations.hubspot{'.' + name if name != '__init__' else ''}"
+            )
             installed = Path(module.__file__).resolve()
             source = root / "src" / "zeo_integrations" / "hubspot" / f"{name}.py"
             self.assertNotEqual(installed, source)
             self.assertEqual(installed.read_bytes(), source.read_bytes())
         requirements = dist.requires or []
-        self.assertFalse(any("zeo-core" in value.lower() or "zeo_core" in value.lower() for value in requirements))
+        self.assertFalse(
+            any(
+                "zeo-core" in value.lower() or "zeo_core" in value.lower()
+                for value in requirements
+            )
+        )
 
     def test_fresh_import_has_no_credential_discovery_network_or_core(self):
-        code = '''
+        code = """
 import os, sys
 from unittest.mock import patch
 with patch("httpx.Client", side_effect=AssertionError("import initialized HTTP")):
@@ -36,8 +43,14 @@ with patch("httpx.Client", side_effect=AssertionError("import initialized HTTP")
         assert not hasattr(h, "create_integration")
         assert not hasattr(h, "HubSpotIntegration")
         assert not any(n == "zeo_core" or n.startswith("zeo_core.") for n in sys.modules)
-'''
-        result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, timeout=15, check=False)
+"""
+        result = subprocess.run(
+            [sys.executable, "-c", code],
+            capture_output=True,
+            text=True,
+            timeout=15,
+            check=False,
+        )
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_implicit_namespace_and_provider_only_files(self):
@@ -59,4 +72,7 @@ with patch("httpx.Client", side_effect=AssertionError("import initialized HTTP")
         self.assertEqual(notice.read_bytes(), (root / "NOTICE").read_bytes())
         for wheel in (root / "dist").glob("*.whl"):
             with zipfile.ZipFile(wheel) as archive:
-                self.assertEqual(archive.read("zeo_integrations/hubspot/NOTICE"), (root / "NOTICE").read_bytes())
+                self.assertEqual(
+                    archive.read("zeo_integrations/hubspot/NOTICE"),
+                    (root / "NOTICE").read_bytes(),
+                )

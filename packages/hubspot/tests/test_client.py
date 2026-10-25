@@ -4,7 +4,14 @@ import copy
 import unittest
 
 from zeo_integrations.hubspot.client import EMAILS, HubSpotClient, _id
-from zeo_integrations.hubspot.models import Audience, EmailSequence, PageRequest, PublishRequest, SequenceStep, send_spec_digest
+from zeo_integrations.hubspot.models import (
+    Audience,
+    EmailSequence,
+    PageRequest,
+    PublishRequest,
+    SequenceStep,
+    send_spec_digest,
+)
 from zeo_integrations.hubspot.transport import HubSpotAPIError
 
 
@@ -29,10 +36,30 @@ class Client(unittest.TestCase):
         return HubSpotClient(transport=boundary), boundary
 
     def email(self):
-        return {"id": "1", "name": "reviewed", "subject": "subject", "updatedAt": "v1", "isPublished": False, "isTransactional": False, "type": "BATCH_EMAIL", "state": "DRAFT", "subscriptionDetails": {"subscriptionId": "2"}, "to": Audience(contact_ids=("3",)).to_api(), "sendOnPublish": False}
+        return {
+            "id": "1",
+            "name": "reviewed",
+            "subject": "subject",
+            "updatedAt": "v1",
+            "isPublished": False,
+            "isTransactional": False,
+            "type": "BATCH_EMAIL",
+            "state": "DRAFT",
+            "subscriptionDetails": {"subscriptionId": "2"},
+            "to": Audience(contact_ids=("3",)).to_api(),
+            "sendOnPublish": False,
+        }
 
     def publish(self, data, **extra):
-        return PublishRequest(email_id="1", expected_updated_at="v1", expected_send_spec_sha256=send_spec_digest(data), render_evidence_ref="inert-render", subscription_id="2", audience=Audience(contact_ids=("3",)), **extra)
+        return PublishRequest(
+            email_id="1",
+            expected_updated_at="v1",
+            expected_send_spec_sha256=send_spec_digest(data),
+            render_evidence_ref="inert-render",
+            subscription_id="2",
+            audience=Audience(contact_ids=("3",)),
+            **extra,
+        )
 
     def test_old_private_helper_and_constant(self):
         self.assertEqual(EMAILS, "/marketing/emails/2026-03")
@@ -49,13 +76,29 @@ class Client(unittest.TestCase):
 
     def test_reviewed_publish_preserves_check_patch_recheck_publish_order(self):
         data = self.email()
-        client, boundary = self.client(data, {}, {**data, "sendOnPublish": True}, {"id": "1"})
-        self.assertEqual(client.publish_email(self.publish(data, confirm=True)).data, {"id": "1"})
-        self.assertEqual([(m, p) for m, p, _ in boundary.calls], [("GET", f"{EMAILS}/1"), ("PATCH", f"{EMAILS}/1"), ("GET", f"{EMAILS}/1"), ("POST", f"{EMAILS}/1/publish")])
+        client, boundary = self.client(
+            data, {}, {**data, "sendOnPublish": True}, {"id": "1"}
+        )
+        self.assertEqual(
+            client.publish_email(self.publish(data, confirm=True)).data, {"id": "1"}
+        )
+        self.assertEqual(
+            [(m, p) for m, p, _ in boundary.calls],
+            [
+                ("GET", f"{EMAILS}/1"),
+                ("PATCH", f"{EMAILS}/1"),
+                ("GET", f"{EMAILS}/1"),
+                ("POST", f"{EMAILS}/1/publish"),
+            ],
+        )
 
     def test_changed_revision_audience_or_digest_never_mutates(self):
         data = self.email()
-        for changed in [{**data, "updatedAt": "v2"}, {**data, "to": Audience(contact_ids=("other",)).to_api()}, {**data, "subject": "changed"}]:
+        for changed in [
+            {**data, "updatedAt": "v2"},
+            {**data, "to": Audience(contact_ids=("other",)).to_api()},
+            {**data, "subject": "changed"},
+        ]:
             client, boundary = self.client(changed)
             with self.subTest(changed=changed), self.assertRaises(ValueError):
                 client.publish_email(self.publish(data, confirm=True))
@@ -63,13 +106,18 @@ class Client(unittest.TestCase):
 
     def test_race_after_configuration_never_publishes(self):
         data = self.email()
-        client, boundary = self.client(data, {}, {**data, "subject": "raced", "sendOnPublish": True})
+        client, boundary = self.client(
+            data, {}, {**data, "subject": "raced", "sendOnPublish": True}
+        )
         with self.assertRaises(ValueError):
             client.publish_email(self.publish(data, confirm=True))
         self.assertEqual([c[0] for c in boundary.calls], ["GET", "PATCH", "GET"])
 
     def test_invalid_page_and_immediate_cursor_repeat_refused(self):
-        for response in [{"results": [{}], "paging": {"next": {"after": "repeat"}}}, {"results": [], "paging": {"next": {}}}]:
+        for response in [
+            {"results": [{}], "paging": {"next": {"after": "repeat"}}},
+            {"results": [], "paging": {"next": {}}},
+        ]:
             client, _ = self.client(response)
             if response["paging"]["next"]:
                 with self.assertRaises(HubSpotAPIError):
