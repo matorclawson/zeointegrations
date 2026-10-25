@@ -37,10 +37,18 @@ class ClientReads(unittest.TestCase):
 
     def test_all_subscriber_states_and_fields_survive(self):
         states = ["active", "inactive", "bounced", "complained", "cancelled"]
+        dates = [
+            "2024-02-29T00:00:00Z",
+            "2026-10-24T12:34:56.123456789+05:30",
+            "2023-01-27T11:43:55-07:00",
+            "2026-10-24T00:00:00.000+00:00",
+            "2024-02-29T23:59:59Z",
+        ]
         rows = [
             {
                 "id": i + 1,
                 "state": state,
+                "created_at": dates[i],
                 "email_address": "user@example.invalid",
                 "first_name": None,
                 "fields": {"team": "demo", "optional": None},
@@ -49,6 +57,7 @@ class ClientReads(unittest.TestCase):
         ]
         result = self.client(envelope("subscribers", rows)).list_subscribers()
         self.assertEqual([row["state"] for row in result.results], states)
+        self.assertEqual([row["created_at"] for row in result.results], dates)
         self.assertEqual(result.results[-1]["fields"], rows[-1]["fields"])
         self.assertTrue(result.complete)
         self.assertEqual(self.requests[0].url.params["status"], "all")
@@ -117,6 +126,7 @@ class ClientReads(unittest.TestCase):
             "id": 1,
             "email_address": "user@example.invalid",
             "first_name": None,
+            "created_at": "2024-02-29T00:00:00Z",
             "fields": {},
         }
         for state in [None, "unknown", True]:
@@ -140,3 +150,113 @@ class ClientReads(unittest.TestCase):
         self.assertIsNone(raised.exception.__context__)
         self.assertIsNone(raised.exception.__cause__)
         self.assertNotIn("synthetic-private-marker", str(raised.exception))
+
+    def test_present_invalid_provider_date_refuses_the_page_safely(self):
+        row = {
+            "id": 1,
+            "state": "active",
+            "email_address": "user@example.invalid",
+            "first_name": None,
+            "fields": {},
+        }
+        cases = [
+            {**row, "created_at": value}
+            for value in [
+                1700000000,
+                "synthetic-private-marker",
+                "2023-02-29T00:00:00Z",
+                "2024-02-29T00:00:00",
+            ]
+        ]
+        for candidate in cases:
+            with self.subTest(candidate=candidate):
+                with self.assertRaises(KitAPIError) as raised:
+                    self.client(envelope("subscribers", [candidate])).list_subscribers()
+                self.assertEqual(raised.exception.code, "RESPONSE")
+                self.assertIsNone(raised.exception.__context__)
+                self.assertIsNone(raised.exception.__cause__)
+                self.assertNotIn("synthetic-private-marker", str(raised.exception))
+                self.assertEqual(len(self.requests), 1)
+
+    def test_missing_and_null_provider_dates_preserve_compatible_pages(self):
+        rows = []
+        for state in ["active", "inactive", "bounced", "complained", "cancelled"]:
+            for supplied in [False, True]:
+                row = {
+                    "id": len(rows) + 1,
+                    "state": state,
+                    "email_address": "user@example.invalid",
+                    "first_name": None,
+                    "fields": {},
+                }
+                if supplied:
+                    row["created_at"] = None
+                rows.append(row)
+        page = self.client(envelope("subscribers", rows)).list_subscribers()
+        self.assertEqual(len(page.results), 10)
+        self.assertEqual([r["state"] for r in page.results], [r["state"] for r in rows])
+        self.assertTrue(all(r["created_at"] is None for r in page.results))
+        self.assertEqual([r["id"] for r in page.results], [r["id"] for r in rows])
+        self.assertTrue(page.complete)
+        self.assertIsNone(page.next_after)
+        self.assertEqual(len(self.requests), 1)
+
+    def test_terminal_page_can_finish_cursor_chain_with_complete_false(self):
+        requests = []
+
+        def reply(request):
+            requests.append(request)
+            after = request.url.params.get("after")
+            if after is None:
+                return httpx.Response(
+                    200,
+                    json=envelope(
+                        "subscribers",
+                        [
+                            {
+                                "id": 1,
+                                "state": "active",
+                                "created_at": "2024-02-29T00:00:00Z",
+                                "email_address": "user@example.invalid",
+                                "first_name": None,
+                                "fields": {},
+                            }
+                        ],
+                        more=True,
+                        cursor="page-two",
+                    ),
+                )
+            self.assertEqual(after, "page-two")
+            return httpx.Response(
+                200,
+                json=envelope(
+                    "subscribers",
+                    [
+                        {
+                            "id": 2,
+                            "state": "cancelled",
+                            "created_at": "2023-01-27T11:43:55-07:00",
+                            "email_address": "other@example.invalid",
+                            "first_name": None,
+                            "fields": {},
+                        }
+                    ],
+                    previous=True,
+                ),
+            )
+
+        boundary = KitTransport(
+            SecretStr("synthetic-test-only"), transport=httpx.MockTransport(reply)
+        )
+        client = KitClient(transport=boundary)
+        self.addCleanup(client.close)
+        first = client.list_subscribers(PageRequest(per_page=1))
+        last = client.list_subscribers(PageRequest(per_page=1, after=first.next_after))
+        self.assertFalse(first.complete)
+        self.assertFalse(last.complete)
+        self.assertIsNone(last.next_after)
+        self.assertEqual(
+            [first.results[0]["state"], last.results[0]["state"]],
+            ["active", "cancelled"],
+        )
+        self.assertEqual(len(requests), 2)

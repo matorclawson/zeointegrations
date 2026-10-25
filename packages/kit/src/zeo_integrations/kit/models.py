@@ -7,9 +7,11 @@
 
 from __future__ import annotations
 
+import re
+from datetime import datetime
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 Id = Annotated[int, Field(gt=0, strict=True)]
 SubscriberState = Literal["active", "inactive", "bounced", "complained", "cancelled"]
@@ -33,9 +35,35 @@ class ReadRecord(BaseModel):
 
 class Subscriber(ReadRecord):
     state: SubscriberState
+    created_at: str | None = Field(default=None, min_length=20, max_length=64)
     email_address: str
     first_name: str | None
     fields: dict[str, str | None]
+
+    @field_validator("created_at")
+    @classmethod
+    def valid_provider_creation_time(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        if not re.fullmatch(
+            r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-5][0-9]:[0-5][0-9]"
+            r"(?:\.[0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])",
+            value,
+        ):
+            raise ValueError(
+                "Kit created_at must be an explicit-offset ISO8601 timestamp"
+            )
+        invalid = False
+        try:
+            parsed = datetime.fromisoformat(value)
+        except ValueError:
+            invalid = True
+        if invalid:
+            raise ValueError("Kit created_at has an invalid calendar date or time")
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            raise ValueError("Kit created_at must include a timezone")
+        # Calendar validation must not normalize the provider's original text.
+        return value
 
 
 class Tag(ReadRecord):
