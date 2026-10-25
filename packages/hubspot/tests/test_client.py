@@ -2,6 +2,7 @@
 
 import copy
 import unittest
+from datetime import UTC, datetime, timedelta
 
 from zeo_integrations.hubspot.client import EMAILS, HubSpotClient, _id
 from zeo_integrations.hubspot.models import (
@@ -111,6 +112,29 @@ class Client(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             client.publish_email(self.publish(data, confirm=True))
+        self.assertEqual([c[0] for c in boundary.calls], ["GET", "PATCH", "GET"])
+
+    def test_invalid_final_schedule_drops_provider_context_and_never_publishes(self):
+        data = self.email()
+        send_at = datetime.now(UTC) + timedelta(days=1)
+        marker = "synthetic-private-provider-schedule"
+        client, boundary = self.client(data, {}, {**data, "publishDate": marker})
+        request = PublishRequest(
+            email_id="1",
+            expected_updated_at="v1",
+            expected_send_spec_sha256=send_spec_digest(data, send_at=send_at),
+            render_evidence_ref="inert-render",
+            subscription_id="2",
+            audience=Audience(contact_ids=("3",)),
+            send_at=send_at,
+            confirm=True,
+        )
+        with self.assertRaises(ValueError) as raised:
+            client.publish_email(request)
+        self.assertEqual(str(raised.exception), "Provider schedule is invalid")
+        self.assertIsNone(raised.exception.__context__)
+        self.assertIsNone(raised.exception.__cause__)
+        self.assertNotIn(marker, str(raised.exception))
         self.assertEqual([c[0] for c in boundary.calls], ["GET", "PATCH", "GET"])
 
     def test_invalid_page_and_immediate_cursor_repeat_refused(self):

@@ -249,7 +249,9 @@ class HubSpotClient:
             try:
                 parsed = datetime.fromisoformat(published_at)
             except ValueError:
-                raise ValueError("Provider schedule is invalid") from None
+                parsed = None
+            if parsed is None:
+                raise ValueError("Provider schedule is invalid")
             if parsed != request.send_at:
                 raise ValueError("Provider schedule does not match approval")
             if request.send_at <= datetime.now(UTC):
