@@ -1,0 +1,21 @@
+zeo-integration-hubspot
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; full permission notice in LICENSE.
+
+Source: zeroemployeeorg/zeocore
+Commit: 6bd62fbbfc4453908ab464219c2a304d7420b15b
+Source prefix: src/zeo_core/integrations/hubspot/
+Destination prefix: packages/hubspot/src/zeo_integrations/hubspot/
+client.py -> client.py; source blob e36ec1c646b1d1b16184e500bdb9bb6008d97a7c
+models.py -> models.py; source blob a0d95437b736cf7a3198acf1d0f88849aad32903
+transport.py -> transport.py; source blob 7e5b9d0be1f54e33ffe999704a042d125beb67a3
+workflow.py -> workflow.py; source blob 97d628d4b42986332c134dfd2d2db25a24bd67b9
+LICENSE -> packages/hubspot/LICENSE; MIT copyright and permission retained.
+
+The first source commit copies the four modules byte-for-byte. Subsequent
+transport hardening and formatting are separate reviewable changes, preserving
+the original blob pins above. Root exports are explicit provider-only exports;
+Core service, factory, environment discovery and entrypoint are excluded.
+No private Broker fixtures, credentials or custody machinery were copied.
+Tests are original synthetic controls. Package layout follows this repository's
+existing Loops and Kit packages; no new dependency family or runtime SDK.

@@ -29,3 +29,14 @@ src/zeo_core/integrations/kit/transport.py -> packages/kit/src/zeo_integrations/
 LICENSE -> packages/kit/LICENSE
 Only the current-API read-only subset is adapted; service, registry, credential
 custody and private Broker fixtures are excluded. See package NOTICE for details.
+
+HubSpot provider port: zeroemployeeorg/zeocore@6bd62fbbfc4453908ab464219c2a304d7420b15b,
+Copyright (c) 2026 Rod Rivera, MIT permission retained in packages/hubspot/LICENSE.
+Exact source/destination/blob mapping (prefix src/zeo_core/integrations/hubspot/
+-> packages/hubspot/src/zeo_integrations/hubspot/):
+client.py -> client.py; e36ec1c646b1d1b16184e500bdb9bb6008d97a7c
+models.py -> models.py; a0d95437b736cf7a3198acf1d0f88849aad32903
+transport.py -> transport.py; 7e5b9d0be1f54e33ffe999704a042d125beb67a3
+workflow.py -> workflow.py; 97d628d4b42986332c134dfd2d2db25a24bd67b9
+LICENSE -> packages/hubspot/LICENSE; original MIT copyright and permission.
+See package NOTICE for byte-identical first move and separately reviewed changes.

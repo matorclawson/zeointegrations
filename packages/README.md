@@ -18,3 +18,9 @@ retirement or live readiness follows from package source.
 
 HubSpot follows under the operator's October 24 priority; the ffmpeg pilot
 remains parked.
+
+`hubspot/` extracts the existing provider client, models, transport and workflow
+validator, preserving reviewed guards. Core retains credential discovery, service,
+factory and sole entry point. Core forwarding and the pinned hard dependency wait
+for an actually installable, separately approved release; no consumer adoption
+or provider execution is established by this source package.
