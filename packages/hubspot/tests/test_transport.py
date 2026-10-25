@@ -131,7 +131,9 @@ class TransportBoundary(unittest.TestCase):
         ]:
             stream = Stream([b"never-read"])
             client = self.boundary(
-                lambda r, headers=headers, stream=stream: httpx.Response(200, headers=headers, stream=stream)
+                lambda r, headers=headers, stream=stream: httpx.Response(
+                    200, headers=headers, stream=stream
+                )
             )
             with self.subTest(headers=headers), self.assertRaises(HubSpotAPIError):
                 client.request("GET", "/marketing/emails/2026-03")
@@ -159,7 +161,9 @@ class TransportBoundary(unittest.TestCase):
 
     def test_invalid_json_and_shape_drop_exception_context(self):
         for content in [b"synthetic-sensitive-body", b"[]"]:
-            client = self.boundary(lambda r, content=content: httpx.Response(200, content=content))
+            client = self.boundary(
+                lambda r, content=content: httpx.Response(200, content=content)
+            )
             with (
                 self.subTest(content=content),
                 self.assertRaises(HubSpotAPIError) as raised,
@@ -181,7 +185,11 @@ class TransportBoundary(unittest.TestCase):
             (204, b"", {}),
             (200, b'{"ok":true}', {"ok": True}),
         ]:
-            client = self.boundary(lambda r, status=status, content=content: httpx.Response(status, content=content))
+            client = self.boundary(
+                lambda r, status=status, content=content: httpx.Response(
+                    status, content=content
+                )
+            )
             self.assertEqual(
                 client.request("GET", "/marketing/emails/2026-03"), expected
             )
