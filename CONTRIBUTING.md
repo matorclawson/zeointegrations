@@ -74,8 +74,47 @@ license compatibility review. Do not copy its credential store or frontend code.
 
 Ask zeo-rt to mint SOW ids. Every commit includes `sow: <minted id>`; line 1 of a
 PR body is exactly that line. Push `zeointegrations/<slug>` branches to the fork
-and open one upstream PR at a time. Council reviews, the Architect signs, and
-the merging app merges.
+with at most one open non-draft upstream PR per repository. Open a new PR only
+when the work is ready and the full repository gate has passed on that exact
+head, including new draft PRs. Existing drafts stay draft until their gate passes.
+Council reviews, the
+Architect signs, and the merging app merges.
+
+### Own-fork backups and required gates
+
+Push daily backups to your own fork's `zeointegrations/wip/<topic>` branch.
+Only that own-fork WIP route uses root Ruff lint and format checks instead of
+running the full suite for the backup push. Test regularly on the work branch
+with the full gate in your own lane, independently of backup pushes. A PR may
+use that branch only after the exact-head full gate passes. Opening or updating
+a PR must never start the heavy suite; PR checks remain light. Later scheduler
+placement does not turn the PR into the full-gate trigger.
+Before descendant Git/check commands, clear Git-local environment variables in
+an isolated subshell using `git rev-parse --local-env-vars` and `unset` so a
+parent hook's repository context cannot leak into another checkout. Run root
+`uv run --frozen --offline --no-sync ruff check .` and
+`uv run --frozen --offline --no-sync ruff format --check .` with a combined
+wall-clock deadline below 180 seconds. Missing tools/cache, a timeout or a failed
+check stops the backup push; never substitute a full suite or bypass a hook.
+Prepare the approved tools and frozen cache separately before the quick check.
+This repository currently has no installed pre-push hook: these are required
+maintainer checks, not a claim that an automatic WIP mechanism is installed.
+
+Every other push requires full own-repository `make setup` and `make verify` on
+the exact candidate head in the maintainer's own lane (ENG-UK by default).
+Before any final approval, Architect signature or merge, record that full gate's
+HEAD, clean DIRTY status, host, EXIT and complete log SHA256 in the PR body.
+The requirement also applies before a new PR opens and when an existing draft
+becomes ready; rerun on any changed candidate head before updating its PR. A backup, quick check or draft is not qualification, release or
+consumer acceptance. Preserve disabled upstream pushes and normal independent
+Council review, Architect signing and merging-app integration.
+
+Record baseline failures with the base commit, failing tests and original gate
+evidence in the PR body, and name the repair owner and date. The maintainer
+repairs main in its own PR. Never waive, skip or relabel a failure as passing,
+and never use `--no-verify` or another actor or route to bypass a hook/refusal.
+This text-only policy amendment adds no hook, checker, tool or configuration.
+
 Full qualification runs locally and independently at council until pomar CI on
 ENG-UK posts its signed gate. Public Actions is one three-minute dependency-free
 PR smoke job, not the full gate. Under the operator's
