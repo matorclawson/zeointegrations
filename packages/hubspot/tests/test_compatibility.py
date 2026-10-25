@@ -23,6 +23,12 @@ class Compatibility(unittest.TestCase):
             source = root / "src" / "zeo_integrations" / "hubspot" / f"{name}.py"
             self.assertNotEqual(installed, source)
             self.assertEqual(installed.read_bytes(), source.read_bytes())
+            if name != "__init__":
+                license_lines = (root / "LICENSE").read_text().splitlines()
+                header = "".join(
+                    f"# {line}\n" if line else "#\n" for line in license_lines
+                )
+                self.assertTrue(installed.read_text().startswith(header))
         requirements = dist.requires or []
         self.assertFalse(
             any(
