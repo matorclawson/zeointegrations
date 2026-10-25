@@ -2,11 +2,11 @@
 
 import importlib
 import importlib.metadata
-from pathlib import Path
 import subprocess
 import sys
 import unittest
 import zipfile
+from pathlib import Path
 
 
 class Compatibility(unittest.TestCase):
