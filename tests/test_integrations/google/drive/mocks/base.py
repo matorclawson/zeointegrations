@@ -1,0 +1,87 @@
+"""
+Base mock classes and utilities for Google Drive testing.
+"""
+
+from typing import Any, TypeVar
+from unittest.mock import Mock, PropertyMock
+
+from googleapiclient.errors import HttpError
+
+T = TypeVar("T")  # Generic type for content
+R = TypeVar("R")  # Generic type for return values
+
+
+class GenericApiRequestMock:
+    """
+    A dynamic mock that can simulate various API request objects
+    with configurable behaviors.
+    """
+
+    def __init__(
+        self,
+        return_value: Any = None,  # noqa: ANN401 -- mimics arbitrary Drive API response payloads
+        error: Any = None,  # noqa: ANN401 -- mimics arbitrary error content passed to HttpError
+        status: int = 200,
+        reason: str = "OK",
+    ) -> None:
+        """
+        Create a mock API request object.
+
+        Args:
+            return_value: Value to return on execute
+            error: Optional error to raise
+            status: HTTP status code
+            reason: HTTP status reason
+        """
+        # Create a comprehensive mock object
+        self.mock = Mock()
+
+        # Configure execute method
+        if error:
+            # Create an HttpError if an error is specified
+            response = Mock()
+            type(response).status = PropertyMock(return_value=status)
+            type(response).reason = PropertyMock(return_value=reason)
+
+            http_error = HttpError(resp=response, content=str(error).encode("utf-8"))
+            self.mock.execute.side_effect = http_error
+        else:
+            # Set return value for successful execution
+            self.mock.execute.return_value = return_value or {}
+
+        # Add common attributes that might be expected
+        self.mock.http = Mock()
+        self.mock.request = Mock()
+        self.mock.uri = "https://example.com/mock"
+        self.mock.headers = {}
+
+        # Add a method to simulate API calls
+        def request_method(
+            *args: Any,  # noqa: ANN401 -- simulates arbitrary Drive API call signatures
+            **kwargs: Any,  # noqa: ANN401 -- simulates arbitrary Drive API call signatures
+        ) -> tuple[Mock, Mock]:
+            return self.mock, self.mock
+
+        self.mock.request.execute = self.mock.execute
+        self.mock.http.request = request_method
+
+    def __getattr__(self, name: str) -> Mock:
+        """
+        Dynamically add attributes as needed.
+
+        This allows the mock to have any attribute without
+        explicitly defining them.
+        """
+        attr = Mock()
+        setattr(self.mock, name, attr)
+        return attr
+
+    def __call__(
+        self,
+        *args: Any,  # noqa: ANN401 -- simulates arbitrary Drive API call signatures
+        **kwargs: Any,  # noqa: ANN401 -- simulates arbitrary Drive API call signatures
+    ) -> Mock:
+        """
+        Make the mock callable to simulate various API methods.
+        """
+        return self.mock
