@@ -4,7 +4,7 @@ import socket
 
 import pytest
 
-from tests.test_integrations.conftest import no_live_provider_network
+from tests.test_integrations import conftest as guard
 
 
 @pytest.fixture
@@ -33,7 +33,7 @@ def fake_network(monkeypatch):
 
     monkeypatch.setattr(socket, "socket", FakeSocket)
     monkeypatch.setattr(socket, "getaddrinfo", resolve)
-    no_live_provider_network.__wrapped__(monkeypatch)
+    guard.no_live_provider_network.__wrapped__(monkeypatch)
     return calls
 
 
