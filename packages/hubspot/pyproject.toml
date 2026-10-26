@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "zeo-integration-hubspot"
+version = "0.1.0"
+description = "Credential-injected HubSpot marketing client"
+requires-python = ">=3.12"
+license = "MIT"
+readme = "README.md"
+dependencies = ["httpx>=0.28.1,<1", "pydantic>=2.13.4,<3"]
+
+[dependency-groups]
+dev = ["ruff==0.15.5"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/zeo_integrations"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"NOTICE" = "zeo_integrations/hubspot/NOTICE"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.uv]
+constraint-dependencies = ["certifi==2026.7.22", "idna==3.19"]
