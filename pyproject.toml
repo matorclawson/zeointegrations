@@ -56,3 +56,14 @@ select = ["E", "F", "I", "UP", "B"]
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
 testpaths = ["tests"]
+filterwarnings = [
+    "error:coroutine .* was never awaited:RuntimeWarning",
+    "error:Cell is missing an id field",
+]
+markers = [
+    "integration: integration tests (synthetic doubles; no live providers)",
+    "slow: longer tests",
+    "e2e: end-to-end fixture workflows",
+    "unit: unit tests",
+    "smoke: smoke tests",
+]
