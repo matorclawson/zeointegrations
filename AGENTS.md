@@ -20,7 +20,12 @@ execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
   final approval, signing or merge. Record HEAD, DIRTY, host, EXIT and the full
   log SHA256 in the PR body. Never skip baseline failures or bypass a hook.
 - Council reviews, the Architect signs, and the merging app merges. Keep the
-  upstream push URL disabled. No direct main pushes, tags, or PyPI publication.
+  upstream push URL disabled. No direct main pushes or tags. The sole approved
+  PyPI route is the unchanged reviewed HubSpot 0.1.0 wheel via
+  `.github/workflows/publish-hubspot.yml`, environment `pypi`, after the operator
+  creates the trusted publisher and approves the environment. The workflow PR
+  is hand-merged. No other PyPI publication is authorized. See
+  [the operator click list](docs/hubspot-pypi-publisher.md).
 - No secrets in source, fixtures, logs, PRs or messages. Never call live providers
   during verification. Use injected credentials only inside ZEOconnect.
 - Keep MIT notices and per-file provenance on copied code; update NOTICE.

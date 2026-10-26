@@ -121,5 +121,17 @@ PR smoke job, not the full gate. Under the operator's
 DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18, zeo-rt aligns required
 checks with the smoke/council gate and later `zeo-ci/gate`; no removed full-CI
 job may remain required. See docs/ci-toolchain.md for exact inputs and limits.
-PyPI publication waits for operator-approved trusted-publisher setup; there is
-no publishing workflow in this skeleton.
+The one operator-approved PyPI route is `zeo-integration-hubspot` 0.1.0 via
+`.github/workflows/publish-hubspot.yml` and the protected `pypi` environment.
+Architect amendment `ans_7d79a7764593271c` names this seat as publisher owner;
+the workflow PR is reviewed and hand-merged. Upload only after the operator
+creates the pending trusted publisher and approves the release environment.
+Publish the unchanged reviewed wheel at SHA256
+`5225a18818d84d48f7d5df94c0d3b7d6c87856bdfb11ad10de20bbe1932e16d8`;
+no source rebuild, API token, other package/feed/key/principal or unrelated
+publication is authorized. Follow [the operator click list](docs/hubspot-pypi-publisher.md).
+The manual publication job performs artifact checks and upload only; it adds
+no PR-triggered tests or builds. All gates and tests run on ENG-UK under
+`/Users/rodbot/zeo/seat-gates/zeointegrations/` (20 GB seat limit); Mat is for
+authoring, committing, pushing and mail. Report missing ENG tooling to the
+Architect and zeo-rt instead of falling back to Mat.
