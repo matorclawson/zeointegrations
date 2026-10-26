@@ -53,6 +53,14 @@ line-length = 88
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
+[tool.ruff.lint.per-file-ignores]
+# Preserve upstream annotation/generic/enum semantics during pure provider moves.
+"src/zeo_integrations/google/drive/utils/api.py" = ["UP047"]
+"src/zeo_integrations/google/mail/utils/api.py" = ["UP047"]
+"tests/test_integrations/google/mail/mocks.py" = ["UP047"]
+"src/zeo_integrations/llms/models.py" = ["UP042"]
+"src/zeo_integrations/supabase/auth.py" = ["UP037"]
+
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
 testpaths = ["tests"]

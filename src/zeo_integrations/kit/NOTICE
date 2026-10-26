@@ -1,0 +1,34 @@
+MIT Copyright(c)2026 Rod Rivera.
+Copied from https://github.com/zeroemployeeorg/zeocore at
+7c9923e6fd93cabb8601040f3e431760be3a18ee; import/module references relocated.
+Core remains the framework dependency; no execution permission is granted.
+Per-file provenance (source -> destination; old Git blob):
+src/zeo_core/integrations/kit/__init__.py -> src/zeo_integrations/kit/__init__.py; b738ab9c0227f9c910cecb27bb84d08b4b4d2f37
+src/zeo_core/integrations/kit/client.py -> src/zeo_integrations/kit/client.py; f7da498bc8c535fe18a94a55d0cff9fdd1e7e349
+src/zeo_core/integrations/kit/models.py -> src/zeo_integrations/kit/models.py; 9d2eaa1e63a54113598c986fe8393a99f0cdcfea
+src/zeo_core/integrations/kit/service.py -> src/zeo_integrations/kit/service.py; 9fc0592f0cb9733140f9fd02fca502c0f218b47a
+src/zeo_core/integrations/kit/transport.py -> src/zeo_integrations/kit/transport.py; 1b66341b024e433d660db5d9bbd35fe75d33447d
+
+Original upstream MIT copyright and permission notice:
+
+MIT License
+
+Copyright (c) 2026 Rod Rivera
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
