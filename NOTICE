@@ -40,3 +40,11 @@ transport.py -> transport.py; 7e5b9d0be1f54e33ffe999704a042d125beb67a3
 workflow.py -> workflow.py; 97d628d4b42986332c134dfd2d2db25a24bd67b9
 LICENSE [blob ff593bd47616c4602615f901b800f4d0965c805b] -> packages/hubspot/LICENSE; original MIT copyright and permission.
 See package NOTICE for byte-identical first move and separately reviewed changes.
+
+Aggregate test support copied without behaviour changes from
+zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee:
+tests/conftest.py and tests/__init__.py.
+The initially empty tests/test_integrations/__init__.py now contains an authored
+unittest discovery adapter: provider tests run via the explicit full-gate pytest
+invocation, keeping dependency-free smoke discovery separate.
+MIT Copyright(c)2026 Rod Rivera; repository LICENSE retains the full terms.

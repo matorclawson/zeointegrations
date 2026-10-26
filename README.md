@@ -1,3 +1,23 @@
+# Zeo integrations
+
+One distribution, `zeo-integrations`, containing provider modules under
+`zeo_integrations.<provider>`. The collection depends on published `zeocore`;
+Core does not import the collection at import time. Provider SDKs are optional
+extras, for example `pip install 'zeo-integrations[google]'` after the single
+aggregate publication exists. During migration, install from this repository
+at an exact reviewed commit. Do not register per-provider PyPI projects.
+
+This first foundation supplies shared packaging for the provider move PRs;
+it does not claim every provider is present yet. Google remains one family.
+Existing Core entry-point names stay in Core, so installing the collection does
+not register duplicate plugins. Core's optional lazy compatibility shims follow
+actual aggregate PyPI publication. No base-contract extraction or injected ports.
+
+The older per-provider source directories and hash-bound release files remain
+historical/consumer evidence during transition; they are not additional future
+PyPI distributions. Core-shaped whole provider moves and earlier standalone
+hardened/read-only APIs have different scope and must not be silently co-installed.
+
 # zeointegrations
 
 Integrations for zeo tools: install only the packages a tool needs, discovered

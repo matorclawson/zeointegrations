@@ -1,69 +1,61 @@
 # Contributing
 
-The approved direction is zeocore-SOW-36 rev 5 at
-`matorclawson/org-zeroemployeeorg@0f2bf62e2`, with the Architect's rulings
-`ans_cbd9dfb83a794f92`. This repository starts with tooling and an inventory;
-no provider package or release is present yet.
+The controlling Architect direction is
+`msg-architect-arch-integrations-revised-langchain-direction-20261026`
+(26 October 2026,03:51Z), with Council M1/M2 from
+`msg-architect-arch-integrations-council-m1-m2-20261026`.
+One distribution, `zeo-integrations`, depends on published `zeocore>=0.43`;
+Core does not import it at import time. Earlier per-provider PyPI and shared
+base/ports proposals are superseded, with their evidence preserved.
 
-## Development
+## Development and layout
 
-Install Python 3.14 and uv, then run:
+On admitted ENG-UK, use the existing Python3.14.3/uv toolchain and run:
 
 ```sh
 make setup
 make verify
 ```
 
-The root is a development project, not a distribution or an umbrella installer.
-The locked development dependency is Ruff; verification uses the standard-library
-test runner and never imports the inventoried source or calls providers.
+The root is now the aggregate distribution, with `requires-python >=3.12`,
+`src/zeo_integrations/<provider>/` and travelling tests under
+`tests/test_integrations/<provider>/`. Keep the shared namespace implicit;
+provider-level `py.typed` markers identify typed children. Google remains one
+family with its current six entry-point names. SDKs use optional extras copied
+from Core's existing requirements; only the selected provider loads its SDK.
+`make setup` installs SDK extras for developer qualification, not as mandatory
+runtime dependencies. The normal package install does not select all extras.
 
-## Package layout
+The foundation initially contains shared packaging only. Do not claim all
+providers have moved until their actual batches merge and are installed/tested.
+Existing `packages/` and `releases/` remain separately preserved historical and
+consumer checkpoints during transition; the older read-only Kit and hardened
+HubSpot APIs must not be silently conflated with whole Core-shaped moves.
 
-Each package PR will introduce:
+## Migration, source provenance and credentials
 
-```text
-packages/<name>/
-  pyproject.toml
-  src/zeo_integrations/<name>/
-  tests/
-  LICENSE
-  NOTICE
-  <data-only manifest, format coordinated with zeocore and zeoconnect-tools>
-```
+Coordinate each bounded batch with the Core owner. Copy frozen provider
+implementations and their tests, with only explicit import/module-reference
+relocations. Preserve old/new file paths and Git blobs for every copied file
+in the PR body (M2). Test that fresh imports of Core, its CLI, contracts and
+loader never import the aggregate (M1). Do not duplicate Core contracts,
+registries, boot state or credential custody. Copied fixtures remain unchanged;
+additional verification fixtures forbid live provider traffic. Include archive,
+installed-distribution, Python-floor and optional-SDK checks in the owning gate.
 
-Use an implicit `zeo_integrations` namespace so distributions can coexist. External
-services use `zeo-integration-<name>`, local capabilities `zeo-plugin-<name>`.
-Both use the `zeo_core.integrations` entry-point group and preserve existing names.
-One `zeo-integration-google` owns `google.mail`, `google.drive`, `google.calendar`,
-`google.docs`, `google.sheets`, and `google.slides`.
+Core keeps its provider entry-point registrations until its later optional lazy
+shim PR; the collection registers none during these moves. Its shim comes only
+after actual aggregate PyPI availability. Packages may be installed directly
+from a reviewed repository commit beforehand. No runtime Git fetch or fallback
+copy. The per-operation Broker schema/admission and actual consumer acceptance
+remain separate from availability of library code.
 
-The design requires manifest metadata for distribution name, `kind` (`plugin` or
-`integration`), entry-point names, secret names only, operations, minimum zeocore,
-license and provenance. Its serialization and the typed tool/component contracts
-must be agreed with their owners. This skeleton does not invent a runtime schema.
-
-Package PRs must extend `make verify` with manifest conformance, real installed
-entry-point discovery in a clean environment, wheel/sdist builds and contents,
-license/provenance checks, and provider-fake tests. A filename ban alone cannot
-prove that a component contains no HTML or JavaScript; validate data against the
-zeocore component schema. Google additionally needs a Broker-path no-401-retry
-test. The initial skeleton gate verifies its own tooling only.
-
-## Migration and credentials
-
-Move one package per PR, coordinated with zeocore's duplicate-name guard, extras,
-compatibility shims and downstream runtime-host bindings. The credential-free
-ffmpeg pilot follows zeocore groundwork. Remaining local plugins precede the
-credentialed migrations. Each move keeps a per-operation map to the Broker;
-package availability does not prove a Broker route is composed or admitted.
-
-Credentialed execution belongs inside ZEOconnect. Packages accept credentials
-injected there; they do not own token storage, refresh custody, enrollment or
-seat-side secret discovery. Existing zeocore credential paths are changed only by
-its owner and only under the approved per-operation migration rule.
-Revolut enrollment is a separate principal-host-only package with no entry point.
-The GitHub App signer stays local in `zeo_core.release.app_tokens`.
+Whole-source movement preserves existing host/credential discovery and
+principal-host controls through Core; it does not grant a new execution route,
+token store, credential principal or live operation. Never copy keys or secrets
+or call live providers during verification. The GitHub App signer remains in
+`zeo_core.release.app_tokens`; moving a compatibility forwarder does not move
+signer custody. Core runtime groups stay Core under the agreed module map.
 
 ## Licensing and review
 
@@ -74,7 +66,8 @@ license compatibility review. Do not copy its credential store or frontend code.
 
 Ask zeo-rt to mint SOW ids. Every commit includes `sow: <minted id>`; line 1 of a
 PR body is exactly that line. Push `zeointegrations/<slug>` branches to the fork
-with at most one open non-draft upstream PR per repository. Open a new PR only
+with at most one open PR per contributing seat per repository under the
+operator's coordinated batch allocation. Open a new PR only
 when the work is ready and the full repository gate has passed on that exact
 head, including new draft PRs. Existing drafts stay draft until their gate passes.
 Council reviews, the
@@ -85,8 +78,8 @@ Architect signs, and the merging app merges.
 Push daily backups to your own fork's `zeointegrations/wip/<topic>` branch.
 Only that own-fork WIP route uses root Ruff lint and format checks instead of
 running the full suite for the backup push. Test regularly on the work branch
-with the full gate in your own lane, independently of backup pushes. A PR may
-use that branch only after the exact-head full gate passes. Opening or updating
+with the full gate in your own lane, independently of backup pushes. A WIP backup branch is never a PR head; publish an ordinary own-seat branch
+after its exact-head full gate passes. Opening or updating
 a PR must never start the heavy suite; PR checks remain light. Later scheduler
 placement does not turn the PR into the full-gate trigger.
 Before descendant Git/check commands, clear Git-local environment variables in
@@ -121,17 +114,13 @@ PR smoke job, not the full gate. Under the operator's
 DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18, zeo-rt aligns required
 checks with the smoke/council gate and later `zeo-ci/gate`; no removed full-CI
 job may remain required. See docs/ci-toolchain.md for exact inputs and limits.
-The one operator-approved PyPI route is `zeo-integration-hubspot` 0.1.0 via
-`.github/workflows/publish-hubspot.yml` and the protected `pypi` environment.
-Architect amendment `ans_7d79a7764593271c` names this seat as publisher owner;
-the workflow PR is reviewed and hand-merged. Upload only after the operator
-creates the pending trusted publisher and approves the release environment.
-Publish the unchanged reviewed wheel at SHA256
-`5225a18818d84d48f7d5df94c0d3b7d6c87856bdfb11ad10de20bbe1932e16d8`;
-no source rebuild, API token, other package/feed/key/principal or unrelated
-publication is authorized. Follow [the operator click list](docs/hubspot-pypi-publisher.md).
-The manual publication job performs artifact checks and upload only; it adds
-no PR-triggered tests or builds. All gates and tests run on ENG-UK under
-`/Users/rodbot/zeo/seat-gates/zeointegrations/` (20 GB seat limit); Mat is for
-authoring, committing, pushing and mail. Report missing ENG tooling to the
-Architect and zeo-rt instead of falling back to Mat.
+The per-provider HubSpot PyPI workflow/click list is superseded and must not
+be dispatched. The separate automatic publication PR will configure one
+`zeo-integrations` publisher, automatic versioning and main-only CI publication
+without a human release reviewer. GitHub settings are scripted; the one PyPI
+owner registration is a single bootstrap. That workflow PR uses the normal
+merger once its Workflows permission is granted; no hand-merge workaround.
+Source moves and repository installs do not wait for PyPI. All builds/tests/gates
+remain on ENG-UK with existing tooling and the20GB seat cap; missing tools go to
+Architect/Runtime, never a Mat fallback. This foundation performs no settings
+write, runner registration, pending-publisher creation or upload.
