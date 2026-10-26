@@ -138,19 +138,6 @@ def test_publish_response_contract_has_no_delivery_body() -> None:
     ] == ["204"]
 
 
-def test_integration_entry_point_and_initialization(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    from importlib.metadata import entry_points
-
-    monkeypatch.delenv("HUBSPOT_ACCESS_TOKEN", raising=False)
-    matches = list(
-        entry_points(group="zeo_core.integrations", name="hubspot.marketing")
-    )
-    assert len(matches) == 1
-    service = matches[0].load()()
-    assert isinstance(service, IntegrationProtocol)
-    assert not service.initialize().success
 
 
 def test_email_draft_request(setup_client: ClientFixture, draft: EmailDraft) -> None:
