@@ -2,11 +2,11 @@
 
 import importlib.metadata
 import os
-from pathlib import Path
 import subprocess
 import sys
 import tomllib
 import unittest
+from pathlib import Path
 
 
 class PackageBoundaryTests(unittest.TestCase):
@@ -24,7 +24,8 @@ class PackageBoundaryTests(unittest.TestCase):
 
     def test_sdk_dependencies_are_extras(self):
         data = tomllib.loads(Path("pyproject.toml").read_text())["project"]
-        for sdk in ("supabase", "notion-client", "google-api-python-client", "openai"):
+        sdks = ("supabase", "notion-client", "google-api-python-client", "openai")
+        for sdk in sdks:
             self.assertFalse(any(d.startswith(sdk) for d in data["dependencies"]))
         self.assertIn("google", data["optional-dependencies"])
 
@@ -34,12 +35,17 @@ import importlib.abc
 import sys
 class RefuseAggregate(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path=None, target=None):
-        if fullname == 'zeo_integrations' or fullname.startswith('zeo_integrations.'):
+        if fullname == 'zeo_integrations' or fullname.startswith(
+            'zeo_integrations.'
+        ):
             raise AssertionError('Core imported aggregate at import time: ' + fullname)
 sys.meta_path.insert(0, RefuseAggregate())
 import zeo_core
 import zeo_core.integrations
-assert not any(n == 'zeo_integrations' or n.startswith('zeo_integrations.') for n in sys.modules)
+assert not any(
+    n == 'zeo_integrations' or n.startswith('zeo_integrations.')
+    for n in sys.modules
+)
 """
         result = subprocess.run(
             [sys.executable, "-c", script],
