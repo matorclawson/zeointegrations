@@ -20,17 +20,32 @@ execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
   final approval, signing or merge. Record HEAD, DIRTY, host, EXIT and the full
   log SHA256 in the PR body. Never skip baseline failures or bypass a hook.
 - Council reviews, the Architect signs, and the merging app merges. Keep the
-  upstream push URL disabled. No direct main pushes or tags. The sole approved
-  PyPI route is the unchanged reviewed HubSpot 0.1.0 wheel via
-  `.github/workflows/publish-hubspot.yml`, environment `pypi`, after the operator
-  creates the trusted publisher and approves the environment. The workflow PR
-  is hand-merged. No other PyPI publication is authorized. See
-  [the operator click list](docs/hubspot-pypi-publisher.md).
+  upstream push URL disabled. No direct main pushes or developer tags. The
+  operator's 26 October 03:51 ruling supersedes the per-provider PyPI route:
+  one `zeo-integrations` distribution depends on published `zeocore>=0.43`;
+  Core must not import this collection at import time. No per-provider PyPI
+  project or pending publisher. Automatic aggregate publishing and scripted
+  GitHub setup are a separate reviewed workflow PR; normal merger requires
+  its Workflows permission. Do not dispatch the superseded HubSpot workflow.
+  One aggregate PyPI trusted-publisher registration is the only PyPI bootstrap;
+  it is not a per-release approval. No publication is claimed by source moves.
 - No secrets in source, fixtures, logs, PRs or messages. Never call live providers
   during verification. Use injected credentials only inside ZEOconnect.
 - Keep MIT notices and per-file provenance on copied code; update NOTICE.
-- Keep existing entry-point names. Google is one package for its six entry points.
+- Keep existing entry-point names in Core during migration. The aggregate
+  registers no duplicate plugins. Google is one family within the collection
+  for its six current entry points; other provider SDKs are optional extras.
 - Contracts belong to zeocore; UI components are data only, without provider HTML
   or JavaScript. Coordinate the machine manifest contract before implementing it.
 - Send seat mail as `zeointegrations` through the zeo-messenger skill. Send the
   Architect completed slices or concrete blockers.
+
+All builds/tests/gates run on ENG-UK in the seat-gates workspace, maximum20GB.
+Mat is for authoring/commits/push/mail. The required org-records metadata hook
+may run unchanged under taskpolicy -b at push time by the Architect's explicit
+exception; do not extend that exception to source gates. Each contributing seat
+uses its own seat branch prefix and at most one open PR per repository. WIP
+backup branches are never PR heads. Provider moves include travelling tests and
+old/new file/blob provenance (M2); fresh Core imports must not load the aggregate
+(M1). Core owns all Core edits, and legacy lazy shims follow actual aggregate
+PyPI availability; repository installation can be used before that.
