@@ -1,0 +1,16 @@
+MIT Copyright(c)2026 Rod Rivera.
+Copied from https://github.com/zeroemployeeorg/zeocore at
+7c9923e6fd93cabb8601040f3e431760be3a18ee; import/module references relocated.
+Core remains the framework dependency; no execution permission is granted.
+Per-file provenance (source -> destination; old Git blob):
+src/zeo_core/integrations/revolut/__init__.py -> src/zeo_integrations/revolut/__init__.py; 1ad0ef0c6b7425984a64fdaadfd511a167e5d0ea
+src/zeo_core/integrations/revolut/client.py -> src/zeo_integrations/revolut/client.py; cea79d676c13fb834f843f2d93fa5f22f6dada71
+src/zeo_core/integrations/revolut/hosted.py -> src/zeo_integrations/revolut/hosted.py; 2dc9826286d1703c3ad25c969bfb6866026d677c
+src/zeo_core/integrations/revolut/local/__init__.py -> src/zeo_integrations/revolut/local/__init__.py; ae5d4a7a8bedd2318e5bc89fd857bc03c3c558aa
+src/zeo_core/integrations/revolut/local/__main__.py -> src/zeo_integrations/revolut/local/__main__.py; e84d1f9ebb141f4d92f574b260092c5e6e62c93c
+src/zeo_core/integrations/revolut/local/auth.py -> src/zeo_integrations/revolut/local/auth.py; 45d92b043695dde45c7b8c33d1dbe051c80402d2
+src/zeo_core/integrations/revolut/local/session.py -> src/zeo_integrations/revolut/local/session.py; 1b3121dabec15d3f40fa30d394aa114229a27570
+src/zeo_core/integrations/revolut/local/store.py -> src/zeo_integrations/revolut/local/store.py; eeb12352221904c4752364103047aa4278f5be17
+src/zeo_core/integrations/revolut/models.py -> src/zeo_integrations/revolut/models.py; 3cf2ab61d3a6eceb3b979f10175e72672f9d9c3b
+src/zeo_core/integrations/revolut/service.py -> src/zeo_integrations/revolut/service.py; 5a6a9728d8acd82fbb1ba908a1b5e390c3b696c4
+src/zeo_core/integrations/revolut/transport.py -> src/zeo_integrations/revolut/transport.py; ae7af93ab170f3599118ce5c2282af31c05b26ff

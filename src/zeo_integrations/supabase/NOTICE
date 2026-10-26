@@ -1,0 +1,15 @@
+MIT Copyright(c)2026 Rod Rivera.
+Copied from https://github.com/zeroemployeeorg/zeocore at
+7c9923e6fd93cabb8601040f3e431760be3a18ee; import/module references relocated.
+Core remains the framework dependency; no execution permission is granted.
+Per-file provenance (source -> destination; old Git blob):
+src/zeo_core/integrations/database/supabase/__init__.py -> src/zeo_integrations/supabase/__init__.py; c7ba445306dbad7793cbc924ff61804e94f3fd5c
+src/zeo_core/integrations/database/supabase/auth.py -> src/zeo_integrations/supabase/auth.py; 3c969eca1fe9854ceafcd3a3be34279b34a285a7
+src/zeo_core/integrations/database/supabase/client.py -> src/zeo_integrations/supabase/client.py; 8915c4ba4ea995f265f56fdee9845c7b9148dd69
+src/zeo_core/integrations/database/supabase/config.py -> src/zeo_integrations/supabase/config.py; 9a28f0947087a6113e0ea39da6cd9d25dcd9efa7
+src/zeo_core/integrations/database/supabase/errors.py -> src/zeo_integrations/supabase/errors.py; cbf657f2b8eb10db8fa2a56ffb0a2c91ba2a6871
+src/zeo_core/integrations/database/supabase/models.py -> src/zeo_integrations/supabase/models.py; 9f953030efdf3d7b4715d7c2a44659d25986ed72
+src/zeo_core/integrations/database/supabase/protocols.py -> src/zeo_integrations/supabase/protocols.py; 9264dfead06a2478f34a09e6c6c82485e30cb442
+src/zeo_core/integrations/database/supabase/realtime.py -> src/zeo_integrations/supabase/realtime.py; 1a1e761f2455c96f43ae5baf0b7b3c1ef709f216
+src/zeo_core/integrations/database/supabase/service.py -> src/zeo_integrations/supabase/service.py; 30d5d7c80cfa1a2b5366f2aefc11791c2afbe772
+src/zeo_core/integrations/database/supabase/validation.py -> src/zeo_integrations/supabase/validation.py; 36bd0dc4c0cc090d8ef22bf887d467787004d8d0

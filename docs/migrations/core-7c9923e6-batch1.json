@@ -2,12 +2,9 @@
   "sow": "zeointegrations-SOW-02",
   "source_repo": "zeroemployeeorg/zeocore",
   "source_commit": "7c9923e6fd93cabb8601040f3e431760be3a18ee",
-  "target_repo": "zeroemployeeorg/zeointegrations",
-  "batch": "hubspot kit revolut supabase",
-  "mode": "whole Core-shaped providers, distinct from older hardened/read-only standalone packages",
-  "mover_sha256": "40d2e9290e10efa3ce598283a0d60d15c074eb5e58eee21c46b0661a2ba67e06",
+  "batch": "batch1",
   "allowed_changes": "provider import/module references only; no source behaviour edits",
-  "entrypoints": "remain registered only by Core",
+  "new_metadata": "per-provider NOTICE and empty py.typed; not copied source",
   "files": [
     {
       "old_path": "src/zeo_core/integrations/hubspot/__init__.py",
