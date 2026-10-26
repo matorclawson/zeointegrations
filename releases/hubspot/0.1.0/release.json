@@ -1,0 +1,52 @@
+{
+  "sow": "zeointegrations-SOW-02",
+  "distribution": "zeo-integration-hubspot",
+  "version": "0.1.0",
+  "license": "MIT",
+  "artifact": {
+    "file": "zeo_integration_hubspot-0.1.0-py3-none-any.whl",
+    "bytes": 22004,
+    "sha256": "5225a18818d84d48f7d5df94c0d3b7d6c87856bdfb11ad10de20bbe1932e16d8"
+  },
+  "source": {
+    "repository": "https://github.com/zeroemployeeorg/zeointegrations",
+    "commit": "6432173891eca78c673c592a422e37ab9c089578",
+    "tree": "90876fab29241fd5135f871b73432ccd63b25be1",
+    "subdirectory": "packages/hubspot"
+  },
+  "build": {
+    "host": "eng-uk-0006",
+    "python": "uv-managed 3.14.3",
+    "python_sha256": "fe027e1504df20b6b93b1c9dbc2695a3dc592cd0dc7916b1a3349c97d9104527",
+    "uv": "0.12.2",
+    "hatchling": "1.27.0",
+    "offline": true
+  },
+  "reproducibility": {
+    "independent_clean_checkouts": 2,
+    "byte_identical": true,
+    "builds": [
+      {
+        "head": "6432173891eca78c673c592a422e37ab9c089578",
+        "dirty": 0,
+        "exit": 0,
+        "wheel_sha256": "5225a18818d84d48f7d5df94c0d3b7d6c87856bdfb11ad10de20bbe1932e16d8",
+        "log_sha256": "3352ee43c8d6e2574c445532de0a0e4ac251efe3185462dad2854b0cddbb0cc5"
+      },
+      {
+        "head": "6432173891eca78c673c592a422e37ab9c089578",
+        "dirty": 0,
+        "exit": 0,
+        "wheel_sha256": "5225a18818d84d48f7d5df94c0d3b7d6c87856bdfb11ad10de20bbe1932e16d8",
+        "log_sha256": "7be14240bc45a9b9f3a2f7e5e6b23213e3b8206d39767ad7dfd1d0fd29b26078"
+      }
+    ]
+  },
+  "qualified_source_head": "f9da692a558d05f24a3d275d23e17163249f742f",
+  "qualified_source_gate": "https://github.com/zeroemployeeorg/zeointegrations/pull/9",
+  "delivery": {
+    "route": "existing reviewed vendored-wheel route; Core owner binds the immutable hash-pinned dependency",
+    "condition": "Only after reviewed release receiving; Core shims wait for the installable pinned wheel and preserve same class objects. Core declares a hard dependency; consumers install no extra package. Actual locked Broker/Newsroom receiving remains separate; no runtime Git fetch.",
+    "no_live_acceptance_claim": true
+  }
+}
