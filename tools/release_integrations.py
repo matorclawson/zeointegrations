@@ -7,7 +7,6 @@ import hashlib
 import io
 import json
 import os
-from pathlib import Path
 import re
 import subprocess
 import sys
@@ -17,6 +16,7 @@ import tomllib
 import urllib.error
 import urllib.parse
 import urllib.request
+from pathlib import Path
 
 PROJECT = "zeo-integrations"
 REPOSITORY = "zeroemployeeorg/zeointegrations"
@@ -31,7 +31,9 @@ def metadata(path: Path = Path("pyproject.toml")) -> dict:
     if project.get("name") != PROJECT:
         raise ValueError("Only the zeo-integrations aggregate may be published")
     version = project.get("version")
-    if not isinstance(version, str) or not re.fullmatch(r"[0-9][A-Za-z0-9.!+_-]*", version):
+    if not isinstance(version, str) or not re.fullmatch(
+        r"[0-9][A-Za-z0-9.!+_-]*", version
+    ):
         raise ValueError("An explicit package metadata version is required")
     return project
 
@@ -47,7 +49,9 @@ def version_exists(version: str, opener=urllib.request.urlopen) -> bool:
         raise
     name = data["info"]["name"].lower().replace("_", "-").replace(".", "-")
     if name != PROJECT or not isinstance(data.get("urls"), list) or not data["urls"]:
-        raise ValueError("Unexpected or incomplete PyPI version response; refusing upload")
+        raise ValueError(
+            "Unexpected or incomplete PyPI version response; refusing upload"
+        )
     return True
 
 
@@ -61,10 +65,16 @@ def plan() -> None:
 
 
 def artifact_hashes(directory: Path, version: str) -> dict[str, str]:
-    expected = {f"zeo_integrations-{version}.tar.gz", f"zeo_integrations-{version}-py3-none-any.whl"}
+    expected = {
+        f"zeo_integrations-{version}.tar.gz",
+        f"zeo_integrations-{version}-py3-none-any.whl",
+    }
     if {p.name for p in directory.iterdir()} != expected:
         raise ValueError("Expected exactly the aggregate wheel and sdist")
-    return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(directory.iterdir())}
+    return {
+        p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in sorted(directory.iterdir())
+    }
 
 
 def build(destination: Path) -> None:
@@ -74,7 +84,11 @@ def build(destination: Path) -> None:
     commit, tree = git("rev-parse", "HEAD"), git("rev-parse", "HEAD^{tree}")
     archive = subprocess.check_output(["git", "archive", commit])
     epoch = git("show", "-s", "--format=%ct", commit)
-    environment = {**os.environ, "SOURCE_DATE_EPOCH": epoch, "UV_PYTHON_DOWNLOADS": "never"}
+    environment = {
+        **os.environ,
+        "SOURCE_DATE_EPOCH": epoch,
+        "UV_PYTHON_DOWNLOADS": "never",
+    }
     with tempfile.TemporaryDirectory(prefix="zir.") as work:
         outputs = []
         for number in (1, 2):
@@ -83,7 +97,19 @@ def build(destination: Path) -> None:
             with tarfile.open(fileobj=io.BytesIO(archive)) as data:
                 data.extractall(source, filter="data")
             subprocess.run(
-                [sys.executable, "-m", "hatchling", "build", "-t", "sdist", "-t", "wheel"], cwd=source, env=environment, check=True
+                [
+                    sys.executable,
+                    "-m",
+                    "hatchling",
+                    "build",
+                    "-t",
+                    "sdist",
+                    "-t",
+                    "wheel",
+                ],
+                cwd=source,
+                env=environment,
+                check=True,
             )
             outputs.append(source / "dist")
         hashes = artifact_hashes(outputs[0], version)
@@ -94,15 +120,25 @@ def build(destination: Path) -> None:
         dist.mkdir()
         for name in hashes:
             (dist / name).write_bytes((outputs[0] / name).read_bytes())
-        (destination / "SHA256SUMS").write_text("".join(f"{value}  dist/{name}\n" for name, value in hashes.items()))
+        (destination / "SHA256SUMS").write_text(
+            "".join(f"{value}  dist/{name}\n" for name, value in hashes.items())
+        )
         receipt = {
-            "repository": REPOSITORY, "commit": commit, "tree": tree,
-            "project": PROJECT, "version": version, "source_date_epoch": epoch,
+            "repository": REPOSITORY,
+            "commit": commit,
+            "tree": tree,
+            "project": PROJECT,
+            "version": version,
+            "source_date_epoch": epoch,
             "lock_sha256": hashlib.sha256(Path("uv.lock").read_bytes()).hexdigest(),
-            "python": sys.version, "uv": subprocess.check_output(["uv", "--version"], text=True).strip(),
-            "repeated_builds_identical": True, "artifacts": hashes,
+            "python": sys.version,
+            "uv": subprocess.check_output(["uv", "--version"], text=True).strip(),
+            "repeated_builds_identical": True,
+            "artifacts": hashes,
         }
-        (destination / "release-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+        (destination / "release-receipt.json").write_text(
+            json.dumps(receipt, indent=2) + "\n"
+        )
     if git("status", "--porcelain") or git("rev-parse", "HEAD") != commit:
         raise ValueError("Release build changed the source checkout")
 
