@@ -7,65 +7,11 @@ from typing import Any
 
 import httpx
 import pytest
-from zeo_core.tools import CapabilityRegistry, invoke_sync
-from zeo_core.tools.builtin.kit import register_capabilities
 
-from zeo_integrations.kit import KitAPIError, KitIntegration, record_digest
+from zeo_integrations.kit import KitAPIError, record_digest
 
 from .conftest import ClientFixture, queue_snapshot, snapshot
-from .test_boundary import context
-from .test_marketing import draft, send_request
-
-
-@pytest.mark.parametrize(
-    "record",
-    [
-        {},
-        {"id": 57},
-        {"id": True},
-        {"id": -1},
-        {"id": 0},
-        {"id": "58"},
-        {"id": None},
-        {"id": 58.0},
-        {"id": {"secret": "provider-value"}},
-    ],
-)
-@pytest.mark.parametrize("capability", [False, True])
-def test_send_requires_distinct_strict_identity_after_one_post(
-    setup_client: ClientFixture,
-    broadcast: dict[str, Any],
-    record: dict[str, Any],
-    capability: bool,
-) -> None:
-    client, calls, responses = setup_client
-    responses.extend(
-        [
-            httpx.Response(200, json={"broadcast": broadcast}),
-            httpx.Response(200, json={"broadcast": {"stats": {"status": "draft"}}}),
-            httpx.Response(201, json={"broadcast": record}),
-        ]
-    )
-    request = send_request(broadcast)
-    if capability:
-        registry = CapabilityRegistry()
-        register_capabilities(registry)
-        result = invoke_sync(
-            registry.get("kit.marketing.broadcast.send@1.0.0"),
-            request,
-            context(KitIntegration(client)),
-        )
-        assert result.status == "error" and result.data is None
-        assert result.machine_message == "ZEO_KIT_RESPONSE"
-        assert result.metadata["outcome_unknown"] is True
-        assert "provider-value" not in str(result)
-    else:
-        with pytest.raises(KitAPIError) as error:
-            client.send_broadcast(request)
-        assert error.value.code == "RESPONSE" and error.value.outcome_unknown
-        assert str(error.value) == "Kit returned an invalid resource identity"
-    assert [r.method for r in calls] == ["GET", "GET", "POST"]
-    assert not responses
+from .test_marketing import draft
 
 
 @pytest.mark.parametrize("record", [{}, {"id": False}, {"id": -1}, {"id": "58"}])

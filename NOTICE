@@ -57,3 +57,10 @@ paths and Git blob provenance: docs/migrations/core-7c9923e6-batch1.json.
 Core contracts, services infrastructure and signer custody remain in zeocore;
 this collection depends on that published framework. Older standalone
 read-only/hardened package artifacts remain separately preserved evidence.
+
+Core-tool test ownership partition, Core7c9923e6: 70 original test functions;
+49 portable functions move here; 20 Core nominal-tool functions plus one
+Core-owned installed-entrypoint function
+remain unchanged in Core until its post-PyPI shim. No skip or class-alias bridge.
+Per-function file/name/owner/assertion counts and complete membership equality:
+docs/migrations/core-7c9923e6-batch1.json#test_membership.

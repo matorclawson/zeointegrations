@@ -6,14 +6,12 @@ import copy
 import json
 import logging
 from collections.abc import Callable
-from datetime import UTC, datetime, timedelta
+from datetime import datetime
 from typing import Any, cast
 
 import httpx
 import pytest
 from pydantic import SecretStr, ValidationError
-from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
-from zeo_core.tools.builtin.hubspot import EmailIdRequest, register_capabilities
 
 from zeo_integrations.hubspot import (
     Audience,
@@ -22,7 +20,6 @@ from zeo_integrations.hubspot import (
     EmailSequence,
     HubSpotAPIError,
     HubSpotClient,
-    HubSpotIntegration,
     HubSpotTransport,
     PageRequest,
     PublishRequest,
@@ -406,46 +403,6 @@ def test_consent_requires_independent_reference_and_does_not_send_it_to_provider
         SubscriptionChange(**fields)
     result = SubscriptionChange(**fields, consent_evidence_ref="consent/record-1")
     assert "consent_evidence_ref" not in result.to_api()
-
-
-def test_lost_cancel_response_remains_unknown_after_local_connection_close() -> None:
-    data = draft_data()
-    request = approval(data, send_at=datetime.now(UTC) + timedelta(days=1))
-
-    def provider(req: httpx.Request) -> httpx.Response:
-        if req.url.path.endswith("/unpublish"):
-            raise httpx.ReadTimeout("response lost")
-        if req.method == "PATCH":
-            data.update(json.loads(req.content))
-        return (
-            httpx.Response(204)
-            if req.method == "POST"
-            else httpx.Response(200, json=data)
-        )
-
-    client = client_for(provider)
-    client.publish_email(request)
-    integration = HubSpotIntegration(client)
-    registry = CapabilityRegistry()
-    register_capabilities(registry)
-    ctx = ToolContext(
-        run_id="cancel",
-        tool_name="hubspot",
-        tool_version="1.0.0",
-        logger=None,
-        fs=None,
-        work_dir=".",
-        output_dir=".",
-        services={"hubspot.marketing": integration},
-    )
-    result = invoke_sync(
-        registry.get("hubspot.marketing.email.cancel@1.0.0"),
-        EmailIdRequest(email_id="123"),
-        ctx,
-    )
-    integration.close()  # Local credential access removed; not provider cancellation.
-    assert result.data is None
-    assert result.metadata["outcome_unknown"] is True
 
 
 def test_path_pii_not_in_standard_http_logs(caplog: pytest.LogCaptureFixture) -> None:
