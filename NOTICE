@@ -43,5 +43,8 @@ See package NOTICE for byte-identical first move and separately reviewed changes
 
 Aggregate test support copied without behaviour changes from
 zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee:
-tests/conftest.py and tests/__init__.py.\nThe initially empty tests/test_integrations/__init__.py now contains an authored\nunittest discovery adapter: provider tests run via the explicit full-gate pytest\ninvocation, keeping dependency-free smoke discovery separate.
+tests/conftest.py and tests/__init__.py.
+The initially empty tests/test_integrations/__init__.py now contains an authored
+unittest discovery adapter: provider tests run via the explicit full-gate pytest
+invocation, keeping dependency-free smoke discovery separate.
 MIT Copyright(c)2026 Rod Rivera; repository LICENSE retains the full terms.
