@@ -10,9 +10,9 @@ import logging
 from typing import Any
 
 from pydantic import BaseModel, Field, ValidationError, field_validator
-
 from zeo_core.config.loader import _normalize_path
 from zeo_core.integrations.core.base import BaseConfigProvider
+
 from zeo_integrations.google.credential_paths import (
     resolve_client_secret_path,
     resolve_credentials_path,

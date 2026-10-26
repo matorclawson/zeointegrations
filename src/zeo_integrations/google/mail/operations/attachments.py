@@ -13,6 +13,7 @@ import logging
 import os
 
 from zeo_core.core.fs.service import standalone
+
 from zeo_integrations.google.mail.operations.email import clean_filename
 from zeo_integrations.google.mail.protocols import GmailService
 from zeo_integrations.google.mail.utils.api import execute_api_request

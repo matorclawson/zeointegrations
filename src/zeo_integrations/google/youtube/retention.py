@@ -28,11 +28,6 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from zeo_integrations.google.youtube.job import (
-    JobDirectory,
-    JobError,
-    ProviderRecord,
-)
 from zeo_core.integrations.hosted.client import (
     HostedClientError,
     HostedOperationStatus,
@@ -40,6 +35,12 @@ from zeo_core.integrations.hosted.client import (
     HostedUnavailableError,
     is_outage,
     stop_of,
+)
+
+from zeo_integrations.google.youtube.job import (
+    JobDirectory,
+    JobError,
+    ProviderRecord,
 )
 
 if TYPE_CHECKING:

@@ -4,6 +4,8 @@ Tests for Google Drive _ops permissions module.
 
 from unittest.mock import patch
 
+from zeo_core.core.errors import ZeoApiError
+
 from tests.test_integrations.google.drive.mocks import (
     MockDriveFilesResource,
     MockDrivePermissionsResource,
@@ -11,7 +13,6 @@ from tests.test_integrations.google.drive.mocks import (
     create_error_drive_service,
     create_mock_drive_service,
 )
-from zeo_core.core.errors import ZeoApiError
 from zeo_integrations.google.drive.operations import permissions
 
 

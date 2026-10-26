@@ -23,7 +23,6 @@ from pathlib import Path
 from typing import Any
 
 import platformdirs
-
 from zeo_core.core.fs.results import DataResult, FileInfoResult, OperationResult
 from zeo_core.core.fs.service import create_service, standalone
 from zeo_core.core.fs.service.full_class import FileSystemService

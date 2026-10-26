@@ -148,9 +148,7 @@ class TestFreshDirectoryLucyWalkthrough:
         # the one external boundary mocked here -- everything downstream
         # (save-to-disk) is the real, unmocked GoogleAuthProvider code path.
         new_creds = _real_shaped_credentials("lucys_live_token")
-        with patch(
-            "zeo_integrations.google.auth.InstalledAppFlow"
-        ) as mock_flow_class:
+        with patch("zeo_integrations.google.auth.InstalledAppFlow") as mock_flow_class:
             flow_instance = MagicMock()
             flow_instance.run_local_server.return_value = new_creds
             mock_flow_class.from_client_secrets_file.return_value = flow_instance

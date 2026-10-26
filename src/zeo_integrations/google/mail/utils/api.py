@@ -9,8 +9,8 @@ from collections.abc import Callable
 from typing import Protocol, TypeVar, runtime_checkable
 
 from googleapiclient.errors import HttpError
-
 from zeo_core.core.errors import ZeoApiError
+
 from zeo_integrations.google.mail.protocols import GmailRequest
 
 T = TypeVar("T")  # Generic type for API response

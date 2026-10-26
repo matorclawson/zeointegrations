@@ -151,9 +151,7 @@ class TestGoogleConfigProvider:
         assert provider.validate_config(valid_config) is True
 
         # Test validation error
-        with patch(
-            "zeo_integrations.google.config.GoogleDriveConfig"
-        ) as mock_config:
+        with patch("zeo_integrations.google.config.GoogleDriveConfig") as mock_config:
             from pydantic import ValidationError
 
             # Simple approach - create an actual validation error to use as a mock
@@ -170,9 +168,7 @@ class TestGoogleConfigProvider:
             assert provider.validate_config(valid_config) is False
 
         # Test other error
-        with patch(
-            "zeo_integrations.google.config.GoogleDriveConfig"
-        ) as mock_config:
+        with patch("zeo_integrations.google.config.GoogleDriveConfig") as mock_config:
             mock_config.side_effect = Exception("Unexpected error")
 
             provider = GoogleConfigProvider("drive")

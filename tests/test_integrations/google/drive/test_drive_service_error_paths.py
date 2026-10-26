@@ -48,12 +48,12 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import (
     ZeoApiError,
     ZeoBaseAuthError,
     ZeoIntegrationError,
 )
+
 from zeo_integrations.google.drive.service import GoogleDriveService
 
 
@@ -587,8 +587,7 @@ class TestInitializeConfigEdgeBranches:
                 "zeo_integrations.google.config.GoogleConfigProvider.load_config"
             ) as mock_load,
             patch(
-                "zeo_integrations.google.config.GoogleConfigProvider."
-                "validate_config"
+                "zeo_integrations.google.config.GoogleConfigProvider.validate_config"
             ) as mock_validate,
         ):
             from zeo_core.integrations.core.results import ConfigResult

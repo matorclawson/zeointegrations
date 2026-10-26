@@ -8,10 +8,7 @@ credentials and authorization flows for secure API access.
 import logging
 from collections.abc import Sequence
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
-
 from zeo_core.core.errors import ZeoIntegrationError
 
 # `standalone` is not called directly in this module anymore (the six I/O
@@ -24,6 +21,9 @@ from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.core.fs.service import standalone  # noqa: F401
 from zeo_core.integrations.core.base import BaseAuthProvider
 from zeo_core.integrations.core.results import AuthResult
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 from zeo_integrations.google.credential_paths import (
     create_directory_with_fallback,
     get_file_info_with_fallback,

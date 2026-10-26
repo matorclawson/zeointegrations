@@ -9,11 +9,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
-
 from zeo_core.contracts.connections import NormalizedError, NormalizedErrorCode
-from zeo_integrations.google.youtube.job import JobDirectory, ProviderRecord
-from zeo_integrations.google.youtube.publish import main
-from zeo_integrations.google.youtube.retention import RetentionSweep
 from zeo_core.integrations.hosted.client import (
     HostedClientError,
     HostedOperationResponse,
@@ -21,6 +17,10 @@ from zeo_core.integrations.hosted.client import (
     HostedStoppedError,
     HostedUnavailableError,
 )
+
+from zeo_integrations.google.youtube.job import JobDirectory, ProviderRecord
+from zeo_integrations.google.youtube.publish import main
+from zeo_integrations.google.youtube.retention import RetentionSweep
 
 from .helpers import make_job
 

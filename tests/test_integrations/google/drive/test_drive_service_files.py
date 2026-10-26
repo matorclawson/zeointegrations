@@ -7,10 +7,10 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoFileNotFoundError, ZeoIntegrationError
 from zeo_core.core.fs import FileInfoResult
 from zeo_core.core.paths.api.public.results import PathResult
+
 from zeo_integrations.google.drive.service import GoogleDriveService
 
 
@@ -21,9 +21,7 @@ class TestGoogleDriveServiceFiles:
     def drive_service(self) -> Generator[GoogleDriveService]:
         """Set up a Google Drive service with mocked dependencies."""
         # Mock the paths service
-        with patch(
-            "zeo_integrations.google.drive.service.paths_service"
-        ) as mock_paths:
+        with patch("zeo_integrations.google.drive.service.paths_service") as mock_paths:
             # Setup the paths mock to return PathResult objects with string paths
             mock_paths.resolve_project_path.return_value = PathResult(
                 success=True,
@@ -72,9 +70,7 @@ class TestGoogleDriveServiceFiles:
                 path=str(test_file),  # Convert Path to string
             )
 
-            with patch(
-                "zeo_integrations.google.drive.service.standalone"
-            ) as mock_fs:
+            with patch("zeo_integrations.google.drive.service.standalone") as mock_fs:
                 mock_fs.get_file_info.return_value = FileInfoResult(
                     ok=True, path=test_file, exists=True, is_file=True
                 )
@@ -114,9 +110,7 @@ class TestGoogleDriveServiceFiles:
                 path=str(test_file),  # Convert Path to string
             )
 
-            with patch(
-                "zeo_integrations.google.drive.service.standalone"
-            ) as mock_fs:
+            with patch("zeo_integrations.google.drive.service.standalone") as mock_fs:
                 mock_fs.get_file_info.return_value = FileInfoResult(
                     ok=True, path=test_file, exists=True, is_file=True
                 )
@@ -155,9 +149,7 @@ class TestGoogleDriveServiceFiles:
                 path=str(test_file),  # Convert Path to string
             )
 
-            with patch(
-                "zeo_integrations.google.drive.service.standalone"
-            ) as mock_fs:
+            with patch("zeo_integrations.google.drive.service.standalone") as mock_fs:
                 # Configure the mock to raise ZeoFileNotFoundError
                 mock_fs.get_file_info.return_value = FileInfoResult(
                     ok=False, path=test_file, exists=False
@@ -214,9 +206,7 @@ class TestGoogleDriveServiceFiles:
                 path=str(mapped_dir),  # Convert Path to string
             )
 
-            with patch(
-                "zeo_integrations.google.drive.service.standalone"
-            ) as mock_fs:
+            with patch("zeo_integrations.google.drive.service.standalone") as mock_fs:
                 # Setup mock to return expected values for all called methods
                 mock_fs.get_file_info.return_value = FileInfoResult(
                     ok=True, path=mapped_dir, exists=True, is_dir=True
@@ -251,9 +241,7 @@ class TestGoogleDriveServiceFiles:
                 path=str(mapped_file),  # Convert Path to string
             )
 
-            with patch(
-                "zeo_integrations.google.drive.service.standalone"
-            ) as mock_fs:
+            with patch("zeo_integrations.google.drive.service.standalone") as mock_fs:
                 # Setup mock to return a file
                 mock_fs.get_file_info.return_value = FileInfoResult(
                     ok=True,

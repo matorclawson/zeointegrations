@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from googleapiclient.errors import HttpError
-
 from zeo_core.core.errors import ZeoApiError
+
 from zeo_integrations.google.mail.protocols import GmailRequest
 from zeo_integrations.google.mail.utils.api import (
     execute_api_request,

@@ -48,6 +48,14 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
+from zeo_core.integrations.hosted.client import (
+    HostedClientError,
+    HostedConnectionClient,
+    HostedOperationRequest,
+    HostedOperationResponse,
+    HostedOperationStatus,
+)
+
 from zeo_integrations.google.youtube.job import (
     PROVIDER_RECORD,
     CaptionFile,
@@ -75,13 +83,6 @@ from zeo_integrations.google.youtube.transfer import (
     ResumableTransfer,
     TransferOutcome,
     TransferState,
-)
-from zeo_core.integrations.hosted.client import (
-    HostedClientError,
-    HostedConnectionClient,
-    HostedOperationRequest,
-    HostedOperationResponse,
-    HostedOperationStatus,
 )
 
 if TYPE_CHECKING:

@@ -32,6 +32,7 @@ from typing import Any, Protocol, cast, runtime_checkable
 
 from zeo_core.integrations.core.base import BaseIntegrationService
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.google.ports import (
     DiscoveryGoogleApiClientFactory,
     GoogleApiClientFactory,

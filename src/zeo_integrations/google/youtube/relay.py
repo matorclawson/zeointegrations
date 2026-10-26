@@ -21,7 +21,6 @@ from typing import Protocol, runtime_checkable
 
 import httpx
 from pydantic import JsonValue
-
 from zeo_core.integrations.hosted.client import (
     HostedClientError,
     HostedStoppedError,
