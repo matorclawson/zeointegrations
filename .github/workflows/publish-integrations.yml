@@ -67,7 +67,9 @@ jobs:
     if: needs.build.outputs.publish == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    # Deliberately no GitHub environment or human release approval.
+    # One-time server-side policy must restrict this environment to main.
+    # No per-release reviewers or secrets.
+    environment: pypi
     permissions:
       contents: read
       id-token: write

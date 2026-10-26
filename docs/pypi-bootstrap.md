@@ -1,8 +1,21 @@
+# One-time aggregate publishing bootstrap
+
 sow: zeointegrations-SOW-02
 
-Register ONE PyPI pending trusted publisher for the aggregate
+This supersedes the earlier blank-environment block under Architect17:52/17:53.
+The operator owns these one-time account/admin changes; no per-release human
+reviewer or manual workflow dispatch is added.
 
-Open https://pypi.org/manage/account/publishing/ while signed in to the PyPI account that will own zeo-integrations. In “Add a new pending publisher”, select GitHub and enter:
+1. Open https://github.com/zeroemployeeorg/zeointegrations/settings/environments
+   and select the existing **pypi** environment. Under deployment branches/tags,
+   choose **Selected branches and tags** and add exactly one **Branch** rule:
+   **main**. Keep required reviewers disabled, wait timer zero and no secrets.
+   No wildcard, tag rule or unrestricted/default policy. The maintainer must
+   read back `custom_branch_policies: true` and the sole branch rule `main`
+   before the workflow PR merges. Without this rule another branch can claim
+   the environment: the workflow declaration alone is insufficient.
+2. Open https://pypi.org/manage/account/publishing/ while signed in to the PyPI
+   owning account. Add one pending GitHub publisher with these exact values:
 
 | Field | Value |
 |---|---|
@@ -10,12 +23,33 @@ Open https://pypi.org/manage/account/publishing/ while signed in to the PyPI acc
 | Owner | zeroemployeeorg |
 | Repository name | zeointegrations |
 | Workflow name | publish-integrations.yml |
-| Environment name | leave BLANK |
+| Environment name | pypi |
 
-Click Add once. Check that the pending row has exactly these values. No API token, password in GitHub, per-provider project or environment is needed. The pending row does not create/reserve the project until its first successful upload.
+Click **Add** once; if a pending aggregate row already exists with a blank
+or different environment, replace it with this row. Do not create any provider
+project. Remove any retired HubSpot-only pending publisher if one is present
+in the same account list; no such registration was performed by this seat.
+An existing standalone project's trusted publisher, if one exists, must also be
+revoked by its PyPI owner. Deleting its workflow does not revoke trust. Record
+what actually exists; do not claim a pending row from an unrelated account is
+visible or removed. Pending publishers do not reserve a project name.
 
-Done when: after the reviewed workflow is merged through the normal merger and its CI venue is ready, the first eligible push/merge to main automatically creates https://pypi.org/project/zeo-integrations/ with the metadata version's wheel and sdist, an OIDC publishing receipt and PyPI provenance attestations. No release approval or operator workflow dispatch is required. An already-published metadata version is skipped; subsequent releases require a reviewed package-metadata version increase, not a new publisher setup.
+Done when: API readback confirms the main-only/no-reviewer environment policy,
+the normal reviewed workflow merge triggers the first eligible main push, and
+https://pypi.org/project/zeo-integrations/ has that metadata version's wheel,
+sdist and OIDC/provenance receipt. Already-existing metadata versions skip;
+future releases use a reviewed metadata version increase. Build and publish use
+the authorised hosted ubuntu-24.04 packaging-only venue; full gates remain ENG.
+No environment setup, publisher registration or upload was performed by this
+seat while preparing this block.
 
-Undo: before first publication, remove this pending publisher from the same account Publishing page. After publication, remove the trusted publisher at https://pypi.org/manage/project/zeo-integrations/settings/publishing/ to revoke future uploads. This does not remove already-published files or recall installed packages; the maintainer handles any release rollback/yank through the established release path.
+Undo: revoke the PyPI publisher first: remove its pending row from account
+Publishing before first upload, or remove its trusted-publisher row at
+https://pypi.org/manage/project/zeo-integrations/settings/publishing/ afterwards.
+Keep GitHub's main-only policy while that trust remains. The maintainer can
+then disable publication through the normal reviewed source path. Revocation
+does not remove published files or recall installed versions; any yank/rollback
+requires the established release procedure.
 
-Official instructions: https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/ ; automatic attestations: https://docs.pypi.org/attestations/producing-attestations/ . Exact account URL verified to redirect to PyPI login when signed out, 26 October 2026. No registration or upload was performed by this seat.
+Official setup: https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/
+Security model: https://docs.pypi.org/trusted-publishers/security-model/
