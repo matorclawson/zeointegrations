@@ -9,6 +9,7 @@ verify:
 	uv run --frozen python -m unittest discover -s tests -v
 	uv run --frozen python -m unittest discover -s tests_installed -v
 	uv run --frozen python tools/verify_provider_tests.py
+	uv run --frozen python tools/verify_python_floor.py
 	uv build --offline --no-sources
 	$(MAKE) -C packages/loops verify
 	$(MAKE) -C packages/kit verify

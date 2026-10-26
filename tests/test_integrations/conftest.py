@@ -20,6 +20,8 @@ def no_live_provider_network(monkeypatch):
     original_connect = socket.socket.connect
     original_connect_ex = socket.socket.connect_ex
     original_resolve = socket.getaddrinfo
+    original_sendto = socket.socket.sendto
+    original_sendmsg = getattr(socket.socket, "sendmsg", None)
 
     def check_address(address):
         if isinstance(address, tuple) and not _loopback(address[0]):
@@ -33,11 +35,25 @@ def no_live_provider_network(monkeypatch):
         check_address(address)
         return original_connect_ex(sock, address)
 
+    def sendto(sock, data, *args):
+        check_address(args[-1])
+        return original_sendto(sock, data, *args)
+
+    def sendmsg(sock, buffers, ancdata=(), flags=0, address=None):
+        if address is not None:
+            check_address(address)
+            return original_sendmsg(sock, buffers, ancdata, flags, address)
+        return original_sendmsg(sock, buffers, ancdata, flags)
+
     def resolve(host, *args, **kwargs):
+
         if host is not None and not _loopback(host):
             raise AssertionError("External DNS is forbidden in verification")
         return original_resolve(host, *args, **kwargs)
 
     monkeypatch.setattr(socket.socket, "connect", connect)
     monkeypatch.setattr(socket.socket, "connect_ex", connect_ex)
+    monkeypatch.setattr(socket.socket, "sendto", sendto)
+    if original_sendmsg is not None:
+        monkeypatch.setattr(socket.socket, "sendmsg", sendmsg)
     monkeypatch.setattr(socket, "getaddrinfo", resolve)
