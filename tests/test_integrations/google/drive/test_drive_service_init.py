@@ -5,6 +5,7 @@ Tests for Google Drive service initialization.
 from unittest.mock import MagicMock, patch
 
 from zeo_core.integrations.core.protocols import StorageIntegrationProtocol
+
 from zeo_integrations.google.drive.service import GoogleDriveService
 
 

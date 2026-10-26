@@ -7,10 +7,10 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.fs import FileInfoResult
 from zeo_core.core.paths.api.public.results import PathResult
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.google.drive.service import GoogleDriveService
 
 
@@ -20,9 +20,7 @@ class TestGoogleDriveServiceDownload:
     @pytest.fixture
     def drive_service(self) -> Generator[GoogleDriveService]:
         """Set up a Google Drive service with mocked dependencies."""
-        with patch(
-            "zeo_integrations.google.drive.service.paths_service"
-        ) as mock_paths:
+        with patch("zeo_integrations.google.drive.service.paths_service") as mock_paths:
             # Setup mock to return predictable PathResult objects with string paths
             mock_paths.resolve_project_path.return_value = PathResult(
                 success=True,

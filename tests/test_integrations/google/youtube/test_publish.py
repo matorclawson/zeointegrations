@@ -8,6 +8,22 @@ from pathlib import Path
 
 import pytest
 from pydantic import SecretStr
+from zeo_core.integrations.hosted.client import (
+    HostedClientError,
+    HostedOperationRequest,
+    HostedOperationResponse,
+)
+from zeo_core.integrations.hosted.pairing import (
+    DeviceSession,
+    InMemorySecureSessionStore,
+    PairingChallenge,
+    PairingPendingError,
+)
+from zeo_core.integrations.hosted.profile import (
+    HostedConnectionStatus,
+    HostedConnectionSummary,
+    OpaqueConnectionHandle,
+)
 
 from zeo_integrations.google.youtube import job as job_module
 from zeo_integrations.google.youtube import publish
@@ -25,22 +41,6 @@ from zeo_integrations.google.youtube.publish import (
 )
 from zeo_integrations.google.youtube.relay import RelayByteHttp
 from zeo_integrations.google.youtube.transfer import CHUNK_UNIT
-from zeo_core.integrations.hosted.client import (
-    HostedClientError,
-    HostedOperationRequest,
-    HostedOperationResponse,
-)
-from zeo_core.integrations.hosted.pairing import (
-    DeviceSession,
-    InMemorySecureSessionStore,
-    PairingChallenge,
-    PairingPendingError,
-)
-from zeo_core.integrations.hosted.profile import (
-    HostedConnectionStatus,
-    HostedConnectionSummary,
-    OpaqueConnectionHandle,
-)
 
 from .fakes import FakeBroker, FakeRelayTransport, FakeYouTube
 from .helpers import make_job

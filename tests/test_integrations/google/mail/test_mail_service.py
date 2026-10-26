@@ -11,13 +11,13 @@ from typing import cast
 from unittest.mock import MagicMock, patch
 
 import pytest
+from zeo_core.core.errors import ZeoIntegrationError
+from zeo_core.integrations.core.results import IntegrationResult
 
 from tests.test_integrations.google.mail.mocks import (
     create_error_gmail_service,
     create_mock_gmail_service,
 )
-from zeo_core.core.errors import ZeoIntegrationError
-from zeo_core.integrations.core.results import IntegrationResult
 from zeo_integrations.google.mail.service import GoogleMailService
 
 

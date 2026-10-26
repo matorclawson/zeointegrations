@@ -6,6 +6,10 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
+from zeo_core.core.fs import DataResult
+from zeo_core.core.paths.api.public.results import PathResult
+from zeo_core.integrations.core.results import IntegrationResult
 
 from tests.test_integrations.google.drive.mocks import (
     MockDriveFilesResource,
@@ -13,10 +17,6 @@ from tests.test_integrations.google.drive.mocks import (
     create_credentials,
     create_mock_drive_service,
 )
-from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
-from zeo_core.core.fs import DataResult
-from zeo_core.core.paths.api.public.results import PathResult
-from zeo_core.integrations.core.results import IntegrationResult
 from zeo_integrations.google.drive.operations import upload
 
 

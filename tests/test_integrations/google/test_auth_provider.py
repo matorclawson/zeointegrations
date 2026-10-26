@@ -8,9 +8,9 @@ token management, and credential handling.
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.results import AuthResult
+
 from zeo_integrations.google.auth import GoogleAuthProvider
 
 from .mocks import mock_credentials
@@ -59,12 +59,8 @@ class TestGoogleAuthProvider:
 
         with (
             patch("google.oauth2.credentials.Credentials") as mock_creds_class,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
-            patch(
-                "zeo_integrations.google.auth.InstalledAppFlow"
-            ) as mock_flow_class,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
+            patch("zeo_integrations.google.auth.InstalledAppFlow") as mock_flow_class,
         ):
             mock_read.return_value.success = True
             mock_read.return_value.data = {}
@@ -105,15 +101,11 @@ class TestGoogleAuthProvider:
         )
 
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
             patch("google.oauth2.credentials.Credentials") as mock_creds_class,
             patch("zeo_integrations.google.auth.Request"),
             patch.object(provider, "_save_credentials_to_file") as mock_save,
-            patch(
-                "zeo_integrations.google.auth.InstalledAppFlow"
-            ) as mock_flow_class,
+            patch("zeo_integrations.google.auth.InstalledAppFlow") as mock_flow_class,
         ):
             mock_read.return_value.success = True
             mock_read.return_value.data = {}
@@ -247,12 +239,8 @@ class TestGoogleAuthProvider:
 
         provider.credentials_file = "/path/to/credentials.json"
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.split_path"
-            ) as mock_split,
-            patch(
-                "zeo_integrations.google.auth.standalone.join_path"
-            ) as mock_join,
+            patch("zeo_integrations.google.auth.standalone.split_path") as mock_split,
+            patch("zeo_integrations.google.auth.standalone.join_path") as mock_join,
             patch(
                 "zeo_integrations.google.auth.standalone.create_directory"
             ) as mock_mkdir,
@@ -272,12 +260,8 @@ class TestGoogleAuthProvider:
 
         creds = mock_credentials(token="test_token", expiry_timestamp=1234567890)  # noqa: S106 -- test fixture, fake credential value, not a real secret
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.split_path"
-            ) as mock_split,
-            patch(
-                "zeo_integrations.google.auth.standalone.join_path"
-            ) as mock_join,
+            patch("zeo_integrations.google.auth.standalone.split_path") as mock_split,
+            patch("zeo_integrations.google.auth.standalone.join_path") as mock_join,
             patch(
                 "zeo_integrations.google.auth.standalone.create_directory"
             ) as mock_mkdir,
@@ -400,9 +384,7 @@ class TestGoogleAuthProviderCoverageGaps:
                 "_extract_redirect_uri_from_secrets",
                 return_value="http://localhost:9999/",
             ),
-            patch(
-                "zeo_integrations.google.auth.InstalledAppFlow"
-            ) as mock_flow_class,
+            patch("zeo_integrations.google.auth.InstalledAppFlow") as mock_flow_class,
             patch.object(provider, "_save_credentials_to_file") as mock_save,
         ):
             flow_instance = MagicMock()
@@ -436,9 +418,7 @@ class TestGoogleAuthProviderCoverageGaps:
                 "_extract_redirect_uri_from_secrets",
                 return_value="http://localhost/",
             ),
-            patch(
-                "zeo_integrations.google.auth.InstalledAppFlow"
-            ) as mock_flow_class,
+            patch("zeo_integrations.google.auth.InstalledAppFlow") as mock_flow_class,
             patch.object(provider, "_save_credentials_to_file", return_value=True),
         ):
             flow_instance = MagicMock()
@@ -472,9 +452,7 @@ class TestGoogleAuthProviderCoverageGaps:
     def test_extract_redirect_uri_web_config(self) -> None:
         """Covers auth.py:146-148 -- the 'web' client-config branch."""
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.read_json"
-        ) as mock_read:
+        with patch("zeo_integrations.google.auth.standalone.read_json") as mock_read:
             mock_read.return_value = MagicMock(
                 success=True,
                 data={"web": {"redirect_uris": ["http://localhost:1234/cb"]}},
@@ -486,9 +464,7 @@ class TestGoogleAuthProviderCoverageGaps:
         """Covers auth.py:152-154 -- the 'installed' client-config branch,
         reached only when no 'web' key with redirect_uris is present."""
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.read_json"
-        ) as mock_read:
+        with patch("zeo_integrations.google.auth.standalone.read_json") as mock_read:
             mock_read.return_value = MagicMock(
                 success=True,
                 data={"installed": {"redirect_uris": ["http://localhost:5678/cb"]}},
@@ -499,9 +475,7 @@ class TestGoogleAuthProviderCoverageGaps:
     def test_extract_redirect_uri_no_matching_config_returns_none(self) -> None:
         """Covers auth.py:156 -- neither 'web' nor 'installed' present."""
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.read_json"
-        ) as mock_read:
+        with patch("zeo_integrations.google.auth.standalone.read_json") as mock_read:
             mock_read.return_value = MagicMock(success=True, data={})
             assert provider._extract_redirect_uri_from_secrets() is None
 
@@ -510,9 +484,7 @@ class TestGoogleAuthProviderCoverageGaps:
         (already-covered defensive branch, pinned alongside the new ones
         for completeness of this method's coverage)."""
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.read_json"
-        ) as mock_read:
+        with patch("zeo_integrations.google.auth.standalone.read_json") as mock_read:
             mock_read.return_value = MagicMock(success=False, error="boom", data=None)
             assert provider._extract_redirect_uri_from_secrets() is None
 
@@ -528,9 +500,7 @@ class TestGoogleAuthProviderCoverageGaps:
         now intercepts the None case before it ever reaches `"web" in data`.
         """
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.read_json"
-        ) as mock_read:
+        with patch("zeo_integrations.google.auth.standalone.read_json") as mock_read:
             mock_read.return_value = MagicMock(success=True, data=42)
             # `"web" in data` raises TypeError when data is a non-iterable int.
             uri = provider._extract_redirect_uri_from_secrets()
@@ -543,9 +513,7 @@ class TestGoogleAuthProviderCoverageGaps:
         (DataResult.data is itself Optional at the model level), which must
         short-circuit to None rather than reach `"web" in data`."""
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.read_json"
-        ) as mock_read:
+        with patch("zeo_integrations.google.auth.standalone.read_json") as mock_read:
             mock_read.return_value = MagicMock(success=True, data=None)
             uri = provider._extract_redirect_uri_from_secrets()
             assert uri is None
@@ -564,12 +532,8 @@ class TestGoogleAuthProviderCoverageGaps:
         read_json() fails."""
         provider = self._make_provider()
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.get_file_info"
-            ) as mock_info,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.get_file_info") as mock_info,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
         ):
             mock_info.return_value = MagicMock(exists=True)
             mock_read.return_value = MagicMock(success=False, error="disk error")
@@ -582,12 +546,8 @@ class TestGoogleAuthProviderCoverageGaps:
         provider = self._make_provider()
         built_creds = mock_credentials(token="loaded")  # noqa: S106 -- fake test value
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.get_file_info"
-            ) as mock_info,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.get_file_info") as mock_info,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
             patch("zeo_integrations.google.auth.Credentials") as mock_creds_class,
         ):
             mock_info.return_value = MagicMock(exists=True)
@@ -607,12 +567,8 @@ class TestGoogleAuthProviderCoverageGaps:
         swallowed to None."""
         provider = self._make_provider()
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.get_file_info"
-            ) as mock_info,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.get_file_info") as mock_info,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
             patch("zeo_integrations.google.auth.Credentials") as mock_creds_class,
         ):
             mock_info.return_value = MagicMock(exists=True)
@@ -626,9 +582,7 @@ class TestGoogleAuthProviderCoverageGaps:
     def test_save_credentials_to_file_split_path_failure(self) -> None:
         """Covers auth.py:240-243 -- split_path() itself failing."""
         provider = self._make_provider()
-        with patch(
-            "zeo_integrations.google.auth.standalone.split_path"
-        ) as mock_split:
+        with patch("zeo_integrations.google.auth.standalone.split_path") as mock_split:
             mock_split.return_value = MagicMock(success=False, error="split boom")
             assert not provider._save_credentials_to_file(mock_credentials())
 
@@ -637,12 +591,8 @@ class TestGoogleAuthProviderCoverageGaps:
         object (has a `.success` attribute) that reports failure."""
         provider = self._make_provider()
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.split_path"
-            ) as mock_split,
-            patch(
-                "zeo_integrations.google.auth.standalone.join_path"
-            ) as mock_join,
+            patch("zeo_integrations.google.auth.standalone.split_path") as mock_split,
+            patch("zeo_integrations.google.auth.standalone.join_path") as mock_join,
         ):
             mock_split.return_value = MagicMock(
                 success=True, data=["path", "to", "credentials.json"]
@@ -656,12 +606,8 @@ class TestGoogleAuthProviderCoverageGaps:
         successful directory setup."""
         provider = self._make_provider()
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.split_path"
-            ) as mock_split,
-            patch(
-                "zeo_integrations.google.auth.standalone.join_path"
-            ) as mock_join,
+            patch("zeo_integrations.google.auth.standalone.split_path") as mock_split,
+            patch("zeo_integrations.google.auth.standalone.join_path") as mock_join,
             patch(
                 "zeo_integrations.google.auth.standalone.create_directory"
             ) as mock_mkdir,
@@ -687,9 +633,7 @@ class TestGoogleAuthProviderCoverageGaps:
         rather than propagating."""
         provider = self._make_provider()
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.split_path"
-            ) as mock_split,
+            patch("zeo_integrations.google.auth.standalone.split_path") as mock_split,
             patch(
                 "zeo_integrations.google.auth.serialize_credentials"
             ) as mock_serialize,
@@ -728,12 +672,8 @@ class TestGoogleAuthProviderCoverageGaps:
         Credentials.from_authorized_user_info untyped."""
         provider = self._make_provider()
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.get_file_info"
-            ) as mock_info,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.get_file_info") as mock_info,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
         ):
             mock_info.return_value = MagicMock(exists=True)
             mock_read.return_value = MagicMock(success=True, data=None)
@@ -846,12 +786,8 @@ class TestGoogleAuthProviderScopeSufficiency:
         # that would make this test pass for the WRONG reason -- exactly
         # the class of test RULING-357 s6 warns cannot actually fail.
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.get_file_info"
-            ) as mock_info,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.get_file_info") as mock_info,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
         ):
             mock_info.return_value = MagicMock(exists=True)
             mock_read.return_value = MagicMock(
@@ -884,12 +820,8 @@ class TestGoogleAuthProviderScopeSufficiency:
 
         built_creds = mock_credentials(token="loaded")  # noqa: S106 -- fake test value
         with (
-            patch(
-                "zeo_integrations.google.auth.standalone.get_file_info"
-            ) as mock_info,
-            patch(
-                "zeo_integrations.google.auth.standalone.read_json"
-            ) as mock_read,
+            patch("zeo_integrations.google.auth.standalone.get_file_info") as mock_info,
+            patch("zeo_integrations.google.auth.standalone.read_json") as mock_read,
             patch("zeo_integrations.google.auth.Credentials") as mock_creds_class,
         ):
             mock_info.return_value = MagicMock(exists=True)

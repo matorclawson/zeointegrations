@@ -57,6 +57,7 @@ def _fresh_directory(
     the same isolation discipline test_fresh_directory_walkthrough.py's
     own `_isolated_singleton` fixture uses."""
     from zeo_core.core.fs.service import get_service
+
     from zeo_integrations.google import credential_paths as cp
 
     fresh_home = tmp_path / "fresh-home"

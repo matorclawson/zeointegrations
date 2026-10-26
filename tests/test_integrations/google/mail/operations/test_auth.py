@@ -8,8 +8,8 @@ including initializing the Gmail service.
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoApiError
+
 from zeo_integrations.google.mail.operations import auth
 from zeo_integrations.google.mail.protocols import GoogleCredentials
 

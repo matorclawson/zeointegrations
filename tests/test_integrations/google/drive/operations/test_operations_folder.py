@@ -5,13 +5,14 @@ Tests for Google Drive _ops folder module.
 import logging
 from unittest.mock import patch
 
+from zeo_core.core.errors import ZeoApiError
+
 from tests.test_integrations.google.drive.mocks import (
     MockDriveFilesResource,
     MockDriveService,
     create_error_drive_service,
     create_mock_drive_service,
 )
-from zeo_core.core.errors import ZeoApiError
 from zeo_integrations.google.drive.operations import folder
 
 

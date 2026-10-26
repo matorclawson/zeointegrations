@@ -9,14 +9,6 @@ from pathlib import Path
 import httpx
 import pytest
 from pydantic import JsonValue, SecretStr
-
-from zeo_integrations.google.youtube.relay import RELAY_CHUNK_BYTES, RelayByteHttp
-from zeo_integrations.google.youtube.transfer import (
-    ByteResponse,
-    FileIdentity,
-    ResumableTransfer,
-    TransferState,
-)
 from zeo_core.integrations.hosted.client import (
     HostedClientError,
     HostedStoppedError,
@@ -31,6 +23,14 @@ from zeo_core.integrations.hosted.transport import (
     ZEOCONNECT_PROTOCOL_HEADER,
     ZEOCONNECT_PROTOCOL_VERSION,
     ZEOconnectHTTPTransport,
+)
+
+from zeo_integrations.google.youtube.relay import RELAY_CHUNK_BYTES, RelayByteHttp
+from zeo_integrations.google.youtube.transfer import (
+    ByteResponse,
+    FileIdentity,
+    ResumableTransfer,
+    TransferState,
 )
 
 LINK = "https://www.googleapis.com/upload/youtube/v3/videos?upload_id=u1"

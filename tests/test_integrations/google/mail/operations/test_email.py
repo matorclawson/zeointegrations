@@ -126,9 +126,7 @@ class TestGmailEmailOperations:
     def test_build_query(self) -> None:
         """Test building Gmail search query."""
         # Test with days_back
-        with patch(
-            "zeo_integrations.google.mail.operations.email.datetime"
-        ) as mock_dt:
+        with patch("zeo_integrations.google.mail.operations.email.datetime") as mock_dt:
             mock_dt.now.return_value = datetime(2023, 1, 10)
             mock_dt.side_effect = lambda *args, **kw: datetime(*args, **kw)
 
@@ -356,9 +354,7 @@ class TestGmailEmailOperations:
 
         # Patch the filesystem write operation to avoid real filesystem access
         with (
-            patch(
-                "zeo_integrations.google.mail.operations.email.datetime"
-            ) as mock_dt,
+            patch("zeo_integrations.google.mail.operations.email.datetime") as mock_dt,
             patch(
                 "zeo_integrations.google.mail.operations.email.clean_filename"
             ) as mock_clean,

@@ -8,6 +8,7 @@ and initializing the service.
 from typing import cast
 
 from zeo_core.core.errors import ZeoApiError
+
 from zeo_integrations.google.mail.protocols import (
     GmailService,
     GoogleCredentials,

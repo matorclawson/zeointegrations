@@ -6,6 +6,7 @@ files, with a consistent interface for uploading, downloading, and managing cont
 """
 
 from zeo_core.integrations.core.protocols import StorageIntegrationProtocol
+
 from zeo_integrations.google.drive.comments import (
     DriveComment,
     DriveCommentAuthor,

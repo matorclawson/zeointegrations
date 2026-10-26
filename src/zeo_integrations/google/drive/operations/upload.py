@@ -12,11 +12,11 @@ from typing import cast
 
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaInMemoryUpload
-
 from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 from zeo_core.core.fs.service import standalone
 from zeo_core.core.paths import service as paths_service
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.google.drive.operations import permissions
 from zeo_integrations.google.drive.protocols import (
     DriveService,

@@ -6,6 +6,7 @@ retrieval, listing, and management through a consistent interface.
 """
 
 from zeo_core.integrations.core.protocols import IntegrationProtocol
+
 from zeo_integrations.google.mail.service import GoogleMailService
 
 __all__ = [

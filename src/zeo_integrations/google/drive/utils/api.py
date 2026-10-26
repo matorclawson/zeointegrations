@@ -9,8 +9,8 @@ from collections.abc import Callable
 from typing import TypeVar
 
 from googleapiclient.errors import HttpError
-
 from zeo_core.core.errors import ZeoApiError
+
 from zeo_integrations.google.drive.protocols import DriveRequest
 
 T = TypeVar("T")  # Generic type for API response

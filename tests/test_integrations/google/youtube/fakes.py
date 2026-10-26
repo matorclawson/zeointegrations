@@ -16,7 +16,6 @@ from datetime import UTC, datetime
 from typing import Any
 
 import httpx
-
 from zeo_core.integrations.hosted.client import (
     HostedOperationResponse,
     HostedOperationStatus,
