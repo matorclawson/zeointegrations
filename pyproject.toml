@@ -1,19 +1,58 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
 [project]
-name = "zeointegrations-dev"
-version = "0.0.0"
-requires-python = ">=3.14"
-dependencies = []
+name = "zeo-integrations"
+version = "0.1.0"
+description = "Zeo integration collection; provider SDKs are optional"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = ["zeocore>=0.43.0,<1", "httpx>=0.28.1,<1", "pydantic>=2.13.4,<3"]
+
+[project.optional-dependencies]
+github = ["requests"]
+google = ["google-api-python-client>=2", "google-auth-httplib2>=0.1", "google-auth-oauthlib>=0.4", "platformdirs>=4"]
+gmail = ["zeo-integrations[google]"]
+drive = ["zeo-integrations[google]"]
+calendar = ["zeo-integrations[google]"]
+docs = ["zeo-integrations[google]"]
+sheets = ["zeo-integrations[google]"]
+slides = ["zeo-integrations[google]"]
+youtube = ["zeo-integrations[google]", "requests"]
+notion = ["notion-client>=3.1.0"]
+supabase = ["supabase>=2.31.0,<3"]
+bluesky = ["requests", "platformdirs>=4"]
+revolut = ["cryptography>=45", "platformdirs>=4"]
+jupytext = ["jupytext>=1.16", "nbformat>=5.10"]
+ffmpeg = ["ffmpeg-zeo>=0.1"]
+pandoc = ["pypandoc", "beautifulsoup4"]
+llms = ["tiktoken", "openai", "anthropic"]
 
 [dependency-groups]
-dev = ["ruff==0.15.5"]
+dev = ["ruff==0.15.5", "pytest>=7", "pytest-asyncio>=0.21", "hypothesis"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/zeo_integrations"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"NOTICE" = "zeo_integrations/NOTICE"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "pyproject.toml", "README.md", "LICENSE", "NOTICE"]
 
 [tool.uv]
-package = false
 required-version = ">=0.12.2"
+constraint-dependencies = ["certifi==2026.7.22", "idna==3.19"]
 
 [tool.ruff]
-target-version = "py314"
+target-version = "py312"
 line-length = 88
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+testpaths = ["tests"]
