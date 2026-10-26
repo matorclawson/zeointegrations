@@ -13,3 +13,27 @@ src/zeo_core/integrations/database/supabase/protocols.py -> src/zeo_integrations
 src/zeo_core/integrations/database/supabase/realtime.py -> src/zeo_integrations/supabase/realtime.py; 1a1e761f2455c96f43ae5baf0b7b3c1ef709f216
 src/zeo_core/integrations/database/supabase/service.py -> src/zeo_integrations/supabase/service.py; 30d5d7c80cfa1a2b5366f2aefc11791c2afbe772
 src/zeo_core/integrations/database/supabase/validation.py -> src/zeo_integrations/supabase/validation.py; 36bd0dc4c0cc090d8ef22bf887d467787004d8d0
+
+Original upstream MIT copyright and permission notice:
+
+MIT License
+
+Copyright (c) 2026 Rod Rivera
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
