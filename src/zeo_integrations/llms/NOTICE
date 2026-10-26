@@ -1,0 +1,62 @@
+zeo-integrations: llms
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; the full permission notice is in the repository LICENSE.
+
+Source: zeroemployeeorg/zeocore
+Commit: 9fb88881434a99c4455939dbbc3f5cafe9a99570
+Source prefix: src/zeo_core/integrations/llms/ and tests/test_integrations/llms/
+Destination prefix: src/zeo_integrations/llms/ and tests/test_integrations/llms/
+Method: a pure move. Each file is byte-identical to its source except import statements and
+string literals or comments that name moved modules (mock.patch targets, docstrings). Per-file
+source blobs (git blob ids) follow.
+
+src/zeo_core/integrations/llms/__init__.py -> same relative path; source blob 016507e1104df46f6967bcd0cf9cfc80ec4e9f53
+src/zeo_core/integrations/llms/clients/__init__.py -> same relative path; source blob 1bda111556095e38c89715cc5c49490fd3b0840e
+src/zeo_core/integrations/llms/clients/anthropic.py -> same relative path; source blob 998796de9e16c984fda56e455ddaed9350304198
+src/zeo_core/integrations/llms/clients/base.py -> same relative path; source blob 5494f1485d8ae56bf8ca82beec992f77298e920a
+src/zeo_core/integrations/llms/clients/mock.py -> same relative path; source blob dd8cf0030d95aa9a67f28a2c94b662092ede27b3
+src/zeo_core/integrations/llms/clients/moonshot.py -> same relative path; source blob 12cc1b8c61451f303e46fa89fdc0cc4f40245262
+src/zeo_core/integrations/llms/clients/ollama.py -> same relative path; source blob 9a6635b091f80f936925572dc9cd3a7e74d2e79b
+src/zeo_core/integrations/llms/clients/openai.py -> same relative path; source blob 6e9ff6629ee09ee322afb41c2c896744fb10ffe2
+src/zeo_core/integrations/llms/config.py -> same relative path; source blob 4f2653e98a7cfc66ef68a6e76542bf62113e0393
+src/zeo_core/integrations/llms/errors.py -> same relative path; source blob 87cf6694fd6c17c0edd052f7533ee3e1ee49eaec
+src/zeo_core/integrations/llms/execution.py -> same relative path; source blob c7dc4bcf2b9e59d07b8aa6fc2fd601aa3e87a582
+src/zeo_core/integrations/llms/fallback.py -> same relative path; source blob 119edbc2029a6630edd430d74b0b2320d1d27353
+src/zeo_core/integrations/llms/models.py -> same relative path; source blob 9f9a2f1c304cc700cee7d414f3f18ae4e5c616a6
+src/zeo_core/integrations/llms/protocols.py -> same relative path; source blob 6abe5cd64502a509283b5952547b61affadfc188
+src/zeo_core/integrations/llms/registry.py -> same relative path; source blob 91e733b5e038af70e2de0907a8e2067049c2ed22
+src/zeo_core/integrations/llms/service/__init__.py -> same relative path; source blob 53b5f671ea3a5d9734e1791c246c9981a06edd56
+src/zeo_core/integrations/llms/service/dependencies.py -> same relative path; source blob 9c28f8c8c66671fcc6d6107eba4975cd2fc5611c
+src/zeo_core/integrations/llms/service/initialization.py -> same relative path; source blob 4774bd33cf9c5aba85cf596e7c267c151906d41c
+src/zeo_core/integrations/llms/service/integration.py -> same relative path; source blob df769d9b06827a7162986952e0303f95de1fd1cb
+src/zeo_core/integrations/llms/service/managed.py -> same relative path; source blob 9d2ee16e2a633d2b36dab51dd9328b5b927b4e21
+src/zeo_core/integrations/llms/service/operations.py -> same relative path; source blob 2c944c7733fdecf0fa6e183f462b87f59a12af25
+tests/test_integrations/llms/__init__.py -> same relative path; source blob 45ee39990e71721682dfbb292066d2b731ae66cd
+tests/test_integrations/llms/clients/__init__.py -> same relative path; source blob a8446ffe79faefd7960cc321a14fae3436ffa4cf
+tests/test_integrations/llms/clients/test_anthropic.py -> same relative path; source blob e3066be32260437178605d7f2a66e73a87cda832
+tests/test_integrations/llms/clients/test_base.py -> same relative path; source blob 396f4eb2d26640a9955c4df5563213f996242e52
+tests/test_integrations/llms/clients/test_clients.py -> same relative path; source blob c2f3057397c61112d7bb921468f3bc9bd864cc4d
+tests/test_integrations/llms/clients/test_mock.py -> same relative path; source blob 67439dd6e50981ac0256296f5a55b057d680cfc6
+tests/test_integrations/llms/clients/test_moonshot.py -> same relative path; source blob d1ef22926c8585b46a5b8127581513914bd6dde5
+tests/test_integrations/llms/clients/test_ollama.py -> same relative path; source blob 02ebde4b9e2ccdb23d4b6c8e02b8070f67f51962
+tests/test_integrations/llms/clients/test_openai.py -> same relative path; source blob 15842182d80b738bfa10406a8629a38f5267d3f2
+tests/test_integrations/llms/mocks/__init__.py -> same relative path; source blob 5d49d6a3f68a85996a2061db27cc7b14a7367fd6
+tests/test_integrations/llms/mocks/anthropic.py -> same relative path; source blob 49cefdd6bc50b205752e9688826e5e789cfd85ab
+tests/test_integrations/llms/mocks/base.py -> same relative path; source blob ef0838520499eecff408ef283b4be56c16b95281
+tests/test_integrations/llms/mocks/clients.py -> same relative path; source blob 54ac617b0a49558fa17f3ef7c7416a0fbb9e9974
+tests/test_integrations/llms/mocks/openai.py -> same relative path; source blob 91e6815185ffd69abd32669cefca6e77df257eea
+tests/test_integrations/llms/service/__init__.py -> same relative path; source blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+tests/test_integrations/llms/service/test_dependencies.py -> same relative path; source blob b3f2c3c056397e5d2be75d9302316f442bdc7da9
+tests/test_integrations/llms/service/test_init_module.py -> same relative path; source blob 2fc73e422c6c13e65c58c59686a16da5fdec26a6
+tests/test_integrations/llms/service/test_initialization.py -> same relative path; source blob 22e143640a5873cb2bf325eb140c752a0fcc9a42
+tests/test_integrations/llms/service/test_integration.py -> same relative path; source blob d6af5c3ed214a9d7b9788bbad0c5540c8e982ece
+tests/test_integrations/llms/service/test_operations.py -> same relative path; source blob 05d1ab998f92e42385c47227ba7009e3fd63cafa
+tests/test_integrations/llms/test_config.py -> same relative path; source blob c590e603fbd7484e046c3a86b66603f36516ff41
+tests/test_integrations/llms/test_config_provider.py -> same relative path; source blob 80544a39652f0020862951a436a6b9faa2e088e1
+tests/test_integrations/llms/test_fallback.py -> same relative path; source blob 8fae1461fd7909b554caf3ffed26a76e65b9540a
+tests/test_integrations/llms/test_integration.py -> same relative path; source blob 09de799d65129006d96219385a909758f1a0db65
+tests/test_integrations/llms/test_llms.py -> same relative path; source blob 2b20b52b6a0f8325cc587096f35698cc3bfe4405
+tests/test_integrations/llms/test_models.py -> same relative path; source blob 2c81cd4db9ddb968985ac3d980d18317a9e9c8cb
+tests/test_integrations/llms/test_protocols.py -> same relative path; source blob fd458339e554d29aabe4f3dfb8456a88611a1149
+tests/test_integrations/llms/test_registry.py -> same relative path; source blob 558c95b8be9e0d3697788f658abdf79052441a0b
+tests/test_integrations/llms/test_service.py -> same relative path; source blob 115591c4ae1cb9a118aa19bd401e709b6b603daf

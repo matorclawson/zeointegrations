@@ -1,0 +1,82 @@
+zeo-integrations: pandoc
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; the full permission notice is in the repository LICENSE.
+
+Source: zeroemployeeorg/zeocore
+Commit: 9fb88881434a99c4455939dbbc3f5cafe9a99570
+Source prefix: src/zeo_core/integrations/pandoc/ and tests/test_integrations/pandoc/
+Destination prefix: src/zeo_integrations/pandoc/ and tests/test_integrations/pandoc/
+Method: a pure move. Each file is byte-identical to its source except import statements and
+string literals or comments that name moved modules (mock.patch targets, docstrings). Per-file
+source blobs (git blob ids) follow.
+
+src/zeo_core/integrations/pandoc/__init__.py -> same relative path; source blob ac1b3c411a3782e45cc12ce69a7648e46f34e793
+src/zeo_core/integrations/pandoc/_cleaning.py -> same relative path; source blob bfb892256d954a1a04f611902cf44d4d73496879
+src/zeo_core/integrations/pandoc/_hidden.py -> same relative path; source blob 2d88f8b8ce275bdb3dfda3760e871d59cefec762
+src/zeo_core/integrations/pandoc/_mime.py -> same relative path; source blob ae74716d0901a33cad98ddf41fc26bc8f89c8400
+src/zeo_core/integrations/pandoc/_noise.py -> same relative path; source blob 06b357d67f03467ff9903d1a979323bf7c84a099
+src/zeo_core/integrations/pandoc/_runner.py -> same relative path; source blob 5d04febfb89d1026adc4ad8568d8327a7eb91262
+src/zeo_core/integrations/pandoc/config.py -> same relative path; source blob 536b2fcb3af2ebe52098e50ecaf0a7eac95d7e5e
+src/zeo_core/integrations/pandoc/converter.py -> same relative path; source blob 398ea25bc5b979a464edd6535b7ea2a999566f0d
+src/zeo_core/integrations/pandoc/data/email_subset.lua -> same relative path; source blob 660e9d6cf2cbc57b7709f50f599c4c10050799fc
+src/zeo_core/integrations/pandoc/data/newsletter_noise.json -> same relative path; source blob eda1e608958e8750f6b5a927b548b16afbf6799d
+src/zeo_core/integrations/pandoc/models.py -> same relative path; source blob 40dc2e47a784095d1482186fa9ba73ca943a3175
+src/zeo_core/integrations/pandoc/newsletter.py -> same relative path; source blob 579b471ae7e8b3e8528c2141612b3fc690cffad3
+src/zeo_core/integrations/pandoc/operations/__init__.py -> same relative path; source blob 597fa072e450cde4754019d613bbf391aba1000d
+src/zeo_core/integrations/pandoc/operations/html_to_md.py -> same relative path; source blob 3244ba7d958033b8672554d554d54f752b47fe82
+src/zeo_core/integrations/pandoc/operations/md_to_docx.py -> same relative path; source blob 01efa69d3af1bd8875309d5e0dcbeb4ae26993c9
+src/zeo_core/integrations/pandoc/operations/utils.py -> same relative path; source blob 5b6bd58522e46916029236d734afd538c72557b1
+src/zeo_core/integrations/pandoc/protocols.py -> same relative path; source blob 868da0b7c3d0e995c6d5fbd9a42322aec9a3d0eb
+src/zeo_core/integrations/pandoc/refusals.py -> same relative path; source blob cfb42d51290508ec9c9dd98df7be641155588d2f
+src/zeo_core/integrations/pandoc/render.py -> same relative path; source blob 2334725487e4fd7b2c1490133a7862a57c946430
+src/zeo_core/integrations/pandoc/service.py -> same relative path; source blob 7ac698dcf8e7befd5ef8b4883deb04cc35e7e3d7
+tests/test_integrations/pandoc/__init__.py -> same relative path; source blob b93588639ba3c1a2b829eef5a0b37dabe3b9f62e
+tests/test_integrations/pandoc/conftest.py -> same relative path; source blob df67fb4a80357789df524c24c1b534246c66f552
+tests/test_integrations/pandoc/fixtures/issue-five-picks.expected.html -> same relative path; source blob 99f4e5c9c56fbe3cc9aa6f9177e6745a1f990d69
+tests/test_integrations/pandoc/fixtures/issue-five-picks.expected.json -> same relative path; source blob 6c0af78308c7dae835b342a4e79c3a0ab7ce4196
+tests/test_integrations/pandoc/fixtures/issue-five-picks.md -> same relative path; source blob 8636fbb98430df70287e0b80d0ef0219ea7c6a3e
+tests/test_integrations/pandoc/fixtures/newsletters/01-simple-article.expected.md -> same relative path; source blob 1ec379c2922938d3eeed66ad424b9a82fc2a5572
+tests/test_integrations/pandoc/fixtures/newsletters/01-simple-article.html -> same relative path; source blob 8a72f4ad120c60299c9fa2b63492c71383ee06b7
+tests/test_integrations/pandoc/fixtures/newsletters/02-tracking-pixels.expected.md -> same relative path; source blob 25f4178a436a81ec8c3e202b27af464db4ed217a
+tests/test_integrations/pandoc/fixtures/newsletters/02-tracking-pixels.html -> same relative path; source blob cdd9b6d7ef6ff7390ecbdfa074f9bc15846a6d9d
+tests/test_integrations/pandoc/fixtures/newsletters/03-unsubscribe-footer.expected.md -> same relative path; source blob 45983963cfa293c18a79d5560298a462b076b3b3
+tests/test_integrations/pandoc/fixtures/newsletters/03-unsubscribe-footer.html -> same relative path; source blob 2aa5a2369a5ce8ebbdb0c73e7ba6e4a117d6254c
+tests/test_integrations/pandoc/fixtures/newsletters/04-hidden-text.expected.md -> same relative path; source blob c99c7b8bbc7320411d64ae1c274f0664ec80d814
+tests/test_integrations/pandoc/fixtures/newsletters/04-hidden-text.html -> same relative path; source blob 347b6e3192720cd1295d37dbb2314ebdc403578a
+tests/test_integrations/pandoc/fixtures/newsletters/05-scripts-and-forms.expected.md -> same relative path; source blob 5f5a23d5fcb8bf07bed58e14e53de493e39a079c
+tests/test_integrations/pandoc/fixtures/newsletters/05-scripts-and-forms.html -> same relative path; source blob 27df1786ea912861618af597ff015d48fea30c2f
+tests/test_integrations/pandoc/fixtures/newsletters/06-hostile-text.expected.md -> same relative path; source blob c7b6238451d6b4dc2ca5e407193a2d9c11720c76
+tests/test_integrations/pandoc/fixtures/newsletters/06-hostile-text.html -> same relative path; source blob a8a26693838c45a17a3efa5be72233ed923b72c5
+tests/test_integrations/pandoc/fixtures/newsletters/07-table-layout.expected.md -> same relative path; source blob 16b0f167d3d78e148a7c21b1255c0b30437c3065
+tests/test_integrations/pandoc/fixtures/newsletters/07-table-layout.html -> same relative path; source blob 70638c2d4cc32839c566ee290d75619647da8959
+tests/test_integrations/pandoc/fixtures/newsletters/08-non-ascii.expected.md -> same relative path; source blob 01d0253909e094e650b66cfb81873d3d6978ee50
+tests/test_integrations/pandoc/fixtures/newsletters/08-non-ascii.html -> same relative path; source blob 9ff4ba3899d8f52c417583a347f60aa60e451fcd
+tests/test_integrations/pandoc/fixtures/newsletters/09-redirect-links.expected.md -> same relative path; source blob a150c632f153d35e83fd152efc9cf1bde3998451
+tests/test_integrations/pandoc/fixtures/newsletters/09-redirect-links.html -> same relative path; source blob 8ea5cb89dcc5bfe439e905bc23d1f397b0a11d6e
+tests/test_integrations/pandoc/fixtures/newsletters/10-malformed.expected.md -> same relative path; source blob 848d9d5c98642ba1c6e8ea57e17fb3edf008ed9b
+tests/test_integrations/pandoc/fixtures/newsletters/10-malformed.html -> same relative path; source blob c8528da9d9b5f13d60a53d7e7219bf629ae70165
+tests/test_integrations/pandoc/fixtures/newsletters/11-hidden-kinds.expected.md -> same relative path; source blob 4d8f13d563c9d3ea87544d1ce5d15b6817cd60f6
+tests/test_integrations/pandoc/fixtures/newsletters/11-hidden-kinds.html -> same relative path; source blob dbc2f44f4e2fd88670e3856181916926c91b6b87
+tests/test_integrations/pandoc/fixtures/newsletters/12-gfm-extensions.expected.md -> same relative path; source blob 88b6703817074991dafd3082ae41d684e11be901
+tests/test_integrations/pandoc/fixtures/newsletters/12-gfm-extensions.html -> same relative path; source blob f75005a38c9fe8c67a8d303c99a188e74550b075
+tests/test_integrations/pandoc/fixtures/newsletters/expected.json -> same relative path; source blob ec0802552f96d74c80df272aa1548f7b7caab401
+tests/test_integrations/pandoc/fixtures/webkit/README.md -> same relative path; source blob cf056e3076cce262f7835d48e2832353733d5b1f
+tests/test_integrations/pandoc/fixtures/webkit/sow41-differential.json -> same relative path; source blob 2c8e2a618638276e7bfc69dbbc3fa13c6c5ee9fb
+tests/test_integrations/pandoc/mocks.py -> same relative path; source blob 6ec756bc0ae9649ba6b6a09fd0255b6812d70178
+tests/test_integrations/pandoc/operations/__init__.py -> same relative path; source blob 39ce953758a72a3ccc5a9f93e5175e91fe1c52ce
+tests/test_integrations/pandoc/operations/test_html_to_md.py -> same relative path; source blob d2f43807231bd6db0c297e56b8f0567439ae064d
+tests/test_integrations/pandoc/operations/test_md_to_docx.py -> same relative path; source blob 8e3fe04aead561b66eec64046c079be15248fcd9
+tests/test_integrations/pandoc/operations/test_utils.py -> same relative path; source blob 4627cfbad15e0fa8ee3e3e4d10a02189bd95ce8f
+tests/test_integrations/pandoc/operations/test_utils_fix.py -> same relative path; source blob 31f1d4da6a0af4f12e09e936c04eff694da5da26
+tests/test_integrations/pandoc/test_config.py -> same relative path; source blob 662316583c119454e7d502d224e9bd50ea90f09e
+tests/test_integrations/pandoc/test_converter.py -> same relative path; source blob 90dad2634645492fdb2d0fa42dffbf043f5ba513
+tests/test_integrations/pandoc/test_email_render.py -> same relative path; source blob 05b09c36f6587b79499ad41c1fe1ab11b9347376
+tests/test_integrations/pandoc/test_models.py -> same relative path; source blob 6ca891d47e017da890ef1c28010cae555befe1d8
+tests/test_integrations/pandoc/test_newsletter_convert.py -> same relative path; source blob 3f56c13ebaf7cff202b75345c3ddde730208c9f4
+tests/test_integrations/pandoc/test_newsletter_decode.py -> same relative path; source blob c95b7b004e7bb585bb730d8eee1ea9b0d7c023e6
+tests/test_integrations/pandoc/test_newsletter_hidden.py -> same relative path; source blob 8199b11c15de22fd4020b27fef71f07561f9182a
+tests/test_integrations/pandoc/test_pandoc_integration.py -> same relative path; source blob 519eb93788f03666bcf8e122bcf95abcb31f8e88
+tests/test_integrations/pandoc/test_pandoc_integration_edge_cases.py -> same relative path; source blob df98e1f7139b24f9138b32bf43573913e57ae270
+tests/test_integrations/pandoc/test_pandoc_integration_full.py -> same relative path; source blob 740c530f1e3fb1d5678bc3ec800e28e48e89b3f3
+tests/test_integrations/pandoc/test_pandoc_utils.py -> same relative path; source blob e992f84dfbacabcc3e3b83d32696a21727c72056
+tests/test_integrations/pandoc/test_service.py -> same relative path; source blob dac2111e81a9de77e68cf3a9d0a6b8447a1eb232
