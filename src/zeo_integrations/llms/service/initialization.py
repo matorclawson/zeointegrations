@@ -8,6 +8,7 @@ fallback configurations.
 from typing import TYPE_CHECKING
 
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.fallback import FallbackConfig
 
 if TYPE_CHECKING:

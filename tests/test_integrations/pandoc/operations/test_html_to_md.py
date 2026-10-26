@@ -11,8 +11,8 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
+
 from zeo_integrations.pandoc import (
     ConversionMetrics,
     PandocConfig,
@@ -189,8 +189,7 @@ def test_convert_html_to_markdown_default_metrics_created_when_none() -> None:
             "zeo_integrations.pandoc.operations.html_to_md._attempt_conversion"
         ) as mock_convert,
         patch(
-            "zeo_integrations.pandoc.operations.html_to_md."
-            "_write_and_validate_output"
+            "zeo_integrations.pandoc.operations.html_to_md._write_and_validate_output"
         ) as mock_write,
         patch(
             "zeo_integrations.pandoc.operations.html_to_md.track_metrics",

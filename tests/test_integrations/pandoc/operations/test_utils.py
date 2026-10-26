@@ -11,8 +11,8 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
+
 from zeo_integrations.pandoc import (
     ConversionMetrics,
     PandocConfig,

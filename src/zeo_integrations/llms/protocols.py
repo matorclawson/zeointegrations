@@ -9,6 +9,7 @@ from collections.abc import Callable, Sequence
 from typing import Protocol, TypeVar, runtime_checkable
 
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.models import ChatMessage, LLMOptions
 
 T = TypeVar("T")  # Generic type for result content

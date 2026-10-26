@@ -8,11 +8,11 @@ from types import SimpleNamespace
 from typing import Any
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
-
 import zeo_core.core.fs.service.standalone
+from _pytest.monkeypatch import MonkeyPatch
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.pandoc.config import (
     PandocConfig,
     PandocConfigProvider,
@@ -340,8 +340,9 @@ def test_pandoc_integration_is_available(monkeypatch: MonkeyPatch) -> None:
 
 
 def test_pandoc_integration_not_available(monkeypatch: MonkeyPatch) -> None:
-    import zeo_integrations.pandoc.service as service_mod
     from zeo_core.core.errors import ZeoIntegrationError
+
+    import zeo_integrations.pandoc.service as service_mod
 
     monkeypatch.setattr(
         service_mod,

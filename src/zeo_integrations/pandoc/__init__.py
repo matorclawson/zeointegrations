@@ -6,6 +6,7 @@ including HTML to Markdown and Markdown to DOCX conversion.
 """
 
 from zeo_core.integrations.core.protocols import IntegrationProtocol
+
 from zeo_integrations.pandoc.config import PandocConfig, PandocConfigProvider
 from zeo_integrations.pandoc.converter import DocumentConverter
 from zeo_integrations.pandoc.models import (

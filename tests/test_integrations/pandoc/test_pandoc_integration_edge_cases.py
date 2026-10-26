@@ -14,9 +14,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.pandoc.config import PandocConfig, PandocOptions
 from zeo_integrations.pandoc.models import (
     ConversionDetails,
@@ -135,9 +135,7 @@ def test_integration_initialize_with_invalid_config() -> None:
     mock_fs.create_directory = MagicMock(return_value=SimpleNamespace(success=True))
     integration.fs_service = mock_fs
 
-    with patch(
-        "zeo_integrations.pandoc.service.verify_pandoc", return_value="2.11.0"
-    ):
+    with patch("zeo_integrations.pandoc.service.verify_pandoc", return_value="2.11.0"):
         result = integration.initialize()
         # Should succeed with warnings, using default config
         assert result.success

@@ -8,8 +8,8 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.fallback import FallbackConfig
 from zeo_integrations.llms.service.initialization import (
     initialize_single_provider,

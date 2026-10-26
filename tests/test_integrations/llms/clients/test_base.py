@@ -11,14 +11,14 @@ from typing import cast
 from unittest.mock import MagicMock, patch
 
 import pytest
-
-from tests.test_integrations.llms.mocks.clients import MockClient
 from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 
 # Import IntegrationResult for testing
 from zeo_core.integrations.core.results import (
     IntegrationResult,
 )
+
+from tests.test_integrations.llms.mocks.clients import MockClient
 from zeo_integrations.llms.models import ChatMessage, LLMOptions, RoleType
 
 

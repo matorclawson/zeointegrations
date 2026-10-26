@@ -9,6 +9,7 @@ import os
 from unittest.mock import MagicMock, patch
 
 import pytest
+from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 
 from tests.test_integrations.llms.mocks.anthropic import (
     MockAnthropicClient,
@@ -16,7 +17,6 @@ from tests.test_integrations.llms.mocks.anthropic import (
     MockAnthropicResponse,
     MockAnthropicStreamingResponse,
 )
-from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 from zeo_integrations.llms.clients.anthropic import AnthropicClient
 from zeo_integrations.llms.models import (
     ChatMessage,

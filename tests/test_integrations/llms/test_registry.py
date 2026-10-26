@@ -9,8 +9,8 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
+
 from zeo_integrations.llms.clients.base import LLMClient
 from zeo_integrations.llms.clients.mock import MockLLMClient
 from zeo_integrations.llms.registry import (
@@ -89,9 +89,7 @@ class TestLLMRegistry:
 
     def test_get_llm_client_openai(self) -> None:
         """Test getting the OpenAI client."""
-        with patch(
-            "zeo_integrations.llms.registry._LLM_REGISTRY"
-        ) as mock_registry:
+        with patch("zeo_integrations.llms.registry._LLM_REGISTRY") as mock_registry:
             # Create a mock client class and instance
             mock_client = MagicMock()
             mock_client_class = MagicMock(return_value=mock_client)
@@ -112,9 +110,7 @@ class TestLLMRegistry:
     def test_get_llm_client_anthropic(self) -> None:
         """Test getting the Anthropic client."""
         # Patch where the AnthropicClient is *imported* in the registry module
-        with patch(
-            "zeo_integrations.llms.registry._LLM_REGISTRY"
-        ) as mock_registry:
+        with patch("zeo_integrations.llms.registry._LLM_REGISTRY") as mock_registry:
             # Create a mock client instance
             mock_instance = MagicMock()
             mock_client_class = MagicMock(return_value=mock_instance)
@@ -150,9 +146,7 @@ class TestLLMRegistry:
             "zeo_integrations.llms.registry.get_llm_client", wraps=get_llm_client
         ):
             # Use a real client but patch the OpenAIClient constructor
-            with patch(
-                "zeo_integrations.llms.registry._LLM_REGISTRY"
-            ) as mock_registry:
+            with patch("zeo_integrations.llms.registry._LLM_REGISTRY") as mock_registry:
                 mock_client = MagicMock()
                 mock_client_class = MagicMock(return_value=mock_client)
                 mock_registry.__getitem__.return_value = mock_client_class

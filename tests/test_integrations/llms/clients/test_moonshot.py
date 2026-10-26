@@ -9,8 +9,8 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
+
 from zeo_integrations.llms.clients.moonshot import (
     MOONSHOT_API_BASE,
     MOONSHOT_DEFAULT_MODEL,
