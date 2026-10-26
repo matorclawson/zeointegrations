@@ -48,3 +48,18 @@ The initially empty tests/test_integrations/__init__.py now contains an authored
 unittest discovery adapter: provider tests run via the explicit full-gate pytest
 invocation, keeping dependency-free smoke discovery separate.
 MIT Copyright(c)2026 Rod Rivera; repository LICENSE retains the full terms.
+
+Whole-provider migration batch1 from zeroemployeeorg/zeocore commit
+7c9923e6fd93cabb8601040f3e431760be3a18ee, MIT Copyright(c)2026 Rod Rivera.
+HubSpot, Kit (legacy full API), Revolut and Supabase plus their tests move
+mechanically with import/module references adapted. Complete per-file old/new
+paths and Git blob provenance: docs/migrations/core-7c9923e6-batch1.json.
+Core contracts, services infrastructure and signer custody remain in zeocore;
+this collection depends on that published framework. Older standalone
+read-only/hardened package artifacts remain separately preserved evidence.
+
+Whole-batch test ownership partition, Core7c9923e6: 217 original test functions;
+194 portable functions move here; 23 Core tool, entrypoint or setup-catalog
+functions remain unchanged in Core until the post-PyPI shim. No skips or aliases.
+Per-function ownership, original/moved hashes and assertion counts cover every
+original Python test/support file in docs/migrations/core-7c9923e6-batch1.json.

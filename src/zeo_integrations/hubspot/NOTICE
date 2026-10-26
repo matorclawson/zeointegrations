@@ -1,0 +1,35 @@
+MIT Copyright(c)2026 Rod Rivera.
+Copied from https://github.com/zeroemployeeorg/zeocore at
+7c9923e6fd93cabb8601040f3e431760be3a18ee; import/module references relocated.
+Core remains the framework dependency; no execution permission is granted.
+Per-file provenance (source -> destination; old Git blob):
+src/zeo_core/integrations/hubspot/__init__.py -> src/zeo_integrations/hubspot/__init__.py; 3856940b072f40f8365e9895e7135817d4be348f
+src/zeo_core/integrations/hubspot/client.py -> src/zeo_integrations/hubspot/client.py; e36ec1c646b1d1b16184e500bdb9bb6008d97a7c
+src/zeo_core/integrations/hubspot/models.py -> src/zeo_integrations/hubspot/models.py; a0d95437b736cf7a3198acf1d0f88849aad32903
+src/zeo_core/integrations/hubspot/service.py -> src/zeo_integrations/hubspot/service.py; 8e45b7a64c031392be4476cf207122d2be7810d1
+src/zeo_core/integrations/hubspot/transport.py -> src/zeo_integrations/hubspot/transport.py; 7e5b9d0be1f54e33ffe999704a042d125beb67a3
+src/zeo_core/integrations/hubspot/workflow.py -> src/zeo_integrations/hubspot/workflow.py; 97d628d4b42986332c134dfd2d2db25a24bd67b9
+
+Original upstream MIT copyright and permission notice:
+
+MIT License
+
+Copyright (c) 2026 Rod Rivera
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
