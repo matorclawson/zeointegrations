@@ -16,8 +16,15 @@ def main() -> None:
         "HYPOTHESIS_STORAGE_DIRECTORY": str(Path(".venv/hypothesis").resolve()),
     }
     subprocess.run(
-        [sys.executable, "-m", "pytest", str(directory), "-q",
-         "-o", "cache_dir=.venv/pytest_cache"],
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            str(directory),
+            "-q",
+            "-o",
+            "cache_dir=.venv/pytest_cache",
+        ],
         env=environment,
         check=True,
     )
