@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 
 from pydantic import SecretStr
-
 from zeo_core.integrations.core import IntegrationResult
 
 from .client import HubSpotClient

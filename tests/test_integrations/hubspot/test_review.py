@@ -12,6 +12,8 @@ from typing import Any, cast
 import httpx
 import pytest
 from pydantic import SecretStr, ValidationError
+from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
+from zeo_core.tools.builtin.hubspot import EmailIdRequest, register_capabilities
 
 from zeo_integrations.hubspot import (
     Audience,
@@ -29,8 +31,6 @@ from zeo_integrations.hubspot import (
     send_spec_digest,
 )
 from zeo_integrations.hubspot.client import AssetType
-from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
-from zeo_core.tools.builtin.hubspot import EmailIdRequest, register_capabilities
 
 REV = "2026-09-07T10:00:00Z"
 

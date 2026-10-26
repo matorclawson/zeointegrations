@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 
 from pydantic import SecretStr
-
 from zeo_core.core.logging import LOG_LEVELS, LogLevel
 from zeo_core.integrations.core import AuthResult, BaseAuthProvider
 

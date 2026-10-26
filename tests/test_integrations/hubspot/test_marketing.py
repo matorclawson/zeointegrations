@@ -11,10 +11,23 @@ from typing import Any
 import httpx
 import pytest
 from pydantic import BaseModel, SecretStr, ValidationError
-
 from zeo_core.adapters.llm_tools import project_openai_tool
 from zeo_core.contracts import EffectKind
 from zeo_core.integrations.core.protocols import IntegrationProtocol
+from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
+from zeo_core.tools.builtin.hubspot import (
+    ArchiveRequest,
+    AssetRequest,
+    CampaignRequest,
+    CloneRequest,
+    EmailIdRequest,
+    EnrollmentRequest,
+    ReadRequest,
+    SaveEmailRequest,
+    SequenceRequest,
+    register_capabilities,
+)
+
 from zeo_integrations.hubspot import (
     Audience,
     CampaignProperties,
@@ -30,19 +43,6 @@ from zeo_integrations.hubspot import (
     SequenceStep,
     SubscriptionChange,
     send_spec_digest,
-)
-from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
-from zeo_core.tools.builtin.hubspot import (
-    ArchiveRequest,
-    AssetRequest,
-    CampaignRequest,
-    CloneRequest,
-    EmailIdRequest,
-    EnrollmentRequest,
-    ReadRequest,
-    SaveEmailRequest,
-    SequenceRequest,
-    register_capabilities,
 )
 
 CANARY = "hubspot-test-secret-must-not-escape"

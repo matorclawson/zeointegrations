@@ -9,10 +9,13 @@ from unittest.mock import Mock
 import httpx
 import pytest
 from pydantic import SecretStr, ValidationError
-
 from zeo_core.adapters.llm_tools import project_openai_tool
 from zeo_core.contracts import EffectKind
 from zeo_core.integrations.core.protocols import IntegrationProtocol
+from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
+from zeo_core.tools.builtin.hubspot import register_capabilities as register_hubspot
+from zeo_core.tools.builtin.kit import ReadRequest, register_capabilities
+
 from zeo_integrations.kit import (
     KitAPIError,
     KitIntegration,
@@ -20,9 +23,6 @@ from zeo_integrations.kit import (
     Record,
     create_integration,
 )
-from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
-from zeo_core.tools.builtin.hubspot import register_capabilities as register_hubspot
-from zeo_core.tools.builtin.kit import ReadRequest, register_capabilities
 
 from .conftest import CANARY, CONTRACT, ClientFixture, upstream
 

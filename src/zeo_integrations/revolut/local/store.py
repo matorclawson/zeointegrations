@@ -16,7 +16,6 @@ from datetime import datetime
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, SecretStr, field_serializer
-
 from zeo_core.integrations.environment import managed_state_dir
 
 from ..models import RevolutEnvironment

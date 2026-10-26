@@ -13,7 +13,6 @@ import uuid
 from collections.abc import Mapping, Sequence
 
 from pydantic import JsonValue, TypeAdapter, ValidationError
-
 from zeo_core.integrations.hosted.client import (
     HostedClientError,
     HostedConnectionClient,

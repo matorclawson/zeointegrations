@@ -7,10 +7,10 @@ from typing import Any
 
 import httpx
 import pytest
-
-from zeo_integrations.kit import KitAPIError, KitIntegration, record_digest
 from zeo_core.tools import CapabilityRegistry, invoke_sync
 from zeo_core.tools.builtin.kit import register_capabilities
+
+from zeo_integrations.kit import KitAPIError, KitIntegration, record_digest
 
 from .conftest import ClientFixture, queue_snapshot, snapshot
 from .test_boundary import context

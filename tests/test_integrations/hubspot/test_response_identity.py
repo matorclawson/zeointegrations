@@ -7,18 +7,18 @@ from typing import Any
 import httpx
 import pytest
 from pydantic import SecretStr
+from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
+from zeo_core.tools.builtin.hubspot import (
+    EnrollmentRequest,
+    ReadRequest,
+    register_capabilities,
+)
 
 from zeo_integrations.hubspot import (
     HubSpotAPIError,
     HubSpotClient,
     HubSpotIntegration,
     HubSpotTransport,
-)
-from zeo_core.tools import CapabilityRegistry, ToolContext, invoke_sync
-from zeo_core.tools.builtin.hubspot import (
-    EnrollmentRequest,
-    ReadRequest,
-    register_capabilities,
 )
 
 

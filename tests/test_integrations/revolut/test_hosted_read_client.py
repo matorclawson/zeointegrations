@@ -7,7 +7,6 @@ from decimal import Decimal
 from typing import Any
 
 import pytest
-
 from zeo_core.integrations.hosted import (
     HostedClientError,
     HostedConnectionClient,
@@ -15,6 +14,7 @@ from zeo_core.integrations.hosted import (
     HostedOperationResponse,
     HostedStoppedError,
 )
+
 from zeo_integrations.revolut import HostedRevolutBusinessClient, TransactionQuery
 from zeo_integrations.revolut.hosted import ACCOUNTS_LIST, TRANSACTIONS_READ_PAGE
 

@@ -34,9 +34,9 @@
       "old_path": "src/zeo_core/integrations/hubspot/service.py",
       "new_path": "src/zeo_integrations/hubspot/service.py",
       "old_blob": "8e45b7a64c031392be4476cf207122d2be7810d1",
-      "new_blob": "8e45b7a64c031392be4476cf207122d2be7810d1",
+      "new_blob": "ebde8425b8b644b1f8b52fde7ba7dda424bc9957",
       "old_bytes": 1582,
-      "new_bytes": 1582
+      "new_bytes": 1581
     },
     {
       "old_path": "src/zeo_core/integrations/hubspot/transport.py",
@@ -66,7 +66,7 @@
       "old_path": "tests/test_integrations/hubspot/test_full_workflow_identity.py",
       "new_path": "tests/test_integrations/hubspot/test_full_workflow_identity.py",
       "old_blob": "ee11bda381fa8354bb08edb34068a6ee28c74538",
-      "new_blob": "cb04ad3e4974fd72b7ba799908f5fec53caad8d5",
+      "new_blob": "3510bf351827e6bf205f69ceba5de2c06f9d812a",
       "old_bytes": 4450,
       "new_bytes": 4445
     },
@@ -74,7 +74,7 @@
       "old_path": "tests/test_integrations/hubspot/test_marketing.py",
       "new_path": "tests/test_integrations/hubspot/test_marketing.py",
       "old_blob": "023cb154c8368ff8d77da320a412e53592389d66",
-      "new_blob": "ab76158cddd83414577e5774e1de6772bf6c6dc3",
+      "new_blob": "5e4b04f4f804a7773ecf6c89459a1dff670a0efe",
       "old_bytes": 35703,
       "new_bytes": 35698
     },
@@ -90,7 +90,7 @@
       "old_path": "tests/test_integrations/hubspot/test_response_identity.py",
       "new_path": "tests/test_integrations/hubspot/test_response_identity.py",
       "old_blob": "5b96218b2f95ef3c277e7cc81a5aa80f1484431d",
-      "new_blob": "e9275ff6fdedca97fba9c46c8a185daca8668af8",
+      "new_blob": "631ccbc42d61759742608891d886ef3a5643e517",
       "old_bytes": 4761,
       "new_bytes": 4756
     },
@@ -98,7 +98,7 @@
       "old_path": "tests/test_integrations/hubspot/test_review.py",
       "new_path": "tests/test_integrations/hubspot/test_review.py",
       "old_blob": "8c87e03ff510d75c907ea7215b2336baa446a795",
-      "new_blob": "8a9b5b83755fc8e9e93bb30dca4a9c7cefc591c2",
+      "new_blob": "8b718f23040c2aa8ba300f981111afc2d87ab1ea",
       "old_bytes": 16334,
       "new_bytes": 16324
     },
@@ -130,9 +130,9 @@
       "old_path": "src/zeo_core/integrations/kit/service.py",
       "new_path": "src/zeo_integrations/kit/service.py",
       "old_blob": "9fc0592f0cb9733140f9fd02fca502c0f218b47a",
-      "new_blob": "9fc0592f0cb9733140f9fd02fca502c0f218b47a",
+      "new_blob": "4fd4ab370ac6fb54cfc0a9134bf9df0d4119c646",
       "old_bytes": 1754,
-      "new_bytes": 1754
+      "new_bytes": 1753
     },
     {
       "old_path": "src/zeo_core/integrations/kit/transport.py",
@@ -170,7 +170,7 @@
       "old_path": "tests/test_integrations/kit/test_boundary.py",
       "new_path": "tests/test_integrations/kit/test_boundary.py",
       "old_blob": "7e32e0f8acb676f49498eb71bd3014556a7e28a4",
-      "new_blob": "d81a580df05e5f5292b227b846d8b44728e1864e",
+      "new_blob": "7ead37945b1132d27ba70b938f1d620ba09663be",
       "old_bytes": 11574,
       "new_bytes": 11569
     },
@@ -186,7 +186,7 @@
       "old_path": "tests/test_integrations/kit/test_provider_edges.py",
       "new_path": "tests/test_integrations/kit/test_provider_edges.py",
       "old_blob": "cb706b698915a21d1a99e0bc902afa8a7144bdd5",
-      "new_blob": "27bdcdde6ac64614287569ce4d57e6c1d85036cd",
+      "new_blob": "316daad21f802c7f9c0602007b6effbf4bc57d14",
       "old_bytes": 4563,
       "new_bytes": 4558
     },
@@ -194,7 +194,7 @@
       "old_path": "tests/test_integrations/kit/test_response_identity.py",
       "new_path": "tests/test_integrations/kit/test_response_identity.py",
       "old_blob": "c0713015b02eca3a3dd4f996ad0d789275d74afa",
-      "new_blob": "2ac4fc9b29407d0743da3ea2bedd6c8b800c81be",
+      "new_blob": "e80623732ff32c88fa23231531170eb4b229c30d",
       "old_bytes": 5088,
       "new_bytes": 5083
     },
@@ -218,9 +218,9 @@
       "old_path": "src/zeo_core/integrations/revolut/hosted.py",
       "new_path": "src/zeo_integrations/revolut/hosted.py",
       "old_blob": "2dc9826286d1703c3ad25c969bfb6866026d677c",
-      "new_blob": "2dc9826286d1703c3ad25c969bfb6866026d677c",
+      "new_blob": "82ded94077f8089782e07ad7010e5705c0699d04",
       "old_bytes": 3991,
-      "new_bytes": 3991
+      "new_bytes": 3990
     },
     {
       "old_path": "src/zeo_core/integrations/revolut/local/__init__.py",
@@ -258,9 +258,9 @@
       "old_path": "src/zeo_core/integrations/revolut/local/store.py",
       "new_path": "src/zeo_integrations/revolut/local/store.py",
       "old_blob": "eeb12352221904c4752364103047aa4278f5be17",
-      "new_blob": "eeb12352221904c4752364103047aa4278f5be17",
+      "new_blob": "9ba1616026e236d87de68561c605ae5dff6f22fc",
       "old_bytes": 7007,
-      "new_bytes": 7007
+      "new_bytes": 7006
     },
     {
       "old_path": "src/zeo_core/integrations/revolut/models.py",
@@ -314,7 +314,7 @@
       "old_path": "tests/test_integrations/revolut/test_hosted_read_client.py",
       "new_path": "tests/test_integrations/revolut/test_hosted_read_client.py",
       "old_blob": "1ef9cfc70572de32be2257ee8f4aa1c9966ecf96",
-      "new_blob": "11189b9b49bf1a41e7c6b279c9ee835c1899d48e",
+      "new_blob": "f1a6ed5e7b3b2056e2cb30520d9a37a1ad843b88",
       "old_bytes": 5168,
       "new_bytes": 5158
     },
@@ -354,9 +354,9 @@
       "old_path": "src/zeo_core/integrations/database/supabase/auth.py",
       "new_path": "src/zeo_integrations/supabase/auth.py",
       "old_blob": "3c969eca1fe9854ceafcd3a3be34279b34a285a7",
-      "new_blob": "3c969eca1fe9854ceafcd3a3be34279b34a285a7",
+      "new_blob": "cef2bbfc2da27c302f194462990c3f001104a0b7",
       "old_bytes": 3602,
-      "new_bytes": 3602
+      "new_bytes": 3601
     },
     {
       "old_path": "src/zeo_core/integrations/database/supabase/client.py",
@@ -410,9 +410,9 @@
       "old_path": "src/zeo_core/integrations/database/supabase/service.py",
       "new_path": "src/zeo_integrations/supabase/service.py",
       "old_blob": "30d5d7c80cfa1a2b5366f2aefc11791c2afbe772",
-      "new_blob": "30d5d7c80cfa1a2b5366f2aefc11791c2afbe772",
+      "new_blob": "a189765c91c8838c3488e10af70213da611702c7",
       "old_bytes": 13643,
-      "new_bytes": 13643
+      "new_bytes": 13642
     },
     {
       "old_path": "src/zeo_core/integrations/database/supabase/validation.py",
@@ -462,5 +462,6 @@
       "old_bytes": 3499,
       "new_bytes": 3485
     }
-  ]
+  ],
+  "post_fixes": "Ruff import-order and wrapping only; upstream Supabase quoted return annotation retained under exact-file UP037 exception; root F1/F2 authored separately."
 }
