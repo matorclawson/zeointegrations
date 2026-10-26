@@ -1,0 +1,348 @@
+"""
+Google authentication provider for zeo_core.
+
+This module handles authentication with Google services, managing
+credentials and authorization flows for secure API access.
+"""
+
+import logging
+from collections.abc import Sequence
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+
+from zeo_core.core.errors import ZeoIntegrationError
+
+# `standalone` is not called directly in this module anymore (the six I/O
+# call sites route through credential_paths.py's *_with_fallback helpers,
+# which import their own reference to the same module object) -- kept
+# imported here ONLY so `unittest.mock.patch("...auth.standalone.X")`, used
+# throughout this file's own test suite, still resolves `standalone` as an
+# attribute of this module to patch through. Patching an attribute on this
+# shared module object affects every importer, including credential_paths.py.
+from zeo_core.core.fs.service import standalone  # noqa: F401
+from zeo_core.integrations.core.base import BaseAuthProvider
+from zeo_core.integrations.core.results import AuthResult
+from zeo_integrations.google.credential_paths import (
+    create_directory_with_fallback,
+    get_file_info_with_fallback,
+    parent_directory_with_fallback,
+    read_json_with_fallback,
+    write_json_with_fallback,
+)
+from zeo_integrations.google.serialization import serialize_credentials
+
+
+class GoogleAuthProvider(BaseAuthProvider):
+    """Authentication provider for Google integrations."""
+
+    def __init__(
+        self,
+        client_secrets_file: str,
+        credentials_file: str | None = None,
+        scopes: list[str] | Sequence[str] | None = None,
+        log_level: int = logging.INFO,
+    ) -> None:
+        super().__init__(credentials_file, log_level)
+
+        self.client_secrets_file = self._resolve_path(client_secrets_file)
+        self.scopes = list(scopes) if scopes else []
+
+        self._verify_client_secrets_file()
+
+        self.auth: Credentials | None = None
+        self.authenticated = False
+
+    @property
+    def name(self) -> str:
+        return "GoogleAuth"
+
+    def _verify_client_secrets_file(self) -> None:
+        file_info = get_file_info_with_fallback(self.client_secrets_file)
+        if not file_info.success or not file_info.exists:
+            raise ZeoIntegrationError(
+                f"Client secrets file not found: {self.client_secrets_file}",
+                {"path": str(self.client_secrets_file)},
+            )
+
+    def authenticate(self) -> AuthResult:
+        try:
+            creds = self._load_existing_credentials()
+
+            if (
+                creds
+                and getattr(creds, "expired", False)
+                and getattr(creds, "refresh_token", None)
+            ):
+                creds.refresh(Request())
+                self._save_credentials_to_file(creds)
+                self.auth = creds
+                self.authenticated = True
+                return self._build_auth_result(
+                    creds, "Successfully refreshed credentials"
+                )
+
+            if not creds or not getattr(creds, "valid", False):
+                self.logger.info(
+                    "No valid credentials found, starting authentication flow"
+                )
+
+                # Extract the exact redirect URI from the client secrets file
+                redirect_uri = self._extract_redirect_uri_from_secrets()
+
+                if redirect_uri:
+                    # Create flow with the client secrets file
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        self.client_secrets_file, self.scopes
+                    )
+
+                    # Parse the redirect URI to get the port and exact URI format
+                    import urllib.parse
+
+                    parsed_uri = urllib.parse.urlparse(redirect_uri)
+                    port = (
+                        parsed_uri.port or 8080
+                    )  # Default to 8080 if no port specified
+
+                    # Start the local server on the same port
+                    # Set redirect_uri_trailing_slash=False to match the
+                    # exact format in Google Cloud Console
+                    creds = flow.run_local_server(
+                        port=port, redirect_uri_trailing_slash=False
+                    )
+                else:
+                    # Fallback to default behavior if redirect URI can't be extracted
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        self.client_secrets_file, self.scopes
+                    )
+                    creds = flow.run_local_server(port=0)
+
+                self._save_credentials_to_file(creds)
+
+            self.auth = creds
+            self.authenticated = True
+            return self._build_auth_result(
+                creds, "Successfully authenticated with Google"
+            )
+
+        except Exception as e:
+            self.logger.error(f"Authentication failed: {e}")
+            self.authenticated = False
+            return AuthResult(
+                success=False,
+                message=None,
+                error=f"Failed to authenticate with Google: {str(e)}",
+            )
+
+    def _extract_redirect_uri_from_secrets(self) -> str | None:
+        """
+        Extract the redirect URI from the client secrets file.
+
+        Returns:
+            str | None: The redirect URI or None if it couldn't be extracted
+        """
+        try:
+            json_result = read_json_with_fallback(self.client_secrets_file)
+            if not json_result.success:
+                self.logger.warning(
+                    f"Failed to read client secrets: {json_result.error}"
+                )
+                return None
+
+            # Access the result data correctly
+            data = json_result.data
+            if data is None:
+                self.logger.warning(
+                    "Client secrets file reported success but returned no data"
+                )
+                return None
+
+            # Try web client configuration first (most common for installed apps)
+            if "web" in data and "redirect_uris" in data["web"]:
+                redirect_uris = data["web"]["redirect_uris"]
+                if redirect_uris and len(redirect_uris) > 0:
+                    return str(redirect_uris[0])
+
+            # Try installed client configuration
+            if "installed" in data and "redirect_uris" in data["installed"]:
+                redirect_uris = data["installed"]["redirect_uris"]
+                if redirect_uris and len(redirect_uris) > 0:
+                    return str(redirect_uris[0])
+
+            return None
+        except Exception as e:
+            self.logger.warning(
+                f"Failed to extract redirect URI from client secrets: {e}"
+            )
+            return None
+
+    def _load_existing_credentials(self) -> Credentials | None:
+        if self.credentials_file is None:
+            return None
+
+        file_info = get_file_info_with_fallback(self.credentials_file)
+        if not file_info.exists:
+            return None
+
+        json_result = read_json_with_fallback(self.credentials_file)
+        if not json_result.success:
+            self.logger.warning(f"Failed to load credentials: {json_result.error}")
+            return None
+
+        credential_data = json_result.data
+        if credential_data is None:
+            self.logger.warning(
+                "Credentials file reported success but returned no data"
+            )
+            return None
+
+        try:
+            # Access the result data correctly
+            creds: Credentials = Credentials.from_authorized_user_info(
+                credential_data, self.scopes
+            )
+        except ValueError as e:
+            self.logger.warning(f"Invalid credential data: {e}")
+            return None
+
+        if not self._has_sufficient_scopes(credential_data, creds):
+            # RULING-406 gate one: Credentials.from_authorized_user_info
+            # stamps the REQUESTED scopes (self.scopes) onto the returned
+            # object regardless of what was actually GRANTED on disk -- a
+            # token granted drive-only, loaded with spreadsheets requested,
+            # comes back with creds.scopes == ['.../spreadsheets'],
+            # expired False, valid True. That passes both checks
+            # authenticate() makes (expired/valid) and then 403s at
+            # runtime. The only trustworthy signal is the GRANTED scopes
+            # recorded in the credential file itself at save time
+            # (serialize_credentials writes them), compared against what
+            # this provider actually needs -- not what the SDK object
+            # claims after being constructed with self.scopes as a hint.
+            self.logger.info(
+                "Existing credentials do not cover all requested scopes; "
+                "forcing re-consent"
+            )
+            return None
+
+        return creds
+
+    def _has_sufficient_scopes(
+        self, credential_data: dict[str, object], creds: Credentials
+    ) -> bool:
+        """
+        Validate GRANTED scopes against REQUESTED scopes on the load path.
+
+        `credential_data["scopes"]` is the set of scopes that were actually
+        granted and persisted the last time this credential was saved
+        (serialize_credentials always writes `creds.scopes`, itself sourced
+        from the OAuth server's token response at authorize/refresh time --
+        never from a caller's request). `self.scopes` is what THIS provider
+        instance was constructed to need. If self.scopes is empty, no
+        specific scope was ever requested, so nothing to insufficient-check.
+        """
+        if not self.scopes:
+            return True
+
+        granted = credential_data.get("scopes")
+        if not isinstance(granted, list):
+            # No recorded grant to check against -- fail closed, force
+            # re-consent rather than trust an un-attributed credential.
+            return False
+
+        granted_set = set(granted)
+        return set(self.scopes).issubset(granted_set)
+
+    def _build_auth_result(self, creds: Credentials, message: str) -> AuthResult:
+        expiry_dt = getattr(creds, "expiry", None)
+        return AuthResult(
+            success=True,
+            message=message,
+            expiry=int(expiry_dt.timestamp()) if expiry_dt is not None else None,
+            credentials_path=str(self.credentials_file),
+        )
+
+    def refresh_credentials(self) -> AuthResult:
+        try:
+            if not self.auth:
+                return self.authenticate()
+
+            if getattr(self.auth, "expired", False):
+                self.auth.refresh(Request())
+                self._save_credentials_to_file(self.auth)
+                return self._build_auth_result(
+                    self.auth, "Successfully refreshed credentials"
+                )
+
+            return self._build_auth_result(
+                self.auth, "Credentials are valid, no refresh needed"
+            )
+
+        except Exception as e:
+            self.logger.error(f"Failed to refresh credentials: {e}")
+            self.authenticated = False
+            return AuthResult(
+                success=False,
+                message=None,
+                error=f"Failed to refresh Google credentials: {str(e)}",
+            )
+
+    def get_credentials(self) -> Credentials:
+        if self.auth is None or not self.authenticated:
+            result = self.authenticate()
+            if not result.success:
+                raise ZeoIntegrationError(
+                    "No valid Google credentials available",
+                    {
+                        "service": "Google",
+                        "credentials_path": self.credentials_file,
+                    },
+                )
+        if self.auth is None:
+            # authenticate() sets self.auth as a side effect on every success
+            # path (both the refresh and the fresh-flow branches); result.success
+            # being True above means one of those paths ran. This is a defensive
+            # backstop for that invariant, not an expected runtime path.
+            raise ZeoIntegrationError(
+                "Authentication reported success but no credentials were set",
+                {"service": "Google", "credentials_path": self.credentials_file},
+            )
+        return self.auth
+
+    def save_credentials(self) -> bool:
+        if self.auth is None:
+            return False
+        return self._save_credentials_to_file(self.auth)
+
+    def _save_credentials_to_file(self, credentials: Credentials) -> bool:
+        if not self.credentials_file:
+            self.logger.warning("No credentials file specified, cannot save")
+            return False
+
+        directory_path = parent_directory_with_fallback(self.credentials_file)
+        if directory_path is None:
+            self.logger.error(f"Failed to split path: {self.credentials_file}")
+            return False
+
+        if directory_path:
+            # Create the directory
+            result = create_directory_with_fallback(directory_path, exist_ok=True)
+            if not result.success:
+                self.logger.error(
+                    f"Failed to create credentials directory: {result.error}"
+                )
+                return False
+
+        try:
+            data = serialize_credentials(credentials)
+            # 0600: this file holds a live OAuth credential (RULING-356 s4.4
+            # item 4 / config-secrets-hardening charter item 3).
+            result = write_json_with_fallback(self.credentials_file, data, mode=0o600)
+            if not result.success:
+                self.logger.error(f"Failed to write credentials: {result.error}")
+                return False
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Failed to serialize or save credentials: {e}")
+            return False
