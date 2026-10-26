@@ -138,8 +138,6 @@ def test_publish_response_contract_has_no_delivery_body() -> None:
     ] == ["204"]
 
 
-
-
 def test_email_draft_request(setup_client: ClientFixture, draft: EmailDraft) -> None:
     client, calls, responses = setup_client
     responses.append(httpx.Response(201, json={"id": "123"}))

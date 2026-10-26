@@ -66,9 +66,9 @@
       "old_path": "tests/test_integrations/hubspot/test_marketing.py",
       "new_path": "tests/test_integrations/hubspot/test_marketing.py",
       "old_blob": "023cb154c8368ff8d77da320a412e53592389d66",
-      "new_blob": "44d99b075c0f2c8feeb1279a9d450588e6c94c8e",
+      "new_blob": "d3e7158ac958d51f1d00154a5392d87725f78fbd",
       "old_bytes": 35703,
-      "new_bytes": 25676
+      "new_bytes": 25674
     },
     {
       "old_path": "tests/test_integrations/hubspot/test_postmerge.py",
