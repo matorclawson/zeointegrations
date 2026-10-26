@@ -44,9 +44,12 @@ def version_exists(version: str, opener=urllib.request.urlopen) -> bool:
         with opener(url, timeout=30) as response:
             data = json.load(response)
     except urllib.error.HTTPError as error:
-        if error.code == 404:
-            return False
-        raise
+        try:
+            if error.code == 404:
+                return False
+            raise
+        finally:
+            error.close()
     name = data["info"]["name"].lower().replace("_", "-").replace(".", "-")
     if name != PROJECT or not isinstance(data.get("urls"), list) or not data["urls"]:
         raise ValueError(
@@ -139,6 +142,11 @@ def build(destination: Path) -> None:
         (destination / "release-receipt.json").write_text(
             json.dumps(receipt, indent=2) + "\n"
         )
+    if output := os.environ.get("GITHUB_OUTPUT"):
+        with Path(output).open("a") as stream:
+            for name, digest in hashes.items():
+                key = "wheel_sha256" if name.endswith(".whl") else "sdist_sha256"
+                stream.write(f"{key}={digest}\n")
     if git("status", "--porcelain") or git("rev-parse", "HEAD") != commit:
         raise ValueError("Release build changed the source checkout")
 

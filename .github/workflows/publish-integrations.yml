@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: publish-integrations
+  cancel-in-progress: false
+
 jobs:
   build:
     if: github.repository == 'zeroemployeeorg/zeointegrations'
@@ -15,6 +19,8 @@ jobs:
     timeout-minutes: 15
     outputs:
       publish: ${{ steps.plan.outputs.publish }}
+      wheel_sha256: ${{ steps.artifacts.outputs.wheel_sha256 }}
+      sdist_sha256: ${{ steps.artifacts.outputs.sdist_sha256 }}
     env:
       UV_PYTHON_DOWNLOADS: never
       UV_CONCURRENT_BUILDS: '1'
@@ -36,6 +42,7 @@ jobs:
         if: steps.plan.outputs.publish == 'true'
         run: uv sync --frozen --only-group release
       - name: Build twice offline and compare exact bytes
+        id: artifacts
         if: steps.plan.outputs.publish == 'true'
         run: uv run --frozen --no-sync python tools/release_integrations.py build --destination "$RUNNER_TEMP/aggregate-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
       - name: Import smoke from the installed built wheel
@@ -69,9 +76,22 @@ jobs:
         with:
           name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
           path: release/
-      - name: Verify transferred distribution hashes
-        working-directory: release
-        run: sha256sum --check SHA256SUMS
+      - name: Verify bytes against independent build-job outputs
+        env:
+          EXPECTED_WHEEL: ${{ needs.build.outputs.wheel_sha256 }}
+          EXPECTED_SDIST: ${{ needs.build.outputs.sdist_sha256 }}
+        run: |
+          python3 - <<'PYHASH'
+          import hashlib, os, pathlib, re
+          root = pathlib.Path("release/dist")
+          wheels, sources = list(root.glob("*.whl")), list(root.glob("*.tar.gz"))
+          assert len(wheels) == len(sources) == 1
+          assert set(root.iterdir()) == set(wheels + sources)
+          for path, variable in ((wheels[0], "EXPECTED_WHEEL"), (sources[0], "EXPECTED_SDIST")):
+              expected = os.environ[variable]
+              assert re.fullmatch(r"[0-9a-f]{64}", expected)
+              assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
+          PYHASH
       - name: Publish the aggregate through PyPI OIDC
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
