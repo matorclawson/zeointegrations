@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
-      publish: ${{ steps.plan.outputs.publish }}
       wheel_sha256: ${{ steps.artifacts.outputs.wheel_sha256 }}
       sdist_sha256: ${{ steps.artifacts.outputs.sdist_sha256 }}
     env:
@@ -35,18 +34,12 @@ jobs:
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
           version: '0.12.2'
-      - name: Check metadata version against PyPI
-        id: plan
-        run: python3 tools/release_integrations.py plan
       - name: Install the frozen release toolchain
-        if: steps.plan.outputs.publish == 'true'
         run: uv sync --frozen --only-group release
       - name: Build twice offline and compare exact bytes
         id: artifacts
-        if: steps.plan.outputs.publish == 'true'
         run: uv run --frozen --no-sync python tools/release_integrations.py build --destination "$RUNNER_TEMP/aggregate-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
       - name: Import smoke from the installed built wheel
-        if: steps.plan.outputs.publish == 'true'
         run: |
           set -euo pipefail
           uv sync --frozen --no-dev --no-install-project
@@ -55,7 +48,6 @@ jobs:
           cd "$RUNNER_TEMP"
           "$wheel_python" -I -c 'import zeo_integrations; from importlib.metadata import distribution; d = distribution("zeo-integrations"); assert any(str(p).startswith("zeo_integrations/") for p in d.files); print(d.metadata["Name"], d.version)'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: steps.plan.outputs.publish == 'true'
         with:
           name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/aggregate-${{ github.run_id }}-${{ github.run_attempt }}/
@@ -64,7 +56,6 @@ jobs:
 
   publish:
     needs: build
-    if: needs.build.outputs.publish == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     # One-time server-side policy must restrict this environment to main.
@@ -74,6 +65,9 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
@@ -94,9 +88,13 @@ jobs:
               assert re.fullmatch(r"[0-9a-f]{64}", expected)
               assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
           PYHASH
+      - name: Refuse partial or conflicting existing versions
+        id: plan
+        run: python3 tools/release_integrations.py plan --receipt release/release-receipt.json
       - name: Publish the aggregate through PyPI OIDC
+        if: steps.plan.outputs.publish == 'true'
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
           packages-dir: release/dist/
-          skip-existing: true
+          skip-existing: false
           attestations: true

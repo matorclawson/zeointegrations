@@ -37,8 +37,9 @@ visible or removed. Pending publishers do not reserve a project name.
 Done when: API readback confirms the main-only/no-reviewer environment policy,
 the normal reviewed workflow merge triggers the first eligible main push, and
 https://pypi.org/project/zeo-integrations/ has that metadata version's wheel,
-sdist and OIDC/provenance receipt. Already-existing metadata versions skip;
-future releases use a reviewed metadata version increase. Build and publish use
+sdist and OIDC/provenance receipt. Only a complete matching wheel/sdist pair skips; partial or conflicting
+versions refuse without upload.
+Future releases use a reviewed metadata version increase. Build and publish use
 the authorised hosted ubuntu-24.04 packaging-only venue; full gates remain ENG.
 No environment setup, publisher registration or upload was performed by this
 seat while preparing this block.

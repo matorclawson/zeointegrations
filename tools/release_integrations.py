@@ -38,7 +38,7 @@ def metadata(path: Path = Path("pyproject.toml")) -> dict:
     return project
 
 
-def version_exists(version: str, opener=urllib.request.urlopen) -> bool:
+def fetch_version(version: str, opener=urllib.request.urlopen) -> dict | None:
     url = f"https://pypi.org/pypi/{PROJECT}/{urllib.parse.quote(version, safe='')}/json"
     try:
         with opener(url, timeout=30) as response:
@@ -46,21 +46,44 @@ def version_exists(version: str, opener=urllib.request.urlopen) -> bool:
     except urllib.error.HTTPError as error:
         try:
             if error.code == 404:
-                return False
+                return None
             raise
         finally:
             error.close()
-    name = data["info"]["name"].lower().replace("_", "-").replace(".", "-")
-    if name != PROJECT or not isinstance(data.get("urls"), list) or not data["urls"]:
-        raise ValueError(
-            "Unexpected or incomplete PyPI version response; refusing upload"
-        )
+    return data
+
+
+def published_matches(receipt: dict, remote: dict | None) -> bool:
+    if remote is None:
+        return False
+    version = receipt["version"]
+    expected = receipt["artifacts"]
+    names = {f"zeo_integrations-{version}.tar.gz", f"zeo_integrations-{version}-py3-none-any.whl"}
+    if set(expected) != names:
+        raise ValueError("Receipt must identify the exact aggregate artifact pair")
+    info = remote["info"]
+    name = info["name"].lower().replace("_", "-").replace(".", "-")
+    if name != PROJECT or info.get("version") != version:
+        raise ValueError("PyPI project or version conflicts with the reviewed build")
+    files = remote.get("urls")
+    if not isinstance(files, list) or len(files) != 2 or {f["filename"] for f in files} != names:
+        raise ValueError("Partial or unrelated PyPI release; refusing publication")
+    for file in files:
+        if file["digests"]["sha256"] != expected[file["filename"]]:
+            raise ValueError("Existing PyPI bytes conflict with this exact build")
     return True
 
 
-def plan() -> None:
+def plan(receipt_path: Path) -> None:
+    receipt = json.loads(receipt_path.read_text())
     version = metadata()["version"]
-    publish = not version_exists(version)
+    if (receipt.get("repository") != REPOSITORY or receipt.get("project") != PROJECT
+            or receipt.get("version") != version or receipt.get("commit") != git("rev-parse", "HEAD")
+            or receipt.get("tree") != git("rev-parse", "HEAD^{tree}")):
+        raise ValueError("Receipt does not identify the exact checked-out source")
+    if artifact_hashes(receipt_path.parent / "dist", version) != receipt["artifacts"]:
+        raise ValueError("Receipt does not match the transferred distribution bytes")
+    publish = not published_matches(receipt, fetch_version(version))
     if output := os.environ.get("GITHUB_OUTPUT"):
         with Path(output).open("a") as stream:
             stream.write(f"publish={'true' if publish else 'false'}\n")
@@ -154,12 +177,13 @@ def build(destination: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("plan")
+    planner = commands.add_parser("plan")
+    planner.add_argument("--receipt", type=Path, required=True)
     builder = commands.add_parser("build")
     builder.add_argument("--destination", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "plan":
-        plan()
+        plan(args.receipt)
     else:
         build(args.destination)
 
