@@ -8,10 +8,10 @@ initialization, configuration, and client communication.
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.core.fs import DataResult, FileInfoResult
 from zeo_core.integrations.core.results import ConfigResult, IntegrationResult
+
 from zeo_integrations.llms.models import ChatMessage, LLMOptions, RoleType
 from zeo_integrations.llms.service import LLMIntegration
 
@@ -129,9 +129,7 @@ class TestLLMService:
     def test_initialize(self, llm_service: LLMIntegration) -> None:
         """Test initializing the LLM integration."""
         # Test successful initialization
-        with patch(
-            "zeo_integrations.llms.registry.get_llm_client"
-        ) as mock_get_client:
+        with patch("zeo_integrations.llms.registry.get_llm_client") as mock_get_client:
             mock_client = MagicMock()
             mock_get_client.return_value = mock_client
 

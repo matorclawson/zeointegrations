@@ -17,6 +17,7 @@ from zeo_core.integrations.core.artifacts import ConversionReceipt
 from zeo_core.integrations.core.base import BaseIntegrationService
 from zeo_core.integrations.core.protocols import ConfigProviderProtocol
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.pandoc.config import PandocConfig, PandocConfigProvider
 from zeo_integrations.pandoc.converter import DocumentConverter
 from zeo_integrations.pandoc.operations.utils import verify_pandoc

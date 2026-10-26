@@ -24,9 +24,9 @@ never a zeo_core function under test.
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.models import ChatMessage, RoleType
 from zeo_integrations.llms.service import (
     LLMIntegration,
@@ -216,9 +216,7 @@ class TestLLMIntegrationInitializeBranches:
             "default_provider": "mock",
             "fallback": None,
         }
-        with patch(
-            "zeo_integrations.llms.registry.get_llm_client"
-        ) as mock_get_client:
+        with patch("zeo_integrations.llms.registry.get_llm_client") as mock_get_client:
             mock_get_client.return_value = MagicMock()
             result = service.initialize()
             # Proves the except branch ran (the warning fired, confirmed
@@ -283,9 +281,7 @@ class TestLLMIntegrationSingleProviderFallbackBranches:
     ) -> None:
         service = LLMIntegration(provider="does-not-exist")
         service.config = {"default_provider": "does-not-exist"}
-        with patch(
-            "zeo_integrations.llms.registry.get_llm_client"
-        ) as mock_get_client:
+        with patch("zeo_integrations.llms.registry.get_llm_client") as mock_get_client:
             mock_get_client.return_value = MagicMock()
             result = service._initialize_single_provider(
                 service.config, ["anthropic", "mock"]
@@ -309,9 +305,7 @@ class TestLLMIntegrationSingleProviderFallbackBranches:
     def test_anthropic_provider_specific_args(self) -> None:
         service = LLMIntegration(provider="anthropic")
         service.config = {"default_provider": "anthropic", "anthropic": {}}
-        with patch(
-            "zeo_integrations.llms.registry.get_llm_client"
-        ) as mock_get_client:
+        with patch("zeo_integrations.llms.registry.get_llm_client") as mock_get_client:
             mock_get_client.return_value = MagicMock()
             service._initialize_single_provider(service.config, ["anthropic"])
             _, kwargs = mock_get_client.call_args
@@ -320,9 +314,7 @@ class TestLLMIntegrationSingleProviderFallbackBranches:
     def test_ollama_provider_specific_args(self) -> None:
         service = LLMIntegration(provider="ollama")
         service.config = {"default_provider": "ollama", "ollama": {}}
-        with patch(
-            "zeo_integrations.llms.registry.get_llm_client"
-        ) as mock_get_client:
+        with patch("zeo_integrations.llms.registry.get_llm_client") as mock_get_client:
             mock_get_client.return_value = MagicMock()
             service._initialize_single_provider(service.config, ["ollama"])
             _, kwargs = mock_get_client.call_args

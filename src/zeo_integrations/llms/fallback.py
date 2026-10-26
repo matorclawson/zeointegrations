@@ -10,10 +10,10 @@ from collections.abc import Callable, Mapping
 from typing import Any
 
 from pydantic import BaseModel, Field
-
 from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 from zeo_core.core.logging import LOG_LEVELS, LogLevel, get_logger
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.clients.base import LLMClient
 from zeo_integrations.llms.models import ChatMessage, LLMOptions
 

@@ -9,10 +9,10 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.protocols import IntegrationProtocol
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.pandoc import create_integration
 from zeo_integrations.pandoc.service import PandocIntegration
 
@@ -267,9 +267,7 @@ def test_pandoc_integration_is_available() -> None:
     integration = PandocIntegration()
 
     # Mock verify_pandoc to succeed
-    with patch(
-        "zeo_integrations.pandoc.service.verify_pandoc", return_value="2.11.0"
-    ):
+    with patch("zeo_integrations.pandoc.service.verify_pandoc", return_value="2.11.0"):
         assert integration.is_pandoc_available()
         assert integration.get_pandoc_version() == "2.11.0"
 

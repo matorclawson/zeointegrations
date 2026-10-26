@@ -9,9 +9,9 @@ import time
 from unittest.mock import MagicMock, patch
 
 import pytest
+from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 
 from tests.test_integrations.llms.mocks.clients import MockClient
-from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 from zeo_integrations.llms.clients.base import LLMClient
 from zeo_integrations.llms.fallback import (
     FallbackConfig,

@@ -9,9 +9,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 import requests
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.clients.ollama import OllamaClient
 from zeo_integrations.llms.models import ChatMessage, LLMOptions, RoleType
 

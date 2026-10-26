@@ -12,6 +12,7 @@ from typing import Protocol, TypeVar, runtime_checkable
 
 from zeo_core.integrations.core.artifacts import ConversionReceipt
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.pandoc.models import ConversionTask
 
 # Generic type variables for flexible return types

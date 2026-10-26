@@ -12,8 +12,8 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
+
 from zeo_integrations.pandoc import (
     ConversionMetrics,
     PandocConfig,
@@ -34,9 +34,7 @@ from .test_utils_fix import (
 
 
 @patch("zeo_integrations.pandoc.operations.md_to_docx._validate_markdown_input")
-@patch(
-    "zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once"
-)
+@patch("zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once")
 @patch("zeo_integrations.pandoc.operations.md_to_docx._get_conversion_output")
 @patch("zeo_integrations.pandoc.operations.md_to_docx.validate_conversion")
 @patch(
@@ -88,9 +86,7 @@ def test_convert_markdown_to_docx_validation_error(mock_validate: MagicMock) -> 
 
 
 @patch("zeo_integrations.pandoc.operations.md_to_docx._validate_markdown_input")
-@patch(
-    "zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once"
-)
+@patch("zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once")
 def test_convert_markdown_to_docx_conversion_failure(
     mock_convert: MagicMock, mock_validate: MagicMock
 ) -> None:
@@ -112,9 +108,7 @@ def test_convert_markdown_to_docx_conversion_failure(
 
 
 @patch("zeo_integrations.pandoc.operations.md_to_docx._validate_markdown_input")
-@patch(
-    "zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once"
-)
+@patch("zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once")
 @patch("zeo_integrations.pandoc.operations.md_to_docx._get_conversion_output")
 @patch("zeo_integrations.pandoc.operations.md_to_docx.validate_conversion")
 @patch(
@@ -393,9 +387,7 @@ def test_md_to_docx_get_conversion_output_file_info_error(mock_fs: MagicMock) ->
 
 
 @patch("zeo_integrations.pandoc.operations.md_to_docx._validate_markdown_input")
-@patch(
-    "zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once"
-)
+@patch("zeo_integrations.pandoc.operations.md_to_docx._convert_markdown_to_docx_once")
 @patch("zeo_integrations.pandoc.operations.md_to_docx._get_conversion_output")
 @patch("zeo_integrations.pandoc.operations.md_to_docx.validate_conversion")
 @patch(
@@ -509,9 +501,7 @@ def test_md_to_docx_check_metadata() -> None:
     # code path runs).
     with (
         patch("zeo_integrations.pandoc.operations.md_to_docx.fs") as mock_fs,
-        patch(
-            "zeo_integrations.pandoc.operations.md_to_docx.logger"
-        ) as mock_logger,
+        patch("zeo_integrations.pandoc.operations.md_to_docx.logger") as mock_logger,
         patch("importlib.import_module") as mock_import,
     ):
         mock_import.side_effect = ImportError("docx module not found")

@@ -7,8 +7,8 @@ ensuring proper validation and default values.
 
 import pytest
 from pydantic import ValidationError
-
 from zeo_core.config.models import LoggingConfig
+
 from zeo_integrations.llms.config import (
     AnthropicConfig,
     LLMConfig,

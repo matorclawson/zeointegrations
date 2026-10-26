@@ -9,6 +9,7 @@ import os
 from unittest.mock import MagicMock, patch
 
 import pytest
+from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 
 from tests.test_integrations.llms.mocks.openai import (
     MockOpenAIClient,
@@ -16,7 +17,6 @@ from tests.test_integrations.llms.mocks.openai import (
     MockOpenAIResponse,
     MockOpenAIStreamingResponse,
 )
-from zeo_core.core.errors import ZeoApiError, ZeoIntegrationError
 from zeo_integrations.llms.clients.openai import OpenAIClient
 from zeo_integrations.llms.models import ChatMessage, LLMOptions, RoleType
 

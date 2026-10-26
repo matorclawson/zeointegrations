@@ -8,6 +8,7 @@ from collections.abc import Callable, Sequence
 from typing import TYPE_CHECKING
 
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.llms.models import ChatMessage, LLMOptions
 
 if TYPE_CHECKING:

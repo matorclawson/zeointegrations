@@ -14,8 +14,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-
 from zeo_core.core.errors import ZeoIntegrationError
+
 from zeo_integrations.pandoc.config import PandocConfig, PandocOptions
 from zeo_integrations.pandoc.models import (
     ConversionDetails,

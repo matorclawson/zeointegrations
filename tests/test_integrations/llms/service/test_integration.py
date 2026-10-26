@@ -10,9 +10,9 @@ from typing import Any, cast
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.integrations.core.results import ConfigResult, IntegrationResult
+
 from zeo_integrations.llms.config import LLMConfigProvider
 from zeo_integrations.llms.fallback import FallbackConfig
 from zeo_integrations.llms.service.integration import LLMIntegration
