@@ -7,6 +7,7 @@ verify:
 	uv run --frozen ruff check .
 	uv run --frozen ruff format --check .
 	uv run --frozen python -m unittest discover -s tests -v
+	uv run --frozen python -m unittest discover -s tests_installed -v
 	uv run --frozen python tools/verify_provider_tests.py
 	uv build --offline --no-sources
 	$(MAKE) -C packages/loops verify
