@@ -1,101 +1,80 @@
-name: Publish integrations on merge
+name: Publish zeo-integrations on merge
 
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: '17 * * * *'
 
 permissions:
   contents: read
 
-# No shared concurrency group: GitHub may discard queued commits in such a group.
 jobs:
-  plan:
+  build:
     if: github.repository == 'zeroemployeeorg/zeointegrations'
-    # Reserved labels; Runtime must provision/admit this ENG runner, not assumed present.
-    runs-on: [self-hosted, macOS, ARM64, eng-uk-0006, zeointegrations]
+    # Architect17:25 packaging-only hosted exception; full gates remain on ENG.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
-      matrix: ${{ steps.plan.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - id: plan
-        run: echo "matrix=$(python3 tools/release_integrations.py plan)" >> "$GITHUB_OUTPUT"
-
-  build:
-    needs: plan
-    if: fromJSON(needs.plan.outputs.matrix).include[0] != null
-    runs-on: [self-hosted, macOS, ARM64, eng-uk-0006, zeointegrations]
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      max-parallel: 1
-      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+      publish: ${{ steps.plan.outputs.publish }}
     env:
       UV_PYTHON_DOWNLOADS: never
+      UV_CONCURRENT_BUILDS: '1'
+      UV_CONCURRENT_INSTALLS: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          fetch-depth: 0
           persist-credentials: false
-      - name: Save the reviewed release driver
-        run: |
-          cp tools/release_integrations.py "$RUNNER_TEMP/release_integrations.py"
-          cp tools/capture_release_gate.py "$RUNNER_TEMP/capture_release_gate.py"
-      - name: Check out and qualify the exact source commit on ENG
-        env:
-          SOURCE_COMMIT: ${{ matrix.commit }}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14.3'
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: '0.12.2'
+      - name: Check metadata version against PyPI
+        id: plan
+        run: python3 tools/release_integrations.py plan
+      - name: Install the frozen release toolchain
+        if: steps.plan.outputs.publish == 'true'
+        run: uv sync --frozen --only-group release
+      - name: Build twice offline and compare exact bytes
+        if: steps.plan.outputs.publish == 'true'
+        run: uv run --frozen --no-sync python tools/release_integrations.py build --destination "$RUNNER_TEMP/aggregate-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+      - name: Import smoke from the installed built wheel
+        if: steps.plan.outputs.publish == 'true'
         run: |
           set -euo pipefail
-          git checkout --detach "$SOURCE_COMMIT"
-          python3 "$RUNNER_TEMP/capture_release_gate.py" "$SOURCE_COMMIT" "$RUNNER_TEMP/release-${SOURCE_COMMIT}/qualification.log"
-      - name: Build a versioned copy without changing qualified source
-        env:
-          SOURCE_COMMIT: ${{ matrix.commit }}
-        run: python3 "$RUNNER_TEMP/release_integrations.py" build --commit "$SOURCE_COMMIT" --destination "$RUNNER_TEMP/release-${SOURCE_COMMIT}/dist"
+          uv sync --frozen --no-dev --no-install-project
+          uv pip install --python .venv/bin/python --no-deps "$RUNNER_TEMP/aggregate-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}/dist/"*.whl
+          wheel_python="$PWD/.venv/bin/python"
+          cd "$RUNNER_TEMP"
+          "$wheel_python" -I -c 'import zeo_integrations; from importlib.metadata import distribution; d = distribution("zeo-integrations"); assert any(str(p).startswith("zeo_integrations/") for p in d.files); print(d.metadata["Name"], d.version)'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: steps.plan.outputs.publish == 'true'
         with:
-          name: release-${{ matrix.commit }}
-          path: ${{ runner.temp }}/release-${{ matrix.commit }}/
+          name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/aggregate-${{ github.run_id }}-${{ github.run_attempt }}/
           if-no-files-found: error
           retention-days: 90
 
   publish:
-    needs: [plan, build]
-    # A failed matrix build cannot suppress publication of other qualified commits.
-    if: always() && needs.plan.result == 'success' && fromJSON(needs.plan.outputs.matrix).include[0] != null
+    needs: build
+    if: needs.build.outputs.publish == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
-    environment:
-      name: pypi
-      url: https://pypi.org/project/zeo-integrations/
+    # Deliberately no GitHub environment or human release approval.
     permissions:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          persist-credentials: false
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          name: release-${{ matrix.commit }}
+          name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
           path: release/
-      - name: Verify exact artifact bytes and uncertain earlier upload outcome
-        id: check
-        run: python3 tools/release_integrations.py check --receipt release/release-receipt.json
-      - name: Upload via the single trusted publisher
-        if: steps.check.outputs.published != 'true'
+      - name: Verify transferred distribution hashes
+        working-directory: release
+        run: sha256sum --check SHA256SUMS
+      - name: Publish the aggregate through PyPI OIDC
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
           packages-dir: release/dist/
-          skip-existing: false
+          skip-existing: true
           attestations: true
-      - name: Verify published index file hashes
-        run: python3 tools/release_integrations.py check --receipt release/release-receipt.json --require-published
