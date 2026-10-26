@@ -58,7 +58,10 @@ def published_matches(receipt: dict, remote: dict | None) -> bool:
         return False
     version = receipt["version"]
     expected = receipt["artifacts"]
-    names = {f"zeo_integrations-{version}.tar.gz", f"zeo_integrations-{version}-py3-none-any.whl"}
+    names = {
+        f"zeo_integrations-{version}.tar.gz",
+        f"zeo_integrations-{version}-py3-none-any.whl",
+    }
     if set(expected) != names:
         raise ValueError("Receipt must identify the exact aggregate artifact pair")
     info = remote["info"]
@@ -66,7 +69,11 @@ def published_matches(receipt: dict, remote: dict | None) -> bool:
     if name != PROJECT or info.get("version") != version:
         raise ValueError("PyPI project or version conflicts with the reviewed build")
     files = remote.get("urls")
-    if not isinstance(files, list) or len(files) != 2 or {f["filename"] for f in files} != names:
+    if (
+        not isinstance(files, list)
+        or len(files) != 2
+        or {f["filename"] for f in files} != names
+    ):
         raise ValueError("Partial or unrelated PyPI release; refusing publication")
     for file in files:
         if file["digests"]["sha256"] != expected[file["filename"]]:
@@ -77,9 +84,13 @@ def published_matches(receipt: dict, remote: dict | None) -> bool:
 def plan(receipt_path: Path) -> None:
     receipt = json.loads(receipt_path.read_text())
     version = metadata()["version"]
-    if (receipt.get("repository") != REPOSITORY or receipt.get("project") != PROJECT
-            or receipt.get("version") != version or receipt.get("commit") != git("rev-parse", "HEAD")
-            or receipt.get("tree") != git("rev-parse", "HEAD^{tree}")):
+    if (
+        receipt.get("repository") != REPOSITORY
+        or receipt.get("project") != PROJECT
+        or receipt.get("version") != version
+        or receipt.get("commit") != git("rev-parse", "HEAD")
+        or receipt.get("tree") != git("rev-parse", "HEAD^{tree}")
+    ):
         raise ValueError("Receipt does not identify the exact checked-out source")
     if artifact_hashes(receipt_path.parent / "dist", version) != receipt["artifacts"]:
         raise ValueError("Receipt does not match the transferred distribution bytes")

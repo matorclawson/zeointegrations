@@ -3,12 +3,17 @@
 import copy
 import io
 import json
-from pathlib import Path
 import tempfile
 import unittest
 import urllib.error
+from pathlib import Path
 
-from tools.release_integrations import artifact_hashes, fetch_version, metadata, published_matches
+from tools.release_integrations import (
+    artifact_hashes,
+    fetch_version,
+    metadata,
+    published_matches,
+)
 
 WHEEL = "zeo_integrations-0.1.0-py3-none-any.whl"
 SDIST = "zeo_integrations-0.1.0.tar.gz"
@@ -61,7 +66,14 @@ class ReleaseTests(unittest.TestCase):
         conflict["urls"][0]["digests"]["sha256"] = "c" * 64
         wrong_project = copy.deepcopy(complete)
         wrong_project["info"]["name"] = "other-project"
-        for bad in (wheel_only, source_only, unrelated, wrong_version, conflict, wrong_project):
+        for bad in (
+            wheel_only,
+            source_only,
+            unrelated,
+            wrong_version,
+            conflict,
+            wrong_project,
+        ):
             with self.subTest(remote=bad), self.assertRaises(ValueError):
                 published_matches(build, bad)
 
@@ -90,7 +102,9 @@ class ReleaseTests(unittest.TestCase):
             project = root / "pyproject.toml"
             project.write_text('[project]\nname="zeo-integrations"\nversion="0.1.0"\n')
             self.assertEqual(metadata(project)["version"], "0.1.0")
-            project.write_text('[project]\nname="zeo-integration-hubspot"\nversion="0.1.0"\n')
+            project.write_text(
+                '[project]\nname="zeo-integration-hubspot"\nversion="0.1.0"\n'
+            )
             with self.assertRaises(ValueError):
                 metadata(project)
             project.unlink()
