@@ -32,7 +32,13 @@ class PackageBoundaryTests(unittest.TestCase):
     def test_m1_core_import_never_loads_the_aggregate(self):
         script = """
 import importlib.abc
+import socket
 import sys
+def refuse_network(*args, **kwargs):
+    raise AssertionError("Network forbidden during Core import")
+socket.socket.connect = refuse_network
+socket.socket.connect_ex = refuse_network
+socket.getaddrinfo = refuse_network
 class RefuseAggregate(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path=None, target=None):
         if fullname == 'zeo_integrations' or fullname.startswith(
@@ -41,7 +47,10 @@ class RefuseAggregate(importlib.abc.MetaPathFinder):
             raise AssertionError('Core imported aggregate at import time: ' + fullname)
 sys.meta_path.insert(0, RefuseAggregate())
 import zeo_core
+import zeo_core.cli
 import zeo_core.integrations
+import zeo_core.integrations.core
+import zeo_core.integrations.loader
 assert not any(
     n == 'zeo_integrations' or n.startswith('zeo_integrations.')
     for n in sys.modules
