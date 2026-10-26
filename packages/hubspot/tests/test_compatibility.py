@@ -2,11 +2,11 @@
 
 import importlib
 import importlib.metadata
-from pathlib import Path
 import subprocess
 import sys
 import unittest
 import zipfile
+from pathlib import Path
 
 
 class Compatibility(unittest.TestCase):
@@ -42,7 +42,9 @@ with patch("httpx.Client", side_effect=AssertionError("import initialized HTTP")
         assert h.EmailDraft is EmailDraft
         assert not hasattr(h, "create_integration")
         assert not hasattr(h, "HubSpotIntegration")
-        assert not any(n == "zeo_core" or n.startswith("zeo_core.") for n in sys.modules)
+        assert not any(
+            n == "zeo_core" or n.startswith("zeo_core.") for n in sys.modules
+        )
 """
         result = subprocess.run(
             [sys.executable, "-c", code],

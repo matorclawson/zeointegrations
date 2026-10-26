@@ -152,16 +152,25 @@ class HubSpotTransport:
                     code, message = {
                         401: (
                             "AUTHENTICATION",
-                            "HubSpot token is invalid or expired; reauthorize before retrying",
+                            (
+                                "HubSpot token is invalid or expired; "
+                                "reauthorize before retrying"
+                            ),
                         ),
                         403: (
                             "ACCESS",
-                            "HubSpot access denied; check app scopes and Marketing Hub subscription tier",
+                            (
+                                "HubSpot access denied; check app scopes "
+                                "and Marketing Hub subscription tier"
+                            ),
                         ),
                         404: ("NOT_FOUND", "HubSpot marketing resource was not found"),
                         429: (
                             "RATE_LIMIT",
-                            "HubSpot rate limit reached; no automatic retry was attempted",
+                            (
+                                "HubSpot rate limit reached; "
+                                "no automatic retry was attempted"
+                            ),
                         ),
                     }.get(status, ("HTTP", "HubSpot rejected the marketing request"))
                     retry = response.headers.get("Retry-After", "")
@@ -180,7 +189,10 @@ class HubSpotTransport:
                 elif time.monotonic() - started > self._whole_timeout:
                     failure = (
                         "TRANSPORT",
-                        "HubSpot request exceeded its whole deadline; reconcile before retry",
+                        (
+                            "HubSpot request exceeded its whole deadline; "
+                            "reconcile before retry"
+                        ),
                         None,
                         mutation,
                         None,
@@ -207,7 +219,7 @@ class HubSpotTransport:
                     ):
                         failure = (
                             "RESPONSE",
-                            "HubSpot response exceeds the bounded body contract",
+                            ("HubSpot response exceeds the bounded body contract"),
                             None,
                             mutation,
                             None,
@@ -217,7 +229,10 @@ class HubSpotTransport:
                             if time.monotonic() - started > self._whole_timeout:
                                 failure = (
                                     "TRANSPORT",
-                                    "HubSpot request exceeded its whole deadline; reconcile before retry",
+                                    (
+                                        "HubSpot request exceeded its whole deadline; "
+                                        "reconcile before retry"
+                                    ),
                                     None,
                                     mutation,
                                     None,
@@ -226,7 +241,10 @@ class HubSpotTransport:
                             if len(raw) + len(chunk) > 1048576:
                                 failure = (
                                     "RESPONSE",
-                                    "HubSpot response exceeds the bounded body contract",
+                                    (
+                                        "HubSpot response exceeds "
+                                        "the bounded body contract"
+                                    ),
                                     None,
                                     mutation,
                                     None,
@@ -236,7 +254,10 @@ class HubSpotTransport:
         except httpx.HTTPError:
             failure = (
                 "TRANSPORT",
-                "HubSpot request failed; reconcile provider state before repeating a mutation",
+                (
+                    "HubSpot request failed; reconcile provider "
+                    "state before repeating a mutation"
+                ),
                 None,
                 mutation,
                 None,
