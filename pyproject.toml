@@ -33,7 +33,7 @@ llms = ["tiktoken", "openai", "anthropic"]
 [dependency-groups]
 # Lock the existing build backend and its closure for CI reproducibility.
 release = ["hatchling==1.27.0"]
-dev = ["ruff==0.15.5", "pytest>=7", "pytest-asyncio>=0.21", "hypothesis"]
+dev = ["ruff==0.15.5", "pytest>=7", "pytest-asyncio>=0.21", "hypothesis", "python-docx==1.2.0"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/zeo_integrations"]
