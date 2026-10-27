@@ -76,6 +76,15 @@ class ReleaseTests(unittest.TestCase):
             merged = command("rev-parse", "HEAD")
             self.assertEqual(release_version(project, root), "0.1.0.post3")
             self.assertEqual(release_version(project, root), "0.1.0.post3")
+            command("checkout", "-b", "feature-two")
+            command("commit", "--allow-empty", "-m", "sow: zeointegrations-SOW-02")
+            command("checkout", "main")
+            command(
+                "merge", "--no-ff", "feature-two", "-m", "sow: zeointegrations-SOW-02"
+            )
+            second_merge = command("rev-parse", "HEAD")
+            self.assertNotEqual(merged, second_merge)
+            self.assertEqual(release_version(project, root), "0.1.0.post4")
             shallow = Path(directory) / "shallow"
             subprocess.run(
                 ["git", "clone", "--depth=1", root.as_uri(), str(shallow)], check=True
@@ -86,6 +95,8 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(release_version(project, root), "0.1.0.post1")
             command("checkout", "--detach", merged)
             self.assertEqual(release_version(project, root), "0.1.0.post3")
+            command("checkout", "--detach", second_merge)
+            self.assertEqual(release_version(project, root), "0.1.0.post4")
 
     def test_archive_stamping_preserves_source_and_other_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
