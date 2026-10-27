@@ -28,6 +28,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.14.3'
@@ -46,7 +47,7 @@ jobs:
           uv pip install --python .venv/bin/python --no-deps "$RUNNER_TEMP/aggregate-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}/dist/"*.whl
           wheel_python="$PWD/.venv/bin/python"
           cd "$RUNNER_TEMP"
-          "$wheel_python" -I -c 'import zeo_integrations; from importlib.metadata import distribution; d = distribution("zeo-integrations"); assert any(str(p).startswith("zeo_integrations/") for p in d.files); print(d.metadata["Name"], d.version)'
+          "$wheel_python" -I -c 'import json, sys, zeo_integrations; from importlib.metadata import distribution; d = distribution("zeo-integrations"); assert any(str(p).startswith("zeo_integrations/") for p in d.files); assert d.version == json.load(open(sys.argv[1]))["version"]; print(d.metadata["Name"], d.version)' "$RUNNER_TEMP/aggregate-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}/release-receipt.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
@@ -68,6 +69,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}

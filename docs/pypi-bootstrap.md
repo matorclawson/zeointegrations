@@ -39,7 +39,18 @@ the normal reviewed workflow merge triggers the first eligible main push, and
 https://pypi.org/project/zeo-integrations/ has that metadata version's wheel,
 sdist and OIDC/provenance receipt. Only a complete matching wheel/sdist pair skips; partial or conflicting
 versions refuse without upload.
-Future releases use a reviewed metadata version increase. Build and publish use
+Every new main commit automatically uses the source metadata base plus a PEP440
+post-release counter from its complete Git first-parent history: for example,
+`0.1.0.post42`, then `0.1.0.post43`. No manual version edit is needed for a merge.
+The same commit always derives the same version, independent of the workflow
+run/attempt, tags, or commit timestamps. Both jobs fetch full history and refuse
+shallow checkouts. The base version is stamped only into each extracted source
+archive before the two builds; the source checkout and lock remain unchanged.
+The receipt binds this derived version to the source commit/tree, and the publish
+job independently derives it again. A retry skips only matching complete bytes;
+the digest-conflict refusal remains in force. This assumes protected main history
+is extended normally, never rewritten to reuse a historical counter.
+Build and publish use
 the authorised hosted ubuntu-24.04 packaging-only venue; full gates remain ENG.
 No environment setup, publisher registration or upload was performed by this
 seat while preparing this block.

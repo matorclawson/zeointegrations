@@ -3,6 +3,8 @@
 import copy
 import io
 import json
+import os
+import subprocess
 import tempfile
 import unittest
 import urllib.error
@@ -13,6 +15,8 @@ from tools.release_integrations import (
     fetch_version,
     metadata,
     published_matches,
+    release_version,
+    stamp_archive_version,
 )
 
 WHEEL = "zeo_integrations-0.1.0-py3-none-any.whl"
@@ -34,6 +38,79 @@ def remote_for(build):
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_mainline_versions_increase_and_retries_keep_commit_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "source"
+            root.mkdir()
+
+            def command(*args, **kwargs):
+                return subprocess.check_output(
+                    ["git", "-C", str(root), *args], text=True, **kwargs
+                ).strip()
+
+            command("init", "--initial-branch=main")
+            command("config", "user.name", "Synthetic release test")
+            command("config", "user.email", "release-test@example.invalid")
+            command("commit", "--allow-empty", "-m", "sow: zeointegrations-SOW-02")
+            first = command("rev-parse", "HEAD")
+            project = {"version": "0.1.0"}
+            self.assertEqual(release_version(project, root), "0.1.0.post1")
+            command("checkout", "-b", "feature")
+            for _ in range(2):
+                command("commit", "--allow-empty", "-m", "sow: zeointegrations-SOW-02")
+            command("checkout", "main")
+            # A reversed commit clock must not reverse the release order.
+            command(
+                "commit",
+                "--allow-empty",
+                "-m",
+                "sow: zeointegrations-SOW-02",
+                env={
+                    **os.environ,
+                    "GIT_AUTHOR_DATE": "2000-01-01T00:00:00Z",
+                    "GIT_COMMITTER_DATE": "2000-01-01T00:00:00Z",
+                },
+            )
+            self.assertEqual(release_version(project, root), "0.1.0.post2")
+            command("merge", "--no-ff", "feature", "-m", "sow: zeointegrations-SOW-02")
+            merged = command("rev-parse", "HEAD")
+            self.assertEqual(release_version(project, root), "0.1.0.post3")
+            self.assertEqual(release_version(project, root), "0.1.0.post3")
+            shallow = Path(directory) / "shallow"
+            subprocess.run(
+                ["git", "clone", "--depth=1", root.as_uri(), str(shallow)], check=True
+            )
+            with self.assertRaises(ValueError):
+                release_version(project, shallow)
+            command("checkout", "--detach", first)
+            self.assertEqual(release_version(project, root), "0.1.0.post1")
+            command("checkout", "--detach", merged)
+            self.assertEqual(release_version(project, root), "0.1.0.post3")
+
+    def test_archive_stamping_preserves_source_and_other_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            original = (
+                '[build-system]\nrequires=["hatchling==1.27.0"]\n\n'
+                '[project]\nname="zeo-integrations"\nversion="0.1.0"\n'
+                'description="unchanged"\n\n[tool.example]\nversion="untouched"\n'
+            )
+            checkout = root / "pyproject.toml"
+            checkout.write_text(original)
+            results = []
+            for number in (1, 2):
+                archive = root / str(number)
+                archive.mkdir()
+                (archive / "pyproject.toml").write_text(original)
+                stamp_archive_version(archive, "0.1.0.post42")
+                results.append((archive / "pyproject.toml").read_bytes())
+                self.assertEqual(
+                    metadata(archive / "pyproject.toml")["version"], "0.1.0.post42"
+                )
+            self.assertEqual(results[0], results[1])
+            self.assertIn(b'version="untouched"', results[0])
+            self.assertEqual(checkout.read_text(), original)
+
     def test_pypi_absence_and_service_failure_are_distinct(self):
         def absent(*args, **kwargs):
             raise urllib.error.HTTPError("fake", 404, "absent", {}, None)

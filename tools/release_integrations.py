@@ -1,4 +1,4 @@
-"""Publish only the reviewed aggregate metadata version; never contact a provider."""
+"""Derive immutable mainline releases and never contact a provider."""
 
 from __future__ import annotations
 
@@ -22,8 +22,8 @@ PROJECT = "zeo-integrations"
 REPOSITORY = "zeroemployeeorg/zeointegrations"
 
 
-def git(*args: str) -> str:
-    return subprocess.check_output(["git", *args], text=True).strip()
+def git(*args: str, directory: Path | None = None) -> str:
+    return subprocess.check_output(["git", *args], cwd=directory, text=True).strip()
 
 
 def metadata(path: Path = Path("pyproject.toml")) -> dict:
@@ -36,6 +36,42 @@ def metadata(path: Path = Path("pyproject.toml")) -> dict:
     ):
         raise ValueError("An explicit package metadata version is required")
     return project
+
+
+def release_version(project: dict, directory: Path | None = None) -> str:
+    """A complete first-parent history advances once for each new main commit."""
+    base = project["version"]
+    if not re.fullmatch(r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)", base):
+        raise ValueError("Release base must be an explicit major.minor.patch version")
+    if git("rev-parse", "--is-shallow-repository", directory=directory) != "false":
+        raise ValueError("Automatic versions require complete Git history")
+    count = int(
+        git("rev-list", "--first-parent", "--count", "HEAD", directory=directory)
+    )
+    if count < 1:
+        raise ValueError("Automatic versions require a committed source")
+    return f"{base}.post{count}"
+
+
+def stamp_archive_version(source: Path, version: str) -> None:
+    """Change only the extracted archive, never the checked-out source or lock."""
+    path = source / "pyproject.toml"
+    before, section, after = path.read_text().partition("[project]\n")
+    if not section:
+        raise ValueError("Source archive has no explicit project table")
+    project, separator, rest = after.partition("\n[")
+    project, count = re.subn(
+        r'^version\s*=\s*"[^"\n]+"\s*$',
+        f'version = "{version}"',
+        project,
+        count=1,
+        flags=re.MULTILINE,
+    )
+    if count != 1:
+        raise ValueError("Source archive has no unique project version")
+    path.write_text(before + section + project + separator + rest)
+    if metadata(path)["version"] != version:
+        raise ValueError("Archive metadata did not receive the derived version")
 
 
 def fetch_version(version: str, opener=urllib.request.urlopen) -> dict | None:
@@ -83,7 +119,7 @@ def published_matches(receipt: dict, remote: dict | None) -> bool:
 
 def plan(receipt_path: Path) -> None:
     receipt = json.loads(receipt_path.read_text())
-    version = metadata()["version"]
+    version = release_version(metadata())
     if (
         receipt.get("repository") != REPOSITORY
         or receipt.get("project") != PROJECT
@@ -117,7 +153,8 @@ def artifact_hashes(directory: Path, version: str) -> dict[str, str]:
 def build(destination: Path) -> None:
     if git("status", "--porcelain"):
         raise ValueError("Release build requires a clean exact source checkout")
-    version = metadata()["version"]
+    project = metadata()
+    version = release_version(project)
     commit, tree = git("rev-parse", "HEAD"), git("rev-parse", "HEAD^{tree}")
     archive = subprocess.check_output(["git", "archive", commit])
     epoch = git("show", "-s", "--format=%ct", commit)
@@ -133,6 +170,7 @@ def build(destination: Path) -> None:
             source.mkdir()
             with tarfile.open(fileobj=io.BytesIO(archive)) as data:
                 data.extractall(source, filter="data")
+            stamp_archive_version(source, version)
             subprocess.run(
                 [
                     sys.executable,
@@ -166,6 +204,8 @@ def build(destination: Path) -> None:
             "tree": tree,
             "project": PROJECT,
             "version": version,
+            "source_metadata_version": project["version"],
+            "version_scheme": "metadata-base.post-first-parent-count-v1",
             "source_date_epoch": epoch,
             "lock_sha256": hashlib.sha256(Path("uv.lock").read_bytes()).hexdigest(),
             "python": sys.version,
