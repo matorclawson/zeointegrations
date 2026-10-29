@@ -159,3 +159,18 @@ tests/test_integrations/google/youtube/test_relay.py -> same relative path; sour
 tests/test_integrations/google/youtube/test_retention.py -> same relative path; source blob 32d77245717d5095940d8c1866a2423237a7cd42
 tests/test_integrations/google/youtube/test_service.py -> same relative path; source blob 703f4b41f2f980e3545cc6b43bc394720b23e498
 tests/test_integrations/google/youtube/test_transfer.py -> same relative path; source blob f4bf5f68e74f9369684b1521d7be2af730946373
+
+YouTube MediaSource seam (a later change, not part of the move above)
+Source: zeroemployeeorg/zeocore commit d689e6d0e7a66a74500b1b32d2eaf31d9c2cadfe, base 4358890389bb5c173a216e69ed2134ca374733f8
+(MIT, Copyright (c) 2026 Rod Rivera). Written once, in this repository, by the zeocore seat as
+sole writer (zeointegrations-SOW-03 rev2). It changes four files listed above, so they are no
+longer byte-identical to their move sources: the change is exactly the seam diff, with module
+names rewritten as in the move. Seam source blobs follow.
+
+src/zeo_core/integrations/google/youtube/job.py -> same relative path (modified); seam source blob 712345d9e5c0d54dec319b894a0064ccd7f67625
+src/zeo_core/integrations/google/youtube/transfer.py -> same relative path (modified); seam source blob 8b28038d9021083224d544bc2a9dc06da7de0541
+src/zeo_core/integrations/google/youtube/publish.py -> same relative path (modified); seam source blob d5132ba50cee30b759e3e2f8c2da2a4535ecfed9
+tests/test_integrations/google/youtube/test_publish.py -> same relative path (modified); seam source blob df450093041620303382bfa08d2c098dbc7dc3e4
+src/zeo_core/integrations/google/youtube/media_source.py -> src/zeo_integrations/google/youtube/media_source.py (new); source blob 4f2e13c8bd40ad2de6c06300b210f623c3425382
+tests/test_integrations/google/youtube/test_media_source.py -> same relative path (new); source blob 27fc8ae6f037c6de840c385009c7dd6847bd035e
+docs/integrations/youtube.md (section "Where the bytes come from") -> docs/youtube-media-source.md (new, that section only); source blob c4a938355d5bf5e26a68ca2312582fbd458700a7

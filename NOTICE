@@ -63,3 +63,8 @@ Whole-batch test ownership partition, Core7c9923e6: 217 original test functions;
 functions remain unchanged in Core until the post-PyPI shim. No skips or aliases.
 Per-function ownership, original/moved hashes and assertion counts cover every
 original Python test/support file in docs/migrations/core-7c9923e6-batch1.json.
+
+YouTube MediaSource seam: from zeroemployeeorg/zeocore commit d689e6d0e7a66a74500b1b32d2eaf31d9c2cadfe,
+MIT Copyright(c)2026 Rod Rivera. Written into src/zeo_integrations/google/youtube by the
+zeocore seat as sole writer (zeointegrations-SOW-03 rev2). Per-file source blobs are in
+src/zeo_integrations/google/NOTICE; the old/new mapping is in the pull request.
