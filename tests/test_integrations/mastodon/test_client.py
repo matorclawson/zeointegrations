@@ -463,7 +463,12 @@ def test_upload_streamed_in_bounded_chunks_without_whole_file_read():
     source = ObservedStream(b"a" * 131072)
     transport = ChunkTransport(reply(body=configuration(image_bytes=200000)))
     subject = MastodonClient(transport, origin=ORIGIN, max_upload_bytes=200000)
-    assert subject.upload_media(MediaUpload(source, 131072, "big.png", "image/png", "alt")).id == "42"
+    assert (
+        subject.upload_media(
+            MediaUpload(source, 131072, "big.png", "image/png", "alt")
+        ).id
+        == "42"
+    )
     assert len(source.read_sizes) == 3
     assert not source.closed
 
@@ -475,5 +480,7 @@ def test_nonseekable_source_refused_before_upload():
 
     transport = Transport(reply(body=configuration()))
     with pytest.raises(MastodonError, match="UPLOAD_SOURCE"):
-        client(transport).upload_media(MediaUpload(NonSeekable(b"png"), 3, "a.png", "image/png", "alt"))
+        client(transport).upload_media(
+            MediaUpload(NonSeekable(b"png"), 3, "a.png", "image/png", "alt")
+        )
     assert len(transport.calls) == 1
