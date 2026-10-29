@@ -12,7 +12,7 @@ import time
 from collections.abc import Callable, Mapping, Sequence
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
-from io import BytesIO
+from io import RawIOBase
 from urllib.parse import urlsplit
 
 from .models import (
@@ -99,10 +99,38 @@ def _duration(value: float) -> float:
     return value
 
 
+class _UploadReader(RawIOBase):
+    """Bounded chunks, never a whole-media buffer; does not own caller stream."""
+
+    def __init__(self, upload: MediaUpload, check_deadline: Callable[[], float]):
+        self._source = upload.stream
+        self._remaining = upload.size
+        self._check_deadline = check_deadline
+
+    def readable(self) -> bool:
+        return True
+
+    def read(self, size: int = -1) -> bytes:
+        if self.closed:
+            raise MastodonError("UPLOAD_READ")
+        self._check_deadline()
+        amount = min(65536, self._remaining, size if size >= 0 else 65536)
+        if amount == 0:
+            return b""
+        data = self._source.read(amount)
+        if not isinstance(data, bytes) or not 0 < len(data) <= amount:
+            raise MastodonError("UPLOAD_READ")
+        self._remaining -= len(data)
+        if self._remaining == 0 and self._source.read(1):
+            raise MastodonError("UPLOAD_SIZE")
+        self._check_deadline()
+        return data
+
+
 class MastodonClient:
     """No default transport. A Connect adapter must be injected explicitly.
 
-    Deadlines and memory/attempt ceilings are caller policy, not provider quotas.
+    Deadlines and byte/attempt ceilings are caller policy, not provider quotas.
     A client instance is synchronous; its transport owns shared admission.
     """
 
@@ -299,7 +327,7 @@ class MastodonClient:
         raise MastodonError("PROCESSING_ATTEMPTS")
 
     def upload_media(self, upload: MediaUpload) -> ReadyMedia:
-        """Preflight the entire bounded input before sending one upload."""
+        """Check size before POST, then stream bounded chunks without replay."""
         deadline = self._now() + self._timeout
         limits = self._limits or self._discover(deadline)
         if upload.mime_type not in limits.supported_mime_types:
@@ -316,36 +344,36 @@ class MastodonClient:
             type(upload.size) is not int
             or not 0 < upload.size <= min(provider_cap, self._max_upload_bytes)
             or not upload.filename
-            or any(c in upload.filename for c in ('\r', '\n', '\x00', '/', '\\', '"'))
+            or any(c in upload.filename for c in ("\r", "\n", "\x00", "/", "\\", '"'))
             or len(upload.description) > limits.description_limit
         ):
             raise MastodonError("UPLOAD")
-        content = bytearray()
+        # Verify seekable input length without buffering. Connect must supply a
+        # stable, digest-verified staged object; arbitrary non-seekable caller
+        # streams are refused until its UploadSource bridge is agreed.
         try:
-            while len(content) <= upload.size:
-                chunk = upload.stream.read(min(65536, upload.size + 1 - len(content)))
-                if not isinstance(chunk, bytes):
-                    raise ValueError
-                if not chunk:
-                    break
-                if len(chunk) > upload.size + 1 - len(content):
-                    raise MastodonError("UPLOAD_SIZE")
-                content.extend(chunk)
-                self._remaining(deadline)
+            if not upload.stream.seekable():
+                raise MastodonError("UPLOAD_SOURCE")
+            start = upload.stream.tell()
+            end = upload.stream.seek(0, 2)
+            upload.stream.seek(start)
+            if end - start != upload.size:
+                raise MastodonError("UPLOAD_SIZE")
         except MastodonError:
             raise
         except Exception:
-            raise MastodonError("UPLOAD_READ") from None
-        if len(content) != upload.size:
-            raise MastodonError("UPLOAD_SIZE")
-        staged = BytesIO(content)
+            raise MastodonError("UPLOAD_SOURCE") from None
+        staged = _UploadReader(upload, lambda: self._remaining(deadline))
         try:
             response = self._request(
                 "POST",
                 "/api/v2/media",
                 deadline,
                 upload=MediaUpload(
-                    staged, upload.size, upload.filename, upload.mime_type,
+                    staged,
+                    upload.size,
+                    upload.filename,
+                    upload.mime_type,
                     upload.description,
                 ),
                 fields={"description": upload.description},

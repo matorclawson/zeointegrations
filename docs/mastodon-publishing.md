@@ -9,11 +9,16 @@ no production adapter, deployment or consumer acceptance claim in this source.
 
 ## Transport boundary
 
-`MastodonClient(transport, origin=approved_https_origin, max_upload_bytes=budget)`
+`MastodonClient(transport, origin=approved_https_origin, max_upload_bytes=operation_byte_cap)`
 requires an opaque `transport.binding` and matching `transport.origin`.
 `request(method, relative_path, *, fields, upload, headers, timeout_seconds)`
 returns `Response(status, body, origin, headers, redirected=False)`.
 All requests use constructed allowlisted paths; no caller URL is fetched.
+The operation must carry only a staged-object reference, not upload bytes through
+the64KiB Broker invoke body. Connect must bridge its verified UploadSource into
+this seekable-reader port; that bridge is not present or claimed here. The
+Broker supplies its execution key as the client idempotency key; the adapter
+must enforce that match and reject attempts to choose another key.
 The client emits only the caller's status `Idempotency-Key`, never auth headers.
 
 Connect's adapter must inject auth only inside custody, disable ambient proxy
@@ -33,15 +38,19 @@ Core-owned. Do not plug in a credential-returning or generic default transport.
   required configuration fails explicitly rather than assuming example caps.
   Instances predating the description limit are explicitly unsupported.
 - `upload_media(MediaUpload(stream, size, filename, mime_type, description))`
-  preflights declared size against instance and caller memory caps. It reads at
-  most declared size plus one byte, verifies size before POST and stages the
-  bounded content in memory. It does not close the caller's stream. Caller
-  streams must honor the ordinary bounded, blocking `BinaryIO.read(n)` contract;
-  an indefinitely blocking caller stream cannot be interrupted synchronously.
-  The staging budget bounds payload size, not total Python heap usage; staging
-  and the adapter may require additional copies. Do not choose a budget close
-  to process memory capacity. PNG/JPEG/other advertised non-GIF images use the
-  discovered image byte cap; advertised video MIME types use video byte cap.
+  preflights declared size against instance and operation byte caps, checking
+  the remaining length of a seekable stream without reading it into memory.
+  It forwards chunks of at most64KiB and never buffers the full media file.
+  Non-seekable input is explicitly unsupported until the Connect UploadSource
+  bridge is agreed. It does not close the caller's stream. Reads must honor
+  normal bounded BinaryIO contracts; an indefinitely blocking caller reader
+  cannot be interrupted synchronously. The adapter must consume chunks until
+  EOF rather than assume a no-argument read returns all bytes. Early EOF or
+  changed length during dispatch refuses streaming, with unknown write outcome.
+  Connect must supply a stable staged object with verified size/SHA256 and check
+  digest again at dispatch; this library has no object-store custody or SDK.
+  PNG/JPEG/other advertised non-GIF images use the discovered image byte cap;
+  advertised video MIME types use video byte cap.
   Audio and image/gif are refused because the configuration descriptions alone
   do not establish their cap classification. No media is fetched by URL. The
   provider still validates actual format, pixel dimensions and frame rate;
@@ -69,7 +78,7 @@ universal500-character limit.
 ## Rate limits, deadlines and outcomes
 
 Caller policy sets finite overall/request timeouts, polling interval, read
-attempt cap and staging budget; these are not provider quotas. Inject clocks and
+attempt cap and operation byte cap; these are not provider quotas. Inject clocks and
 sleep for fake tests. The adapter must enforce the supplied timeout. GETs may
 retry explicit429/500/502/503/504 within policy. Retry-After and exhausted
 X-RateLimit-Reset headers defer requests within the deadline; invalid selected
