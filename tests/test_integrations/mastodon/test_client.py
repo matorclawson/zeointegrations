@@ -584,3 +584,17 @@ def test_source_violating_read_bound_cannot_emit_excess_bytes():
         client(transport).upload_media(MediaUpload(OversizedRead(), "alt"))
     assert caught.value.outcome_unknown
     assert "uploaded_bytes" not in transport.calls[-1][2]
+
+
+@pytest.mark.parametrize("malformed_eof", [None, "", bytearray()])
+def test_nonbyte_eof_cannot_complete_upload(malformed_eof):
+    class MalformedEOF(FakeUploadSource):
+        def read(self, n):
+            value = super().read(n)
+            return value if value else malformed_eof
+
+    transport = Transport(reply(body=configuration()))
+    with pytest.raises(MastodonError) as caught:
+        client(transport).upload_media(MediaUpload(MalformedEOF(), "alt"))
+    assert caught.value.outcome_unknown
+    assert sum(method == "POST" for method, _, _ in transport.calls) == 1

@@ -155,8 +155,10 @@ class _UploadReader(RawIOBase):
         if not isinstance(data, bytes) or not 0 < len(data) <= amount:
             raise MastodonError("UPLOAD_READ")
         self._remaining -= len(data)
-        if self._remaining == 0 and self._source.read(1):
-            raise MastodonError("UPLOAD_SIZE")
+        if self._remaining == 0:
+            tail = self._source.read(1)
+            if not isinstance(tail, bytes) or tail != b"":
+                raise MastodonError("UPLOAD_SIZE")
         self._check_deadline()
         return data
 
