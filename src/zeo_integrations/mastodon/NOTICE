@@ -1,0 +1,12 @@
+Mastodon publishing client
+Copyright (c) 2026 Zero Employee Organizations
+Distributed under the repository MIT License.
+
+Original implementation; no upstream implementation copied and no SDK dependency.
+Primary API documentation references, consulted 2026-10-29:
+https://docs.joinmastodon.org/methods/instance/
+https://docs.joinmastodon.org/entities/Instance/
+https://docs.joinmastodon.org/methods/media/
+https://docs.joinmastodon.org/methods/statuses/
+https://docs.joinmastodon.org/api/rate-limits/
+Documentation prose and examples are not reproduced.
