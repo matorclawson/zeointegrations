@@ -1,0 +1,22 @@
+zeo-integrations: ffmpeg
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; the full permission notice is in the repository LICENSE.
+
+Source: zeroemployeeorg/zeocore
+Commit: 7c9923e6fd93cabb8601040f3e431760be3a18ee
+Source prefix: src/zeo_core/integrations/ffmpeg/ and tests/test_integrations/ffmpeg/
+Destination prefix: src/zeo_integrations/ffmpeg/ and tests/test_integrations/ffmpeg/
+Method: frozen implementation and travelling-test copy. Import/module-name
+relocations are intentional differences, not a byte-identity claim. Shared Core
+framework/contracts and signer custody remain in Core. Source blobs follow.
+
+src/zeo_core/integrations/ffmpeg/__init__.py -> src/zeo_integrations/ffmpeg/__init__.py; source blob 535eeb5719807bc403c9170cb950fa5ee8b02b66
+src/zeo_core/integrations/ffmpeg/config.py -> src/zeo_integrations/ffmpeg/config.py; source blob 48a74f0045243a5ad71560ad08e48474b7fac0db
+src/zeo_core/integrations/ffmpeg/models.py -> src/zeo_integrations/ffmpeg/models.py; source blob 337d528eba812e6230252bec14f6e1448d31c5af
+src/zeo_core/integrations/ffmpeg/protocols.py -> src/zeo_integrations/ffmpeg/protocols.py; source blob 26ecc7cfbfd07bbfbfd655437ba7b1babde55f77
+src/zeo_core/integrations/ffmpeg/service.py -> src/zeo_integrations/ffmpeg/service.py; source blob 93fc776112873b7698638484aad8d751562d1af6
+tests/test_integrations/ffmpeg/__init__.py -> tests/test_integrations/ffmpeg/__init__.py; source blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+tests/test_integrations/ffmpeg/conftest.py -> tests/test_integrations/ffmpeg/conftest.py; source blob 2f0124fd7e73871f4d15cf76b97050c4ba2e5665
+tests/test_integrations/ffmpeg/test_config.py -> tests/test_integrations/ffmpeg/test_config.py; source blob d407b4ab69e986dce41fd043c82c392eaf2448cb
+tests/test_integrations/ffmpeg/test_service.py -> tests/test_integrations/ffmpeg/test_service.py; source blob c802616246a4540068e93c566a7ff3ad6f19d655
+tests/test_integrations/ffmpeg/test_service_live.py -> tests/test_integrations/ffmpeg/test_service_live.py; source blob 3102305ba5459ffc5095516db3ba1ed294b46a8e
