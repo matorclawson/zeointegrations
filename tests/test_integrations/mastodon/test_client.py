@@ -74,7 +74,7 @@ class Transport:
         upload = kwargs.get("upload")
         if upload is not None:
             content = bytearray()
-            while chunk := upload.stream.read(65536):
+            while chunk := upload.read(65536):
                 content.extend(chunk)
             kwargs["uploaded_bytes"] = bytes(content)
         answer = self.answers.pop(0)
@@ -165,7 +165,7 @@ def test_upload_ready_and_caller_stream_stays_open():
     assert transport.calls[1][2]["uploaded_bytes"] == b"png"
     assert transport.calls[1][2]["fields"] == {"description": item.description}
     assert not item.stream.closed
-    assert transport.calls[1][2]["upload"].stream.closed
+    assert transport.calls[1][2]["upload"].closed
 
 
 def test_async_media_waits_for_processed_url():
@@ -462,7 +462,7 @@ def test_upload_streamed_in_bounded_chunks_without_whole_file_read():
             upload = kwargs.get("upload")
             if upload:
                 count = 0
-                while chunk := upload.stream.read(65536):
+                while chunk := upload.read(65536):
                     count += len(chunk)
                 assert count == 131072
                 self.calls.append((method, path, kwargs))
@@ -472,12 +472,7 @@ def test_upload_streamed_in_bounded_chunks_without_whole_file_read():
     source = FakeUploadSource(b"a" * 131072, filename="big.png")
     transport = ChunkTransport(reply(body=configuration(image_bytes=200000)))
     subject = MastodonClient(transport, origin=ORIGIN, max_upload_bytes=200000)
-    assert (
-        subject.upload_media(
-            MediaUpload(source, "alt")
-        ).id
-        == "42"
-    )
+    assert subject.upload_media(MediaUpload(source, "alt")).id == "42"
     assert len(source.read_sizes) == 3
     assert not source.closed
 
@@ -567,7 +562,7 @@ def test_malformed_length_never_emits_past_declared_bound(declared_size):
             if method != "POST":
                 return super().request(method, path, **kwargs)
             self.calls.append((method, path, kwargs))
-            while chunk := kwargs["upload"].source.read(65536):
+            while chunk := kwargs["upload"].read(65536):
                 self.emitted.extend(chunk)
             raise AssertionError("Malformed source must refuse")
 

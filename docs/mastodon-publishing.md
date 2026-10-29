@@ -12,7 +12,10 @@ no production adapter, deployment or consumer acceptance claim in this source.
 `MastodonClient(transport, origin=approved_https_origin, max_upload_bytes=operation_byte_cap)`
 requires an opaque `transport.binding` and matching `transport.origin`.
 `request(method, relative_path, *, fields, upload, headers, timeout_seconds)`
-returns `Response(status, body, origin, headers, redirected=False)`.
+accepts `upload: UploadSource | None` directly and returns
+`Response(status, body, origin, headers, redirected=False)`.
+The public `MediaUpload(source, description)` input separates alt text from the
+source; the request port receives the guarded source and alt text in fields.
 All requests use constructed allowlisted paths; no caller URL is fetched.
 The operation must carry only a staged-object reference, not upload bytes through
 the64KiB Broker invoke body. Connect must bridge its verified UploadSource into

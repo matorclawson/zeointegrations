@@ -23,6 +23,7 @@ from .models import (
     PublishedStatus,
     ReadyMedia,
     Response,
+    UploadSource,
     Visibility,
 )
 
@@ -139,8 +140,10 @@ class _UploadReader(RawIOBase):
             raise MastodonError("UPLOAD_READ")
         self._check_deadline()
         if (
-            self._source.size, self._source.sha256,
-            self._source.mime, self._source.filename,
+            self._source.size,
+            self._source.sha256,
+            self._source.mime,
+            self._source.filename,
         ) != self._metadata:
             raise MastodonError("UPLOAD_SOURCE_CHANGED")
         if type(size) is not int or size < 0:
@@ -254,7 +257,7 @@ class MastodonClient:
         deadline: float,
         *,
         fields: Mapping[str, str | bool | list[str]] | None = None,
-        upload: MediaUpload | None = None,
+        upload: UploadSource | None = None,
         key: str | None = None,
     ) -> Response:
         self._binding_check()
@@ -398,7 +401,7 @@ class MastodonClient:
                 "POST",
                 "/api/v2/media",
                 deadline,
-                upload=MediaUpload(staged, upload.description),
+                upload=staged,
                 fields={"description": upload.description},
             )
         finally:
@@ -416,8 +419,10 @@ class MastodonClient:
     @staticmethod
     def _post_error(response: Response) -> None:
         unknown = response.status not in _DEFINITE_REFUSALS
-        code = "OUTCOME_UNKNOWN" if unknown else (
-            "RATE_LIMIT" if response.status == 429 else "REJECTED"
+        code = (
+            "OUTCOME_UNKNOWN"
+            if unknown
+            else ("RATE_LIMIT" if response.status == 429 else "REJECTED")
         )
         raise MastodonError(code, outcome_unknown=unknown)
 

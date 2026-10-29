@@ -122,7 +122,7 @@ class BoundTransport(Protocol):
         path: str,
         *,
         fields: Mapping[str, str | bool | list[str]] | None,
-        upload: MediaUpload | None,
+        upload: UploadSource | None,
         headers: Mapping[str, str],
         timeout_seconds: float,
     ) -> Response: ...
