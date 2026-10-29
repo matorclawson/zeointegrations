@@ -5,7 +5,7 @@ SPDX-License-Identifier: MIT
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import BinaryIO, Literal, Protocol
+from typing import Literal, Protocol
 
 Visibility = Literal["public", "unlisted", "private", "direct"]
 
@@ -30,13 +30,51 @@ class InstanceLimits:
     description_limit: int
 
 
+class UploadSource(Protocol):
+    """Broker-created, size/digest-verified staged object; never seek it.
+
+    Connect verifies the complete object before any POST and owns its lifetime.
+    This provider-local structural port neither opens staging URLs nor owns
+    custody. read(n) must return at most n bytes, with b"" only at EOF.
+    """
+
+    @property
+    def size(self) -> int: ...
+
+    @property
+    def sha256(self) -> str: ...
+
+    @property
+    def mime(self) -> str: ...
+
+    @property
+    def filename(self) -> str: ...
+
+    def read(self, n: int) -> bytes: ...
+
+    def close(self) -> None: ...
+
+
 @dataclass(frozen=True)
 class MediaUpload:
-    stream: BinaryIO
-    size: int
-    filename: str
-    mime_type: str
+    source: UploadSource
     description: str
+
+    @property
+    def stream(self) -> UploadSource:
+        return self.source
+
+    @property
+    def size(self) -> int:
+        return self.source.size
+
+    @property
+    def filename(self) -> str:
+        return self.source.filename
+
+    @property
+    def mime_type(self) -> str:
+        return self.source.mime
 
 
 @dataclass(frozen=True)

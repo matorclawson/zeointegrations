@@ -12,6 +12,7 @@ from .models import (
     PublishedStatus,
     ReadyMedia,
     Response,
+    UploadSource,
     Visibility,
 )
 
@@ -24,5 +25,6 @@ __all__ = [
     "PublishedStatus",
     "ReadyMedia",
     "Response",
+    "UploadSource",
     "Visibility",
 ]

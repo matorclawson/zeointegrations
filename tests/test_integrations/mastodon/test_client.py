@@ -4,6 +4,7 @@ Copyright 2026 Zero Employee Organizations. SPDX-License-Identifier: MIT
 """
 
 from copy import deepcopy
+from hashlib import sha256
 from io import BytesIO
 from traceback import format_exception
 
@@ -69,10 +70,13 @@ class Transport:
         self.calls = []
 
     def request(self, method, path, **kwargs):
+        self.calls.append((method, path, kwargs))
         upload = kwargs.get("upload")
         if upload is not None:
-            kwargs = {**kwargs, "uploaded_bytes": upload.stream.read()}
-        self.calls.append((method, path, kwargs))
+            content = bytearray()
+            while chunk := upload.stream.read(65536):
+                content.extend(chunk)
+            kwargs["uploaded_bytes"] = bytes(content)
         answer = self.answers.pop(0)
         if isinstance(answer, Exception):
             raise answer
@@ -96,14 +100,31 @@ def reply(status=200, body=None, **kwargs):
     return response(status, body, headers=kwargs.pop("headers", {}), **kwargs)
 
 
+class FakeUploadSource:
+    """Synthetic Broker-created source; deliberately exposes no seek/tell."""
+
+    def __init__(self, data=b"png", **kwargs):
+        self.size = kwargs.pop("size", len(data))
+        self.filename = kwargs.pop("filename", "image.png")
+        self.mime = kwargs.pop("mime_type", "image/png")
+        self.sha256 = kwargs.pop("sha256", sha256(data).hexdigest())
+        self._data = BytesIO(data)
+        self.closed = False
+        self.read_sizes = []
+
+    def read(self, n):
+        assert 0 < n <= 65536
+        self.read_sizes.append(n)
+        return self._data.read(n)
+
+    def close(self):
+        self.closed = True
+        self._data.close()
+
+
 def stream(data=b"png", **kwargs):
-    return MediaUpload(
-        BytesIO(data),
-        kwargs.pop("size", len(data)),
-        kwargs.pop("filename", "image.png"),
-        kwargs.pop("mime_type", "image/png"),
-        kwargs.pop("description", "A helpful description"),
-    )
+    description = kwargs.pop("description", "A helpful description")
+    return MediaUpload(FakeUploadSource(data, **kwargs), description)
 
 
 def publish(subject, **kwargs):
@@ -189,8 +210,6 @@ def test_processing_deadline_and_finite_poll_cap():
     "item",
     [
         stream(b"a" * 101),
-        stream(size=2),
-        stream(size=4),
         stream(description="a" * 31),
         stream(filename="bad\r\nfile"),
         stream(mime_type="image/x-unknown"),
@@ -438,16 +457,6 @@ for name in ("requests", "httpx", "google", "hubspot", "mastodon"):
 
 
 def test_upload_streamed_in_bounded_chunks_without_whole_file_read():
-    class ObservedStream(BytesIO):
-        def __init__(self, data):
-            super().__init__(data)
-            self.read_sizes = []
-
-        def read(self, size=-1):
-            assert 0 < size <= 65536
-            self.read_sizes.append(size)
-            return super().read(size)
-
     class ChunkTransport(Transport):
         def request(self, method, path, **kwargs):
             upload = kwargs.get("upload")
@@ -460,12 +469,12 @@ def test_upload_streamed_in_bounded_chunks_without_whole_file_read():
                 return reply(body=media_body())
             return super().request(method, path, **kwargs)
 
-    source = ObservedStream(b"a" * 131072)
+    source = FakeUploadSource(b"a" * 131072, filename="big.png")
     transport = ChunkTransport(reply(body=configuration(image_bytes=200000)))
     subject = MastodonClient(transport, origin=ORIGIN, max_upload_bytes=200000)
     assert (
         subject.upload_media(
-            MediaUpload(source, 131072, "big.png", "image/png", "alt")
+            MediaUpload(source, "alt")
         ).id
         == "42"
     )
@@ -473,14 +482,110 @@ def test_upload_streamed_in_bounded_chunks_without_whole_file_read():
     assert not source.closed
 
 
-def test_nonseekable_source_refused_before_upload():
-    class NonSeekable(BytesIO):
-        def seekable(self):
-            return False
+def test_broker_nonseekable_source_is_supported_without_seeking():
+    source = FakeUploadSource()
+    transport = Transport(reply(body=configuration()), reply(body=media_body()))
+    assert client(transport).upload_media(MediaUpload(source, "alt")).id == "42"
+    assert not hasattr(source, "seek")
+    assert not source.closed
 
+
+@pytest.mark.parametrize("operation", ["media", "status"])
+@pytest.mark.parametrize("status", [408, 409, 418, 499, 503])
+def test_post_ambiguous_status_never_replayed(operation, status):
+    transport = Transport(reply(body=configuration()), reply(status, {}))
+    with pytest.raises(MastodonError) as caught:
+        subject = client(transport)
+        if operation == "media":
+            subject.upload_media(stream())
+        else:
+            publish(subject)
+    assert caught.value.outcome_unknown
+    assert caught.value.code == "OUTCOME_UNKNOWN"
+    assert sum(method == "POST" for method, _, _ in transport.calls) == 1
+
+
+@pytest.mark.parametrize("status", [400, 404, 405, 406, 413, 415, 422, 429])
+def test_closed_definite_refusals_have_known_outcome(status):
+    transport = Transport(reply(body=configuration()), reply(status, {}))
+    with pytest.raises(MastodonError) as caught:
+        publish(client(transport))
+    assert not caught.value.outcome_unknown
+    assert sum(method == "POST" for method, _, _ in transport.calls) == 1
+
+
+@pytest.mark.parametrize("size", [2, 4])
+def test_changed_upload_size_is_unknown_after_dispatch_and_not_replayed(size):
+    item = stream(size=size)
+    transport = Transport(reply(body=configuration()), reply(body=media_body()))
+    with pytest.raises(MastodonError) as caught:
+        client(transport).upload_media(item)
+    assert caught.value.outcome_unknown
+    assert sum(method == "POST" for method, _, _ in transport.calls) == 1
+    assert not item.source.closed
+
+
+def test_invalid_declared_digest_refused_before_post():
     transport = Transport(reply(body=configuration()))
     with pytest.raises(MastodonError, match="UPLOAD_SOURCE"):
-        client(transport).upload_media(
-            MediaUpload(NonSeekable(b"png"), 3, "a.png", "image/png", "alt")
-        )
+        client(transport).upload_media(stream(sha256="invalid"))
     assert len(transport.calls) == 1
+
+
+def test_mutated_source_metadata_refused_during_dispatch():
+    class MutatingTransport(Transport):
+        def request(self, method, path, **kwargs):
+            if method == "POST":
+                item.source.size += 1
+            return super().request(method, path, **kwargs)
+
+    item = stream()
+    transport = MutatingTransport(reply(body=configuration()), reply(body=media_body()))
+    with pytest.raises(MastodonError) as caught:
+        client(transport).upload_media(item)
+    assert caught.value.outcome_unknown
+    assert sum(method == "POST" for method, _, _ in transport.calls) == 1
+    assert not item.source.closed
+
+
+@pytest.mark.parametrize("declared_size", [True, 0, -1, 101])
+def test_invalid_or_over_cap_declared_size_before_post(declared_size):
+    transport = Transport(reply(body=configuration()))
+    with pytest.raises(MastodonError):
+        client(transport).upload_media(stream(size=declared_size))
+    assert [method for method, _, _ in transport.calls] == ["GET"]
+
+
+@pytest.mark.parametrize("declared_size", [2, 4])
+def test_malformed_length_never_emits_past_declared_bound(declared_size):
+    class RecordingTransport(Transport):
+        def __init__(self, *answers):
+            super().__init__(*answers)
+            self.emitted = bytearray()
+
+        def request(self, method, path, **kwargs):
+            if method != "POST":
+                return super().request(method, path, **kwargs)
+            self.calls.append((method, path, kwargs))
+            while chunk := kwargs["upload"].source.read(65536):
+                self.emitted.extend(chunk)
+            raise AssertionError("Malformed source must refuse")
+
+    transport = RecordingTransport(reply(body=configuration()))
+    with pytest.raises(MastodonError) as caught:
+        client(transport).upload_media(stream(size=declared_size))
+    assert caught.value.outcome_unknown
+    assert len(transport.emitted) <= declared_size
+    assert sum(method == "POST" for method, _, _ in transport.calls) == 1
+
+
+def test_source_violating_read_bound_cannot_emit_excess_bytes():
+    class OversizedRead(FakeUploadSource):
+        def read(self, n):
+            return b"malformed-oversized-chunk"
+
+    transport = Transport(reply(body=configuration()))
+    with pytest.raises(MastodonError) as caught:
+        client(transport).upload_media(MediaUpload(OversizedRead(), "alt"))
+    assert caught.value.outcome_unknown
+    assert "uploaded_bytes" not in transport.calls[-1][2]

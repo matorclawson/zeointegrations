@@ -28,6 +28,9 @@ from .models import (
 
 _ID = re.compile(r"[0-9]+\Z")
 _TRANSIENT = {429, 500, 502, 503, 504}
+# Closed definite-refusal policy: input/auth/route/method/content/validation/rate
+# rejection. Any other POST status, including 408 and unknown 4xx, is ambiguous.
+_DEFINITE_REFUSALS = {400, 401, 403, 404, 405, 406, 413, 415, 422, 429}
 
 
 def _origin(value: str) -> str:
@@ -104,17 +107,45 @@ class _UploadReader(RawIOBase):
 
     def __init__(self, upload: MediaUpload, check_deadline: Callable[[], float]):
         self._source = upload.stream
-        self._remaining = upload.size
+        self._size = upload.size
+        self._sha256 = upload.source.sha256
+        self._mime = upload.mime_type
+        self._filename = upload.filename
+        self._metadata = (self.size, self.sha256, self.mime, self.filename)
+        self._remaining = self.size
         self._check_deadline = check_deadline
+
+    @property
+    def size(self) -> int:
+        return self._size
+
+    @property
+    def sha256(self) -> str:
+        return self._sha256
+
+    @property
+    def mime(self) -> str:
+        return self._mime
+
+    @property
+    def filename(self) -> str:
+        return self._filename
 
     def readable(self) -> bool:
         return True
 
-    def read(self, size: int = -1) -> bytes:
+    def read(self, size: int) -> bytes:
         if self.closed:
             raise MastodonError("UPLOAD_READ")
         self._check_deadline()
-        amount = min(65536, self._remaining, size if size >= 0 else 65536)
+        if (
+            self._source.size, self._source.sha256,
+            self._source.mime, self._source.filename,
+        ) != self._metadata:
+            raise MastodonError("UPLOAD_SOURCE_CHANGED")
+        if type(size) is not int or size < 0:
+            raise MastodonError("UPLOAD_READ")
+        amount = min(65536, self._remaining, size)
         if amount == 0:
             return b""
         data = self._source.read(amount)
@@ -330,6 +361,10 @@ class MastodonClient:
         """Check size before POST, then stream bounded chunks without replay."""
         deadline = self._now() + self._timeout
         limits = self._limits or self._discover(deadline)
+        staged = _UploadReader(upload, lambda: self._remaining(deadline))
+        upload = MediaUpload(staged, upload.description)
+        if not isinstance(upload.mime_type, str):
+            raise MastodonError("MIME")
         if upload.mime_type not in limits.supported_mime_types:
             raise MastodonError("MIME")
         # GIF/audio mapping to image/video caps is not established by the API
@@ -343,39 +378,27 @@ class MastodonClient:
         if (
             type(upload.size) is not int
             or not 0 < upload.size <= min(provider_cap, self._max_upload_bytes)
+            or not isinstance(upload.filename, str)
             or not upload.filename
+            or len(upload.filename) > 255
             or any(c in upload.filename for c in ("\r", "\n", "\x00", "/", "\\", '"'))
+            or not isinstance(upload.description, str)
             or len(upload.description) > limits.description_limit
         ):
             raise MastodonError("UPLOAD")
-        # Verify seekable input length without buffering. Connect must supply a
-        # stable, digest-verified staged object; arbitrary non-seekable caller
-        # streams are refused until its UploadSource bridge is agreed.
-        try:
-            if not upload.stream.seekable():
-                raise MastodonError("UPLOAD_SOURCE")
-            start = upload.stream.tell()
-            end = upload.stream.seek(0, 2)
-            upload.stream.seek(start)
-            if end - start != upload.size:
-                raise MastodonError("UPLOAD_SIZE")
-        except MastodonError:
-            raise
-        except Exception:
-            raise MastodonError("UPLOAD_SOURCE") from None
-        staged = _UploadReader(upload, lambda: self._remaining(deadline))
+        # The Broker verifies complete staged bytes and SHA256 before dispatch.
+        # We validate source metadata and cap bytes, without seeking, buffering
+        # or claiming a late hash check could undo an already-dispatched POST.
+        if not isinstance(upload.source.sha256, str) or not re.fullmatch(
+            r"[0-9a-f]{64}", upload.source.sha256
+        ):
+            raise MastodonError("UPLOAD_SOURCE")
         try:
             response = self._request(
                 "POST",
                 "/api/v2/media",
                 deadline,
-                upload=MediaUpload(
-                    staged,
-                    upload.size,
-                    upload.filename,
-                    upload.mime_type,
-                    upload.description,
-                ),
+                upload=MediaUpload(staged, upload.description),
                 fields={"description": upload.description},
             )
         finally:
@@ -392,10 +415,11 @@ class MastodonClient:
 
     @staticmethod
     def _post_error(response: Response) -> None:
-        raise MastodonError(
-            "RATE_LIMIT" if response.status == 429 else "REJECTED",
-            outcome_unknown=response.status >= 500 or response.status < 400,
+        unknown = response.status not in _DEFINITE_REFUSALS
+        code = "OUTCOME_UNKNOWN" if unknown else (
+            "RATE_LIMIT" if response.status == 429 else "REJECTED"
         )
+        raise MastodonError(code, outcome_unknown=unknown)
 
     def publish_status(
         self,
