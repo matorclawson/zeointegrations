@@ -18,6 +18,8 @@ class TelegramCondition(StrEnum):
     RECEIVE_CONFLICT = "receive_conflict"
     LEASE_LOST = "lease_lost"
     CURSOR_INVALID = "cursor_invalid"
+    CURSOR_STALE = "cursor_stale"
+    RECOVERY_REQUIRED = "recovery_required"
     RATE_LIMITED = "rate_limited"
     CONNECTION_NOT_USABLE = "connection_not_usable"
     TRANSIENT_REPLAY = "transient_replay"
@@ -33,12 +35,16 @@ class TelegramError(RuntimeError):
         outcome_unknown: bool = False,
         condition: TelegramCondition | None = None,
         retry_after_seconds: int | None = None,
+        execution_id: str | None = None,
+        pending_execution_id: str | None = None,
     ) -> None:
         super().__init__(code)
         self.code = code
         self.outcome_unknown = outcome_unknown
         self.condition = condition
         self.retry_after_seconds = retry_after_seconds
+        self.execution_id = execution_id
+        self.pending_execution_id = pending_execution_id
 
 
 @dataclass(frozen=True)
@@ -67,6 +73,8 @@ class TelegramBatch:
     batch_cursor: str | None = field(repr=False)
     updates: tuple[TelegramUpdate, ...] = field(repr=False)
     retention: TelegramRetention
+    pending_execution_id: str | None = field(default=None, repr=False)
+    recovery_execution_id: str | None = field(default=None, repr=False)
 
     @property
     def update_ids(self) -> tuple[int, ...]:
@@ -83,6 +91,8 @@ class TelegramBatch:
 class TelegramAcknowledgement:
     confirmed_cursor: str = field(repr=False)
     replayed: bool
+    execution_id: str
+    superseded_execution_ids: tuple[str, ...] = ()
 
 
 class DurablePrefixVerifier(Protocol):

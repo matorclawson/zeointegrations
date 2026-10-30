@@ -10,6 +10,7 @@ import json
 import math
 import time
 from collections.abc import Callable
+from dataclasses import dataclass, replace
 from typing import cast
 
 from pydantic import JsonValue, ValidationError
@@ -33,6 +34,8 @@ _CONDITION_CODES = {
     TelegramCondition.RECEIVE_CONFLICT: "REQUEST_REFUSED",
     TelegramCondition.LEASE_LOST: "REQUEST_REFUSED",
     TelegramCondition.CURSOR_INVALID: "REQUEST_REFUSED",
+    TelegramCondition.CURSOR_STALE: "REQUEST_REFUSED",
+    TelegramCondition.RECOVERY_REQUIRED: "REQUEST_REFUSED",
     TelegramCondition.TRANSIENT_REPLAY: "REQUEST_REFUSED",
     TelegramCondition.RATE_LIMITED: "RATE_LIMITED",
     TelegramCondition.CONNECTION_NOT_USABLE: "CONNECTION_REPAIR_REQUIRED",
@@ -61,6 +64,32 @@ def _object(value: object, keys: set[str]) -> dict[str, JsonValue]:
     if not isinstance(value, dict) or set(value) != keys:
         raise TelegramError("INVALID_SHAPE")
     return cast(dict[str, JsonValue], value)
+
+
+def _recovery_context(receipt: dict[str, JsonValue]) -> tuple[str | None, str | None]:
+    pending = None
+    recovery = None
+    if "pending_ack" in receipt:
+        value = _object(receipt["pending_ack"], {"state", "execution_id"})
+        if value["state"] != "unresolved_stale":
+            raise TelegramError("INVALID_RECEIPT")
+        pending = _text(value["execution_id"], 200)
+    if "recovery" in receipt:
+        value = _object(receipt["recovery"], {"open", "supersedes"})
+        if value["open"] is not True:
+            raise TelegramError("INVALID_RECEIPT")
+        recovery = _text(value["supersedes"], 200)
+    if pending is not None and recovery is not None and pending != recovery:
+        raise TelegramError("PENDING_INTENT_MISMATCH")
+    return pending, recovery
+
+
+@dataclass(frozen=True)
+class _PendingAck:
+    batch: TelegramBatch | None
+    key: str | None
+    execution_id: str | None = None
+    parent: _PendingAck | None = None
 
 
 class TelegramClient:
@@ -94,7 +123,7 @@ class TelegramClient:
         self._bot_id: int | None = None
         self._epoch: int | None = None
         self._last_batch: TelegramBatch | None = None
-        self._pending_ack: tuple[TelegramBatch, str] | None = None
+        self._pending_ack: _PendingAck | None = None
 
     def _invoke(
         self,
@@ -139,6 +168,7 @@ class TelegramClient:
         replayed = receipt.get("replayed", False)
         if type(replayed) is not bool:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
+        pending_execution_id, _ = _recovery_context(receipt)
         condition = None
         retry_after = None
         if "condition" not in receipt:
@@ -153,6 +183,11 @@ class TelegramClient:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
             if condition is TelegramCondition.TRANSIENT_REPLAY and not replayed:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
+            if condition in {
+                TelegramCondition.CURSOR_STALE,
+                TelegramCondition.RECOVERY_REQUIRED,
+            } and response.status.value != "failed_safe":
+                raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
             if condition is TelegramCondition.RATE_LIMITED:
                 retry_after = _integer(receipt.get("retry_after_seconds"))
         if response.status.value != "confirmed":
@@ -161,6 +196,8 @@ class TelegramClient:
                 outcome_unknown=response.status.value == "ambiguous",
                 condition=condition,
                 retry_after_seconds=retry_after,
+                execution_id=response.execution_id,
+                pending_execution_id=pending_execution_id,
             )
         if condition is not None:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
@@ -234,9 +271,11 @@ class TelegramClient:
         lost = result["lost_to_retention"]
         if type(lost) is not bool:
             raise TelegramError("INVALID_RETENTION")
+        pending_id, recovery_id = _recovery_context(response.receipt or {})
         batch = TelegramBatch(
             bot_id, epoch, fence, cursor, tuple(updates),
             TelegramRetention(str(state), age, lost),
+            pending_id, recovery_id,
         )
         self._bot_id = bot_id
         self._epoch = epoch
@@ -248,12 +287,66 @@ class TelegramClient:
     ) -> TelegramAcknowledgement:
         pending = self._pending_ack
         if pending is not None:
-            if batch is not pending[0] or idempotency_key != pending[1]:
+            if batch is not pending.batch or idempotency_key != pending.key:
                 raise TelegramError("RECONCILE_ORIGINAL")
-        elif batch is not self._last_batch:
-            raise TelegramError("UNISSUED_BATCH")
-        if batch.batch_cursor is None:
+            attempt = pending
+        else:
+            if batch is not self._last_batch:
+                raise TelegramError("UNISSUED_BATCH")
+            if batch.recovery_execution_id or batch.pending_execution_id:
+                raise TelegramError("RECOVERY_REQUIRED")
+            attempt = _PendingAck(batch, idempotency_key)
+        return self._submit_ack(attempt, deadline)
+
+    def acknowledge_recovery(
+        self, batch: TelegramBatch, *, idempotency_key: str, deadline: float
+    ) -> TelegramAcknowledgement:
+        """Explicit NEW prefix effect linked to Broker-asserted old uncertainty.
+
+        No key is generated and no old outcome is inferred from a READ. The
+        consumer's durable store must retain the original intent and persist
+        the returned links; this object alone is not a crash-safe outbox.
+        """
+        pending = self._pending_ack
+        if (
+            pending is not None
+            and batch is pending.batch
+            and idempotency_key == pending.key
+            and pending.parent is not None
+        ):
+            return self._submit_ack(pending, deadline)
+        if batch is not self._last_batch or batch.recovery_execution_id is None:
+            raise TelegramError("RECOVERY_NOT_GRANTED")
+        previous_id = batch.recovery_execution_id
+        if pending is None:
+            # Restart: the authenticated Broker asserts the open E1; this is
+            # only its reference, not proof or reconstruction of its outcome.
+            parent = _PendingAck(None, None, previous_id)
+        else:
+            if pending.execution_id != previous_id:
+                raise TelegramError("PENDING_INTENT_MISMATCH")
+            parent = pending
+        cursor = parent
+        depth = 0
+        while cursor is not None:
+            if cursor.key == idempotency_key:
+                raise TelegramError("RECOVERY_REQUIRES_NEW_KEY")
+            depth += 1
+            if depth > 16:
+                raise TelegramError("RECOVERY_HISTORY_FULL")
+            cursor = cursor.parent
+        return self._submit_ack(
+            _PendingAck(batch, idempotency_key, parent=parent), deadline
+        )
+
+    def _submit_ack(
+        self, attempt: _PendingAck, deadline: float
+    ) -> TelegramAcknowledgement:
+        batch = attempt.batch
+        key = attempt.key
+        if batch is None or key is None or batch.batch_cursor is None:
             raise TelegramError("EMPTY_PREFIX")
+        _text(key, 200)
         try:
             durable = self._verifier.is_durably_handled(
                 batch=batch,
@@ -263,11 +356,21 @@ class TelegramClient:
             raise TelegramError("DURABILITY_UNKNOWN") from None
         if durable is not True:
             raise TelegramError("PREFIX_NOT_DURABLE")
+        arguments: dict[str, JsonValue] = {"batch_cursor": batch.batch_cursor}
+        superseded_ids = []
+        parent = attempt.parent
+        while parent is not None:
+            if parent.execution_id is None:
+                raise TelegramError("RECOVERY_NOT_GRANTED")
+            superseded_ids.append(parent.execution_id)
+            parent = parent.parent
+        if attempt.parent is not None:
+            arguments["supersedes_execution_id"] = attempt.parent.execution_id
         try:
             response = self._invoke(
                 "telegram.updates.acknowledge",
-                {"batch_cursor": batch.batch_cursor},
-                idempotency_key,
+                arguments,
+                key,
                 deadline,
                 effect=True,
             )
@@ -275,18 +378,43 @@ class TelegramClient:
             if result["acknowledged"] is not True:
                 raise TelegramError("INVALID_ACK", outcome_unknown=True)
             cursor = _text(result["confirmed_cursor"], 4096)
+            execution_id = _text(response.execution_id, 200)
+            if execution_id in superseded_ids or (
+                attempt.execution_id is not None
+                and execution_id != attempt.execution_id
+            ):
+                raise TelegramError("INVALID_ACK", outcome_unknown=True)
         except TelegramError as error:
             if error.code in {
                 "INVALID_SHAPE", "INVALID_ACK", "INVALID_RECEIPT",
-                "UNKNOWN_CONDITION", "INVALID_RESULT",
+                "UNKNOWN_CONDITION", "INVALID_RESULT", "PENDING_INTENT_MISMATCH",
             }:
                 error.outcome_unknown = True
-            if error.outcome_unknown:
-                self._pending_ack = (batch, idempotency_key)
+            if error.condition is TelegramCondition.CURSOR_STALE:
+                old_id = error.pending_execution_id
+                if old_id is not None:
+                    if (
+                        old_id in superseded_ids
+                        or attempt.execution_id not in (None, old_id)
+                    ):
+                        raise TelegramError(
+                            "PENDING_INTENT_MISMATCH", outcome_unknown=True
+                        ) from None
+                    self._pending_ack = replace(attempt, execution_id=old_id)
+            elif error.outcome_unknown:
+                if error.code == "AMBIGUOUS" and error.execution_id is not None:
+                    if attempt.execution_id not in (None, error.execution_id):
+                        raise TelegramError(
+                            "PENDING_INTENT_MISMATCH", outcome_unknown=True
+                        ) from None
+                    attempt = replace(attempt, execution_id=error.execution_id)
+                self._pending_ack = attempt
             raise
         except (ValidationError, ValueError, TypeError):
-            self._pending_ack = (batch, idempotency_key)
+            self._pending_ack = attempt
             raise TelegramError("INVALID_ACK", outcome_unknown=True) from None
         self._pending_ack = None
         self._last_batch = None
-        return TelegramAcknowledgement(cursor, response.replayed)
+        return TelegramAcknowledgement(
+            cursor, response.replayed, execution_id, tuple(superseded_ids)
+        )

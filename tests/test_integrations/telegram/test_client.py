@@ -13,10 +13,10 @@ from zeo_core.integrations.hosted.client import (
 from zeo_integrations.telegram import TelegramClient, TelegramError
 
 
-def confirmed(result, *, receipt=None):
+def confirmed(result, *, receipt=None, execution_id="synthetic-execution"):
     return HostedOperationResponse(
         status="confirmed",
-        execution_id="synthetic-execution",
+        execution_id=execution_id,
         result=result,
         receipt={"condition": None, **(receipt or {})},
     )
@@ -307,7 +307,10 @@ class TelegramClientTests(unittest.TestCase):
         )
         client, transport, _ = self.client(
             confirmed(batch()), unknown,
-            confirmed({"acknowledged": True, "confirmed_cursor": "confirmed"}),
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "confirmed"},
+                execution_id="synthetic-unknown",
+            ),
         )
         value = self.read(client)
         with self.assertRaises(TelegramError) as caught:
@@ -361,6 +364,213 @@ class TelegramClientTests(unittest.TestCase):
             self.read(client)
         self.assertEqual(caught.exception.retry_after_seconds, 3)
         self.assertEqual(len(transport.calls), 1)
+
+    def recovery_responses(self, final):
+        first = HostedOperationResponse(
+            status="ambiguous", execution_id="execution-E1",
+            normalized_error={"code": "RESULT_AMBIGUOUS", "message": "unknown"},
+            receipt={"condition": None},
+        )
+        stale = refused("cursor_stale").model_dump(mode="json")
+        stale["receipt"]["pending_ack"] = {
+            "state": "unresolved_stale", "execution_id": "execution-E1"
+        }
+        second_batch = batch(epoch=1, cursor="cursor-C2")
+        second = confirmed(
+            second_batch,
+            receipt={
+                "pending_ack": {
+                    "state": "unresolved_stale", "execution_id": "execution-E1"
+                },
+                "recovery": {"open": True, "supersedes": "execution-E1"},
+            },
+        )
+        return [
+            confirmed(batch()), first,
+            HostedOperationResponse.model_validate(stale), second, final,
+        ], first
+
+    def enter_recovery(self, client):
+        original = self.read(client)
+        with self.assertRaises(TelegramError) as ambiguous:
+            self.ack(client, original, key="key-K1")
+        self.assertTrue(ambiguous.exception.outcome_unknown)
+        with self.assertRaises(TelegramError) as stale:
+            self.ack(client, original, key="key-K1")
+        self.assertEqual(stale.exception.condition.value, "cursor_stale")
+        self.assertEqual(stale.exception.pending_execution_id, "execution-E1")
+        return self.read(client)
+
+    def test_linked_recovery_is_explicit_new_operation_not_old_resolution(self):
+        responses, original_receipt = self.recovery_responses(
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
+                execution_id="execution-E2",
+            )
+        )
+        before = original_receipt.model_dump(mode="json")
+        client, transport, _ = self.client(*responses)
+        fresh = self.enter_recovery(client)
+        with self.assertRaisesRegex(TelegramError, "RECONCILE_ORIGINAL"):
+            self.ack(client, fresh, key="key-K1")
+        with self.assertRaisesRegex(TelegramError, "RECOVERY_REQUIRES_NEW_KEY"):
+            client.acknowledge_recovery(
+                fresh, idempotency_key="key-K1", deadline=10
+            )
+        self.assertEqual(len(transport.calls), 4)
+        result = client.acknowledge_recovery(
+            fresh, idempotency_key="key-K2", deadline=10
+        )
+        self.assertEqual(result.execution_id, "execution-E2")
+        self.assertEqual(result.superseded_execution_ids, ("execution-E1",))
+        self.assertEqual(
+            transport.calls[-1].arguments,
+            {
+                "batch_cursor": "cursor-C2",
+                "supersedes_execution_id": "execution-E1",
+            },
+        )
+        self.assertEqual(original_receipt.model_dump(mode="json"), before)
+
+    def test_lost_linked_reply_resends_exact_original_new_body_and_key(self):
+        responses, _ = self.recovery_responses(RuntimeError("lost E2 reply"))
+        responses.append(confirmed(
+            {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
+            receipt={"replayed": True},
+            execution_id="execution-E2",
+        ))
+        client, transport, _ = self.client(*responses)
+        fresh = self.enter_recovery(client)
+        with self.assertRaises(TelegramError) as lost:
+            client.acknowledge_recovery(
+                fresh, idempotency_key="key-K2", deadline=10
+            )
+        self.assertTrue(lost.exception.outcome_unknown)
+        with self.assertRaises(TelegramError):
+            self.ack(client, fresh, key="different-key")
+        result = self.ack(client, fresh, key="key-K2")
+        self.assertTrue(result.replayed)
+        self.assertEqual(result.superseded_execution_ids, ("execution-E1",))
+        self.assertEqual(transport.calls[-2].arguments, transport.calls[-1].arguments)
+        self.assertEqual(
+            transport.calls[-2].idempotency_key, transport.calls[-1].idempotency_key
+        )
+
+    def test_recovery_needs_issued_batch_and_current_durable_prefix(self):
+        responses, _ = self.recovery_responses(
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
+                execution_id="execution-E2",
+            )
+        )
+        client, transport, verifier = self.client(*responses)
+        fresh = self.enter_recovery(client)
+        with self.assertRaisesRegex(TelegramError, "RECOVERY_NOT_GRANTED"):
+            client.acknowledge_recovery(
+                replace(fresh, recovery_execution_id="invented"),
+                idempotency_key="key-K2", deadline=10,
+            )
+        verifier.accept = False
+        with self.assertRaisesRegex(TelegramError, "PREFIX_NOT_DURABLE"):
+            client.acknowledge_recovery(
+                fresh, idempotency_key="key-K2", deadline=10
+            )
+        self.assertEqual(len(transport.calls), 4)
+        verifier.accept = True
+        client.acknowledge_recovery(
+            fresh, idempotency_key="key-K2", deadline=10
+        )
+
+    def test_unlinked_ack_does_not_bypass_broker_recovery_context(self):
+        response = confirmed(
+            batch(epoch=1, cursor="cursor-C2"),
+            receipt={"recovery": {"open": True, "supersedes": "execution-E1"}},
+        )
+        client, transport, _ = self.client(
+            response,
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
+                execution_id="execution-E2",
+            ),
+        )
+        fresh = self.read(client)
+        with self.assertRaisesRegex(TelegramError, "RECOVERY_REQUIRED"):
+            self.ack(client, fresh, key="key-K2")
+        self.assertEqual(len(transport.calls), 1)
+        linked = client.acknowledge_recovery(
+            fresh, idempotency_key="key-K2", deadline=10
+        )
+        self.assertEqual(linked.superseded_execution_ids, ("execution-E1",))
+
+    def test_malformed_or_mismatched_recovery_metadata_cannot_authorize(self):
+        receipts = [
+            {"recovery": {"open": False, "supersedes": "execution-E1"}},
+            {"pending_ack": {"state": "invented", "execution_id": "execution-E1"}},
+            {
+                "pending_ack": {
+                    "state": "unresolved_stale", "execution_id": "execution-E1"
+                },
+                "recovery": {"open": True, "supersedes": "execution-E9"},
+            },
+        ]
+        for receipt in receipts:
+            client, transport, _ = self.client(
+                confirmed(batch(epoch=1), receipt=receipt)
+            )
+            with self.subTest(receipt=receipt), self.assertRaises(TelegramError):
+                self.read(client)
+            self.assertEqual(len(transport.calls), 1)
+
+    def test_wrong_open_intent_refuses_without_new_effect(self):
+        responses, _ = self.recovery_responses(
+            confirmed({"acknowledged": True, "confirmed_cursor": "unused"})
+        )
+        wrong = confirmed(
+            batch(epoch=1),
+            receipt={"recovery": {"open": True, "supersedes": "execution-E9"}},
+        )
+        responses[3] = wrong
+        client, transport, _ = self.client(*responses)
+        fresh = self.enter_recovery(client)
+        with self.assertRaisesRegex(TelegramError, "PENDING_INTENT_MISMATCH"):
+            client.acknowledge_recovery(
+                fresh, idempotency_key="key-K2", deadline=10
+            )
+        self.assertEqual(len(transport.calls), 4)
+
+    def test_linked_confirmation_cannot_reuse_the_old_execution_identity(self):
+        responses, _ = self.recovery_responses(
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "bad-link"},
+                execution_id="execution-E1",
+            )
+        )
+        client, transport, _ = self.client(*responses)
+        fresh = self.enter_recovery(client)
+        with self.assertRaises(TelegramError) as caught:
+            client.acknowledge_recovery(
+                fresh, idempotency_key="key-K2", deadline=10
+            )
+        self.assertTrue(caught.exception.outcome_unknown)
+        with self.assertRaisesRegex(TelegramError, "RECONCILE_ORIGINAL"):
+            self.ack(client, fresh, key="key-K3")
+        self.assertEqual(len(transport.calls), 5)
+
+    def test_recovery_condition_status_and_code_are_closed(self):
+        for condition in ("cursor_stale", "recovery_required"):
+            response = refused(condition)
+            client, _, _ = self.client(confirmed(batch()), response)
+            value = self.read(client)
+            with self.assertRaises(TelegramError) as caught:
+                self.ack(client, value)
+            self.assertEqual(caught.exception.condition.value, condition)
+            bad = response.model_dump(mode="json")
+            bad["status"] = "refused"
+            client, _, _ = self.client(
+                HostedOperationResponse.model_validate(bad)
+            )
+            with self.assertRaisesRegex(TelegramError, "INVALID_RECEIPT"):
+                self.read(client)
 
     def test_response_size_ceiling_refuses_without_echo(self):
         client, _, _ = self.client(confirmed(batch()))

@@ -15,3 +15,5 @@ network transport, daemon, plugin entry point or dependency.
 Telegram vendor reference: https://core.telegram.org/bots/api#getupdates
 
 Connect Add10 at03de621fd adds Broker-asserted reset epoch and recorded drops.
+
+Connect Add12 atfa652d481 freezes explicit linked new-prefix ACK recovery.

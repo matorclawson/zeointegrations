@@ -59,10 +59,11 @@ The verifier receives the immutable CURRENT batch with its payloads, so a stored
 ID alone cannot be mistaken for a disposition of changed redelivered content.
 The library cannot independently prove a caller supplied a trustworthy adapter.
 Only the opaque issued cursor is echoed. There is no integer provider offset.
-After an ambiguous invocation, the original batch/key must reconcile; the
-client retains only volatile reconciliation context, not a durable outbox.
-After restart the owning durable consumer must restore/reconcile the original
-intent; starting a new client/key is not evidence that the write never occurred.
+After an ambiguous invocation, the original batch/key must reconcile unless
+the Broker explicitly opens the linked NEW-prefix recovery below. The client
+retains only volatile pending context, not a durable outbox. The owning
+consumer store preserves original intents and records returned execution
+links; neither a READ nor a new client object proves the old outcome.
 
 Deadlines are absolute monotonic caller deadlines, checked before and after
 invoke. These checks CANNOT interrupt a blocking hosted transport. Its owning
@@ -102,3 +103,36 @@ ambiguous resend, and do not refresh freshness from an ACK without checking
 the reset boundary. Same-key identity alone is not safe reconciliation after
 a provider ID reset. No client reset/retry or old-effect success is invented.
 Broker guard and reset recovery remain unbuilt/require owner qualification.
+
+## Explicit linked stale recovery (Connect Add12)
+
+The frozen Add12 atfa652d481 (blobfb6f4399a231e6637d357672f6dffe1c74942e14)
+amends Add11: cursor_stale and recovery_required are Hosted FAILED_SAFE with
+REQUEST_REFUSED and typed receipt.condition. receipt.pending_ack contains
+state unresolved_stale and the original execution_id, not a new Core state.
+A fresh READ may return receipt.recovery {open:true,supersedes:E1}. Neither
+metadata object is evidence that E1 succeeded or failed.
+
+Only acknowledge_recovery on the actual issued fresh batch starts an explicit
+NEW prefix operation under caller-supplied NEW keyK2 and the Broker-asserted
+supersedes_execution_id=E1. It still requires the current durable-prefix
+verifier. It does not reuse K1 with another body, generate a key, loop, or
+bypass Broker open-intent/freshness/epoch checks. Ordinary acknowledge rejects
+an unlinked batch when recovery is required. Unknown/malformed/mismatched
+metadata, caller-forged batches, reused known keys and wrong intent references
+fail closed.
+
+A lost E2 reply retains C2/K2 AND the same supersedes member for same-key resend;
+it does not create K3. Original parent context stays until E2 is confirmed.
+The acknowledgement returns E2 plus superseded_execution_ids as LINKS ONLY;
+it never resolves or overwrites E1. The local chain is bounded at16 prior
+links; exceeding that requires owning recovery, not an automatic context purge.
+
+After restart, authenticated Broker recovery metadata can supply the E1
+reference for a newly issued batch without reconstructing E1's body or outcome.
+The actual durable consumer still owns all original intent/key/history and
+must establish the full handled prefix; this library is not a crash-safe
+outbox or a grant from caller-provided identifiers. A fresh key is allowed
+only for this explicitly linked new operation; ordinary unknown writes retain
+their original invocation identity. No live recovery or source gate PASS is
+claimed.
