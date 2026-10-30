@@ -49,6 +49,7 @@ class TelegramError(RuntimeError):
         retry_after_seconds: int | None = None,
         execution_id: str | None = None,
         pending_execution_id: str | None = None,
+        approval_url: str | None = None,
     ) -> None:
         super().__init__(code)
         self.code = code
@@ -57,6 +58,8 @@ class TelegramError(RuntimeError):
         self.retry_after_seconds = retry_after_seconds
         self.execution_id = execution_id
         self.pending_execution_id = pending_execution_id
+        # Existing hosted approval data only; never included in str/repr.
+        self.approval_url = approval_url
 
 
 @dataclass(frozen=True)

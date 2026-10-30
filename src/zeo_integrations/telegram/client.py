@@ -236,6 +236,10 @@ class _HostedTelegramCalls:
                 retry_after_seconds=retry_after,
                 execution_id=response.execution_id,
                 pending_execution_id=pending_execution_id,
+                approval_url=(
+                    str(response.approval_url)
+                    if send and response.approval_url is not None else None
+                ),
             )
         if condition is not None:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)

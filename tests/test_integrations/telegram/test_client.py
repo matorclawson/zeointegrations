@@ -896,6 +896,11 @@ class TelegramSenderTests(unittest.TestCase):
         with self.assertRaisesRegex(TelegramError, "APPROVAL_REQUIRED") as caught:
             self.send(sender)
         self.assertFalse(caught.exception.outcome_unknown)
+        self.assertEqual(
+            caught.exception.approval_url,
+            "https://approval.invalid/synthetic",
+        )
+        self.assertNotIn("approval.invalid", repr(caught.exception))
         with self.assertRaisesRegex(TelegramError, "RECONCILE_ORIGINAL"):
             self.send(sender, key="new")
         self.assertEqual(len(transport.calls), 1)

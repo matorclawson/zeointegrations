@@ -213,7 +213,10 @@ success still requires explicit null condition. Human messages are not control.
 
 Approval-required retains the exact operation/body/key; the caller completes
 the existing browser approval and explicitly requests that original invocation
-again. This library does not open the approval URL or retry automatically.
+again. The error's approval_url carries only the existing hosted approval
+data for the owning UI; it is omitted from str/repr. The authenticated owning
+adapter/UI must validate its expected Broker approval origin before presenting
+or opening it. This library never opens that URL or retries automatically.
 After a transport error, timeout after invoke, malformed success or AMBIGUOUS
 outcome, the serial sender retains only the original intent. Changed body/key,
 another send or a callback answer cannot replace it. Explicit same-key lookup
