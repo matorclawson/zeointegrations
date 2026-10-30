@@ -394,6 +394,7 @@ class TelegramClient:
             }:
                 error.outcome_unknown = True
             if error.condition is TelegramCondition.CURSOR_STALE:
+                self._last_batch = None
                 old_id = error.pending_execution_id
                 if old_id is not None:
                     if (
@@ -406,6 +407,8 @@ class TelegramClient:
                     self._pending_ack = replace(
                         attempt, execution_id=old_id, stale=True
                     )
+                elif self._pending_ack is attempt:
+                    self._pending_ack = replace(attempt, stale=True)
             elif error.outcome_unknown:
                 if error.code == "AMBIGUOUS" and error.execution_id is not None:
                     if attempt.execution_id not in (None, error.execution_id):

@@ -478,6 +478,25 @@ class TelegramClientTests(unittest.TestCase):
             fresh, idempotency_key="key-K2", deadline=10
         )
 
+    def test_ordinary_stale_cursor_without_open_intent_cannot_be_reused(self):
+        client, transport, _ = self.client(
+            confirmed(batch()),
+            refused("cursor_stale"),
+            confirmed(batch(cursor="fresh-C2")),
+            confirmed({"acknowledged": True, "confirmed_cursor": "confirmed-C2"}),
+        )
+        old = self.read(client)
+        with self.assertRaises(TelegramError):
+            self.ack(client, old, key="old-key")
+        with self.assertRaisesRegex(TelegramError, "UNISSUED_BATCH"):
+            self.ack(client, old, key="old-key")
+        self.assertEqual(len(transport.calls), 2)
+        fresh = self.read(client)
+        self.ack(client, fresh, key="new-prefix-key")
+        self.assertEqual(
+            transport.calls[-1].arguments, {"batch_cursor": "fresh-C2"}
+        )
+
     def test_recovery_needs_issued_batch_and_current_durable_prefix(self):
         responses, _ = self.recovery_responses(
             confirmed(
