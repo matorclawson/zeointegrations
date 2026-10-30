@@ -1,0 +1,13 @@
+Shared Telegram receive/ACK client
+Copyright 2026 Zero Employee Organizations. SPDX-License-Identifier: MIT.
+
+Original implementation by the zeointegrations maintainer; no copied SDK code.
+Protocol provenance: ZEOconnect SOW-19 Telegram design, addenda 6 and 7:
+rodriveracom/org-zeroemployeeorg at 5d750f3f5 (addendum6) and 9f496a053
+(addendum7), projects/zeoconnect/evidence/zeoconnect-seat/
+zeoconnect-seat-SOW-19/telegram-connection-design-20261029/.
+Core wording DRAFT-v10 corrects the consumer pin: do not use expect.
+Core hosted request/response types remain owned by zeocore; this package
+imports them unchanged. It adds no Core fields, provider credential store,
+network transport, daemon, plugin entry point or dependency.
+Telegram vendor reference: https://core.telegram.org/bots/api#getupdates
