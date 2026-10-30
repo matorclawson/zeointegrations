@@ -103,7 +103,7 @@ class TelegramClientTests(unittest.TestCase):
         self.assertEqual(result.confirmed_cursor, "confirmed")
         self.assertEqual(
             verifier.calls,
-            [{"bot_id": 7, "update_ids": (10, 14), "consumers": ("agenda", "app")}],
+            [{"batch": value, "consumers": ("agenda", "app")}],
         )
         bodies = [call.model_dump(exclude_none=True) for call in transport.calls]
         self.assertEqual(bodies[0]["arguments"], {"max": 100})
@@ -121,6 +121,24 @@ class TelegramClientTests(unittest.TestCase):
             self.ack(client, value)
         with self.assertRaisesRegex(TelegramError, "UNISSUED_BATCH"):
             self.ack(client, replace(value, batch_cursor="invented"))
+        self.assertEqual(len(transport.calls), 1)
+
+    def test_changed_payload_requires_a_current_durable_disposition(self):
+        changed = batch(updates=[
+            {"update_id": 10, "message": {"text": "changed redelivery"}}
+        ])
+        client, transport, verifier = self.client(confirmed(changed))
+        value = self.read(client)
+
+        def check_current_batch(**kwargs):
+            verifier.calls.append(kwargs)
+            # Synthetic store knows the prior content for this stable ID.
+            return kwargs["batch"].updates[0].payload()["text"] == "private fixture"
+
+        verifier.is_durably_handled = check_current_batch
+        with self.assertRaisesRegex(TelegramError, "PREFIX_NOT_DURABLE"):
+            self.ack(client, value)
+        self.assertIs(verifier.calls[0]["batch"], value)
         self.assertEqual(len(transport.calls), 1)
 
     def test_sparse_ids_do_not_require_fabricated_missing_updates(self):

@@ -38,6 +38,8 @@ durably handled the entire delivered prefix, including prior deliveries.
 That verifier is an adapter to the consumer's real authenticated durable
 store, not a boolean from Telegram or App input. Stable (bot_id,update_id)
 dedup, changed-payload conflicts and consumer routing belong to that store.
+The verifier receives the immutable CURRENT batch with its payloads, so a stored
+ID alone cannot be mistaken for a disposition of changed redelivered content.
 The library cannot independently prove a caller supplied a trustworthy adapter.
 Only the opaque issued cursor is echoed. There is no integer provider offset.
 After an ambiguous invocation, the original batch/key must reconcile; the

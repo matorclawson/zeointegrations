@@ -249,8 +249,7 @@ class TelegramClient:
             raise TelegramError("EMPTY_PREFIX")
         try:
             durable = self._verifier.is_durably_handled(
-                bot_id=batch.bot_id,
-                update_ids=batch.update_ids,
+                batch=batch,
                 consumers=self._consumers,
             )
         except Exception:

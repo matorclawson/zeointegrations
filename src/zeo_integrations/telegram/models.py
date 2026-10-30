@@ -85,12 +85,13 @@ class DurablePrefixVerifier(Protocol):
     prefix, including earlier deliveries. Storage failure/unknown must not
     return True. The implementation owns stable (bot_id, update_id) dedup,
     changed-payload conflicts, consumer routing and receiver authentication.
+    The immutable batch includes the current payload for conflict checking;
+    seeing a previously stored ID alone is not a durable disposition of it.
     """
 
     def is_durably_handled(
         self,
         *,
-        bot_id: int,
-        update_ids: tuple[int, ...],
+        batch: TelegramBatch,
         consumers: tuple[str, ...],
     ) -> bool: ...
