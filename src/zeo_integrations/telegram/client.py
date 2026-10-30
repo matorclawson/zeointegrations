@@ -92,6 +92,7 @@ class TelegramClient:
         self._verifier = verifier
         self._clock = clock
         self._bot_id: int | None = None
+        self._epoch: int | None = None
         self._last_batch: TelegramBatch | None = None
         self._pending_ack: tuple[TelegramBatch, str] | None = None
 
@@ -184,13 +185,16 @@ class TelegramClient:
         result = _object(
             response.result,
             {
-                "bot_id", "fence", "batch_cursor", "updates",
+                "bot_id", "epoch", "fence", "batch_cursor", "updates",
                 "retention", "lost_to_retention",
             },
         )
         bot_id = _integer(result["bot_id"], 1)
         if self._bot_id is not None and bot_id != self._bot_id:
             raise TelegramError("BOT_CHANGED")
+        epoch = _integer(result["epoch"])
+        if self._epoch is not None and epoch < self._epoch:
+            raise TelegramError("EPOCH_REGRESSED")
         fence = _integer(result["fence"])
         cursor = result["batch_cursor"]
         if cursor is not None:
@@ -199,7 +203,7 @@ class TelegramClient:
         if not isinstance(rows, list) or len(rows) > maximum:
             raise TelegramError("INVALID_BATCH")
         updates = []
-        previous = -1
+        seen_ids = set()
         for row in rows:
             if not isinstance(row, dict):
                 raise TelegramError("INVALID_UPDATE")
@@ -208,9 +212,9 @@ class TelegramClient:
                 raise TelegramError("UNSUPPORTED_UPDATE")
             kind = next(iter(kinds))
             update_id = _integer(row.get("update_id"))
-            if update_id <= previous or not isinstance(row[kind], dict):
+            if update_id in seen_ids or not isinstance(row[kind], dict):
                 raise TelegramError("INVALID_UPDATE")
-            previous = update_id
+            seen_ids.add(update_id)
             updates.append(
                 TelegramUpdate(
                     update_id, kind, json.dumps(row[kind], ensure_ascii=True)
@@ -231,10 +235,11 @@ class TelegramClient:
         if type(lost) is not bool:
             raise TelegramError("INVALID_RETENTION")
         batch = TelegramBatch(
-            bot_id, fence, cursor, tuple(updates),
+            bot_id, epoch, fence, cursor, tuple(updates),
             TelegramRetention(str(state), age, lost),
         )
         self._bot_id = bot_id
+        self._epoch = epoch
         self._last_batch = batch
         return batch
 
@@ -247,7 +252,7 @@ class TelegramClient:
                 raise TelegramError("RECONCILE_ORIGINAL")
         elif batch is not self._last_batch:
             raise TelegramError("UNISSUED_BATCH")
-        if not batch.updates or batch.batch_cursor is None:
+        if batch.batch_cursor is None:
             raise TelegramError("EMPTY_PREFIX")
         try:
             durable = self._verifier.is_durably_handled(

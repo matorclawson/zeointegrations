@@ -32,9 +32,10 @@ def refused(condition=None, *, code="REQUEST_REFUSED", replayed=False, message="
     )
 
 
-def batch(*, bot_id=7, cursor="opaque-issued", updates=None):
+def batch(*, bot_id=7, epoch=0, cursor="opaque-issued", updates=None):
     return {
         "bot_id": bot_id,
+        "epoch": epoch,
         "fence": 2,
         "batch_cursor": cursor,
         "updates": updates if updates is not None else [
@@ -234,12 +235,63 @@ class TelegramClientTests(unittest.TestCase):
         for updates in (
             [{"update_id": 1, "edited_message": {}}],
             [{"update_id": True, "message": {}}],
-            [{"update_id": 2, "message": {}}, {"update_id": 1, "message": {}}],
+            [{"update_id": 2, "message": {}}, {"update_id": 2, "message": {}}],
             [{"update_id": 1, "message": {}, "callback_query": {}}],
         ):
             client, _, _ = self.client(confirmed(batch(updates=updates)))
             with self.subTest(updates=updates), self.assertRaises(TelegramError):
                 self.read(client)
+
+    def test_reset_epoch_distinguishes_reused_id_and_identical_payload(self):
+        client, _, _ = self.client(
+            confirmed(batch(epoch=0)), confirmed(batch(epoch=1))
+        )
+        before = self.read(client)
+        after = self.read(client)
+        self.assertEqual(before.updates, after.updates)
+        self.assertEqual(before.business_keys, ((7, 0, 10), (7, 0, 14)))
+        self.assertEqual(after.business_keys, ((7, 1, 10), (7, 1, 14)))
+
+    def test_fence_change_does_not_reset_business_dedup(self):
+        newer = batch()
+        newer["fence"] = 99
+        client, _, _ = self.client(confirmed(batch()), confirmed(newer))
+        before = self.read(client)
+        after = self.read(client)
+        self.assertEqual(before.business_keys, after.business_keys)
+
+    def test_epoch_rollback_missing_or_boolean_epoch_is_unavailable(self):
+        for invalid in (-1, True, None):
+            client, _, _ = self.client(confirmed(batch(epoch=invalid)))
+            with self.subTest(epoch=invalid), self.assertRaises(TelegramError):
+                self.read(client)
+        client, _, _ = self.client(
+            confirmed(batch(epoch=2)), confirmed(batch(epoch=1))
+        )
+        self.read(client)
+        with self.assertRaisesRegex(TelegramError, "EPOCH_REGRESSED"):
+            self.read(client)
+
+    def test_delivery_order_is_not_manufactured_from_numeric_ids(self):
+        rows = [{"update_id": 9, "message": {}}, {"update_id": 2, "message": {}}]
+        client, _, _ = self.client(confirmed(batch(updates=rows)))
+        self.assertEqual(self.read(client).update_ids, (9, 2))
+
+    def test_empty_recorded_drop_boundary_still_requires_durable_prefix(self):
+        client, transport, verifier = self.client(
+            confirmed(batch(updates=[])),
+            confirmed({"acknowledged": True, "confirmed_cursor": "confirmed"}),
+        )
+        value = self.read(client)
+        verifier.accept = False
+        with self.assertRaisesRegex(TelegramError, "PREFIX_NOT_DURABLE"):
+            self.ack(client, value)
+        self.assertEqual(len(transport.calls), 1)
+        verifier.accept = True
+        self.ack(client, value)
+        self.assertEqual(
+            transport.calls[-1].arguments, {"batch_cursor": "opaque-issued"}
+        )
 
     def test_bot_change_does_not_reset_stable_business_identity(self):
         client, _, _ = self.client(confirmed(batch()), confirmed(batch(bot_id=8)))

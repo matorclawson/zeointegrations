@@ -62,6 +62,7 @@ class TelegramRetention:
 @dataclass(frozen=True)
 class TelegramBatch:
     bot_id: int
+    epoch: int
     fence: int
     batch_cursor: str | None = field(repr=False)
     updates: tuple[TelegramUpdate, ...] = field(repr=False)
@@ -70,6 +71,12 @@ class TelegramBatch:
     @property
     def update_ids(self) -> tuple[int, ...]:
         return tuple(update.update_id for update in self.updates)
+
+    @property
+    def business_keys(self) -> tuple[tuple[int, int, int], ...]:
+        return tuple(
+            (self.bot_id, self.epoch, update.update_id) for update in self.updates
+        )
 
 
 @dataclass(frozen=True)
@@ -83,10 +90,13 @@ class DurablePrefixVerifier(Protocol):
 
     True attests ALL configured consumers durably handled this ordered batch
     prefix, including earlier deliveries. Storage failure/unknown must not
-    return True. The implementation owns stable (bot_id, update_id) dedup,
+    return True. The implementation owns stable (bot_id, epoch, update_id) dedup,
     changed-payload conflicts, consumer routing and receiver authentication.
     The immutable batch includes the current payload for conflict checking;
     seeing a previously stored ID alone is not a durable disposition of it.
+    Epoch is Broker reset provenance, never a lease fence. Empty deliveries
+    can have a cursor for Broker-recorded drops; previous consumer deliveries
+    must still be durably settled before confirming such a prefix.
     """
 
     def is_durably_handled(

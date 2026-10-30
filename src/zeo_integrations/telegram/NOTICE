@@ -13,3 +13,5 @@ Core hosted request/response types remain owned by zeocore; this package
 imports them unchanged. It adds no Core fields, provider credential store,
 network transport, daemon, plugin entry point or dependency.
 Telegram vendor reference: https://core.telegram.org/bots/api#getupdates
+
+Connect Add10 at03de621fd adds Broker-asserted reset epoch and recorded drops.

@@ -33,6 +33,17 @@ lease, pending/confirmed provider offsets and redacted observation history.
 The client accepts only bounded message/callback batches and immutable local
 copies. Unknown kinds or schema drift prevent ACK; no events are silently
 discarded to move the queue. Empty batch is distinct from unavailable.
+Broker Add10 adds a nonnegative reset epoch to READ. It is carried unchanged
+to the verifier; only Broker advances it on a recorded reset. A lease fence
+never changes business identity. Numeric IDs do not define delivery order:
+the client preserves Broker batch order and rejects duplicate IDs within it.
+Broker records unsupported old queued types as dropped without raw content;
+an issued cursor may therefore cover a batch with no delivered updates.
+The trusted verifier must still confirm previous deliveries/all consumers
+before ACK; Broker must prove its drops before advancing that boundary.
+Unsupported raw types leaking through to this client remain a schema refusal,
+not a client-authorized drop.
+
 No automatic READ, ACK, backoff or write retry is performed.
 A client instance is synchronous; its owning dispatcher serializes calls.
 It is not a thread-safe shared receiver or lease service.
@@ -42,7 +53,8 @@ injected TRUSTED DurablePrefixVerifier confirms all configured consumers
 durably handled the entire delivered prefix, including prior deliveries.
 That verifier is an adapter to the consumer's real authenticated durable
 store, not a boolean from Telegram or App input. Stable (bot_id,update_id)
-dedup, changed-payload conflicts and consumer routing belong to that store.
+dedup on (bot_id, epoch, update_id), changed-payload conflicts within an
+epoch and consumer routing belong to that store.
 The verifier receives the immutable CURRENT batch with its payloads, so a stored
 ID alone cannot be mistaken for a disposition of changed redelivered content.
 The library cannot independently prove a caller supplied a trustworthy adapter.
@@ -72,3 +84,21 @@ full make verify/Python floor, exact-head logs, independent Council review,
 Architect signature and merger remain required before an ordinary push/PR.
 Actual send/receive/inline consumer use remains a later separately evidenced
 stage. No live Telegram call or new SDK/lock/package change is authorized here.
+
+## New provider-page constraints and unresolved Broker guard
+
+Connect Add10 at03de621fd (blob83bf858d9630da0ae43f3632c054febd226476cf)
+supersedes the partial Add9 reading. Primary API was independently rechecked:
+a random update ID can follow a quiet week, allowed_updates is sticky when
+omitted, and error_code is not a stable discriminator. Broker owns provider
+offsets, fixed allowed_updates on READ and ACK, reset/drop receipts and
+HTTP/ok/parameters.retry_after classification. This client does none of that
+provider traffic and infers no concurrent-poller409 behavior.
+
+The five-day stale READ policy alone does not guard an OLD ACK cursor. After a
+quiet week an old high cursor could confirm new lower IDs through the effect.
+Returned to Connect: guard old/stale ACK before provider dispatch, including
+ambiguous resend, and do not refresh freshness from an ACK without checking
+the reset boundary. Same-key identity alone is not safe reconciliation after
+a provider ID reset. No client reset/retry or old-effect success is invented.
+Broker guard and reset recovery remain unbuilt/require owner qualification.
