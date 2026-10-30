@@ -1,11 +1,12 @@
-# Shared Telegram receive/ACK slice
+# Shared Telegram clients
 
 sow: zeointegrations-SOW-04 rev1
 
-This source increment implements the agreed bounded READ/ACK client only.
-Sending, inline buttons and answerCallbackQuery remain unfinished under this SOW.
-It is not a bot receiver, running poll loop, installed Broker route, live grant,
-App ingress, notification acceptance or full SOW completion.
+This source increment implements bounded receive/ACK through TelegramClient
+and send/inline/callback-answer through TelegramSender, using the existing
+credentialless hosted transport. Source and synthetic tests are authored but
+UNQUALIFIED. It is not a bot receiver, running poll loop, installed Broker route,
+live grant, App ingress, notification acceptance or full SOW completion.
 
 The injected Core HostedConnectionClient owns pairing and the authenticated
 transport; Connect alone owns bot credentials and provider URLs. Core's pinned
@@ -138,3 +139,108 @@ outbox or a grant from caller-provided identifiers. A fresh key is allowed
 only for this explicitly linked new operation; ordinary unknown writes retain
 their original invocation identity. No live recovery or source gate PASS is
 claimed.
+
+
+## Send, inline buttons and neutral callback answers (Add13/14)
+
+Architect ans_b8a989c25e295015 permits the source slice under the existing
+PER-CALL browser approval. There is no standing-send grant, and the receive
+ACK-only grant does not authorise sending or answering a callback. Connect
+must implement/register the operations and apply current authority at each
+dispatch; this source does not install or activate them.
+
+Protocol provenance: Add13 at1ed627c64ce6bcc75f52d662b19c8c194ea7cfed and
+governing Add14 at4025cb0de519a7f7851ddc85066ad10695750a68. Core confirmed
+the existing hosted request/response shapes express them; no Core, SDK, SQL,
+dependency, workflow or package change is included.
+
+TelegramSender is separate from the receiver so a send-only consumer need not
+poll or fabricate a durable receive verifier. It requires expected_bot_id from
+TRUSTED configuration or the authenticated connection listing's external_identity,
+resolved by the owning adapter before construction. It never obtains the expected
+pin from the response it checks. Exact listing propagation still needs Broker
+qualification; there is no new HTTP/metadata fetch or expect field in this client.
+
+Example variables below come from the owning authenticated consumer and its
+durable intent store; neither this snippet nor a button grants execution:
+
+    sender = TelegramSender(
+        bound_hosted_client,
+        connection_id=trusted_connection_id,
+        expected_bot_id=trusted_bot_id,
+    )
+    result = sender.send_message(
+        allowed_numeric_chat_id,
+        notice_text,
+        inline_keyboard=((TelegramInlineButton("Open", opaque_action_ref),),),
+        idempotency_key=durably_recorded_original_key,
+        deadline=original_monotonic_deadline,
+    )
+
+Fixed operations are telegram.message.send and telegram.callback.answer.
+send_message builds only chat_id/text and optional ordered inline_keyboard.
+answer_callback builds callback_query_id, optional text and show_alert.
+No caller method/URL/headers/parse mode/entities, files, pay buttons, web apps,
+business identity or provider fallback exists. Broker owns the operator allowed
+chat list and refuses a changed/revoked recipient even after approval.
+
+Message text is 1..4096 UTF-8 bytes, answer text 0..200 UTF-8 bytes, with normal
+line breaks/tabs allowed and invalid Unicode/control content refused. These are
+agreed conservative client byte policies, stricter than vendor character limits.
+Labels are 1..128 UTF-8 bytes, callback data 1..64 bytes, and the keyboard is
+a nonempty tuple of at most8 nonempty tuple rows of at most8 typed buttons.
+None omits the keyboard; an empty/unknown shape is refused, never truncated.
+Numeric chat IDs include negative groups; booleans, zero, usernames and values
+outside signed64-bit are refused. Callback IDs are nonempty and locally capped
+at256 UTF-8 bytes as a bounded client policy, not a claimed vendor limit.
+
+A confirmed send result must have exactly bot_id/chat_id/message_id, with the
+trusted bot and intended chat matching, a positive integer message ID and the
+original execution identity when already known. A callback result must have
+exactly bot_id/answered:true. Private text, button refs and chat/message IDs do
+not appear in result/model repr or exception text. A malformed or mismatched
+post-dispatch result is UNKNOWN, never a safe basis to send again under a new key.
+
+TelegramSendCondition is a separate closed Add14 enum; receive conditions
+are not widened. Each nonnull condition must match its declared hosted status
+and Core code. request_changed is not the internal REQUEST_DIGEST_MISMATCH.
+connection_not_usable permits the two declared revoked/repair codes.
+identity_mismatch is AMBIGUOUS/RESULT_AMBIGUOUS; callback_in_flight and other
+safe refusals remain failed_safe/REQUEST_REFUSED. rate_limited carries an
+integer delay without an automatic sleep or resend. Generic kernel refusal or
+approval may lack a Broker condition; it never creates a grant. Confirmed
+success still requires explicit null condition. Human messages are not control.
+
+Approval-required retains the exact operation/body/key; the caller completes
+the existing browser approval and explicitly requests that original invocation
+again. This library does not open the approval URL or retry automatically.
+After a transport error, timeout after invoke, malformed success or AMBIGUOUS
+outcome, the serial sender retains only the original intent. Changed body/key,
+another send or a callback answer cannot replace it. Explicit same-key lookup
+may recover a stored confirmed reply or remain ambiguous; it must not redispatch
+an unknown send in the Broker. An expired/refused replay cannot erase the earlier
+unknown, and a known execution ID cannot change during reconciliation.
+
+This is volatile per-object containment, NOT a durable outbox, provider
+idempotency or an exactly-once guarantee. Before dispatch the owning consumer
+persists intent/key/body digest and current authority; after restart it restores
+the original intent and unresolved state from its own store. Do not create a new
+object/key to treat an unknown as safe. A deliberately separate new message
+after a human decision belongs to that durable consumer authority, not an
+automatic retry/clear operation supplied by this class. Retention durations
+remain proposed owner policy; this library claims no infinite dedup window.
+
+Callback answers are neutral UX acknowledgements, not update-prefix ACKs,
+business commits, approval or proof of a human reading a notice. Broker binds
+a callback to the authenticated READ device and an issued/claimed record;
+same-device apps do not thereby gain isolation. Consumer business handling still
+checks expected bot/chat/sender, current task/notice revision, durable replay
+and payload conflict rules. Button data is an opaque reference, never an
+arbitrary command. Broker's durable pre-socket claim, unknown/tombstone behavior,
+private storage and actual duplicate-provider prevention require its own source,
+PostgreSQL/fake/native/custody/consumer qualification.
+
+All new fakes are authored, NOT RUN on Mat. Full changed-head native setup/verify
+and Python floor, independent review/sign/merge, actual Broker implementation
+and installed authorised consumers remain required. A synthetic success is not
+Telegram delivery, operator acknowledgement, a real grant or SOW completion.

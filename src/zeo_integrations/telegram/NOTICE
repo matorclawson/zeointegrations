@@ -1,4 +1,4 @@
-Shared Telegram receive/ACK client
+Shared Telegram send/receive/ACK clients
 Copyright 2026 Zero Employee Organizations. SPDX-License-Identifier: MIT.
 
 Original implementation by the zeointegrations maintainer; no copied SDK code.
@@ -17,3 +17,15 @@ Telegram vendor reference: https://core.telegram.org/bots/api#getupdates
 Connect Add10 at03de621fd adds Broker-asserted reset epoch and recorded drops.
 
 Connect Add12 atfa652d481 freezes explicit linked new-prefix ACK recovery.
+
+
+Send/inline protocol provenance: ZEOconnect Telegram Add13 at
+1ed627c64ce6bcc75f52d662b19c8c194ea7cfed and governing Add14 at
+4025cb0de519a7f7851ddc85066ad10695750a68, same design directory.
+Core hosted-wire receiving: ans_3d9787f9abb7bea2.
+Architect ans_b8a989c25e295015 permits source and existing per-call browser
+approval for send/callback, not a standing send or broader ACK grant.
+Vendor method references: https://core.telegram.org/bots/api#sendmessage
+https://core.telegram.org/bots/api#inlinekeyboardbutton
+https://core.telegram.org/bots/api#answercallbackquery
+No provider implementation or SDK source was copied.

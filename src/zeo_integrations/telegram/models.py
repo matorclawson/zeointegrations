@@ -25,6 +25,18 @@ class TelegramCondition(StrEnum):
     TRANSIENT_REPLAY = "transient_replay"
 
 
+class TelegramSendCondition(StrEnum):
+    REQUEST_CHANGED = "request_changed"
+    RECIPIENT_NOT_ALLOWED = "recipient_not_allowed"
+    CALLBACK_NOT_ISSUED = "callback_not_issued"
+    CALLBACK_IN_FLIGHT = "callback_in_flight"
+    CALLBACK_ANSWERED = "callback_answered"
+    RECORD_EXPIRED = "record_expired"
+    RATE_LIMITED = "rate_limited"
+    CONNECTION_NOT_USABLE = "connection_not_usable"
+    IDENTITY_MISMATCH = "identity_mismatch"
+
+
 class TelegramError(RuntimeError):
     """Sanitized disposition; never retains transport exceptions or raw content."""
 
@@ -33,7 +45,7 @@ class TelegramError(RuntimeError):
         code: str,
         *,
         outcome_unknown: bool = False,
-        condition: TelegramCondition | None = None,
+        condition: TelegramCondition | TelegramSendCondition | None = None,
         retry_after_seconds: int | None = None,
         execution_id: str | None = None,
         pending_execution_id: str | None = None,
@@ -115,3 +127,31 @@ class DurablePrefixVerifier(Protocol):
         batch: TelegramBatch,
         consumers: tuple[str, ...],
     ) -> bool: ...
+
+
+@dataclass(frozen=True)
+class TelegramInlineButton:
+    """Opaque consumer reference; neither a URL nor business action authority."""
+
+    text: str = field(repr=False)
+    callback_data: str = field(repr=False)
+
+
+@dataclass(frozen=True)
+class TelegramSentMessage:
+    """Provider acceptance, not a human read or a new success on replay."""
+
+    bot_id: int = field(repr=False)
+    chat_id: int = field(repr=False)
+    message_id: int = field(repr=False)
+    execution_id: str
+    replayed: bool
+
+
+@dataclass(frozen=True)
+class TelegramCallbackAnswer:
+    """Neutral callback UX acknowledgement, not a business commit or ACK."""
+
+    bot_id: int = field(repr=False)
+    execution_id: str
+    replayed: bool

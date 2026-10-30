@@ -1,4 +1,4 @@
-"""Credentialless, one-call receive/ACK adapter for agreed Connect operations.
+"""Credentialless one-call clients for agreed Connect Telegram operations.
 
 Copyright 2026 Zero Employee Organizations. SPDX-License-Identifier: MIT
 Original implementation; no Telegram SDK or direct provider transport.
@@ -24,9 +24,13 @@ from .models import (
     DurablePrefixVerifier,
     TelegramAcknowledgement,
     TelegramBatch,
+    TelegramCallbackAnswer,
     TelegramCondition,
     TelegramError,
+    TelegramInlineButton,
     TelegramRetention,
+    TelegramSendCondition,
+    TelegramSentMessage,
     TelegramUpdate,
 )
 
@@ -42,13 +46,59 @@ _CONDITION_CODES = {
 }
 
 
+_SEND_CONDITION_CODES = {
+    TelegramSendCondition.REQUEST_CHANGED: {"REQUEST_REFUSED"},
+    TelegramSendCondition.RECIPIENT_NOT_ALLOWED: {"REQUEST_REFUSED"},
+    TelegramSendCondition.CALLBACK_NOT_ISSUED: {"REQUEST_REFUSED"},
+    TelegramSendCondition.CALLBACK_IN_FLIGHT: {"REQUEST_REFUSED"},
+    TelegramSendCondition.CALLBACK_ANSWERED: {"REQUEST_REFUSED"},
+    TelegramSendCondition.RECORD_EXPIRED: {"REQUEST_REFUSED"},
+    TelegramSendCondition.RATE_LIMITED: {"RATE_LIMITED"},
+    TelegramSendCondition.CONNECTION_NOT_USABLE: {
+        "CONNECTION_REVOKED", "CONNECTION_REPAIR_REQUIRED",
+    },
+    TelegramSendCondition.IDENTITY_MISMATCH: {"RESULT_AMBIGUOUS"},
+}
+
+
+def _send_condition(
+    response: HostedOperationResponse, receipt: dict[str, JsonValue]
+) -> tuple[TelegramSendCondition | None, int | None]:
+    raw = receipt.get("condition")
+    if raw is None:
+        return None, None
+    condition = None
+    try:
+        condition = TelegramSendCondition(raw)
+    except (ValueError, TypeError):
+        pass
+    if condition is None:
+        raise TelegramError("UNKNOWN_CONDITION", outcome_unknown=True)
+    error = response.normalized_error
+    expected_status = (
+        "ambiguous" if condition is TelegramSendCondition.IDENTITY_MISMATCH
+        else "failed_safe"
+    )
+    if (
+        response.status.value != expected_status
+        or error is None
+        or error.code.value not in _SEND_CONDITION_CODES[condition]
+    ):
+        raise TelegramError("INVALID_RECEIPT", outcome_unknown=True)
+    delay = None
+    if condition is TelegramSendCondition.RATE_LIMITED:
+        delay = _integer(receipt.get("retry_after_seconds"))
+    return condition, delay
+
+
 def _text(value: object, maximum: int) -> str:
     if not isinstance(value, str) or not value:
         raise TelegramError("INVALID_SHAPE")
+    invalid = True
     try:
         invalid = len(value.encode("utf-8")) > maximum
     except UnicodeError:
-        raise TelegramError("INVALID_SHAPE") from None
+        pass
     if invalid or any(ord(char) < 32 for char in value):
         raise TelegramError("INVALID_SHAPE")
     return value
@@ -93,38 +143,13 @@ class _PendingAck:
     stale: bool = False
 
 
-class TelegramClient:
-    """Receive slice only; does not send messages, poll in a loop or own a DB.
+class _HostedTelegramCalls:
+    """Shared bounded hosted call, never a provider transport."""
 
-    The injected hosted transport must enforce its configured call deadline
-    and response-byte ceiling. Local checks before/after invoke cannot cancel
-    a blocking transport. No timeout is invented in the pinned Core request.
-    """
-
-    def __init__(
-        self,
-        client: HostedConnectionClient,
-        *,
-        connection_id: str,
-        consumers: tuple[str, ...],
-        verifier: DurablePrefixVerifier,
-        max_response_bytes: int = 1_048_576,
-        clock: Callable[[], float] = time.monotonic,
-    ) -> None:
-        self._connection_id = _text(connection_id, 200)
-        if not consumers or type(consumers) is not tuple:
-            raise TelegramError("CONSUMER_CONFIGURATION")
-        self._consumers = tuple(_text(consumer, 200) for consumer in consumers)
-        if len(set(self._consumers)) != len(self._consumers):
-            raise TelegramError("CONSUMER_CONFIGURATION")
-        self._max_bytes = _integer(max_response_bytes, 1)
-        self._client = client
-        self._verifier = verifier
-        self._clock = clock
-        self._bot_id: int | None = None
-        self._epoch: int | None = None
-        self._last_batch: TelegramBatch | None = None
-        self._pending_ack: _PendingAck | None = None
+    _connection_id: str
+    _client: HostedConnectionClient
+    _max_bytes: int
+    _clock: Callable[[], float]
 
     def _invoke(
         self,
@@ -134,6 +159,7 @@ class TelegramClient:
         deadline: float,
         *,
         effect: bool,
+        send: bool = False,
     ) -> HostedOperationResponse:
         _text(key, 200)
         if (
@@ -151,6 +177,7 @@ class TelegramClient:
             idempotency_key=key,
         )
         # No expect: it is absent from the Broker's pinned Core 0.12.0.
+        unavailable = False
         try:
             response = self._client.invoke(request)
             if not isinstance(response, HostedOperationResponse):
@@ -162,19 +189,29 @@ class TelegramClient:
             if len(encoded) > self._max_bytes:
                 raise ValueError
         except Exception:
-            raise TelegramError("UNAVAILABLE", outcome_unknown=effect) from None
+            unavailable = True
+        # Raise outside the handler: do not chain a private transport exception.
+        if unavailable:
+            raise TelegramError("UNAVAILABLE", outcome_unknown=effect)
         if not math.isfinite(self._clock()) or self._clock() >= deadline:
             raise TelegramError("DEADLINE", outcome_unknown=effect)
         receipt = response.receipt or {}
         replayed = receipt.get("replayed", False)
         if type(replayed) is not bool:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
-        pending_execution_id, _ = _recovery_context(receipt)
-        condition = None
+        pending_execution_id = None
+        if not send:
+            pending_execution_id, _ = _recovery_context(receipt)
+        condition: TelegramCondition | TelegramSendCondition | None = None
         retry_after = None
-        if "condition" not in receipt:
+        generic_refusal = send and response.status.value in {
+            "refused", "failed_safe", "approval_required",
+        }
+        if "condition" not in receipt and not generic_refusal:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
-        if receipt["condition"] is not None:
+        if send:
+            condition, retry_after = _send_condition(response, receipt)
+        elif receipt["condition"] is not None:
             try:
                 condition = TelegramCondition(receipt["condition"])
             except (ValueError, TypeError):
@@ -207,6 +244,40 @@ class TelegramClient:
         if response.artifact is not None or not isinstance(response.result, dict):
             raise TelegramError("INVALID_RESULT", outcome_unknown=effect)
         return response
+
+
+class TelegramClient(_HostedTelegramCalls):
+    """Receive slice only; does not send messages, poll in a loop or own a DB.
+
+    The injected hosted transport must enforce its configured call deadline
+    and response-byte ceiling. Local checks before/after invoke cannot cancel
+    a blocking transport. No timeout is invented in the pinned Core request.
+    """
+
+    def __init__(
+        self,
+        client: HostedConnectionClient,
+        *,
+        connection_id: str,
+        consumers: tuple[str, ...],
+        verifier: DurablePrefixVerifier,
+        max_response_bytes: int = 1_048_576,
+        clock: Callable[[], float] = time.monotonic,
+    ) -> None:
+        self._connection_id = _text(connection_id, 200)
+        if not consumers or type(consumers) is not tuple:
+            raise TelegramError("CONSUMER_CONFIGURATION")
+        self._consumers = tuple(_text(consumer, 200) for consumer in consumers)
+        if len(set(self._consumers)) != len(self._consumers):
+            raise TelegramError("CONSUMER_CONFIGURATION")
+        self._max_bytes = _integer(max_response_bytes, 1)
+        self._client = client
+        self._verifier = verifier
+        self._clock = clock
+        self._bot_id: int | None = None
+        self._epoch: int | None = None
+        self._last_batch: TelegramBatch | None = None
+        self._pending_ack: _PendingAck | None = None
 
     def read_updates(
         self, *, idempotency_key: str, deadline: float, maximum: int = 100
@@ -426,3 +497,214 @@ class TelegramClient:
         return TelegramAcknowledgement(
             cursor, response.replayed, execution_id, tuple(superseded_ids)
         )
+
+
+def _message_text(value: object, maximum: int, *, empty: bool = False) -> str:
+    if not isinstance(value, str) or (not empty and not value):
+        raise TelegramError("INVALID_SHAPE")
+    encoded = None
+    try:
+        encoded = value.encode("utf-8")
+    except UnicodeError:
+        pass
+    if encoded is None:
+        raise TelegramError("INVALID_SHAPE")
+    if len(encoded) > maximum or any(
+        ord(char) < 32 and char not in "\n\r\t" for char in value
+    ):
+        raise TelegramError("INVALID_SHAPE")
+    return value
+
+
+def _chat_id(value: object) -> int:
+    if type(value) is not int or value == 0 or not -(2**63) <= value < 2**63:
+        raise TelegramError("INVALID_SHAPE")
+    return value
+
+
+@dataclass(frozen=True, repr=False)
+class _PendingEffect:
+    operation: str
+    arguments_json: str
+    key: str
+    execution_id: str | None = None
+    uncertain: bool = False
+
+
+class TelegramSender(_HostedTelegramCalls):
+    """Send/answer under Broker per-call admission with a trusted bot pin.
+
+    Expected identity must come from trusted configuration or the authenticated
+    connection listing, never the response being checked. The owning consumer
+    durably records intents and decisions. This serial object is not an outbox.
+    """
+
+    def __init__(
+        self,
+        client: HostedConnectionClient,
+        *,
+        connection_id: str,
+        expected_bot_id: int,
+        max_response_bytes: int = 1_048_576,
+        clock: Callable[[], float] = time.monotonic,
+    ) -> None:
+        self._connection_id = _text(connection_id, 200)
+        self._expected_bot_id = _integer(expected_bot_id, 1)
+        self._max_bytes = _integer(max_response_bytes, 1)
+        self._client = client
+        self._clock = clock
+        self._pending_effect: _PendingEffect | None = None
+
+    def send_message(
+        self,
+        chat_id: int,
+        text: str,
+        *,
+        idempotency_key: str,
+        deadline: float,
+        inline_keyboard: tuple[tuple[TelegramInlineButton, ...], ...] | None = None,
+    ) -> TelegramSentMessage:
+        chat = _chat_id(chat_id)
+        arguments: dict[str, JsonValue] = {
+            "chat_id": chat, "text": _message_text(text, 4096),
+        }
+        if inline_keyboard is not None:
+            if type(inline_keyboard) is not tuple or not 1 <= len(inline_keyboard) <= 8:
+                raise TelegramError("INVALID_KEYBOARD")
+            rows: list[JsonValue] = []
+            for row in inline_keyboard:
+                if type(row) is not tuple or not 1 <= len(row) <= 8:
+                    raise TelegramError("INVALID_KEYBOARD")
+                buttons: list[JsonValue] = []
+                for button in row:
+                    if type(button) is not TelegramInlineButton:
+                        raise TelegramError("INVALID_KEYBOARD")
+                    buttons.append({
+                        "text": _text(button.text, 128),
+                        "callback_data": _text(button.callback_data, 64),
+                    })
+                rows.append(buttons)
+            arguments["inline_keyboard"] = rows
+        response = self._submit_effect(
+            "telegram.message.send", arguments, idempotency_key, deadline,
+            expected_chat=chat,
+        )
+        result = cast(dict[str, JsonValue], response.result)
+        return TelegramSentMessage(
+            self._expected_bot_id, chat, cast(int, result["message_id"]),
+            response.execution_id, response.replayed,
+        )
+
+    def answer_callback(
+        self,
+        callback_query_id: str,
+        *,
+        idempotency_key: str,
+        deadline: float,
+        text: str | None = None,
+        show_alert: bool = False,
+    ) -> TelegramCallbackAnswer:
+        if type(show_alert) is not bool:
+            raise TelegramError("INVALID_SHAPE")
+        arguments: dict[str, JsonValue] = {
+            "callback_query_id": _text(callback_query_id, 256),
+            "show_alert": show_alert,
+        }
+        if text is not None:
+            arguments["text"] = _message_text(text, 200, empty=True)
+        response = self._submit_effect(
+            "telegram.callback.answer", arguments, idempotency_key, deadline,
+        )
+        return TelegramCallbackAnswer(
+            self._expected_bot_id, response.execution_id, response.replayed,
+        )
+
+    def _submit_effect(
+        self,
+        operation: str,
+        arguments: dict[str, JsonValue],
+        key: str,
+        deadline: float,
+        *,
+        expected_chat: int | None = None,
+    ) -> HostedOperationResponse:
+        _text(key, 200)
+        body = json.dumps(arguments, ensure_ascii=True, sort_keys=True, allow_nan=False)
+        previous = self._pending_effect
+        if previous is not None and (
+            previous.operation != operation or previous.arguments_json != body
+            or previous.key != key
+        ):
+            raise TelegramError(
+                "RECONCILE_ORIGINAL", outcome_unknown=previous.uncertain,
+                execution_id=previous.execution_id,
+            )
+        attempt = previous or _PendingEffect(operation, body, key)
+        try:
+            response = self._invoke(
+                operation, arguments, key, deadline, effect=True, send=True,
+            )
+            keys = (
+                {"bot_id", "chat_id", "message_id"} if expected_chat is not None
+                else {"bot_id", "answered"}
+            )
+            result = _object(response.result, keys)
+            execution_id = _text(response.execution_id, 200)
+            if (
+                attempt.execution_id is not None
+                and execution_id != attempt.execution_id
+            ):
+                raise TelegramError("INVALID_RECEIPT", outcome_unknown=True)
+            if _integer(result["bot_id"], 1) != self._expected_bot_id or (
+                expected_chat is not None
+                and _chat_id(result["chat_id"]) != expected_chat
+            ):
+                raise TelegramError(
+                    "IDENTITY_MISMATCH", outcome_unknown=True,
+                    condition=TelegramSendCondition.IDENTITY_MISMATCH,
+                    execution_id=execution_id,
+                )
+            if expected_chat is not None:
+                _integer(result["message_id"], 1)
+            elif result["answered"] is not True:
+                raise TelegramError("INVALID_RESULT", outcome_unknown=True)
+        except TelegramError as error:
+            if error.code in {
+                "INVALID_SHAPE", "INVALID_RECEIPT", "INVALID_RESULT",
+                "UNKNOWN_CONDITION",
+            }:
+                error.outcome_unknown = True
+            if error.outcome_unknown:
+                if (
+                    attempt.execution_id is not None
+                    and error.execution_id not in (None, attempt.execution_id)
+                ):
+                    self._pending_effect = replace(attempt, uncertain=True)
+                    raise TelegramError(
+                        "INVALID_RECEIPT", outcome_unknown=True,
+                        execution_id=attempt.execution_id,
+                    ) from None
+                self._pending_effect = replace(
+                    attempt,
+                    execution_id=attempt.execution_id or error.execution_id,
+                    uncertain=True,
+                )
+            elif attempt.uncertain:
+                # Expired/refused replay cannot prove an earlier unknown safe.
+                self._pending_effect = attempt
+                error.outcome_unknown = True
+                error.execution_id = attempt.execution_id
+            elif error.code == "APPROVAL_REQUIRED":
+                # Same body/key after browser approval; no automatic dispatch.
+                self._pending_effect = attempt
+            else:
+                self._pending_effect = None
+            raise
+        except (ValidationError, ValueError, TypeError, OverflowError):
+            self._pending_effect = replace(attempt, uncertain=True)
+            raise TelegramError(
+                "INVALID_RESULT", outcome_unknown=True,
+                execution_id=attempt.execution_id,
+            ) from None
+        self._pending_effect = None
+        return response
