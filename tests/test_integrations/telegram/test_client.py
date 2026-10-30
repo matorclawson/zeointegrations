@@ -18,14 +18,12 @@ def confirmed(result, *, receipt=None):
         status="confirmed",
         execution_id="synthetic-execution",
         result=result,
-        receipt=receipt,
+        receipt={"condition": None, **(receipt or {})},
     )
 
 
 def refused(condition=None, *, code="REQUEST_REFUSED", replayed=False, message="x"):
-    receipt = {"replayed": replayed}
-    if condition is not None:
-        receipt["condition"] = condition
+    receipt = {"replayed": replayed, "condition": condition}
     return HostedOperationResponse(
         status="failed_safe",
         execution_id="synthetic-refusal",
@@ -181,8 +179,9 @@ class TelegramClientTests(unittest.TestCase):
     def test_unknown_or_mismatched_condition_is_not_success(self):
         for response in (
             refused("invented"),
+            refused("result_not_retained"),
             refused("lease_lost", code="RATE_LIMITED"),
-            refused("result_not_retained", replayed=False),
+            refused("transient_replay", replayed=False),
         ):
             client, _, _ = self.client(response)
             with self.assertRaises(TelegramError):
@@ -190,11 +189,11 @@ class TelegramClientTests(unittest.TestCase):
 
     def test_transient_replay_never_exposes_an_old_batch_or_retries(self):
         client, transport, _ = self.client(
-            refused("result_not_retained", replayed=True)
+            refused("transient_replay", replayed=True)
         )
         with self.assertRaises(TelegramError) as caught:
             self.read(client)
-        self.assertEqual(caught.exception.condition.value, "result_not_retained")
+        self.assertEqual(caught.exception.condition.value, "transient_replay")
         self.assertEqual(len(transport.calls), 1)
         client, _, _ = self.client(
             confirmed(batch(), receipt={"replayed": True})
@@ -207,6 +206,18 @@ class TelegramClientTests(unittest.TestCase):
         with self.assertRaises(TelegramError) as caught:
             self.read(client)
         self.assertIsNone(caught.exception.condition)
+
+    def test_required_null_condition_is_distinct_from_a_missing_field(self):
+        client, _, _ = self.client(
+            HostedOperationResponse(
+                status="confirmed", execution_id="synthetic-missing",
+                result=batch(), receipt={},
+            )
+        )
+        with self.assertRaisesRegex(TelegramError, "INVALID_RECEIPT"):
+            self.read(client)
+        client, _, _ = self.client(confirmed(batch()))
+        self.assertEqual(self.read(client).bot_id, 7)
 
     def test_invalid_limits_and_expired_deadline_never_invoke(self):
         client, transport, _ = self.client()
@@ -239,6 +250,7 @@ class TelegramClientTests(unittest.TestCase):
     def test_ambiguous_ack_requires_original_batch_and_key(self):
         unknown = HostedOperationResponse(
             status="ambiguous", execution_id="synthetic-unknown",
+            receipt={"condition": None},
             normalized_error={"code": "RESULT_AMBIGUOUS", "message": "unknown"},
         )
         client, transport, _ = self.client(

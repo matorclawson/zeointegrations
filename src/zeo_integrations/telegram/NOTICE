@@ -6,6 +6,8 @@ Protocol provenance: ZEOconnect SOW-19 Telegram design, addenda 6 and 7:
 rodriveracom/org-zeroemployeeorg at 5d750f3f5 (addendum6) and 9f496a053
 (addendum7), projects/zeoconnect/evidence/zeoconnect-seat/
 zeoconnect-seat-SOW-19/telegram-connection-design-20261029/.
+Later own-addressed Connect adoption ans_9950ead5e0708a51 governs receipt
+condition placement/null policy and transient_replay token over addendum7.
 Core wording DRAFT-v10 corrects the consumer pin: do not use expect.
 Core hosted request/response types remain owned by zeocore; this package
 imports them unchanged. It adds no Core fields, provider credential store,

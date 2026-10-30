@@ -17,11 +17,16 @@ bot; update sender IDs do not. No Core contract or dependency is changed.
 
 Contract: Connect Telegram addendum6 (5d750f3f5, blob254001c38999cd59d3da4b32c94025ad35b06f56),
 addendum7 (9f496a053, blobff561064bcb857f092a14eec2a777ad3e0479dde),
-Core wordingv10. receipt.condition is validated against the closed declared
-set; receipt.replayed is a boolean. Error messages and provider_detail never
-drive control. result_not_retained is the agreed replay token, superseding
-the earlier local transient_replay proposal. Missing condition on a generic
-kernel refusal is preserved without inventing not_permitted.
+Core wordingv10 supplies the hosted boundary and pin limitation. Later
+own-addressed Connect adoption ans_9950ead5e0708a51 GOVERNS the condition freeze:
+receipt.condition is required, null when no Broker-specific condition applies;
+the closed replay token is transient_replay, superseding Add7's
+result_not_retained. Unknown tokens/code mismatches/missing required condition
+fail closed. An absent-key-as-null alternative is NOT selected here; that would
+need an actual owner/Council disposition. receipt.replayed is a boolean.
+Error messages and provider_detail never drive control. Generic kernel refusal
+gains no invented not_permitted label; null is not a grant or successful effect.
+No unknown top-level member is used: the Broker-pinned Core model rejects it.
 
 READ arguments contain max1..100 only. The Broker owns getMe/webhook checks,
 lease, pending/confirmed provider offsets and redacted observation history.

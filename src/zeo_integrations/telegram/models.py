@@ -20,7 +20,7 @@ class TelegramCondition(StrEnum):
     CURSOR_INVALID = "cursor_invalid"
     RATE_LIMITED = "rate_limited"
     CONNECTION_NOT_USABLE = "connection_not_usable"
-    RESULT_NOT_RETAINED = "result_not_retained"
+    TRANSIENT_REPLAY = "transient_replay"
 
 
 class TelegramError(RuntimeError):

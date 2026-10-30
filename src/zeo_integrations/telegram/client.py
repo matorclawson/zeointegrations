@@ -33,7 +33,7 @@ _CONDITION_CODES = {
     TelegramCondition.RECEIVE_CONFLICT: "REQUEST_REFUSED",
     TelegramCondition.LEASE_LOST: "REQUEST_REFUSED",
     TelegramCondition.CURSOR_INVALID: "REQUEST_REFUSED",
-    TelegramCondition.RESULT_NOT_RETAINED: "REQUEST_REFUSED",
+    TelegramCondition.TRANSIENT_REPLAY: "REQUEST_REFUSED",
     TelegramCondition.RATE_LIMITED: "RATE_LIMITED",
     TelegramCondition.CONNECTION_NOT_USABLE: "CONNECTION_REPAIR_REQUIRED",
 }
@@ -140,7 +140,9 @@ class TelegramClient:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
         condition = None
         retry_after = None
-        if "condition" in receipt:
+        if "condition" not in receipt:
+            raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
+        if receipt["condition"] is not None:
             try:
                 condition = TelegramCondition(receipt["condition"])
             except (ValueError, TypeError):
@@ -148,7 +150,7 @@ class TelegramClient:
             error = response.normalized_error
             if error is None or error.code.value != _CONDITION_CODES[condition]:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
-            if condition is TelegramCondition.RESULT_NOT_RETAINED and not replayed:
+            if condition is TelegramCondition.TRANSIENT_REPLAY and not replayed:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
             if condition is TelegramCondition.RATE_LIMITED:
                 retry_after = _integer(receipt.get("retry_after_seconds"))
