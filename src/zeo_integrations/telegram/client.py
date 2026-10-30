@@ -90,6 +90,7 @@ class _PendingAck:
     key: str | None
     execution_id: str | None = None
     parent: _PendingAck | None = None
+    stale: bool = False
 
 
 class TelegramClient:
@@ -342,6 +343,8 @@ class TelegramClient:
     def _submit_ack(
         self, attempt: _PendingAck, deadline: float
     ) -> TelegramAcknowledgement:
+        if attempt.stale:
+            raise TelegramError("RECOVERY_REQUIRED")
         batch = attempt.batch
         key = attempt.key
         if batch is None or key is None or batch.batch_cursor is None:
@@ -400,7 +403,9 @@ class TelegramClient:
                         raise TelegramError(
                             "PENDING_INTENT_MISMATCH", outcome_unknown=True
                         ) from None
-                    self._pending_ack = replace(attempt, execution_id=old_id)
+                    self._pending_ack = replace(
+                        attempt, execution_id=old_id, stale=True
+                    )
             elif error.outcome_unknown:
                 if error.code == "AMBIGUOUS" and error.execution_id is not None:
                     if attempt.execution_id not in (None, error.execution_id):

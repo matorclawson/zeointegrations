@@ -456,6 +456,28 @@ class TelegramClientTests(unittest.TestCase):
             transport.calls[-2].idempotency_key, transport.calls[-1].idempotency_key
         )
 
+    def test_known_stale_original_is_not_resent_even_with_its_old_key(self):
+        responses, _ = self.recovery_responses(
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
+                execution_id="execution-E2",
+            )
+        )
+        client, transport, _ = self.client(*responses)
+        original = self.read(client)
+        with self.assertRaises(TelegramError):
+            self.ack(client, original, key="key-K1")
+        with self.assertRaises(TelegramError):
+            self.ack(client, original, key="key-K1")
+        self.assertEqual(len(transport.calls), 3)
+        with self.assertRaisesRegex(TelegramError, "RECOVERY_REQUIRED"):
+            self.ack(client, original, key="key-K1")
+        self.assertEqual(len(transport.calls), 3)
+        fresh = self.read(client)
+        client.acknowledge_recovery(
+            fresh, idempotency_key="key-K2", deadline=10
+        )
+
     def test_recovery_needs_issued_batch_and_current_durable_prefix(self):
         responses, _ = self.recovery_responses(
             confirmed(

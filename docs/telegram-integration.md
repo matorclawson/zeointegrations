@@ -123,7 +123,9 @@ metadata, caller-forged batches, reused known keys and wrong intent references
 fail closed.
 
 A lost E2 reply retains C2/K2 AND the same supersedes member for same-key resend;
-it does not create K3. Original parent context stays until E2 is confirmed.
+it does not create K3. Original parent context stays until E2 is confirmed. Once the Broker has
+declared an attempt unresolved_stale, local resend of that old cursor/key is
+blocked; only a fresh Broker-granted linked prefix can advance.
 The acknowledgement returns E2 plus superseded_execution_ids as LINKS ONLY;
 it never resolves or overwrites E1. The local chain is bounded at16 prior
 links; exceeding that requires owning recovery, not an automatic context purge.
