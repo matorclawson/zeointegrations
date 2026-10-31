@@ -69,3 +69,11 @@ Copyright (c) 2026 Zero Employee Organizations, MIT.
 Primary API references: docs.joinmastodon.org methods/instance, media, statuses
 and api/rate-limits; no implementation copied.
 See src/zeo_integrations/mastodon/NOTICE for full primary URLs.
+
+HTTP boundary B1 sub-slice:
+Copyright 2026 Zero Employee Organizations, MIT.
+Operator-supplied expanded collection 2026-10-31; source archive SHA256
+e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8
+Only shared _http code and provider-independent synthetic tests are included;
+no VeyraX provider port or custody/frontend code. Per-file source/destination
+blobs and local constructor guard: docs/migrations/http-boundary.json.
