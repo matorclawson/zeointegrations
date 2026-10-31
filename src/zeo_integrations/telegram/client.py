@@ -215,7 +215,9 @@ class _HostedTelegramCalls:
             try:
                 condition = TelegramCondition(receipt["condition"])
             except (ValueError, TypeError):
-                raise TelegramError("UNKNOWN_CONDITION", outcome_unknown=effect) from None
+                raise TelegramError(
+                    "UNKNOWN_CONDITION", outcome_unknown=effect
+                ) from None
             error = response.normalized_error
             if error is None or error.code.value != _CONDITION_CODES[condition]:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)

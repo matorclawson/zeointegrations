@@ -664,11 +664,15 @@ class TelegramSenderTests(unittest.TestCase):
     def test_send_plain_text_negative_chat_and_private_result(self):
         sender, transport = self.sender(self.sent())
         result = self.send(sender, text="line one\nline two")
-        self.assertEqual((result.bot_id, result.chat_id, result.message_id), (7, -42, 17))
+        self.assertEqual(
+            (result.bot_id, result.chat_id, result.message_id), (7, -42, 17)
+        )
         self.assertNotIn("-42", repr(result))
         request = transport.calls[0]
         self.assertEqual(request.operation_id, "telegram.message.send")
-        self.assertEqual(request.arguments, {"chat_id": -42, "text": "line one\nline two"})
+        self.assertEqual(
+            request.arguments, {"chat_id": -42, "text": "line one\nline two"}
+        )
         self.assertNotIn("expect", request.model_dump(exclude_none=True))
         self.assertEqual(len(transport.calls), 1)
 
@@ -717,7 +721,10 @@ class TelegramSenderTests(unittest.TestCase):
             ((TelegramInlineButton("", "x"),),),
             ((TelegramInlineButton("x" * 129, "x"),),),
         ):
-            with self.subTest(keyboard_type=type(keyboard)), self.assertRaises(TelegramError):
+            with (
+                self.subTest(keyboard_type=type(keyboard)),
+                self.assertRaises(TelegramError),
+            ):
                 self.send(sender, keyboard=keyboard)
         self.assertEqual(transport.calls, [])
 
@@ -739,7 +746,9 @@ class TelegramSenderTests(unittest.TestCase):
         sender, transport = self.sender()
         for text in ("x" * 201, "é" * 101, "\ud800"):
             with self.assertRaises(TelegramError):
-                sender.answer_callback("id", text=text, idempotency_key="k", deadline=10)
+                sender.answer_callback(
+                    "id", text=text, idempotency_key="k", deadline=10
+                )
         for value in ("", "x" * 257, True):
             with self.assertRaises(TelegramError):
                 sender.answer_callback(value, idempotency_key="k", deadline=10)
@@ -761,7 +770,9 @@ class TelegramSenderTests(unittest.TestCase):
             with self.assertRaises(TelegramError) as caught:
                 self.send(sender)
             self.assertTrue(caught.exception.outcome_unknown)
-            self.assertEqual(caught.exception.condition, TelegramSendCondition.IDENTITY_MISMATCH)
+            self.assertEqual(
+                caught.exception.condition, TelegramSendCondition.IDENTITY_MISMATCH
+            )
             with self.assertRaisesRegex(TelegramError, "RECONCILE_ORIGINAL"):
                 self.send(sender, key="new")
             self.assertEqual(len(transport.calls), 1)
@@ -803,7 +814,9 @@ class TelegramSenderTests(unittest.TestCase):
         result = self.send(sender)
         self.assertTrue(result.replayed)
         self.assertEqual(transport.calls[0].arguments, transport.calls[1].arguments)
-        self.assertEqual(transport.calls[0].idempotency_key, transport.calls[1].idempotency_key)
+        self.assertEqual(
+            transport.calls[0].idempotency_key, transport.calls[1].idempotency_key
+        )
 
     def test_expired_record_cannot_erase_unknown_outcome(self):
         sender, transport = self.sender(
@@ -833,7 +846,9 @@ class TelegramSenderTests(unittest.TestCase):
         self.assertEqual(len(transport.calls), 1)
 
     def test_callback_owner_conditions_are_closed_typed_refusals(self):
-        for condition in ("callback_not_issued", "callback_answered", "callback_in_flight"):
+        for condition in (
+            "callback_not_issued", "callback_answered", "callback_in_flight"
+        ):
             sender, transport = self.sender(refused(condition))
             with self.assertRaises(TelegramError) as caught:
                 self.answer(sender)
@@ -845,7 +860,9 @@ class TelegramSenderTests(unittest.TestCase):
         sender, _ = self.sender(refused("request_changed"))
         with self.assertRaises(TelegramError) as caught:
             self.send(sender)
-        self.assertEqual(caught.exception.condition, TelegramSendCondition.REQUEST_CHANGED)
+        self.assertEqual(
+            caught.exception.condition, TelegramSendCondition.REQUEST_CHANGED
+        )
         self.assertEqual(caught.exception.code, "FAILED_SAFE")
 
     def test_unknown_condition_code_or_status_is_not_accepted(self):
@@ -865,11 +882,15 @@ class TelegramSenderTests(unittest.TestCase):
     def test_revoked_connection_does_not_parse_human_text(self):
         for code in ("CONNECTION_REVOKED", "CONNECTION_REPAIR_REQUIRED"):
             sender, _ = self.sender(
-                refused("connection_not_usable", code=code, message="private explanation")
+                refused(
+                    "connection_not_usable", code=code, message="private explanation"
+                )
             )
             with self.assertRaises(TelegramError) as caught:
                 self.send(sender)
-            self.assertEqual(caught.exception.condition, TelegramSendCondition.CONNECTION_NOT_USABLE)
+            self.assertEqual(
+                caught.exception.condition, TelegramSendCondition.CONNECTION_NOT_USABLE
+            )
             self.assertNotIn("private", str(caught.exception))
 
     def test_rate_delay_is_typed_without_sleep_or_retry(self):
@@ -988,7 +1009,9 @@ class TelegramSenderTests(unittest.TestCase):
         self.assertTrue(caught.exception.outcome_unknown)
 
     def test_later_safe_refusal_does_not_reclassify_original_unknown(self):
-        sender, transport = self.sender(self.unknown(), refused("connection_not_usable", code="CONNECTION_REVOKED"))
+        sender, transport = self.sender(
+            self.unknown(), refused("connection_not_usable", code="CONNECTION_REVOKED")
+        )
         with self.assertRaises(TelegramError):
             self.send(sender)
         with self.assertRaises(TelegramError) as caught:
