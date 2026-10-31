@@ -69,3 +69,13 @@ Copyright (c) 2026 Zero Employee Organizations, MIT.
 Primary API references: docs.joinmastodon.org methods/instance, media, statuses
 and api/rate-limits; no implementation copied.
 See src/zeo_integrations/mastodon/NOTICE for full primary URLs.
+
+Aggregate Loops library and mailing-list reader: original MIT implementation
+from this repository's packages/loops at29d303262f620d6c97bfc3c5fdf5bc975fc1175b,
+with received aggregate/Python3.12 adaptations from expanded-delivery ZIP
+e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8.
+New narrow list-only Connect projection and acceptance controls are original
+Copyright2026 Zero Employee Organizations, MIT. No credentials/live responses
+or proprietary Broker code copied. Exact paths and old/new blob provenance:
+docs/migrations/loops-aggregate-lists.json; provider notice retained in
+src/zeo_integrations/loops/NOTICE. Historical standalone packages are unchanged.
