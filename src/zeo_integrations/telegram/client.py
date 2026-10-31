@@ -55,7 +55,8 @@ _SEND_CONDITION_CODES = {
     TelegramSendCondition.RECORD_EXPIRED: {"REQUEST_REFUSED"},
     TelegramSendCondition.RATE_LIMITED: {"RATE_LIMITED"},
     TelegramSendCondition.CONNECTION_NOT_USABLE: {
-        "CONNECTION_REVOKED", "CONNECTION_REPAIR_REQUIRED",
+        "CONNECTION_REVOKED",
+        "CONNECTION_REPAIR_REQUIRED",
     },
     TelegramSendCondition.IDENTITY_MISMATCH: {"RESULT_AMBIGUOUS"},
 }
@@ -76,7 +77,8 @@ def _send_condition(
         raise TelegramError("UNKNOWN_CONDITION", outcome_unknown=True)
     error = response.normalized_error
     expected_status = (
-        "ambiguous" if condition is TelegramSendCondition.IDENTITY_MISMATCH
+        "ambiguous"
+        if condition is TelegramSendCondition.IDENTITY_MISMATCH
         else "failed_safe"
     )
     if (
@@ -205,7 +207,9 @@ class _HostedTelegramCalls:
         condition: TelegramCondition | TelegramSendCondition | None = None
         retry_after = None
         generic_refusal = send and response.status.value in {
-            "refused", "failed_safe", "approval_required",
+            "refused",
+            "failed_safe",
+            "approval_required",
         }
         if "condition" not in receipt and not generic_refusal:
             raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
@@ -223,10 +227,14 @@ class _HostedTelegramCalls:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
             if condition is TelegramCondition.TRANSIENT_REPLAY and not replayed:
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
-            if condition in {
-                TelegramCondition.CURSOR_STALE,
-                TelegramCondition.RECOVERY_REQUIRED,
-            } and response.status.value != "failed_safe":
+            if (
+                condition
+                in {
+                    TelegramCondition.CURSOR_STALE,
+                    TelegramCondition.RECOVERY_REQUIRED,
+                }
+                and response.status.value != "failed_safe"
+            ):
                 raise TelegramError("INVALID_RECEIPT", outcome_unknown=effect)
             if condition is TelegramCondition.RATE_LIMITED:
                 retry_after = _integer(receipt.get("retry_after_seconds"))
@@ -240,7 +248,8 @@ class _HostedTelegramCalls:
                 pending_execution_id=pending_execution_id,
                 approval_url=(
                     str(response.approval_url)
-                    if send and response.approval_url is not None else None
+                    if send and response.approval_url is not None
+                    else None
                 ),
             )
         if condition is not None:
@@ -300,8 +309,13 @@ class TelegramClient(_HostedTelegramCalls):
         result = _object(
             response.result,
             {
-                "bot_id", "epoch", "fence", "batch_cursor", "updates",
-                "retention", "lost_to_retention",
+                "bot_id",
+                "epoch",
+                "fence",
+                "batch_cursor",
+                "updates",
+                "retention",
+                "lost_to_retention",
             },
         )
         bot_id = _integer(result["bot_id"], 1)
@@ -351,9 +365,14 @@ class TelegramClient(_HostedTelegramCalls):
             raise TelegramError("INVALID_RETENTION")
         pending_id, recovery_id = _recovery_context(response.receipt or {})
         batch = TelegramBatch(
-            bot_id, epoch, fence, cursor, tuple(updates),
+            bot_id,
+            epoch,
+            fence,
+            cursor,
+            tuple(updates),
             TelegramRetention(str(state), age, lost),
-            pending_id, recovery_id,
+            pending_id,
+            recovery_id,
         )
         self._bot_id = bot_id
         self._epoch = epoch
@@ -466,17 +485,21 @@ class TelegramClient(_HostedTelegramCalls):
                 raise TelegramError("INVALID_ACK", outcome_unknown=True)
         except TelegramError as error:
             if error.code in {
-                "INVALID_SHAPE", "INVALID_ACK", "INVALID_RECEIPT",
-                "UNKNOWN_CONDITION", "INVALID_RESULT", "PENDING_INTENT_MISMATCH",
+                "INVALID_SHAPE",
+                "INVALID_ACK",
+                "INVALID_RECEIPT",
+                "UNKNOWN_CONDITION",
+                "INVALID_RESULT",
+                "PENDING_INTENT_MISMATCH",
             }:
                 error.outcome_unknown = True
             if error.condition is TelegramCondition.CURSOR_STALE:
                 self._last_batch = None
                 old_id = error.pending_execution_id
                 if old_id is not None:
-                    if (
-                        old_id in superseded_ids
-                        or attempt.execution_id not in (None, old_id)
+                    if old_id in superseded_ids or attempt.execution_id not in (
+                        None,
+                        old_id,
                     ):
                         raise TelegramError(
                             "PENDING_INTENT_MISMATCH", outcome_unknown=True
@@ -572,7 +595,8 @@ class TelegramSender(_HostedTelegramCalls):
     ) -> TelegramSentMessage:
         chat = _chat_id(chat_id)
         arguments: dict[str, JsonValue] = {
-            "chat_id": chat, "text": _message_text(text, 4096),
+            "chat_id": chat,
+            "text": _message_text(text, 4096),
         }
         if inline_keyboard is not None:
             if type(inline_keyboard) is not tuple or not 1 <= len(inline_keyboard) <= 8:
@@ -585,20 +609,28 @@ class TelegramSender(_HostedTelegramCalls):
                 for button in row:
                     if type(button) is not TelegramInlineButton:
                         raise TelegramError("INVALID_KEYBOARD")
-                    buttons.append({
-                        "text": _text(button.text, 128),
-                        "callback_data": _text(button.callback_data, 64),
-                    })
+                    buttons.append(
+                        {
+                            "text": _text(button.text, 128),
+                            "callback_data": _text(button.callback_data, 64),
+                        }
+                    )
                 rows.append(buttons)
             arguments["inline_keyboard"] = rows
         response = self._submit_effect(
-            "telegram.message.send", arguments, idempotency_key, deadline,
+            "telegram.message.send",
+            arguments,
+            idempotency_key,
+            deadline,
             expected_chat=chat,
         )
         result = cast(dict[str, JsonValue], response.result)
         return TelegramSentMessage(
-            self._expected_bot_id, chat, cast(int, result["message_id"]),
-            response.execution_id, response.replayed,
+            self._expected_bot_id,
+            chat,
+            cast(int, result["message_id"]),
+            response.execution_id,
+            response.replayed,
         )
 
     def answer_callback(
@@ -619,10 +651,15 @@ class TelegramSender(_HostedTelegramCalls):
         if text is not None:
             arguments["text"] = _message_text(text, 200, empty=True)
         response = self._submit_effect(
-            "telegram.callback.answer", arguments, idempotency_key, deadline,
+            "telegram.callback.answer",
+            arguments,
+            idempotency_key,
+            deadline,
         )
         return TelegramCallbackAnswer(
-            self._expected_bot_id, response.execution_id, response.replayed,
+            self._expected_bot_id,
+            response.execution_id,
+            response.replayed,
         )
 
     def _submit_effect(
@@ -638,20 +675,28 @@ class TelegramSender(_HostedTelegramCalls):
         body = json.dumps(arguments, ensure_ascii=True, sort_keys=True, allow_nan=False)
         previous = self._pending_effect
         if previous is not None and (
-            previous.operation != operation or previous.arguments_json != body
+            previous.operation != operation
+            or previous.arguments_json != body
             or previous.key != key
         ):
             raise TelegramError(
-                "RECONCILE_ORIGINAL", outcome_unknown=previous.uncertain,
+                "RECONCILE_ORIGINAL",
+                outcome_unknown=previous.uncertain,
                 execution_id=previous.execution_id,
             )
         attempt = previous or _PendingEffect(operation, body, key)
         try:
             response = self._invoke(
-                operation, arguments, key, deadline, effect=True, send=True,
+                operation,
+                arguments,
+                key,
+                deadline,
+                effect=True,
+                send=True,
             )
             keys = (
-                {"bot_id", "chat_id", "message_id"} if expected_chat is not None
+                {"bot_id", "chat_id", "message_id"}
+                if expected_chat is not None
                 else {"bot_id", "answered"}
             )
             result = _object(response.result, keys)
@@ -666,7 +711,8 @@ class TelegramSender(_HostedTelegramCalls):
                 and _chat_id(result["chat_id"]) != expected_chat
             ):
                 raise TelegramError(
-                    "IDENTITY_MISMATCH", outcome_unknown=True,
+                    "IDENTITY_MISMATCH",
+                    outcome_unknown=True,
                     condition=TelegramSendCondition.IDENTITY_MISMATCH,
                     execution_id=execution_id,
                 )
@@ -676,18 +722,21 @@ class TelegramSender(_HostedTelegramCalls):
                 raise TelegramError("INVALID_RESULT", outcome_unknown=True)
         except TelegramError as error:
             if error.code in {
-                "INVALID_SHAPE", "INVALID_RECEIPT", "INVALID_RESULT",
+                "INVALID_SHAPE",
+                "INVALID_RECEIPT",
+                "INVALID_RESULT",
                 "UNKNOWN_CONDITION",
             }:
                 error.outcome_unknown = True
             if error.outcome_unknown:
-                if (
-                    attempt.execution_id is not None
-                    and error.execution_id not in (None, attempt.execution_id)
+                if attempt.execution_id is not None and error.execution_id not in (
+                    None,
+                    attempt.execution_id,
                 ):
                     self._pending_effect = replace(attempt, uncertain=True)
                     raise TelegramError(
-                        "INVALID_RECEIPT", outcome_unknown=True,
+                        "INVALID_RECEIPT",
+                        outcome_unknown=True,
                         execution_id=attempt.execution_id,
                     ) from None
                 self._pending_effect = replace(
@@ -709,7 +758,8 @@ class TelegramSender(_HostedTelegramCalls):
         except (ValidationError, ValueError, TypeError, OverflowError):
             self._pending_effect = replace(attempt, uncertain=True)
             raise TelegramError(
-                "INVALID_RESULT", outcome_unknown=True,
+                "INVALID_RESULT",
+                outcome_unknown=True,
                 execution_id=attempt.execution_id,
             ) from None
         self._pending_effect = None

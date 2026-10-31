@@ -44,7 +44,9 @@ def batch(*, bot_id=7, epoch=0, cursor="opaque-issued", updates=None):
         "epoch": epoch,
         "fence": 2,
         "batch_cursor": cursor,
-        "updates": updates if updates is not None else [
+        "updates": updates
+        if updates is not None
+        else [
             {"update_id": 10, "message": {"text": "private fixture"}},
             {"update_id": 14, "callback_query": {"data": "opaque-action"}},
         ],
@@ -129,9 +131,9 @@ class TelegramClientTests(unittest.TestCase):
         self.assertEqual(len(transport.calls), 1)
 
     def test_changed_payload_requires_a_current_durable_disposition(self):
-        changed = batch(updates=[
-            {"update_id": 10, "message": {"text": "changed redelivery"}}
-        ])
+        changed = batch(
+            updates=[{"update_id": 10, "message": {"text": "changed redelivery"}}]
+        )
         client, transport, verifier = self.client(confirmed(changed))
         value = self.read(client)
 
@@ -195,16 +197,12 @@ class TelegramClientTests(unittest.TestCase):
                 self.read(client)
 
     def test_transient_replay_never_exposes_an_old_batch_or_retries(self):
-        client, transport, _ = self.client(
-            refused("transient_replay", replayed=True)
-        )
+        client, transport, _ = self.client(refused("transient_replay", replayed=True))
         with self.assertRaises(TelegramError) as caught:
             self.read(client)
         self.assertEqual(caught.exception.condition.value, "transient_replay")
         self.assertEqual(len(transport.calls), 1)
-        client, _, _ = self.client(
-            confirmed(batch(), receipt={"replayed": True})
-        )
+        client, _, _ = self.client(confirmed(batch(), receipt={"replayed": True}))
         with self.assertRaisesRegex(TelegramError, "REPLAY_WITHOUT_BATCH"):
             self.read(client)
 
@@ -217,8 +215,10 @@ class TelegramClientTests(unittest.TestCase):
     def test_required_null_condition_is_distinct_from_a_missing_field(self):
         client, _, _ = self.client(
             HostedOperationResponse(
-                status="confirmed", execution_id="synthetic-missing",
-                result=batch(), receipt={},
+                status="confirmed",
+                execution_id="synthetic-missing",
+                result=batch(),
+                receipt={},
             )
         )
         with self.assertRaisesRegex(TelegramError, "INVALID_RECEIPT"):
@@ -249,9 +249,7 @@ class TelegramClientTests(unittest.TestCase):
                 self.read(client)
 
     def test_reset_epoch_distinguishes_reused_id_and_identical_payload(self):
-        client, _, _ = self.client(
-            confirmed(batch(epoch=0)), confirmed(batch(epoch=1))
-        )
+        client, _, _ = self.client(confirmed(batch(epoch=0)), confirmed(batch(epoch=1)))
         before = self.read(client)
         after = self.read(client)
         self.assertEqual(before.updates, after.updates)
@@ -271,9 +269,7 @@ class TelegramClientTests(unittest.TestCase):
             client, _, _ = self.client(confirmed(batch(epoch=invalid)))
             with self.subTest(epoch=invalid), self.assertRaises(TelegramError):
                 self.read(client)
-        client, _, _ = self.client(
-            confirmed(batch(epoch=2)), confirmed(batch(epoch=1))
-        )
+        client, _, _ = self.client(confirmed(batch(epoch=2)), confirmed(batch(epoch=1)))
         self.read(client)
         with self.assertRaisesRegex(TelegramError, "EPOCH_REGRESSED"):
             self.read(client)
@@ -307,12 +303,14 @@ class TelegramClientTests(unittest.TestCase):
 
     def test_ambiguous_ack_requires_original_batch_and_key(self):
         unknown = HostedOperationResponse(
-            status="ambiguous", execution_id="synthetic-unknown",
+            status="ambiguous",
+            execution_id="synthetic-unknown",
             receipt={"condition": None},
             normalized_error={"code": "RESULT_AMBIGUOUS", "message": "unknown"},
         )
         client, transport, _ = self.client(
-            confirmed(batch()), unknown,
+            confirmed(batch()),
+            unknown,
             confirmed(
                 {"acknowledged": True, "confirmed_cursor": "confirmed"},
                 execution_id="synthetic-unknown",
@@ -373,27 +371,33 @@ class TelegramClientTests(unittest.TestCase):
 
     def recovery_responses(self, final):
         first = HostedOperationResponse(
-            status="ambiguous", execution_id="execution-E1",
+            status="ambiguous",
+            execution_id="execution-E1",
             normalized_error={"code": "RESULT_AMBIGUOUS", "message": "unknown"},
             receipt={"condition": None},
         )
         stale = refused("cursor_stale").model_dump(mode="json")
         stale["receipt"]["pending_ack"] = {
-            "state": "unresolved_stale", "execution_id": "execution-E1"
+            "state": "unresolved_stale",
+            "execution_id": "execution-E1",
         }
         second_batch = batch(epoch=1, cursor="cursor-C2")
         second = confirmed(
             second_batch,
             receipt={
                 "pending_ack": {
-                    "state": "unresolved_stale", "execution_id": "execution-E1"
+                    "state": "unresolved_stale",
+                    "execution_id": "execution-E1",
                 },
                 "recovery": {"open": True, "supersedes": "execution-E1"},
             },
         )
         return [
-            confirmed(batch()), first,
-            HostedOperationResponse.model_validate(stale), second, final,
+            confirmed(batch()),
+            first,
+            HostedOperationResponse.model_validate(stale),
+            second,
+            final,
         ], first
 
     def enter_recovery(self, client):
@@ -420,9 +424,7 @@ class TelegramClientTests(unittest.TestCase):
         with self.assertRaisesRegex(TelegramError, "RECONCILE_ORIGINAL"):
             self.ack(client, fresh, key="key-K1")
         with self.assertRaisesRegex(TelegramError, "RECOVERY_REQUIRES_NEW_KEY"):
-            client.acknowledge_recovery(
-                fresh, idempotency_key="key-K1", deadline=10
-            )
+            client.acknowledge_recovery(fresh, idempotency_key="key-K1", deadline=10)
         self.assertEqual(len(transport.calls), 4)
         result = client.acknowledge_recovery(
             fresh, idempotency_key="key-K2", deadline=10
@@ -440,17 +442,17 @@ class TelegramClientTests(unittest.TestCase):
 
     def test_lost_linked_reply_resends_exact_original_new_body_and_key(self):
         responses, _ = self.recovery_responses(RuntimeError("lost E2 reply"))
-        responses.append(confirmed(
-            {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
-            receipt={"replayed": True},
-            execution_id="execution-E2",
-        ))
+        responses.append(
+            confirmed(
+                {"acknowledged": True, "confirmed_cursor": "confirmed-C2"},
+                receipt={"replayed": True},
+                execution_id="execution-E2",
+            )
+        )
         client, transport, _ = self.client(*responses)
         fresh = self.enter_recovery(client)
         with self.assertRaises(TelegramError) as lost:
-            client.acknowledge_recovery(
-                fresh, idempotency_key="key-K2", deadline=10
-            )
+            client.acknowledge_recovery(fresh, idempotency_key="key-K2", deadline=10)
         self.assertTrue(lost.exception.outcome_unknown)
         with self.assertRaises(TelegramError):
             self.ack(client, fresh, key="different-key")
@@ -480,9 +482,7 @@ class TelegramClientTests(unittest.TestCase):
             self.ack(client, original, key="key-K1")
         self.assertEqual(len(transport.calls), 3)
         fresh = self.read(client)
-        client.acknowledge_recovery(
-            fresh, idempotency_key="key-K2", deadline=10
-        )
+        client.acknowledge_recovery(fresh, idempotency_key="key-K2", deadline=10)
 
     def test_ordinary_stale_cursor_without_open_intent_cannot_be_reused(self):
         client, transport, _ = self.client(
@@ -499,9 +499,7 @@ class TelegramClientTests(unittest.TestCase):
         self.assertEqual(len(transport.calls), 2)
         fresh = self.read(client)
         self.ack(client, fresh, key="new-prefix-key")
-        self.assertEqual(
-            transport.calls[-1].arguments, {"batch_cursor": "fresh-C2"}
-        )
+        self.assertEqual(transport.calls[-1].arguments, {"batch_cursor": "fresh-C2"})
 
     def test_recovery_needs_issued_batch_and_current_durable_prefix(self):
         responses, _ = self.recovery_responses(
@@ -515,18 +513,15 @@ class TelegramClientTests(unittest.TestCase):
         with self.assertRaisesRegex(TelegramError, "RECOVERY_NOT_GRANTED"):
             client.acknowledge_recovery(
                 replace(fresh, recovery_execution_id="invented"),
-                idempotency_key="key-K2", deadline=10,
+                idempotency_key="key-K2",
+                deadline=10,
             )
         verifier.accept = False
         with self.assertRaisesRegex(TelegramError, "PREFIX_NOT_DURABLE"):
-            client.acknowledge_recovery(
-                fresh, idempotency_key="key-K2", deadline=10
-            )
+            client.acknowledge_recovery(fresh, idempotency_key="key-K2", deadline=10)
         self.assertEqual(len(transport.calls), 4)
         verifier.accept = True
-        client.acknowledge_recovery(
-            fresh, idempotency_key="key-K2", deadline=10
-        )
+        client.acknowledge_recovery(fresh, idempotency_key="key-K2", deadline=10)
 
     def test_unlinked_ack_does_not_bypass_broker_recovery_context(self):
         response = confirmed(
@@ -555,7 +550,8 @@ class TelegramClientTests(unittest.TestCase):
             {"pending_ack": {"state": "invented", "execution_id": "execution-E1"}},
             {
                 "pending_ack": {
-                    "state": "unresolved_stale", "execution_id": "execution-E1"
+                    "state": "unresolved_stale",
+                    "execution_id": "execution-E1",
                 },
                 "recovery": {"open": True, "supersedes": "execution-E9"},
             },
@@ -580,9 +576,7 @@ class TelegramClientTests(unittest.TestCase):
         client, transport, _ = self.client(*responses)
         fresh = self.enter_recovery(client)
         with self.assertRaisesRegex(TelegramError, "PENDING_INTENT_MISMATCH"):
-            client.acknowledge_recovery(
-                fresh, idempotency_key="key-K2", deadline=10
-            )
+            client.acknowledge_recovery(fresh, idempotency_key="key-K2", deadline=10)
         self.assertEqual(len(transport.calls), 4)
 
     def test_linked_confirmation_cannot_reuse_the_old_execution_identity(self):
@@ -595,9 +589,7 @@ class TelegramClientTests(unittest.TestCase):
         client, transport, _ = self.client(*responses)
         fresh = self.enter_recovery(client)
         with self.assertRaises(TelegramError) as caught:
-            client.acknowledge_recovery(
-                fresh, idempotency_key="key-K2", deadline=10
-            )
+            client.acknowledge_recovery(fresh, idempotency_key="key-K2", deadline=10)
         self.assertTrue(caught.exception.outcome_unknown)
         with self.assertRaisesRegex(TelegramError, "RECONCILE_ORIGINAL"):
             self.ack(client, fresh, key="key-K3")
@@ -613,9 +605,7 @@ class TelegramClientTests(unittest.TestCase):
             self.assertEqual(caught.exception.condition.value, condition)
             bad = response.model_dump(mode="json")
             bad["status"] = "refused"
-            client, _, _ = self.client(
-                HostedOperationResponse.model_validate(bad)
-            )
+            client, _, _ = self.client(HostedOperationResponse.model_validate(bad))
             with self.assertRaisesRegex(TelegramError, "INVALID_RECEIPT"):
                 self.read(client)
 
@@ -624,6 +614,7 @@ class TelegramClientTests(unittest.TestCase):
         client._max_bytes = 10
         with self.assertRaisesRegex(TelegramError, "UNAVAILABLE"):
             self.read(client)
+
 
 class TelegramSenderTests(unittest.TestCase):
     def sender(self, *responses):
@@ -640,23 +631,30 @@ class TelegramSenderTests(unittest.TestCase):
     def sent(self, *, bot=7, chat=-42, message=17, replayed=False, execution="send-1"):
         return confirmed(
             {"bot_id": bot, "chat_id": chat, "message_id": message},
-            receipt={"replayed": replayed}, execution_id=execution,
+            receipt={"replayed": replayed},
+            execution_id=execution,
         )
 
     def send(self, sender, *, key="send-key", text="private message", keyboard=None):
         return sender.send_message(
-            -42, text, idempotency_key=key, deadline=10,
+            -42,
+            text,
+            idempotency_key=key,
+            deadline=10,
             inline_keyboard=keyboard,
         )
 
     def answer(self, sender, *, key="answer-key"):
         return sender.answer_callback(
-            "private-callback", idempotency_key=key, deadline=10,
+            "private-callback",
+            idempotency_key=key,
+            deadline=10,
         )
 
     def unknown(self, *, execution="send-1"):
         return HostedOperationResponse(
-            status="ambiguous", execution_id=execution,
+            status="ambiguous",
+            execution_id=execution,
             receipt={"condition": None},
             normalized_error={"code": "RESULT_AMBIGUOUS", "message": "redacted"},
         )
@@ -681,10 +679,15 @@ class TelegramSenderTests(unittest.TestCase):
         first = TelegramInlineButton("Private label", "opaque-first")
         second = TelegramInlineButton("Second", "opaque-second")
         self.send(sender, keyboard=((first, second),))
-        self.assertEqual(transport.calls[0].arguments["inline_keyboard"], [[
-            {"text": "Private label", "callback_data": "opaque-first"},
-            {"text": "Second", "callback_data": "opaque-second"},
-        ]])
+        self.assertEqual(
+            transport.calls[0].arguments["inline_keyboard"],
+            [
+                [
+                    {"text": "Private label", "callback_data": "opaque-first"},
+                    {"text": "Second", "callback_data": "opaque-second"},
+                ]
+            ],
+        )
         self.assertNotIn("Private label", repr(first))
         self.assertNotIn("opaque-first", repr(first))
 
@@ -716,7 +719,11 @@ class TelegramSenderTests(unittest.TestCase):
         sender, transport = self.sender()
         button = TelegramInlineButton("Label", "opaque")
         for keyboard in (
-            [], (), ((),), ((button,) * 9,), ((button,),) * 9,
+            [],
+            (),
+            ((),),
+            ((button,) * 9,),
+            ((button,),) * 9,
             (({"text": "Label", "url": "https://example.invalid"},),),
             ((TelegramInlineButton("", "x"),),),
             ((TelegramInlineButton("x" * 129, "x"),),),
@@ -731,15 +738,22 @@ class TelegramSenderTests(unittest.TestCase):
     def test_callback_answer_has_separate_neutral_effect(self):
         sender, transport = self.sender(confirmed({"bot_id": 7, "answered": True}))
         result = sender.answer_callback(
-            "private-callback", text="Received", show_alert=False,
-            idempotency_key="answer-key", deadline=10,
+            "private-callback",
+            text="Received",
+            show_alert=False,
+            idempotency_key="answer-key",
+            deadline=10,
         )
         self.assertEqual(result.bot_id, 7)
         self.assertEqual(transport.calls[0].operation_id, "telegram.callback.answer")
-        self.assertEqual(transport.calls[0].arguments, {
-            "callback_query_id": "private-callback", "text": "Received",
-            "show_alert": False,
-        })
+        self.assertEqual(
+            transport.calls[0].arguments,
+            {
+                "callback_query_id": "private-callback",
+                "text": "Received",
+                "show_alert": False,
+            },
+        )
         self.assertNotIn("private-callback", repr(result))
 
     def test_callback_answer_validates_local_bounds(self):
@@ -761,7 +775,8 @@ class TelegramSenderTests(unittest.TestCase):
             with self.assertRaises(TelegramError):
                 TelegramSender(
                     HostedConnectionClient(transport=Transport()),
-                    connection_id="synthetic", expected_bot_id=bot,
+                    connection_id="synthetic",
+                    expected_bot_id=bot,
                 )
 
     def test_wrong_confirmed_identity_is_unknown_and_blocks_new_key(self):
@@ -807,7 +822,8 @@ class TelegramSenderTests(unittest.TestCase):
 
     def test_lost_confirmed_response_replays_only_original_intent(self):
         sender, transport = self.sender(
-            RuntimeError("private token URL"), self.sent(replayed=True),
+            RuntimeError("private token URL"),
+            self.sent(replayed=True),
         )
         with self.assertRaises(TelegramError):
             self.send(sender)
@@ -820,7 +836,8 @@ class TelegramSenderTests(unittest.TestCase):
 
     def test_expired_record_cannot_erase_unknown_outcome(self):
         sender, transport = self.sender(
-            self.unknown(), refused("record_expired"),
+            self.unknown(),
+            refused("record_expired"),
         )
         with self.assertRaises(TelegramError):
             self.send(sender)
@@ -847,7 +864,9 @@ class TelegramSenderTests(unittest.TestCase):
 
     def test_callback_owner_conditions_are_closed_typed_refusals(self):
         for condition in (
-            "callback_not_issued", "callback_answered", "callback_in_flight"
+            "callback_not_issued",
+            "callback_answered",
+            "callback_in_flight",
         ):
             sender, transport = self.sender(refused(condition))
             with self.assertRaises(TelegramError) as caught:
@@ -909,7 +928,8 @@ class TelegramSenderTests(unittest.TestCase):
 
     def test_browser_approval_preserves_body_and_key_without_auto_retry(self):
         approval = HostedOperationResponse(
-            status="approval_required", execution_id="approval-1",
+            status="approval_required",
+            execution_id="approval-1",
             approval_url="https://approval.invalid/synthetic",
             receipt={"condition": None},
         )
@@ -930,7 +950,8 @@ class TelegramSenderTests(unittest.TestCase):
 
     def test_generic_admission_refusal_never_becomes_a_grant(self):
         response = HostedOperationResponse(
-            status="refused", execution_id="refusal-1",
+            status="refused",
+            execution_id="refusal-1",
             normalized_error={"code": "REQUEST_REFUSED", "message": "unavailable"},
         )
         sender, transport = self.sender(response)
@@ -988,7 +1009,8 @@ class TelegramSenderTests(unittest.TestCase):
 
     def test_replay_cannot_change_a_known_execution_identity(self):
         sender, transport = self.sender(
-            self.unknown(), self.sent(execution="different", replayed=True),
+            self.unknown(),
+            self.sent(execution="different", replayed=True),
         )
         with self.assertRaises(TelegramError):
             self.send(sender)
@@ -1000,10 +1022,13 @@ class TelegramSenderTests(unittest.TestCase):
         self.assertEqual(len(transport.calls), 2)
 
     def test_missing_condition_in_confirmed_send_is_unknown(self):
-        sender, _ = self.sender(HostedOperationResponse(
-            status="confirmed", execution_id="send-1",
-            result={"bot_id": 7, "chat_id": -42, "message_id": 17},
-        ))
+        sender, _ = self.sender(
+            HostedOperationResponse(
+                status="confirmed",
+                execution_id="send-1",
+                result={"bot_id": 7, "chat_id": -42, "message_id": 17},
+            )
+        )
         with self.assertRaisesRegex(TelegramError, "INVALID_RECEIPT") as caught:
             self.send(sender)
         self.assertTrue(caught.exception.outcome_unknown)
@@ -1037,7 +1062,8 @@ class TelegramSenderTests(unittest.TestCase):
     def test_allowed_chat_changed_after_approval_is_not_success(self):
         sender, transport = self.sender(
             HostedOperationResponse(
-                status="approval_required", execution_id="approval-1",
+                status="approval_required",
+                execution_id="approval-1",
                 approval_url="https://approval.invalid/synthetic",
                 receipt={"condition": None},
             ),
