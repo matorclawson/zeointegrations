@@ -4,9 +4,11 @@ Copyright 2026 Zero Employee Organizations. SPDX-License-Identifier: MIT
 Registration, account binding, credential injection and authority are host-owned.
 """
 
+import re
 from collections.abc import Callable
 
 from .client import LoopsClient
+from .transport import InvalidResponseError
 
 
 class ConnectLoopsMailingListsReader:
@@ -24,7 +26,11 @@ class ConnectLoopsMailingListsReader:
 
     def list_mailing_lists(self) -> list[dict]:
         self._wait()
+        items = self._client.list_mailing_lists()
+        if len(items) > 200 or any(
+            re.fullmatch(r"[A-Za-z0-9_-]{1,128}", item.id) is None for item in items
+        ):
+            raise InvalidResponseError("mailing-list projection refused")
         return [
-            item.model_dump(include={"id", "name", "is_public"})
-            for item in self._client.list_mailing_lists()
+            item.model_dump(include={"id", "name", "is_public"}) for item in items
         ]

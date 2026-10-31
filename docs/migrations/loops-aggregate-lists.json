@@ -35,8 +35,8 @@
     "old_path": null,
     "old_blob": null,
     "new_path": "src/zeo_integrations/loops/connect.py",
-    "new_blob": "baf4874c1f4dcc8b39f33ee727f2612f6b3ad310",
-    "new_sha256": "25bfa36bcd11bda7def70ecc3ba5a1461b492ee52b6c4d09b5b0a3a154b33152",
+    "new_blob": "cab3d0a97b9787302c8e3933365cadc987919a3d",
+    "new_sha256": "cb291332de0b319371c5af4e89bab1d9f4b81b27e36828366c9830241396bc1e",
     "delivered_source": "original narrow adapter, tests or aggregate NOTICE authored for this slice"
   },
   {
@@ -105,8 +105,8 @@
     "old_path": null,
     "old_blob": null,
     "new_path": "tests/test_integrations/loops/test_mailing_lists_reader.py",
-    "new_blob": "28bc1f08ebf518719dd1e0ec03bb92a7ae9e40a4",
-    "new_sha256": "1190d54df4abd35c932db1967ac17fb83de1bd99c92436362733e6859460c3ee",
+    "new_blob": "c34b5deebe28ac524bf17d3b0d0c569bafebf503",
+    "new_sha256": "ff17784b867465af87c2327e39ea12de1b00170c29f82fc501ee28fe317e81ca",
     "delivered_source": "original narrow adapter, tests or aggregate NOTICE authored for this slice"
   },
   {
@@ -118,5 +118,15 @@
     "new_blob": "18cc5b8ec50ef37ff170f829e25301162d6b4d83",
     "new_sha256": "e0b4833004777b18ed9cbbad3741c18afe88f78c648c20a1e1067793f69925fd",
     "delivered_source": "expanded zip e78cb9c3, aggregate/3.12 adaptation"
+  },
+  {
+    "old_repo": null,
+    "old_commit": null,
+    "old_path": null,
+    "old_blob": null,
+    "new_path": "tests/test_integrations/loops/fixtures/mailing_lists_projection.json",
+    "new_blob": "d5df4efb61f292b4581baed07eba036a951efb9c",
+    "new_sha256": "14cc05eb32c71136ebe01f46489f59d0f11251567f3529f142bad9319a070e5d",
+    "delivered_source": "Original synthetic golden fixture for the existing host operation; no real provider/account data"
   }
 ]

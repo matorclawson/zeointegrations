@@ -1,5 +1,8 @@
 """List-only proof boundary uses injected fakes, never a live account."""
 
+import json
+from pathlib import Path
+
 import httpx
 import pytest
 
@@ -7,9 +10,10 @@ from zeo_integrations.loops import AuthenticationError, InvalidResponseError, Lo
 from zeo_integrations.loops.connect import ConnectLoopsMailingListsReader
 
 
-LISTS = [
-    {"id": "list-one", "name": "Fixture", "description": None, "isPublic": False}
-]
+FIXTURE = json.loads(
+    Path(__file__).with_name("fixtures").joinpath("mailing_lists_projection.json").read_text()
+)
+LISTS = FIXTURE["provider_response"]
 
 
 def test_lists_only_one_get_and_shared_pacer_projection():
@@ -23,9 +27,7 @@ def test_lists_only_one_get_and_shared_pacer_projection():
     typed = LoopsClient("synthetic", transport=httpx.MockTransport(handle))
     reader = ConnectLoopsMailingListsReader(typed, wait=lambda: pacing.append("waited"))
     try:
-        assert reader.list_mailing_lists() == [
-            {"id": "list-one", "name": "Fixture", "is_public": False}
-        ]
+        assert reader.list_mailing_lists() == FIXTURE["result"]["mailing_lists"]
     finally:
         reader.close()
     assert len(seen) == 1
@@ -88,3 +90,38 @@ def test_failure_is_sanitized_and_never_retried(status, error):
         reader.close()
     assert len(seen) == 1
     assert "synthetic-secret" not in str(caught.value)
+
+
+@pytest.mark.parametrize("list_id", ["", "a/b", "a b", "a" * 129])
+def test_existing_operation_id_bound_is_preserved(list_id):
+    payload = [{**LISTS[0], "id": list_id}]
+    typed = LoopsClient(
+        "synthetic",
+        transport=httpx.MockTransport(lambda _: httpx.Response(200, json=payload)),
+    )
+    reader = ConnectLoopsMailingListsReader(typed, wait=lambda: None)
+    try:
+        with pytest.raises(InvalidResponseError, match="projection refused"):
+            reader.list_mailing_lists()
+    finally:
+        reader.close()
+
+
+@pytest.mark.parametrize("count", [200, 201])
+def test_existing_operation_row_bound_is_preserved(count):
+    payload = [{**LISTS[0], "id": f"list-{i}"} for i in range(count)]
+    typed = LoopsClient(
+        "synthetic",
+        transport=httpx.MockTransport(lambda _: httpx.Response(200, json=payload)),
+    )
+    reader = ConnectLoopsMailingListsReader(typed, wait=lambda: None)
+    try:
+        if count == 200:
+            result = reader.list_mailing_lists()
+            assert len(result) == 200
+            assert result[-1]["id"] == "list-199"
+        else:
+            with pytest.raises(InvalidResponseError, match="projection refused"):
+                reader.list_mailing_lists()
+    finally:
+        reader.close()

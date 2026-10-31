@@ -5,6 +5,12 @@ its Connect connection exists. No subscriber/contact read is included in that
 proof. This library does not create a connection, register a Broker operation,
 select an account or grant a credential.
 
+The EXISTING operation is `loops.newsletter.list_mailing_lists`, with closed
+`NoArguments` and result `{mailing_lists: [{id, name, is_public}]}`. Connect owns
+that outer envelope; this client returns its list projection. Preserve the same
+operation ID, ID pattern `[A-Za-z0-9_-]{1,128}`, order and maximum 200 rows. Do
+not register a second operation for this replacement client.
+
 The collection includes the original typed Loops library in the ONE
 `zeo-integrations` wheel. Historical standalone packages remain unchanged.
 `zeo_integrations.loops.connect.ConnectLoopsMailingListsReader` is a separate,
@@ -40,9 +46,14 @@ The request takes no subscriber search/filter/pagination argument.
    Loops import must resolve inside that installed environment and not import Core.
 3. Independent review, Architect signature and normal merger/publication. Record
    the ACTUAL aggregate release and hashes, never predict a post version.
-4. Connect's separate compatible Core/server/registration gate (including its
-   existing D1–D5 conditions), then one real list READ on the actual connection.
-   Registration and real-account result are separate from package publication.
+4. For ADOPTING THIS REPLACEMENT, Connect's separate compatible Core/server gate
+   (including its existing D1–D5 conditions) keeps the existing operation/schema.
+   No duplicate ID or new registry permission is implied by the client swap.
+5. The FIRST account proof can instead use that already-declared operation and
+   its existing client now, once the actual Prof Rod connection, application owner
+   grant and Broker allowlist are confirmed. It does not require this package or
+   the Core bump. Current deployed authority is not inferred from catalogue code
+   or an old connection report. No provider call is part of verification.
 
 No account proof, connection existence, deployed server upgrade or live operation
 is claimed by this source slice. Other integration batches do not wait for the
