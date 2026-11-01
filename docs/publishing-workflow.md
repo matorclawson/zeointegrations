@@ -23,3 +23,10 @@ UI or live publishing route. Per-platform publishers follow in separate changes.
 
 Copied source is MIT, copyright Zero Employee Organizations 2026;
 [publishing provenance](publishing-workflow-provenance.json) records source hashes.
+
+The host supplies WorkflowRunner(read_operation_ids=frozenset(...)) from its
+admitted operation catalogue. Draft kind labels are not authority: unlisted read
+operations fail before invocation, so an effect cannot acquire fresh polling keys.
+Pre-invocation resolution failures are failed, not uncertain provider writes.
+Media inspection/conversion force the demuxer matching the verified signature;
+manifest autodetection cannot expand the local-file input boundary.

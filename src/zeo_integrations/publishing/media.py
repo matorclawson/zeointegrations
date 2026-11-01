@@ -18,6 +18,14 @@ from pathlib import Path
 
 from .workflow import Asset, WorkflowError
 
+_DEMUXER = {
+    "image/jpeg": "jpeg_pipe",
+    "image/png": "png_pipe",
+    "image/webp": "webp_pipe",
+    "image/gif": "gif",
+    "video/mp4": "mov",
+}
+
 
 def sniff(header: bytes) -> str:
     if header.startswith(b"\xff\xd8\xff"):
@@ -142,6 +150,8 @@ class MediaLibrary:
                 "stream=codec_type,codec_name,width,height,r_frame_rate:format=duration",
                 "-of",
                 "json",
+                "-f",
+                _DEMUXER[asset.media_type],
                 str(path),
             ]
             with subprocess.Popen(
@@ -225,6 +235,8 @@ class MediaLibrary:
                 "-nostdin",
                 "-protocol_whitelist",
                 "file",
+                "-f",
+                _DEMUXER[asset.media_type],
                 "-i",
                 str(path),
                 "-map_metadata",
