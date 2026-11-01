@@ -1,0 +1,49 @@
+{
+  "source_artifact_sha256": "e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8",
+  "license": "MIT",
+  "files": [
+    {
+      "source_path": "src/zeo_integrations/publishing/workflow.py",
+      "source_blob": "8dda3d632175aa3c952b1dc4cec00ea8dd8a627f",
+      "sha256": "06cad6d5a36ee7bf3056454f1f0f4e2602d8a8667f4a65627c9db6d86e609053",
+      "destination_path": "src/zeo_integrations/publishing/workflow.py",
+      "destination_sha256": "19a06d3804a5ae43dffffcc7261f52325950e684a1238046277451b62f15ed67",
+      "destination_blob": "163bc9d58c00df5834e47fa0b4c28eb9d84f2a21",
+      "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions."
+    },
+    {
+      "source_path": "src/zeo_integrations/publishing/media.py",
+      "source_blob": "d161310cb892edca8f576486ee9bb8342265022a",
+      "sha256": "8912c210451a3e7a1ab2e4eaaa6a21ffa8d9e8672afd6aabdcb4101cf33fcbab",
+      "destination_path": "src/zeo_integrations/publishing/media.py",
+      "destination_sha256": "4c0dfbb032729483bb4e40fe94e8f011775bde5d9c640ae1be8db9a0a19e512e",
+      "destination_blob": "41f6f7d91921c714b1d49c1ccda161419bd35f21",
+      "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions."
+    },
+    {
+      "source_path": "src/zeo_integrations/publishing/compose.py",
+      "source_blob": "081a9c9672d4d84e1c6ca33408ea12cc31d30a31",
+      "sha256": "836dd91ce39addec92ede49fd4675a134389fe8e41d5ab544f6eefb7ad98aa5a",
+      "destination_path": "src/zeo_integrations/publishing/compose.py",
+      "destination_sha256": "836dd91ce39addec92ede49fd4675a134389fe8e41d5ab544f6eefb7ad98aa5a",
+      "destination_blob": "081a9c9672d4d84e1c6ca33408ea12cc31d30a31"
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_workflow.py",
+      "source_blob": "f001928ed11a868d623261a87ff8793c204ae3b8",
+      "sha256": "a787f450572f012f57fad93c456e1628309a2bcfb80653726aba0bb3e90f2f06",
+      "destination_path": "tests/test_integrations/publishing/test_workflow.py",
+      "destination_sha256": "617d487357e793b6abe96e1829b8b86f8f43b1961fa35c35cb3237459d5e9457",
+      "destination_blob": "a3bc6524aefead39b513bc660f6e7c945e9d9885",
+      "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions."
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_media_workflow.py",
+      "source_sha256": "62a1f21b914d1d69b4527062b2793422ace3732c344fe90b836764165a362430",
+      "destination_path": "tests/test_integrations/publishing/test_media_workflow.py",
+      "destination_sha256": "ab8e43142952870140cdb873009af01398fdc22b913467f399b09c61f6d4bed9",
+      "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions.",
+      "destination_blob": "d6d1bf877d14340cb908b4ee56d4c55da6e3f1e7"
+    }
+  ]
+}
