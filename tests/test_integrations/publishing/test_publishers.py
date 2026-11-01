@@ -49,4 +49,3 @@ def test_container_is_not_publication(kind):
         )
     assert len(seen) == 2
     assert seen[1].content == b"creation_id=123"
-
