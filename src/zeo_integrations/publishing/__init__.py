@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import UTC
+from email.utils import format_datetime, parsedate_to_datetime
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -56,6 +58,84 @@ def _id(value):
     ):
         raise IntegrationError("PROVIDER_ID")
     return value
+
+
+class PublishingResponseError(IntegrationError):
+    """Bounded provider failure facts; never retain provider messages or bodies."""
+
+    def __init__(
+        self,
+        *,
+        http_status,
+        provider_code,
+        provider_subcode,
+        retry_after,
+        definite_refusal,
+        effect,
+    ):
+        super().__init__(
+            "PROVIDER_REJECTED" if definite_refusal else "PROVIDER_UNCONFIRMED",
+            outcome_unknown=effect and not definite_refusal,
+        )
+        self.http_status = http_status
+        self.provider_code = provider_code
+        self.provider_subcode = provider_subcode
+        self.retry_after = retry_after
+        self.definite_refusal = definite_refusal
+
+
+def _graph_failure(response, *, effect):
+    error = None
+    try:
+        document = json.loads(response.body)
+        _bounded(document, 1048576)
+        if isinstance(document, dict) and isinstance(document.get("error"), dict):
+            error = document["error"]
+    except Exception:
+        pass
+
+    def number(name):
+        value = error.get(name) if error else None
+        return value if type(value) is int and 0 <= value <= 2147483647 else None
+
+    provider_code, subcode = number("code"), number("error_subcode")
+    retry_after = next(
+        (v for k, v in response.headers.items() if k.lower() == "retry-after"), None
+    )
+    if not isinstance(retry_after, str) or not 1 <= len(retry_after) <= 200:
+        retry_after = None
+    elif re.fullmatch(r"[0-9]{1,10}", retry_after):
+        retry_after = str(int(retry_after))
+    else:
+        try:
+            date = parsedate_to_datetime(retry_after)
+            if date.tzinfo is None:
+                raise ValueError("timezone required")
+            retry_after = format_datetime(date.astimezone(UTC), usegmt=True)
+        except (TypeError, ValueError, OverflowError):
+            retry_after = None
+    # Require a structured Graph rejection. A server failure, timeout, conflict
+    # or malformed answer remains ambiguous for writes, even with an HTTP status.
+    definite = provider_code is not None and response.status in {
+        400,
+        401,
+        403,
+        404,
+        405,
+        410,
+        413,
+        415,
+        422,
+        429,
+    }
+    return PublishingResponseError(
+        http_status=response.status,
+        provider_code=provider_code,
+        provider_subcode=subcode,
+        retry_after=retry_after,
+        definite_refusal=definite,
+        effect=effect,
+    )
 
 
 class _Client:
@@ -117,7 +197,7 @@ class _Client:
             if _url(response.url) != self.origin or len(response.body) > 1048576:
                 raise IntegrationError("PROVIDER_RESPONSE")
             if not 200 <= response.status < 300:
-                raise IntegrationError("PROVIDER_REJECTED")
+                raise _graph_failure(response, effect=effect)
             document = json.loads(response.body) if response.body else {}
             _bounded(document, 1048576)
             if not isinstance(document, dict):
@@ -127,8 +207,10 @@ class _Client:
                 if not isinstance(error, dict) or error.get("code") != "ok":
                     raise IntegrationError("PROVIDER_REJECTED")
             elif "error" in document:
-                raise IntegrationError("PROVIDER_REJECTED")
+                raise _graph_failure(response, effect=effect)
             return document, {k.lower(): v for k, v in response.headers.items()}
+        except PublishingResponseError:
+            raise
         except Exception as exc:
             if isinstance(exc, IntegrationError):
                 failure = exc.code
@@ -140,6 +222,45 @@ class _Client:
         if not isinstance(value, str) or not value or len(value) > 200:
             raise IntegrationError("INVALID_RECEIPT", outcome_unknown=effect)
         return value
+
+    def _identity(self, path, *, key):
+        document, _ = self._call(
+            "identity",
+            path,
+            key=key,
+            effect=False,
+            method="GET",
+            query={"fields": "id,username"},
+        )
+        account = self._receipt(document, "id", effect=False)
+        username = self._receipt(document, "username", effect=False)
+        if account != self.account_id:
+            raise IntegrationError("ACCOUNT_BINDING")
+        return {"account_id": account, "username": username}
+
+    def read_post(self, post_id, *, key):
+        """Read an already host-bound post ID; this does not identify a lost write."""
+        post_id = _id(post_id)
+        document, _ = self._call(
+            "read_post",
+            f"{self.prefix}/{post_id}",
+            key=key,
+            effect=False,
+            method="GET",
+            query={"fields": "id,username,permalink,timestamp"},
+        )
+        if self._receipt(document, "id", effect=False) != post_id:
+            raise IntegrationError("POST_BINDING")
+        permalink = document.get("permalink")
+        if not isinstance(permalink, str) or len(permalink) > 4096:
+            raise IntegrationError("INVALID_RECEIPT")
+        _url(permalink)
+        return {
+            "post_id": post_id,
+            "username": self._receipt(document, "username", effect=False),
+            "permalink": permalink,
+            "timestamp": self._receipt(document, "timestamp", effect=False),
+        }
 
 
 class InstagramPublisher(_Client):
@@ -153,6 +274,10 @@ class InstagramPublisher(_Client):
         if re.fullmatch(r"v[0-9]{1,2}\.0", api_version) is None:
             raise IntegrationError("API_VERSION")
         self.prefix = "/" + api_version
+
+    def identity(self, *, key):
+        """Check credential access to the host-selected professional account."""
+        return self._identity(f"{self.prefix}/{self.account_id}", key=key)
 
     def create_container(self, media: InstagramMedia, *, key, allow_effect=False):
         media = InstagramMedia.model_validate(media.model_dump())
@@ -254,9 +379,18 @@ class InstagramPublisher(_Client):
 class ThreadsPublisher(_Client):
     provider, origin = "threads", "https://graph.threads.net"
 
-    def __init__(self, transport, *, account_id: str, media_origins=()):
+    def __init__(
+        self, transport, *, account_id: str, api_version: str, media_origins=()
+    ):
         super().__init__(transport, media_origins=media_origins)
         self.account_id = _id(account_id)
+        if re.fullmatch(r"v[0-9]{1,2}\.0", api_version) is None:
+            raise IntegrationError("API_VERSION")
+        self.prefix = "/" + api_version
+
+    def identity(self, *, key):
+        """Confirm the authenticated Threads user matches the pinned subject."""
+        return self._identity(f"{self.prefix}/me", key=key)
 
     def create_container(self, post: ThreadsMedia, *, key, allow_effect=False):
         post = ThreadsMedia.model_validate(post.model_dump())
@@ -271,7 +405,7 @@ class ThreadsPublisher(_Client):
             raise IntegrationError("UNEXPECTED_MEDIA")
         doc, _ = self._call(
             "create_container",
-            f"/v1.0/{self.account_id}/threads",
+            f"{self.prefix}/{self.account_id}/threads",
             key=key,
             effect=True,
             admitted=allow_effect,
@@ -295,7 +429,7 @@ class ThreadsPublisher(_Client):
             body["alt_text"] = item.alt_text
         doc, _ = self._call(
             "create_carousel_item",
-            f"/v1.0/{self.account_id}/threads",
+            f"{self.prefix}/{self.account_id}/threads",
             key=key,
             effect=True,
             admitted=allow_effect,
@@ -316,7 +450,7 @@ class ThreadsPublisher(_Client):
             raise IntegrationError("DUPLICATE_MEDIA")
         doc, _ = self._call(
             "create_carousel",
-            f"/v1.0/{self.account_id}/threads",
+            f"{self.prefix}/{self.account_id}/threads",
             key=key,
             effect=True,
             admitted=allow_effect,
@@ -335,7 +469,7 @@ class ThreadsPublisher(_Client):
     def container_status(self, container_id, *, key):
         doc, _ = self._call(
             "container_status",
-            f"/v1.0/{_id(container_id)}",
+            f"{self.prefix}/{_id(container_id)}",
             key=key,
             effect=False,
             method="GET",
@@ -349,7 +483,7 @@ class ThreadsPublisher(_Client):
     def publish_container(self, container_id, *, key, allow_effect=False):
         doc, _ = self._call(
             "publish_container",
-            f"/v1.0/{self.account_id}/threads_publish",
+            f"{self.prefix}/{self.account_id}/threads_publish",
             key=key,
             effect=True,
             admitted=allow_effect,
