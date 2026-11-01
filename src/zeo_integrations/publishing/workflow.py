@@ -115,14 +115,19 @@ def _check_arguments(value, previous, assets):
                 raise ValueError("invalid media reference")
         else:
             for key, item in value.items():
-                if key.lower() in {
+                normalized = key.lower().replace("_", "").replace("-", "")
+                if normalized in {
                     "authorization",
                     "cookie",
-                    "api_key",
+                    "apikey",
+                    "token",
+                    "secret",
+                    "credentials",
+                    "proxyauthorization",
                     "password",
-                    "access_token",
-                    "refresh_token",
-                    "client_secret",
+                    "accesstoken",
+                    "refreshtoken",
+                    "clientsecret",
                 }:
                     raise ValueError("credentials do not belong in a draft")
                 _check_arguments(item, previous, assets)
@@ -320,9 +325,16 @@ class WorkflowStore:
 
 class WorkflowRunner:
     def __init__(
-        self, store: WorkflowStore, client: HostedConnectionClient, *, media_url=None
+        self,
+        store: WorkflowStore,
+        client: HostedConnectionClient,
+        *,
+        media_url=None,
+        read_operation_ids: frozenset[str] = frozenset(),
     ):
         self.store, self.client, self.media_url = store, client, media_url
+        # Host catalogue authority is independent of untrusted draft labels.
+        self.read_operation_ids = frozenset(read_operation_ids)
 
     def _resolve(self, value, receipts, assets):
         if isinstance(value, dict):
@@ -372,7 +384,10 @@ class WorkflowRunner:
             ).fetchall()
         request = row["request"]
         response = None
+        invoked = False
         try:
+            if step.kind == "read" and step.operation_id not in self.read_operation_ids:
+                raise WorkflowError("operation is not an admitted read")
             if request is None:
                 arguments = self._resolve(
                     step.arguments,
@@ -414,18 +429,21 @@ class WorkflowRunner:
                     )
             with self.store._db() as db:
                 fence = db.execute(
-                    "SELECT t.claim,p.cancelled FROM targets t JOIN posts p "
+                    "SELECT t.claim,t.state,p.cancelled FROM targets t JOIN posts p "
                     "ON p.org=t.org AND p.id=t.post "
                     "WHERE t.org=? AND t.post=? AND t.id=?",
                     (org, row["post"], row["id"]),
                 ).fetchone()
-                if fence["claim"] != claim or fence["cancelled"]:
+                if fence["claim"] != claim:
+                    return {"target_id": row["id"], "state": fence["state"]}
+                if fence["cancelled"]:
                     db.execute(
                         "UPDATE targets SET state='cancelled' "
                         "WHERE org=? AND post=? AND id=? AND claim=?",
                         (org, row["post"], row["id"], claim),
                     )
                     return {"target_id": row["id"], "state": "cancelled"}
+            invoked = True
             response = self.client.invoke(
                 HostedOperationRequest.model_validate_json(request)
             )
@@ -441,7 +459,7 @@ class WorkflowRunner:
                 # An old worker must not overwrite a newer replay's outcome.
                 return {"target_id": row["id"], "state": current["state"]}
             state, result, cursor, polls, next_at = (
-                "unknown",
+                "unknown" if invoked else "failed",
                 None,
                 row["cursor"],
                 row["polls"],

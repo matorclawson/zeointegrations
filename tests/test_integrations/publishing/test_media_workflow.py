@@ -61,6 +61,34 @@ def test_reject_non_media(data):
         sniff(data)
 
 
+def test_disguised_manifest_cannot_select_a_demuxer(tmp_path, monkeypatch):
+    source = tmp_path / "disguised.png"
+    source.write_bytes(
+        b"\x89PNG\r\n\x1a\n<MPD><BaseURL>file:///sentinel</BaseURL></MPD>"
+    )
+    library = MediaLibrary(tmp_path / "media")
+    asset = library.stage(source, asset_id="manifest")
+    seen = []
+    monkeypatch.setattr(shutil, "which", lambda name: "/synthetic/" + name)
+
+    def intercept(command, **kwargs):
+        seen.append(command)
+        raise OSError("no process launched")
+
+    monkeypatch.setattr(subprocess, "Popen", intercept)
+    with pytest.raises(WorkflowError, match="inspection failed"):
+        library.inspect(asset)
+    assert seen[0][seen[0].index("-f") + 1] == "png_pipe"
+    assert "dash" not in seen[0]
+    monkeypatch.setattr(library, "inspect", lambda asset: {"duration": 1})
+    monkeypatch.setattr(subprocess, "run", intercept)
+    with pytest.raises(WorkflowError, match="conversion failed"):
+        library.convert(asset, asset_id="converted", profile="square_jpeg")
+    command = seen[1]
+    assert command.index("-f") < command.index("-i")
+    assert command[command.index("-f") + 1] == "png_pipe"
+
+
 def test_upload_exact_bytes_admission_origin_and_no_retry(tmp_path):
     library, asset = staged(tmp_path)
     seen = []

@@ -67,7 +67,68 @@ def setup(tmp_path, targets=None):
 
 def runner(store, answers):
     broker = Broker(answers)
-    return WorkflowRunner(store, HostedConnectionClient(transport=broker)), broker
+    return WorkflowRunner(
+        store,
+        HostedConnectionClient(transport=broker),
+        read_operation_ids=frozenset({"ig.status"}),
+    ), broker
+
+
+def test_effect_labelled_read_never_invokes_even_with_polling(tmp_path):
+    forged = Step(
+        step_id="publish",
+        operation_id="social.publish",
+        kind="read",
+        arguments={},
+        wait_field="stage",
+        ready_values=["published"],
+        pending_values=["processing"],
+        max_polls=5,
+        poll_seconds=1,
+    )
+    store, _, preview = setup(tmp_path, [target(steps=[forged])])
+    store.approve("org", "post", actor="editor", digest=preview["digest"])
+    run, broker = runner(store, [confirmed({"stage": "processing"})] * 5)
+    assert run.tick("org", now=NOW)["state"] == "failed"
+    for second in range(1, 6):
+        assert run.tick("org", now=NOW + timedelta(seconds=second)) is None
+    assert broker.requests == []
+
+
+@pytest.mark.parametrize(
+    "name", ["token", "secret", "api-key", "API_KEY", "access-token", "clientSecret"]
+)
+def test_draft_refuses_sensitive_key_spellings(name):
+    with pytest.raises(ValueError, match="credentials"):
+        Draft(
+            title="Issue",
+            scheduled_at=NOW,
+            targets=[
+                target(
+                    steps=[
+                        Step(
+                            step_id="publish",
+                            operation_id="x.publish",
+                            kind="effect",
+                            arguments={"nested": {name: "synthetic-value"}},
+                        ),
+                    ]
+                )
+            ],
+        )
+
+
+def test_media_resolution_failure_before_dispatch_is_failed(tmp_path):
+    store, _, preview = setup(tmp_path)
+    store.approve("org", "post", actor="editor", digest=preview["digest"])
+    run, broker = runner(store, [])
+
+    def broken(*args):
+        raise WorkflowError("resolver unavailable")
+
+    run._resolve = broken
+    assert run.tick("org", now=NOW)["state"] == "failed"
+    assert not broker.requests
 
 
 def test_exact_approval_and_schedule(tmp_path):
