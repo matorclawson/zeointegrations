@@ -229,6 +229,7 @@ def test_carousel_draft_to_provider_with_checkpoints(tmp_path):
     runner = WorkflowRunner(
         store,
         HostedConnectionClient(transport=Broker()),
+        read_operation_ids=frozenset({"instagram.container_status"}),
         media_url=library.resolver(lambda a, p: "https://media.example/" + a.sha256),
     )
     assert runner.tick("org", now=NOW) is None
