@@ -1,0 +1,33 @@
+{
+  "source_artifact_sha256": "e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8",
+  "license": "MIT",
+  "files": [
+    {
+      "source_path": "src/zeo_integrations/publishing/__init__.py",
+      "source_blob": "70de89bab0ed564b588513d931aaaf452dd2f1cc",
+      "source_sha256": "2b23043197e957e160435c905b684cb1e766fda6bcaa2dc7e5bf2f27bf462cfe",
+      "destination_path": "src/zeo_integrations/publishing/__init__.py",
+      "destination_blob": "29844bb664166a0949bbb6861317d5fcdbbbbe25",
+      "destination_sha256": "4074985d1aa2a959a09c1b2b43a7df47bf0b13d35fd5240cac39117e987eba83",
+      "adaptation": "Extract Instagram/Threads and shared machinery only; other publishers/tests remain in original return for ordered slices."
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_publishers.py",
+      "source_blob": "d2a7cb335ce6f13eea5fca16b0dc409f55c6e133",
+      "source_sha256": "c43496e02aed36b0dee867aec18b0897730bb2d2f5a5e6221ba7362c6b342d6b",
+      "destination_path": "tests/test_integrations/publishing/test_publishers.py",
+      "destination_blob": "ea636359aaceae484ec843e6ca6b8a9b836e31b5",
+      "destination_sha256": "56c653d1613bb5b82ab540344a94ddf4ab2486476aeec231665fbce6ee2061f6",
+      "adaptation": "Extract Instagram/Threads and shared machinery only; other publishers/tests remain in original return for ordered slices."
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_media_workflow.py",
+      "source_blob": "2a07082600abff8170606482187966d460e4222c",
+      "source_sha256": "62a1f21b914d1d69b4527062b2793422ace3732c344fe90b836764165a362430",
+      "destination_path": "tests/test_integrations/publishing/test_media_workflow.py",
+      "destination_blob": "38f21e552c5e899c8f8730ea4eecfdb3386c7386",
+      "destination_sha256": "a369068884d0c394b70c72c6e6cb624a0ccfc2830fb436f43200545342e49721",
+      "adaptation": "Extract Instagram/Threads and shared machinery only; other publishers/tests remain in original return for ordered slices."
+    }
+  ]
+}
