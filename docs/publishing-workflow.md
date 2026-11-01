@@ -34,3 +34,7 @@ manifest autodetection cannot expand the local-file input boundary.
 An upload response is accepted only after the transport has consumed the complete
 body and its streamed byte count and hash match the staged asset. A premature
 2xx remains unconfirmed, including zero-byte and partial-consumption transports.
+
+A local failure while resuming an existing stored request preserves its prior
+uncertainty. It remains resumable with the same key, rather than encouraging a
+new occurrence while the previous provider outcome is still unknown.

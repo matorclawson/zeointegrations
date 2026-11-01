@@ -1,4 +1,6 @@
+import sqlite3
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from threading import Event
 
@@ -96,7 +98,20 @@ def test_effect_labelled_read_never_invokes_even_with_polling(tmp_path):
 
 
 @pytest.mark.parametrize(
-    "name", ["token", "secret", "api-key", "API_KEY", "access-token", "clientSecret"]
+    "name",
+    [
+        "token",
+        "secret",
+        "api-key",
+        "API_KEY",
+        "access-token",
+        "clientSecret",
+        "credential",
+        "x-api-key",
+        "id_token",
+        "X_Auth_Token",
+        "bearer",
+    ],
 )
 def test_draft_refuses_sensitive_key_spellings(name):
     with pytest.raises(ValueError, match="credentials"):
@@ -116,6 +131,53 @@ def test_draft_refuses_sensitive_key_spellings(name):
                 )
             ],
         )
+
+
+def test_output_token_limit_is_not_a_credential_key():
+    draft = Draft(
+        title="Issue",
+        scheduled_at=NOW,
+        targets=[
+            target(
+                steps=[
+                    Step(
+                        step_id="publish",
+                        operation_id="x.publish",
+                        kind="effect",
+                        arguments={"max_output_tokens": 32},
+                    ),
+                ]
+            )
+        ],
+    )
+    assert draft.targets[0].steps[0].arguments["max_output_tokens"] == 32
+
+
+def test_prior_unknown_survives_local_failure_after_resume(tmp_path, monkeypatch):
+    store, _, preview = setup(tmp_path)
+    store.approve("org", "post", actor="editor", digest=preview["digest"])
+    run, broker = runner(store, [TimeoutError(), confirmed({"stage": "published"})])
+    assert run.tick("org", now=NOW)["state"] == "unknown"
+    store.resume("org", "post", "x", actor="editor")
+    original = store._db
+    calls = 0
+
+    @contextmanager
+    def fail_fence_once():
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise sqlite3.OperationalError("database is locked")
+        with original() as db:
+            yield db
+
+    monkeypatch.setattr(store, "_db", fail_fence_once)
+    assert run.tick("org", now=NOW)["state"] == "unknown"
+    assert len(broker.requests) == 1
+    store.resume("org", "post", "x", actor="editor")
+    assert run.tick("org", now=NOW)["state"] == "published"
+    assert len(broker.requests) == 2
+    assert broker.requests[0].idempotency_key == broker.requests[1].idempotency_key
 
 
 def test_media_resolution_failure_before_dispatch_is_failed(tmp_path):

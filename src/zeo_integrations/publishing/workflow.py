@@ -115,20 +115,27 @@ def _check_arguments(value, previous, assets):
                 raise ValueError("invalid media reference")
         else:
             for key, item in value.items():
-                normalized = key.lower().replace("_", "").replace("-", "")
-                if normalized in {
-                    "authorization",
-                    "cookie",
-                    "apikey",
-                    "token",
-                    "secret",
-                    "credentials",
-                    "proxyauthorization",
-                    "password",
-                    "accesstoken",
-                    "refreshtoken",
-                    "clientsecret",
-                }:
+                normalized = "".join(c for c in key.lower() if c.isalnum())
+                if normalized.endswith(
+                    (
+                        "authorization",
+                        "cookie",
+                        "apikey",
+                        "token",
+                        "secret",
+                        "credentials",
+                        "proxyauthorization",
+                        "password",
+                        "accesstoken",
+                        "refreshtoken",
+                        "clientsecret",
+                        "bearer",
+                        "credential",
+                        "privatekey",
+                        "signingkey",
+                        "secretkey",
+                    )
+                ):
                     raise ValueError("credentials do not belong in a draft")
                 _check_arguments(item, previous, assets)
     elif isinstance(value, list):
@@ -459,7 +466,7 @@ class WorkflowRunner:
                 # An old worker must not overwrite a newer replay's outcome.
                 return {"target_id": row["id"], "state": current["state"]}
             state, result, cursor, polls, next_at = (
-                "unknown" if invoked else "failed",
+                "unknown" if invoked or row["request"] is not None else "failed",
                 None,
                 row["cursor"],
                 row["polls"],
