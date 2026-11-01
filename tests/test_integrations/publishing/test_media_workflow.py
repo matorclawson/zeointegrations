@@ -1,15 +1,37 @@
 """Offline media and complete editorial-to-provider boundary checks."""
 
 import hashlib
+import json
 import shutil
 import subprocess
+from datetime import UTC, datetime
+from urllib.parse import parse_qs
 
 import httpx
 import pytest
+from zeo_core.integrations.hosted.client import (
+    HostedConnectionClient,
+    HostedExpectedBinding,
+    HostedOperationResponse,
+)
 
-from zeo_integrations._http import IntegrationError
+from zeo_integrations._http import HttpxTransport, IntegrationError
+from zeo_integrations.publishing import (
+    Carousel,
+    CarouselItem,
+    InstagramPublisher,
+)
+from zeo_integrations.publishing.compose import compose_target
 from zeo_integrations.publishing.media import MediaLibrary, MediaUploader, sniff
-from zeo_integrations.publishing.workflow import WorkflowError
+from zeo_integrations.publishing.workflow import (
+    Draft,
+    WorkflowError,
+    WorkflowRunner,
+    WorkflowStore,
+)
+
+NOW = datetime(2026, 10, 31, tzinfo=UTC)
+BINDING = HostedExpectedBinding(external_identity="account", connection_revision="1")
 
 
 def staged(tmp_path):
@@ -118,3 +140,99 @@ def test_explicit_image_conversion_preserves_original(tmp_path):
     assert library.inspect(converted)["height"] == 1080
     assert library.verify(original).read_bytes() == source.read_bytes()
     assert not list(library.root.glob(".convert-*"))
+
+
+def test_carousel_draft_to_provider_with_checkpoints(tmp_path):
+    library, asset = staged(tmp_path)
+    second = asset.model_copy(update={"asset_id": "second"})
+    actions = [
+        "create_carousel_item",
+        "container_status",
+        "create_carousel",
+        "publish_container",
+    ]
+    target = compose_target(
+        target_id="instagram",
+        platform="instagram",
+        connection_id="connection",
+        expect=BINDING,
+        caption="Our launch",
+        assets=[asset, second],
+        operations={name: "instagram." + name for name in actions},
+    )
+    seen = []
+
+    def handler(request):
+        seen.append(request)
+        if request.method == "GET":
+            return httpx.Response(200, json={"status_code": "FINISHED"})
+        return httpx.Response(200, json={"id": str(len(seen))})
+
+    transport = HttpxTransport(
+        transport=httpx.MockTransport(handler), origins=(InstagramPublisher.origin,)
+    )
+    publisher = InstagramPublisher(
+        transport,
+        account_id="123",
+        api_version="v24.0",
+        media_origins=("https://media.example",),
+    )
+
+    class Broker:
+        def invoke(self, request):
+            name = request.operation_id.split(".")[-1]
+            arguments = dict(request.arguments)
+            if "item" in arguments:
+                arguments["item"] = CarouselItem.model_validate(arguments["item"])
+            if "carousel" in arguments:
+                arguments["carousel"] = Carousel.model_validate(arguments["carousel"])
+            arguments["key"] = request.idempotency_key
+            if name != "container_status":
+                arguments["allow_effect"] = True
+            result = getattr(publisher, name)(**arguments)
+            return HostedOperationResponse(
+                status="confirmed", execution_id="test", result=result
+            )
+
+    store = WorkflowStore(tmp_path / "workflow.db")
+    draft = Draft(
+        title="Launch", scheduled_at=NOW, assets=[asset, second], targets=[target]
+    )
+    preview = store.save("org", "post", draft, actor="editor")
+    runner = WorkflowRunner(
+        store,
+        HostedConnectionClient(transport=Broker()),
+        media_url=library.resolver(lambda a, p: "https://media.example/" + a.sha256),
+    )
+    assert runner.tick("org", now=NOW) is None
+    assert not seen
+    store.approve("org", "post", actor="editor", digest=preview["digest"])
+    for _ in range(7):
+        result = runner.tick("org", now=NOW)
+        # Reopen durable store between every operation.
+        runner.store = WorkflowStore(tmp_path / "workflow.db")
+    assert result["state"] == "published"
+    assert runner.tick("org", now=NOW) is None
+    assert len(seen) == 7
+    parent = parse_qs(seen[4].content.decode())
+    assert parent["children"] == ["1,3"]
+    assert parse_qs(seen[6].content.decode())["creation_id"] == ["5"]
+    transport.close()
+
+
+def test_compiler_requires_real_operations_and_supported_formats(tmp_path):
+    _, asset = staged(tmp_path)
+    args = dict(
+        target_id="ig",
+        platform="instagram",
+        connection_id="c",
+        expect=BINDING,
+        caption="caption",
+        assets=[asset],
+        operations={},
+    )
+    with pytest.raises(WorkflowError, match="unavailable"):
+        compose_target(**args)
+    args["assets"] = [asset.model_copy(update={"media_type": "image/png"})]
+    with pytest.raises(WorkflowError, match="convert"):
+        compose_target(**args)

@@ -95,3 +95,7 @@ src/zeo_integrations/loops/NOTICE. Historical standalone packages are unchanged.
 Publishing workflow, composition and media staging
 Copyright 2026 Zero Employee Organizations. MIT licensed.
 Source and destination identities: docs/publishing-workflow-provenance.json.
+
+Instagram and Threads publishing clients and travelling wire tests
+Copyright 2026 Zero Employee Organizations. MIT licensed.
+Source/destination identities: docs/instagram-threads-provenance.json.
