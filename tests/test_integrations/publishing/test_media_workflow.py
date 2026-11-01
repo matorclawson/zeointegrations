@@ -3,6 +3,7 @@
 import hashlib
 import shutil
 import subprocess
+from pathlib import Path
 
 import httpx
 import pytest
@@ -116,15 +117,29 @@ def test_upload_redirect_is_unknown_never_followed(tmp_path):
 
 
 @pytest.mark.parametrize("consumption", ["zero", "partial", "full"])
-def test_success_status_requires_complete_verified_upload_stream(tmp_path, consumption):
+def test_success_status_requires_complete_verified_upload_stream(
+    tmp_path, consumption, monkeypatch
+):
     source = tmp_path / "large.jpg"
     source.write_bytes(b"\xff\xd8\xff" + b"x" * (2 * 1024 * 1024))
     library = MediaLibrary(tmp_path / "media")
     asset = library.stage(source, asset_id="large")
     consumed = []
+    held = []
+    opened = []
+    original_open = Path.open
+
+    def observed_open(path, *args, **kwargs):
+        stream = original_open(path, *args, **kwargs)
+        if path == library.root / asset.sha256:
+            opened.append(stream)
+        return stream
+
+    monkeypatch.setattr(Path, "open", observed_open)
 
     class Transport(httpx.BaseTransport):
         def handle_request(self, request):
+            held.append(request)
             if consumption == "partial":
                 consumed.append(next(iter(request.stream)))
             elif consumption == "full":
@@ -148,6 +163,7 @@ def test_success_status_requires_complete_verified_upload_stream(tmp_path, consu
             assert sum(map(len, consumed)) < asset.size_bytes
     finally:
         uploader.close()
+    assert held and opened and all(stream.closed for stream in opened)
 
 
 def test_explicit_image_conversion_preserves_original(tmp_path):

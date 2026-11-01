@@ -388,12 +388,13 @@ class MediaUploader:
                 raise WorkflowError("media changed")
             stream_complete = True
 
+        body_stream = chunks()
         failed = False
         try:
             request = httpx.Request(
                 "PUT",
                 url,
-                content=chunks(),
+                content=body_stream,
                 headers={
                     "Content-Type": asset.media_type,
                     "Content-Length": str(asset.size_bytes),
@@ -426,5 +427,7 @@ class MediaUploader:
                 self.http.cookies.clear()
         except Exception:
             failed = True
+        finally:
+            body_stream.close()
         if failed:
             raise IntegrationError("UPLOAD_UNCONFIRMED", outcome_unknown=True)

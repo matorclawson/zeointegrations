@@ -16,8 +16,8 @@
       "source_blob": "d161310cb892edca8f576486ee9bb8342265022a",
       "sha256": "8912c210451a3e7a1ab2e4eaaa6a21ffa8d9e8672afd6aabdcb4101cf33fcbab",
       "destination_path": "src/zeo_integrations/publishing/media.py",
-      "destination_sha256": "be5194a179cd9077d4da92e2b57cb46a2f1fea6355be446d4341006385f13840",
-      "destination_blob": "6bfb64048ff329735f8a81d161c4644f89b71d83",
+      "destination_sha256": "4c0dfbb032729483bb4e40fe94e8f011775bde5d9c640ae1be8db9a0a19e512e",
+      "destination_blob": "41f6f7d91921c714b1d49c1ccda161419bd35f21",
       "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions."
     },
     {
@@ -41,9 +41,9 @@
       "source_path": "tests/test_integrations/publishing/test_media_workflow.py",
       "source_sha256": "62a1f21b914d1d69b4527062b2793422ace3732c344fe90b836764165a362430",
       "destination_path": "tests/test_integrations/publishing/test_media_workflow.py",
-      "destination_sha256": "5e7fd5ff738377715f13c591575584efeb2ad515b0afcdbe40b310e78a2c091b",
+      "destination_sha256": "ab8e43142952870140cdb873009af01398fdc22b913467f399b09c61f6d4bed9",
       "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions.",
-      "destination_blob": "59bb214b911a8071ed98a7edccbf9cf7b87c7741"
+      "destination_blob": "d6d1bf877d14340cb908b4ee56d4c55da6e3f1e7"
     }
   ]
 }
