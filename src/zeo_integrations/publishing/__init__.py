@@ -90,21 +90,7 @@ class PublishingResponseError(IntegrationError):
         self.definite_refusal = definite_refusal
 
 
-def _graph_failure(response, *, effect):
-    error = None
-    try:
-        document = json.loads(response.body)
-        _bounded(document, 1048576)
-        if isinstance(document, dict) and isinstance(document.get("error"), dict):
-            error = document["error"]
-    except Exception:
-        pass
-
-    def number(name):
-        value = error.get(name) if error else None
-        return value if type(value) is int and 0 <= value <= 2147483647 else None
-
-    provider_code, subcode = number("code"), number("error_subcode")
+def _retry_after(response):
     retry_after = next(
         (v for k, v in response.headers.items() if k.lower() == "retry-after"), None
     )
@@ -120,6 +106,24 @@ def _graph_failure(response, *, effect):
             retry_after = format_datetime(date.astimezone(UTC), usegmt=True)
         except (TypeError, ValueError, OverflowError):
             retry_after = None
+    return retry_after
+
+
+def _graph_failure(response, *, effect):
+    error = None
+    try:
+        document = json.loads(response.body)
+        _bounded(document, 1048576)
+        if isinstance(document, dict) and isinstance(document.get("error"), dict):
+            error = document["error"]
+    except Exception:
+        pass
+
+    def number(name):
+        value = error.get(name) if error else None
+        return value if type(value) is int and 0 <= value <= 2147483647 else None
+
+    provider_code, subcode = number("code"), number("error_subcode")
     # Require a structured Graph rejection. A server failure, timeout, conflict
     # or malformed answer remains ambiguous for writes, even with an HTTP status.
     definite = (
@@ -144,7 +148,64 @@ def _graph_failure(response, *, effect):
         http_status=response.status,
         provider_code=provider_code,
         provider_subcode=subcode,
-        retry_after=retry_after,
+        retry_after=_retry_after(response),
+        definite_refusal=definite,
+        effect=effect,
+    )
+
+
+def _linkedin_failure(response, *, effect):
+    document = {}
+    try:
+        value = json.loads(response.body)
+        _bounded(value, 1048576)
+        if isinstance(value, dict):
+            document = value
+    except Exception:
+        pass
+    code = document.get("code")
+    if not isinstance(code, str) or re.fullmatch(r"[A-Z][A-Z0-9_]{0,99}", code) is None:
+        code = None
+    subcode = document.get("serviceErrorCode")
+    if type(subcode) is not int or not 0 <= subcode <= 2147483647:
+        subcode = None
+    known = {
+        400: {
+            "INVALID_URN_TYPE",
+            "INVALID_URN_ID",
+            "MISSING_FIELD",
+            "INVALID_VALUE_FOR_FIELD",
+            "FIELD_LENGTH_TOO_LONG",
+            "INVALID_VALUE_BLANK_FIELD",
+        },
+        401: {"EMPTY_ACCESS_TOKEN"},
+        403: {"ACCESS_DENIED"},
+        404: {"NOT_FOUND"},
+        405: set(),
+        411: set(),
+        426: set(),
+        422: {"UNPROCESSABLE_ENTITY"},
+        429: {"TOO_MANY_REQUESTS"},
+    }
+    status = document.get("status")
+    message = document.get("message")
+    legacy_detail = subcode is not None or (
+        isinstance(message, str) and 0 < len(message) <= 4096
+    )
+    definite = (
+        type(status) is int
+        and status == response.status
+        and status in known
+        and (("code" not in document and legacy_detail) or code in known[status])
+        and ("serviceErrorCode" not in document or subcode is not None)
+        and document.get("is_transient", False) is False
+        and document.get("isTransient", False) is False
+    )
+    return PublishingResponseError(
+        http_status=response.status,
+        provider_code=code if code is not None else subcode,
+        provider_subcode=subcode,
+        retry_after=_retry_after(response),
         definite_refusal=definite,
         effect=effect,
     )
@@ -159,6 +220,9 @@ class _Client:
         if any(_url(origin) != origin for origin in media_origins):
             raise IntegrationError("MEDIA_ORIGIN")
         self.media_origins = frozenset(media_origins)
+
+    def _failure(self, response, *, effect):
+        return _graph_failure(response, effect=effect)
 
     def _media(self, value):
         if _url(value) not in self.media_origins:
@@ -209,7 +273,7 @@ class _Client:
             if _url(response.url) != self.origin or len(response.body) > 1048576:
                 raise IntegrationError("PROVIDER_RESPONSE")
             if not 200 <= response.status < 300:
-                raise _graph_failure(response, effect=effect)
+                raise self._failure(response, effect=effect)
             document = json.loads(response.body) if response.body else {}
             _bounded(document, 1048576)
             if not isinstance(document, dict):
@@ -219,7 +283,7 @@ class _Client:
                 if not isinstance(error, dict) or error.get("code") != "ok":
                     raise IntegrationError("PROVIDER_REJECTED")
             elif "error" in document:
-                raise _graph_failure(response, effect=effect)
+                raise self._failure(response, effect=effect)
             return document, {k.lower(): v for k, v in response.headers.items()}
         except PublishingResponseError:
             raise
@@ -505,8 +569,23 @@ class ThreadsPublisher(_Client):
         return {"post_id": self._receipt(doc, "id", effect=True), "stage": "published"}
 
 
+def _linkedin_literal(text):
+    reserved = frozenset("|{}@[]()<>#\\*_~")
+    encoded = "".join("\\" + char if char in reserved else char for char in text)
+    try:
+        units = len(encoded.encode("utf-16-le")) // 2
+    except UnicodeError:
+        raise IntegrationError("TEXT_ENCODING") from None
+    if units > 3000:
+        raise IntegrationError("ENCODED_TEXT_LIMIT")
+    return encoded
+
+
 class LinkedInPublisher(_Client):
     provider, origin = "linkedin", "https://api.linkedin.com"
+
+    def _failure(self, response, *, effect):
+        return _linkedin_failure(response, effect=effect)
 
     def __init__(self, transport, *, author: str, api_version: str):
         super().__init__(transport)
@@ -515,6 +594,16 @@ class LinkedInPublisher(_Client):
         if re.fullmatch(r"20[0-9]{2}(0[1-9]|1[0-2])", api_version) is None:
             raise IntegrationError("API_VERSION")
         self.author, self.api_version = author, api_version
+
+    def member_identity(self, *, key):
+        """Read the authenticated member; this does not grant organization roles."""
+        doc, _ = self._call(
+            "member_identity", "/v2/me", key=key, effect=False, method="GET"
+        )
+        member = "urn:li:person:" + _id(self._receipt(doc, "id", effect=False))
+        if self.author.startswith("urn:li:person:") and member != self.author:
+            raise IntegrationError("ACCOUNT_BINDING")
+        return {"member_urn": member}
 
     def initialize_image_upload(self, *, key, allow_effect=False):
         doc, _ = self._call(
@@ -548,7 +637,17 @@ class LinkedInPublisher(_Client):
             invalid = True
         if invalid:
             raise IntegrationError("UPLOAD_ORIGIN", outcome_unknown=True)
-        return {"image_urn": image, "upload_url": url, "stage": "awaiting_upload"}
+        expires = value.get("uploadUrlExpiresAt")
+        if expires is not None and (
+            type(expires) is not int or not 0 < expires <= 9223372036854775807
+        ):
+            raise IntegrationError("INVALID_RECEIPT", outcome_unknown=True)
+        return {
+            "image_urn": image,
+            "upload_url": url,
+            "upload_url_expires_at_ms": expires,
+            "stage": "awaiting_upload",
+        }
 
     def image_status(self, image_urn, *, key):
         from urllib.parse import quote
@@ -568,10 +667,15 @@ class LinkedInPublisher(_Client):
         )
         if doc.get("id") != image_urn or doc.get("owner") != self.author:
             raise IntegrationError("MEDIA_IDENTITY")
-        return {
-            "image_urn": image_urn,
-            "provider_status": self._receipt(doc, "status", effect=False),
-        }
+        status = self._receipt(doc, "status", effect=False)
+        if status not in {
+            "WAITING_UPLOAD",
+            "PROCESSING",
+            "PROCESSING_FAILED",
+            "AVAILABLE",
+        }:
+            raise IntegrationError("INVALID_RECEIPT")
+        return {"image_urn": image_urn, "provider_status": status}
 
     def read_post(self, post_id, *, key):
         """Read an already bound post; this cannot discover a lost publish ID."""
@@ -603,6 +707,13 @@ class LinkedInPublisher(_Client):
         self, post: TextPost | LinkedInPost, *, key: str, allow_effect: bool = False
     ):
         post = LinkedInPost.model_validate(post.model_dump())
+        commentary = _linkedin_literal(post.text)
+        if post.media_title and (
+            len(post.media_urns) != 1 or not post.media_title.strip()
+        ):
+            raise IntegrationError("MEDIA_TITLE")
+        if len(post.media_urns) != len(set(post.media_urns)):
+            raise IntegrationError("DUPLICATE_MEDIA")
         content = None
         if post.media_urns:
             for urn in post.media_urns:
@@ -618,8 +729,16 @@ class LinkedInPublisher(_Client):
                     "multiImage": {"images": [{"id": urn} for urn in post.media_urns]}
                 }
             else:
+                if (
+                    post.media_urns[0].startswith("urn:li:document:")
+                    and not post.media_title.strip()
+                ):
+                    raise IntegrationError("DOCUMENT_TITLE_REQUIRED")
                 content = {
-                    "media": {"id": post.media_urns[0], "title": post.media_title}
+                    "media": {
+                        "id": post.media_urns[0],
+                        **({"title": post.media_title} if post.media_title else {}),
+                    }
                 }
         _, headers = self._call(
             "publish",
@@ -633,7 +752,7 @@ class LinkedInPublisher(_Client):
             },
             body={
                 "author": self.author,
-                "commentary": post.text,
+                "commentary": commentary,
                 "visibility": "PUBLIC",
                 "distribution": {
                     "feedDistribution": "MAIN_FEED",
@@ -648,4 +767,4 @@ class LinkedInPublisher(_Client):
         post_id = self._receipt(headers, "x-restli-id", effect=True)
         if re.fullmatch(r"urn:li:(share|ugcPost):[0-9]+", post_id) is None:
             raise IntegrationError("INVALID_RECEIPT", outcome_unknown=True)
-        return {"post_id": post_id, "stage": "published"}
+        return {"post_id": post_id, "stage": "created"}
