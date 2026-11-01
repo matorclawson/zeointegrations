@@ -7,8 +7,8 @@
       "source_blob": "70de89bab0ed564b588513d931aaaf452dd2f1cc",
       "source_sha256": "2b23043197e957e160435c905b684cb1e766fda6bcaa2dc7e5bf2f27bf462cfe",
       "destination_path": "src/zeo_integrations/publishing/__init__.py",
-      "destination_blob": "f2b1a4ca4809b85f8b9b2e9a7c3d9c279791e7d7",
-      "destination_sha256": "319cd7aefa8f93fa8e440643dd30b6fbd0386c9c40ef18b88e586e82a9940ce5",
+      "destination_blob": "29844bb664166a0949bbb6861317d5fcdbbbbe25",
+      "destination_sha256": "4074985d1aa2a959a09c1b2b43a7df47bf0b13d35fd5240cac39117e987eba83",
       "adaptation": "Extract Instagram/Threads and shared machinery only; other publishers/tests remain in original return for ordered slices."
     },
     {
@@ -16,8 +16,8 @@
       "source_blob": "d2a7cb335ce6f13eea5fca16b0dc409f55c6e133",
       "source_sha256": "c43496e02aed36b0dee867aec18b0897730bb2d2f5a5e6221ba7362c6b342d6b",
       "destination_path": "tests/test_integrations/publishing/test_publishers.py",
-      "destination_blob": "1d25642a61c4dda7119f5aee77a9c5d7c6c2142c",
-      "destination_sha256": "87806772f273765f85b194c548f9e96eb17e3482d9a247ec11fa64d6e2d228ae",
+      "destination_blob": "ea636359aaceae484ec843e6ca6b8a9b836e31b5",
+      "destination_sha256": "56c653d1613bb5b82ab540344a94ddf4ab2486476aeec231665fbce6ee2061f6",
       "adaptation": "Extract Instagram/Threads and shared machinery only; other publishers/tests remain in original return for ordered slices."
     },
     {

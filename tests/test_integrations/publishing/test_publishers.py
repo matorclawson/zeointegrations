@@ -91,6 +91,10 @@ def test_definite_graph_rejection_retains_only_bounded_facts(status):
 @pytest.mark.parametrize(
     "status,body",
     [
+        (400, b'{"error":{"code":1}}'),
+        (400, b'{"error":{"code":2}}'),
+        (400, b'{"error":{"code":190,"is_transient":true}}'),
+        (429, b'{"error":{"code":190,"is_transient":true}}'),
         (503, b'{"error":{"code":2}}'),
         (409, b'{"error":{"code":100}}'),
         (429, b"not-json"),

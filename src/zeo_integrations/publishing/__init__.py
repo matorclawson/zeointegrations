@@ -116,18 +116,24 @@ def _graph_failure(response, *, effect):
             retry_after = None
     # Require a structured Graph rejection. A server failure, timeout, conflict
     # or malformed answer remains ambiguous for writes, even with an HTTP status.
-    definite = provider_code is not None and response.status in {
-        400,
-        401,
-        403,
-        404,
-        405,
-        410,
-        413,
-        415,
-        422,
-        429,
-    }
+    definite = (
+        provider_code is not None
+        and provider_code not in {1, 2}
+        and error.get("is_transient") is not True
+        and response.status
+        in {
+            400,
+            401,
+            403,
+            404,
+            405,
+            410,
+            413,
+            415,
+            422,
+            429,
+        }
+    )
     return PublishingResponseError(
         http_status=response.status,
         provider_code=provider_code,

@@ -32,7 +32,8 @@ inside credential custody and bind that result to its connection subject.
 `PublishingResponseError` exposes bounded HTTP status, numeric Graph code/subcode,
 and a sanitized Retry-After value; it retains no provider message, body or token.
 A structured Graph rejection on an explicit client-error status is definite
-refusal. Server errors, conflicts, malformed replies and transport loss remain
+refusal only when its code is neither 1 nor 2 and is_transient is not true.
+Temporary Graph failures, server errors, conflicts, malformed replies and transport loss remain
 unknown for effects. Neither classification causes a retry. Retry-After is advice
 for host scheduling, never permission to repeat a write. The host persists the
 original operation key, returned container IDs and uncertain outcomes.
@@ -52,7 +53,7 @@ describes the Facebook Login route selected here: professional Instagram account
 linked to a Facebook Page, with scoped access. Its collection includes permissions
 for features beyond publishing; the host must select actual identity/publishing
 permissions and obtain the required app access. A Page access token can be derived
-through the authorized Page selection. The transport injects authorization only
+through the authorized Page selection. The transport injects Authorization Bearer only
 inside ZEOconnect; this library neither obtains, stores nor refreshes tokens.
 
 The [official Threads collection](https://www.postman.com/meta/threads/documentation/dht3nzz/threads-api)
