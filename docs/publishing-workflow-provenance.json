@@ -7,8 +7,8 @@
       "source_blob": "8dda3d632175aa3c952b1dc4cec00ea8dd8a627f",
       "sha256": "06cad6d5a36ee7bf3056454f1f0f4e2602d8a8667f4a65627c9db6d86e609053",
       "destination_path": "src/zeo_integrations/publishing/workflow.py",
-      "destination_sha256": "19a06d3804a5ae43dffffcc7261f52325950e684a1238046277451b62f15ed67",
-      "destination_blob": "163bc9d58c00df5834e47fa0b4c28eb9d84f2a21",
+      "destination_sha256": "0d568be93b4dbd6ddcaba5f850af7f8366798155ec6ed25b6a0d7c656ed1a5d8",
+      "destination_blob": "68f82a6dd47949e69f4743e614c08a3e7883edee",
       "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions."
     },
     {
@@ -33,8 +33,8 @@
       "source_blob": "f001928ed11a868d623261a87ff8793c204ae3b8",
       "sha256": "a787f450572f012f57fad93c456e1628309a2bcfb80653726aba0bb3e90f2f06",
       "destination_path": "tests/test_integrations/publishing/test_workflow.py",
-      "destination_sha256": "617d487357e793b6abe96e1829b8b86f8f43b1961fa35c35cb3237459d5e9457",
-      "destination_blob": "a3bc6524aefead39b513bc660f6e7c945e9d9885",
+      "destination_sha256": "7d289ea457d588bdfdddff425a90eee1a2623557c71bdc7436e60027b9a60c5d",
+      "destination_blob": "11f4705040053f80fb0e5edea394f6aa983b75e2",
       "adaptation": "Review repairs: independent host read-operation allowlist, forced media demuxers, pre-dispatch classification, lost-claim state and canonical sensitive-key refusal; associated regressions."
     },
     {
