@@ -1,0 +1,24 @@
+{
+  "source_artifact_sha256": "e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8",
+  "license": "MIT",
+  "files": [
+    {
+      "source_path": "src/zeo_integrations/publishing/__init__.py",
+      "source_blob": "70de89bab0ed564b588513d931aaaf452dd2f1cc",
+      "source_sha256": "2b23043197e957e160435c905b684cb1e766fda6bcaa2dc7e5bf2f27bf462cfe",
+      "destination_path": "src/zeo_integrations/publishing/__init__.py",
+      "destination_blob": "ed602cc1fc5c5337066b51c4db48e5e320760758",
+      "destination_sha256": "a4b3448ddaf74934e87489c8e26fafa0c8e1b41c320d5f2794fac0823faf72b6",
+      "adaptation": "Extract LinkedIn model/client and travelling wire case; retain reviewed shared transport machinery, add bound known-post read and refusal/owner/receipt controls."
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_publishers.py",
+      "source_blob": "d2a7cb335ce6f13eea5fca16b0dc409f55c6e133",
+      "source_sha256": "c43496e02aed36b0dee867aec18b0897730bb2d2f5a5e6221ba7362c6b342d6b",
+      "destination_path": "tests/test_integrations/publishing/test_linkedin.py",
+      "destination_blob": "86f077665ddbbd3af574535f1b40e9d843f2d811",
+      "destination_sha256": "75fe4589e6b576621d18bac75b87437d504a42b04d45ad989eddb591f3a2a794",
+      "adaptation": "Extract LinkedIn model/client and travelling wire case; retain reviewed shared transport machinery, add bound known-post read and refusal/owner/receipt controls."
+    }
+  ]
+}
