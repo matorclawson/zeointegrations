@@ -136,6 +136,41 @@ def test_upload_redirect_is_unknown_never_followed(tmp_path):
     uploader.close()
 
 
+@pytest.mark.parametrize("consumption", ["zero", "partial", "full"])
+def test_success_status_requires_complete_verified_upload_stream(tmp_path, consumption):
+    source = tmp_path / "large.jpg"
+    source.write_bytes(b"\xff\xd8\xff" + b"x" * (2 * 1024 * 1024))
+    library = MediaLibrary(tmp_path / "media")
+    asset = library.stage(source, asset_id="large")
+    consumed = []
+
+    class Transport(httpx.BaseTransport):
+        def handle_request(self, request):
+            if consumption == "partial":
+                consumed.append(next(iter(request.stream)))
+            elif consumption == "full":
+                consumed.extend(request.stream)
+            return httpx.Response(201)
+
+    uploader = MediaUploader(Transport(), allowed_origins=["https://up.example"])
+    try:
+        if consumption == "full":
+            result = uploader.upload(
+                library, asset, url="https://up.example/file", allow_effect=True
+            )
+            assert result["uploaded"] is True
+            assert sum(map(len, consumed)) == asset.size_bytes
+        else:
+            with pytest.raises(IntegrationError) as error:
+                uploader.upload(
+                    library, asset, url="https://up.example/file", allow_effect=True
+                )
+            assert error.value.outcome_unknown is True
+            assert sum(map(len, consumed)) < asset.size_bytes
+    finally:
+        uploader.close()
+
+
 def test_explicit_image_conversion_preserves_original(tmp_path):
     if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
         pytest.skip("optional ffmpeg/ffprobe")

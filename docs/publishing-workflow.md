@@ -30,3 +30,7 @@ operations fail before invocation, so an effect cannot acquire fresh polling key
 Pre-invocation resolution failures are failed, not uncertain provider writes.
 Media inspection/conversion force the demuxer matching the verified signature;
 manifest autodetection cannot expand the local-file input boundary.
+
+An upload response is accepted only after the transport has consumed the complete
+body and its streamed byte count and hash match the staged asset. A premature
+2xx remains unconfirmed, including zero-byte and partial-consumption transports.

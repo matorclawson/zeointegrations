@@ -370,8 +370,10 @@ class MediaUploader:
             raise IntegrationError("UPLOAD_ORIGIN")
         path = library.verify(asset)
         deadline = time.monotonic() + 300
+        stream_complete = False
 
         def chunks():
+            nonlocal stream_complete
             digest, size = hashlib.sha256(), 0
             with path.open("rb") as stream:
                 while chunk := stream.read(1024 * 1024):
@@ -384,6 +386,7 @@ class MediaUploader:
                     yield chunk
             if digest.hexdigest() != asset.sha256 or size != asset.size_bytes:
                 raise WorkflowError("media changed")
+            stream_complete = True
 
         failed = False
         try:
@@ -400,6 +403,8 @@ class MediaUploader:
             )
             response = self.http.send(request, stream=True, follow_redirects=False)
             try:
+                if not stream_complete:
+                    raise WorkflowError("upload body was not completely consumed")
                 if not 200 <= response.status_code < 300 or response.url != request.url:
                     raise WorkflowError("upload unconfirmed")
                 if response.headers.get("content-encoding", "identity") != "identity":
