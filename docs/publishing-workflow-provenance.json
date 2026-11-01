@@ -34,7 +34,7 @@
       "source_path": "tests/test_integrations/publishing/test_media_workflow.py",
       "source_sha256": "62a1f21b914d1d69b4527062b2793422ace3732c344fe90b836764165a362430",
       "destination_path": "tests/test_integrations/publishing/test_media_workflow.py",
-      "destination_sha256": "744a765e9da1a04d43ef35ac844af6deb9f0c4bb76db675f6801091d1c041928",
+      "destination_sha256": "0903ce0a434c9a89cdb5a9113a9e408d85ab166bbbefe2a5fa20e3f66e3f8c1a",
       "adaptation": "Retain platform-independent media checks; provider-specific end-to-end cases travel with later provider slices."
     }
   ]

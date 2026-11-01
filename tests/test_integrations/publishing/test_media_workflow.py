@@ -6,6 +6,7 @@ import subprocess
 
 import httpx
 import pytest
+
 from zeo_integrations._http import IntegrationError
 from zeo_integrations.publishing.media import MediaLibrary, MediaUploader, sniff
 from zeo_integrations.publishing.workflow import WorkflowError
