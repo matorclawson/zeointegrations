@@ -7,8 +7,8 @@
       "source_blob": "70de89bab0ed564b588513d931aaaf452dd2f1cc",
       "source_sha256": "2b23043197e957e160435c905b684cb1e766fda6bcaa2dc7e5bf2f27bf462cfe",
       "destination_path": "src/zeo_integrations/publishing/__init__.py",
-      "destination_blob": "29844bb664166a0949bbb6861317d5fcdbbbbe25",
-      "destination_sha256": "4074985d1aa2a959a09c1b2b43a7df47bf0b13d35fd5240cac39117e987eba83",
+      "destination_blob": "4af7676f14c5d3144fddf3cd33bd80adc76fce1c",
+      "destination_sha256": "0325fc56477fadd82bc0c1c7dae2ad14ada261df05926d07803159ecb9c814bf",
       "adaptation": "Extract Instagram/Threads and shared machinery only; other publishers/tests remain in original return for ordered slices."
     },
     {

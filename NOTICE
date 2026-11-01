@@ -99,3 +99,8 @@ Source and destination identities: docs/publishing-workflow-provenance.json.
 Instagram and Threads publishing clients and travelling wire tests
 Copyright 2026 Zero Employee Organizations. MIT licensed.
 Source/destination identities: docs/instagram-threads-provenance.json.
+
+LinkedIn publishing extraction: publishing/__init__.py and travelling wire tests
+adapted from the original MIT expanded return (artifact SHA256
+ e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8).
+Microsoft Learn API pages were reference only; no documentation implementation copied.

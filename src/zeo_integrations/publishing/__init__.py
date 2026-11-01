@@ -28,6 +28,12 @@ class TextPost(Input):
     text: str = Field(min_length=1, max_length=3000)
 
 
+class LinkedInPost(TextPost):
+    # Provider-owned URNs from a completed, account-bound upload.
+    media_urns: list[str] = Field(default_factory=list, max_length=20)
+    media_title: str = Field(default="", max_length=200)
+
+
 class Carousel(Input):
     children: list[str] = Field(min_length=2, max_length=10)
     caption: str = Field(default="", max_length=2200)
@@ -497,3 +503,149 @@ class ThreadsPublisher(_Client):
             form=True,
         )
         return {"post_id": self._receipt(doc, "id", effect=True), "stage": "published"}
+
+
+class LinkedInPublisher(_Client):
+    provider, origin = "linkedin", "https://api.linkedin.com"
+
+    def __init__(self, transport, *, author: str, api_version: str):
+        super().__init__(transport)
+        if re.fullmatch(r"urn:li:(person|organization):[A-Za-z0-9_-]+", author) is None:
+            raise IntegrationError("ACCOUNT_BINDING")
+        if re.fullmatch(r"20[0-9]{2}(0[1-9]|1[0-2])", api_version) is None:
+            raise IntegrationError("API_VERSION")
+        self.author, self.api_version = author, api_version
+
+    def initialize_image_upload(self, *, key, allow_effect=False):
+        doc, _ = self._call(
+            "initialize_image_upload",
+            "/rest/images",
+            key=key,
+            effect=True,
+            admitted=allow_effect,
+            query={"action": "initializeUpload"},
+            headers={
+                "Linkedin-Version": self.api_version,
+                "X-Restli-Protocol-Version": "2.0.0",
+            },
+            body={"initializeUploadRequest": {"owner": self.author}},
+        )
+        value = doc.get("value")
+        if not isinstance(value, dict):
+            raise IntegrationError("INVALID_RECEIPT", outcome_unknown=True)
+        image = self._receipt(value, "image", effect=True)
+        url = value.get("uploadUrl")
+        if (
+            re.fullmatch(r"urn:li:image:[A-Za-z0-9_-]+", image) is None
+            or not isinstance(url, str)
+            or len(url) > 4096
+        ):
+            raise IntegrationError("INVALID_RECEIPT", outcome_unknown=True)
+        invalid = False
+        try:
+            invalid = _url(url) != "https://www.linkedin.com"
+        except Exception:
+            invalid = True
+        if invalid:
+            raise IntegrationError("UPLOAD_ORIGIN", outcome_unknown=True)
+        return {"image_urn": image, "upload_url": url, "stage": "awaiting_upload"}
+
+    def image_status(self, image_urn, *, key):
+        from urllib.parse import quote
+
+        if re.fullmatch(r"urn:li:image:[A-Za-z0-9_-]+", image_urn) is None:
+            raise IntegrationError("MEDIA_ID")
+        doc, _ = self._call(
+            "image_status",
+            "/rest/images/" + quote(image_urn, safe=""),
+            key=key,
+            effect=False,
+            method="GET",
+            headers={
+                "Linkedin-Version": self.api_version,
+                "X-Restli-Protocol-Version": "2.0.0",
+            },
+        )
+        if doc.get("id") != image_urn or doc.get("owner") != self.author:
+            raise IntegrationError("MEDIA_IDENTITY")
+        return {
+            "image_urn": image_urn,
+            "provider_status": self._receipt(doc, "status", effect=False),
+        }
+
+    def read_post(self, post_id, *, key):
+        """Read an already bound post; this cannot discover a lost publish ID."""
+        from urllib.parse import quote
+
+        if re.fullmatch(r"urn:li:(share|ugcPost):[0-9]+", post_id) is None:
+            raise IntegrationError("MEDIA_ID")
+        doc, _ = self._call(
+            "read_post",
+            "/rest/posts/" + quote(post_id, safe=""),
+            key=key,
+            effect=False,
+            method="GET",
+            query={"viewContext": "AUTHOR"},
+            headers={
+                "Linkedin-Version": self.api_version,
+                "X-Restli-Protocol-Version": "2.0.0",
+            },
+        )
+        if doc.get("id") != post_id or doc.get("author") != self.author:
+            raise IntegrationError("POST_BINDING")
+        return {
+            "post_id": post_id,
+            "author": self.author,
+            "provider_status": self._receipt(doc, "lifecycleState", effect=False),
+        }
+
+    def publish(
+        self, post: TextPost | LinkedInPost, *, key: str, allow_effect: bool = False
+    ):
+        post = LinkedInPost.model_validate(post.model_dump())
+        content = None
+        if post.media_urns:
+            for urn in post.media_urns:
+                if (
+                    re.fullmatch(r"urn:li:(image|video|document):[A-Za-z0-9_-]+", urn)
+                    is None
+                ):
+                    raise IntegrationError("MEDIA_ID")
+            if len(post.media_urns) > 1:
+                if not all(urn.startswith("urn:li:image:") for urn in post.media_urns):
+                    raise IntegrationError("MULTI_IMAGE_REQUIRED")
+                content = {
+                    "multiImage": {"images": [{"id": urn} for urn in post.media_urns]}
+                }
+            else:
+                content = {
+                    "media": {"id": post.media_urns[0], "title": post.media_title}
+                }
+        _, headers = self._call(
+            "publish",
+            "/rest/posts",
+            key=key,
+            effect=True,
+            admitted=allow_effect,
+            headers={
+                "Linkedin-Version": self.api_version,
+                "X-Restli-Protocol-Version": "2.0.0",
+            },
+            body={
+                "author": self.author,
+                "commentary": post.text,
+                "visibility": "PUBLIC",
+                "distribution": {
+                    "feedDistribution": "MAIN_FEED",
+                    "targetEntities": [],
+                    "thirdPartyDistributionChannels": [],
+                },
+                "lifecycleState": "PUBLISHED",
+                "isReshareDisabledByAuthor": False,
+                **({"content": content} if content else {}),
+            },
+        )
+        post_id = self._receipt(headers, "x-restli-id", effect=True)
+        if re.fullmatch(r"urn:li:(share|ugcPost):[0-9]+", post_id) is None:
+            raise IntegrationError("INVALID_RECEIPT", outcome_unknown=True)
+        return {"post_id": post_id, "stage": "published"}
