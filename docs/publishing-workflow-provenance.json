@@ -1,0 +1,41 @@
+{
+  "source_artifact_sha256": "e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8",
+  "license": "MIT",
+  "files": [
+    {
+      "source_path": "src/zeo_integrations/publishing/workflow.py",
+      "source_blob": "8dda3d632175aa3c952b1dc4cec00ea8dd8a627f",
+      "sha256": "06cad6d5a36ee7bf3056454f1f0f4e2602d8a8667f4a65627c9db6d86e609053",
+      "destination_path": "src/zeo_integrations/publishing/workflow.py",
+      "destination_sha256": "06cad6d5a36ee7bf3056454f1f0f4e2602d8a8667f4a65627c9db6d86e609053"
+    },
+    {
+      "source_path": "src/zeo_integrations/publishing/media.py",
+      "source_blob": "d161310cb892edca8f576486ee9bb8342265022a",
+      "sha256": "8912c210451a3e7a1ab2e4eaaa6a21ffa8d9e8672afd6aabdcb4101cf33fcbab",
+      "destination_path": "src/zeo_integrations/publishing/media.py",
+      "destination_sha256": "8912c210451a3e7a1ab2e4eaaa6a21ffa8d9e8672afd6aabdcb4101cf33fcbab"
+    },
+    {
+      "source_path": "src/zeo_integrations/publishing/compose.py",
+      "source_blob": "081a9c9672d4d84e1c6ca33408ea12cc31d30a31",
+      "sha256": "836dd91ce39addec92ede49fd4675a134389fe8e41d5ab544f6eefb7ad98aa5a",
+      "destination_path": "src/zeo_integrations/publishing/compose.py",
+      "destination_sha256": "836dd91ce39addec92ede49fd4675a134389fe8e41d5ab544f6eefb7ad98aa5a"
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_workflow.py",
+      "source_blob": "f001928ed11a868d623261a87ff8793c204ae3b8",
+      "sha256": "a787f450572f012f57fad93c456e1628309a2bcfb80653726aba0bb3e90f2f06",
+      "destination_path": "tests/test_integrations/publishing/test_workflow.py",
+      "destination_sha256": "a787f450572f012f57fad93c456e1628309a2bcfb80653726aba0bb3e90f2f06"
+    },
+    {
+      "source_path": "tests/test_integrations/publishing/test_media_workflow.py",
+      "source_sha256": "62a1f21b914d1d69b4527062b2793422ace3732c344fe90b836764165a362430",
+      "destination_path": "tests/test_integrations/publishing/test_media_workflow.py",
+      "destination_sha256": "744a765e9da1a04d43ef35ac844af6deb9f0c4bb76db675f6801091d1c041928",
+      "adaptation": "Retain platform-independent media checks; provider-specific end-to-end cases travel with later provider slices."
+    }
+  ]
+}
