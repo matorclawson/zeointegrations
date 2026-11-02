@@ -86,7 +86,7 @@ class XThread:
             if type(post) is not XThreadPost:
                 raise IntegrationError("THREAD_VALUE")
             link = post.reply_to_prior_index
-            if (i == 0 and link is not None) or (i > 0 and (link is None or link >= i)):
+            if link != (i - 1 if i else None):
                 raise IntegrationError("THREAD_REPLY_LINK")
         if len(self.rendering().encode("utf-8")) > PREVIEW_MAX_BYTES:
             raise IntegrationError("THREAD_PREVIEW_LIMIT")

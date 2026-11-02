@@ -25,7 +25,9 @@ processing states; only confirmed finalize may treat absent processing_info as
 ready. No status polling happens implicitly. Expired media is never ready.
 Provider readiness is not proof that the account may attach it to a post.
 
-`XThread` contains immutable ordered posts with explicit links to prior indexes.
+`XThread` contains immutable ordered posts: the root has no reply link and every
+later post links exactly to the immediately preceding index. Branching to an
+earlier post is refused to match the host's chain mapping.
 Its canonical complete JSON preview includes account, all text/media/link fields,
 provider and version. It refuses previews over 6000 UTF-8 bytes without cutting
 content. The separate 25-post cap does not promise that 25 maximum-length posts

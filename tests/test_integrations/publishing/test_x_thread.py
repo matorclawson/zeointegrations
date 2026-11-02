@@ -182,3 +182,15 @@ def test_full_6000_byte_preview_limit_is_enforced_without_cutting():
 def test_mutable_or_malformed_values_are_refused(factory):
     with pytest.raises(IntegrationError):
         factory()
+
+
+def test_branching_to_an_older_parent_is_not_a_chain():
+    with pytest.raises(IntegrationError, match="THREAD_REPLY_LINK"):
+        XThread(
+            "42",
+            (
+                XThreadPost("first"),
+                XThreadPost("second", reply_to_prior_index=0),
+                XThreadPost("third", reply_to_prior_index=0),
+            ),
+        )
