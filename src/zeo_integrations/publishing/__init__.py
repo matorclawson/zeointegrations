@@ -34,6 +34,13 @@ class LinkedInPost(TextPost):
     media_title: str = Field(default="", max_length=200)
 
 
+class XPost(Input):
+    # Local bounded input, not an implementation of X's weighted text rules.
+    text: str = Field(default="", max_length=280)
+    media_ids: list[str] = Field(default_factory=list, max_length=4)
+    reply_to_id: str | None = None
+
+
 class Carousel(Input):
     children: list[str] = Field(min_length=2, max_length=10)
     caption: str = Field(default="", max_length=2200)
@@ -242,6 +249,7 @@ class _Client:
         query=None,
         headers=None,
         form=False,
+        expected_status=None,
     ):
         if effect and admitted is not True:
             raise IntegrationError("EFFECT_ADMISSION_REQUIRED")
@@ -274,6 +282,8 @@ class _Client:
                 raise IntegrationError("PROVIDER_RESPONSE")
             if not 200 <= response.status < 300:
                 raise self._failure(response, effect=effect)
+            if expected_status is not None and response.status != expected_status:
+                raise IntegrationError("PROVIDER_RESPONSE")
             document = json.loads(response.body) if response.body else {}
             _bounded(document, 1048576)
             if not isinstance(document, dict):
@@ -337,6 +347,142 @@ class _Client:
             "permalink": permalink,
             "timestamp": self._receipt(document, "timestamp", effect=False),
         }
+
+
+def _x_id(value, *, effect=False):
+    if not isinstance(value, str) or re.fullmatch(r"[0-9]{1,19}", value) is None:
+        raise IntegrationError("PROVIDER_ID", outcome_unknown=effect)
+    return value
+
+
+def _x_failure(response, *, effect):
+    document = {}
+    try:
+        value = json.loads(response.body)
+        _bounded(value, 1048576)
+        if isinstance(value, dict):
+            document = value
+    except Exception:
+        pass
+    known = {
+        400: {"invalid-request"},
+        403: {"not-authorized-for-resource", "client-forbidden"},
+        404: {"resource-not-found"},
+        429: {"usage-capped", "rate-limit-exceeded"},
+    }
+    # Keep only enumerated problem identities, never a provider detail or title.
+    allowed = {
+        "https://api.x.com/2/problems/" + kind
+        for kinds in known.values()
+        for kind in kinds
+    }
+    problem = document.get("type")
+    if not isinstance(problem, str) or problem not in allowed:
+        problem = None
+    status_matches = "status" not in document or (
+        type(document["status"]) is int and document["status"] == response.status
+    )
+    definite = (
+        problem is not None
+        and problem.rsplit("/", 1)[-1] in known.get(response.status, set())
+        and status_matches
+        and "errors" not in document
+        and "data" not in document
+    )
+    return PublishingResponseError(
+        http_status=response.status,
+        provider_code=problem,
+        provider_subcode=None,
+        retry_after=_retry_after(response),
+        definite_refusal=definite,
+        effect=effect,
+    )
+
+
+class XPublisher(_Client):
+    """One user-context call per step. Host owns binding, admission and media."""
+
+    provider, origin = "x", "https://api.x.com"
+
+    def __init__(self, transport, *, account_id):
+        super().__init__(transport)
+        self.account_id = _x_id(account_id)
+
+    def _failure(self, response, *, effect):
+        return _x_failure(response, effect=effect)
+
+    @staticmethod
+    def _data(document, *, effect):
+        if (
+            ("errors" in document and document["errors"] != [])
+            or "type" in document
+            or not isinstance(document.get("data"), dict)
+        ):
+            raise IntegrationError("INVALID_RECEIPT", outcome_unknown=effect)
+        return document["data"]
+
+    def publish(self, post: XPost, *, key: str, allow_effect: bool = False):
+        post = XPost.model_validate(post.model_dump())
+        if not post.text.strip() and not post.media_ids:
+            raise IntegrationError("POST_CONTENT")
+        media_ids = [_x_id(value) for value in post.media_ids]
+        if len(set(media_ids)) != len(media_ids):
+            raise IntegrationError("DUPLICATE_MEDIA")
+        body = {"text": post.text}
+        if media_ids:
+            body["media"] = {"media_ids": media_ids}
+        if post.reply_to_id is not None:
+            body["reply"] = {"in_reply_to_tweet_id": _x_id(post.reply_to_id)}
+        document, _ = self._call(
+            "publish",
+            "/2/tweets",
+            key=key,
+            effect=True,
+            admitted=allow_effect,
+            body=body,
+            expected_status=201,
+        )
+        data = self._data(document, effect=True)
+        return {"post_id": _x_id(data.get("id"), effect=True), "stage": "created"}
+
+    def identity(self, *, key):
+        document, _ = self._call(
+            "identity",
+            "/2/users/me",
+            key=key,
+            effect=False,
+            method="GET",
+            expected_status=200,
+        )
+        data = self._data(document, effect=False)
+        if _x_id(data.get("id")) != self.account_id:
+            raise IntegrationError("ACCOUNT_BINDING")
+        username = data.get("username")
+        if (
+            not isinstance(username, str)
+            or re.fullmatch(r"[A-Za-z0-9_]{1,15}", username) is None
+        ):
+            raise IntegrationError("INVALID_RECEIPT")
+        return {"account_id": self.account_id, "username": username}
+
+    def read_post(self, post_id, *, key):
+        post_id = _x_id(post_id)
+        document, _ = self._call(
+            "read_post",
+            "/2/tweets/" + post_id,
+            key=key,
+            effect=False,
+            method="GET",
+            query={"tweet.fields": "author_id"},
+            expected_status=200,
+        )
+        data = self._data(document, effect=False)
+        if (
+            _x_id(data.get("id")) != post_id
+            or _x_id(data.get("author_id")) != self.account_id
+        ):
+            raise IntegrationError("POST_BINDING")
+        return {"post_id": post_id, "account_id": self.account_id, "stage": "observed"}
 
 
 class InstagramPublisher(_Client):

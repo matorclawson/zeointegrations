@@ -104,3 +104,10 @@ LinkedIn publishing extraction: publishing/__init__.py and travelling wire tests
 adapted from the original MIT expanded return (artifact SHA256
  e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8).
 Microsoft Learn API pages were reference only; no documentation implementation copied.
+
+Direct X publishing extraction: original MIT expanded return, Copyright2026
+Zero Employee Organizations, artifact SHA256
+ e78cb9c31fe534e500f3234ca626ebb577ae71a2c30b299e6a009f2c0f8752c8.
+Source/destination identities and explicit adaptations: docs/x-provenance.json.
+Original synthetic controls and primary X API documentation references retained;
+no X SDK, vendor implementation or RapidAPI discovery code is copied.
