@@ -22,8 +22,9 @@ network dispatch. Media IDs must already be uploaded, ready, unexpired, and
 bound to the posting account. The host must verify media kind/cardinality and
 account capabilities; four IDs does not mean four videos are permitted.
 
-Snowflake IDs remain exact canonical unsigned64-bit decimal strings, including
-20-digit values; no float coercion, truncation or exponent notation.
+Incoming Snowflake IDs remain exact canonical unsigned64-bit decimal strings,
+including 20-digit values. Outbound media, reply and known-post parameters follow
+the endpoint schema's 19-digit limit; no float coercion or truncation occurs.
 
 The 280-character field bound is a **local input cap**, not X's weighted length
 algorithm, premium long-post eligibility, URL weighting or a truncation promise.
@@ -48,8 +49,9 @@ stops; generic401 is conservatively unknown and never retried by this client.
 The key is host idempotency context, **not a claim that X deduplicates requests**.
 An unknown write remains on the host's reconciliation path, not a fresh create.
 
-Media upload/processing and whole-thread orchestration remain required follow-up
-work; this increment supplies the account-bound create/read and one reply step.
+The companion [media and thread library](x-media-thread.md) supplies explicit
+upload/processing steps and a pure whole-thread value and step planner. Durable
+orchestration and live host integration remain Connect's responsibility.
 It does not implement the returned RapidAPI client or call its origin. Installing
 this library does not register Broker operations or demonstrate a real account.
 No live provider call was used for verification.

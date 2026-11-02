@@ -111,3 +111,9 @@ Zero Employee Organizations, artifact SHA256
 Source/destination identities and explicit adaptations: docs/x-provenance.json.
 Original synthetic controls and primary X API documentation references retained;
 no X SDK, vendor implementation or RapidAPI discovery code is copied.
+
+X media lifecycle and pure thread planning (2 November 2026): original MIT code
+by Zero Employee Organizations in publishing/x_media.py and x_thread.py, with
+synthetic tests and docs/x-media-thread.md. Shared HTTP and X publishing code is
+extended in place, retaining its prior notices. Official X documentation informs
+protocol behavior; no vendor implementation or credential store is copied.

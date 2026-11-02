@@ -302,10 +302,28 @@ def test_unsigned_64_bit_string_ids_are_preserved_without_float_rounding():
 
     with wire(handler) as transport:
         result = XPublisher(transport, account_id=big).publish(
-            XPost(text="hello", media_ids=[big], reply_to_id=big),
+            XPost(text="hello", media_ids=["123"], reply_to_id="456"),
             key="large-id",
             allow_effect=True,
         )
     assert result == {"post_id": big, "stage": "created"}
-    assert seen[0]["media"]["media_ids"] == [big]
-    assert seen[0]["reply"]["in_reply_to_tweet_id"] == big
+    assert seen[0]["media"]["media_ids"] == ["123"]
+    assert seen[0]["reply"]["in_reply_to_tweet_id"] == "456"
+
+
+@pytest.mark.parametrize("kind", ["media", "reply", "read"])
+def test_outbound_19_digit_schema_is_narrower_than_preserved_receipts(kind):
+    seen = []
+    with wire(lambda request: seen.append(request)) as transport:
+        client = XPublisher(transport, account_id="18446744073709551615")
+        with pytest.raises(IntegrationError, match="OUTBOUND_ID_RANGE"):
+            if kind == "read":
+                client.read_post("18446744073709551615", key="a")
+            else:
+                post = XPost(
+                    text="a",
+                    media_ids=["18446744073709551615"] if kind == "media" else [],
+                    reply_to_id="18446744073709551615" if kind == "reply" else None,
+                )
+                client.publish(post, key="a", allow_effect=True)
+    assert not seen

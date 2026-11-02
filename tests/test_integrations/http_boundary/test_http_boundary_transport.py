@@ -110,3 +110,46 @@ def test_unbound_transport_never_constructs_default_http_client(monkeypatch, unb
     with pytest.raises(IntegrationError, match="TRANSPORT_REQUIRED"):
         HttpxTransport(transport=unbound, origins=("https://example.com",))
     factory.assert_not_called()
+
+
+def test_raw_body_is_explicit_hidden_and_preserved():
+    seen = []
+    raw = b"\x00PRIVATE\xff"
+    req = request(method="POST", raw_body=raw, effect=True)
+    assert raw.decode("latin1") not in repr(req) and "PRIVATE" not in repr(req)
+    with transport(
+        lambda wire: seen.append(wire.content) or httpx.Response(200, json={})
+    ) as client:
+        assert client.supports_raw_body is True
+        client.request(req)
+    assert seen == [raw]
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [
+        {"raw_body": b"x", "json_body": {}},
+        {"raw_body": b"x", "form_body": {}},
+        {"json_body": {}, "form_body": {}},
+        {"raw_body": bytearray(b"x")},
+        {"raw_body": "x"},
+    ],
+)
+def test_body_conflicts_and_mutable_raw_refuse_before_dispatch(fields):
+    seen = []
+    with transport(lambda wire: seen.append(wire)) as client:
+        with pytest.raises(IntegrationError) as caught:
+            client.request(request(**fields))
+    assert not seen and not caught.value.outcome_unknown
+
+
+def test_full_multipart_body_is_counted_against_request_cap():
+    seen = []
+    with HttpxTransport(
+        transport=httpx.MockTransport(lambda wire: seen.append(wire)),
+        origins=("https://example.com",),
+        max_request_bytes=64,
+    ) as client:
+        with pytest.raises(IntegrationError, match="SIZE_LIMIT"):
+            client.request(request(raw_body=b"x" * 64))
+    assert not seen
