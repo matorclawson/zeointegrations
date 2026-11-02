@@ -350,7 +350,11 @@ class _Client:
 
 
 def _x_id(value, *, effect=False):
-    if not isinstance(value, str) or re.fullmatch(r"[0-9]{1,19}", value) is None:
+    if (
+        not isinstance(value, str)
+        or re.fullmatch(r"[1-9][0-9]{0,19}", value) is None
+        or int(value) > 18446744073709551615
+    ):
         raise IntegrationError("PROVIDER_ID", outcome_unknown=effect)
     return value
 

@@ -267,7 +267,9 @@ def test_read_is_bound_to_known_post_and_selected_author(post_id, author_id, ok)
     assert len(seen) == 1
 
 
-@pytest.mark.parametrize("account", [123, "", "x", "123/evil", "1" * 20])
+@pytest.mark.parametrize(
+    "account", [123, "", "x", "123/evil", "18446744073709551616", "0", "01"]
+)
 def test_invalid_selected_identity_is_refused(account):
     with wire(lambda req: pytest.fail("unexpected dispatch")) as transport:
         with pytest.raises(IntegrationError):
@@ -288,3 +290,22 @@ def test_transport_failure_after_dispatch_is_unknown_no_retry():
             )
     assert caught.value.outcome_unknown and "PRIVATE_TRACE" not in str(caught.value)
     assert len(seen) == 1
+
+
+def test_unsigned_64_bit_string_ids_are_preserved_without_float_rounding():
+    big = "18446744073709551615"
+    seen = []
+
+    def handler(request):
+        seen.append(json.loads(request.content))
+        return httpx.Response(201, json={"data": {"id": big}})
+
+    with wire(handler) as transport:
+        result = XPublisher(transport, account_id=big).publish(
+            XPost(text="hello", media_ids=[big], reply_to_id=big),
+            key="large-id",
+            allow_effect=True,
+        )
+    assert result == {"post_id": big, "stage": "created"}
+    assert seen[0]["media"]["media_ids"] == [big]
+    assert seen[0]["reply"]["in_reply_to_tweet_id"] == big

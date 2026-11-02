@@ -22,6 +22,9 @@ network dispatch. Media IDs must already be uploaded, ready, unexpired, and
 bound to the posting account. The host must verify media kind/cardinality and
 account capabilities; four IDs does not mean four videos are permitted.
 
+Snowflake IDs remain exact canonical unsigned64-bit decimal strings, including
+20-digit values; no float coercion, truncation or exponent notation.
+
 The 280-character field bound is a **local input cap**, not X's weighted length
 algorithm, premium long-post eligibility, URL weighting or a truncation promise.
 Unicode is retained without transformation; the provider can reject content.
@@ -60,6 +63,7 @@ Read2November2026; documentation reference only, no vendor implementation copied
 - [Authenticated subject](https://docs.x.com/x-api/users/get-my-user) and
   [known post lookup](https://docs.x.com/x-api/posts/get-post-by-id): identity and
   explicit author projection.
+- [X ID representation](https://docs.x.com/fundamentals/x-ids).
 - [Errors and partial results](https://docs.x.com/x-api/fundamentals/response-codes-and-errors).
 - [OAuth2 scopes](https://docs.x.com/fundamentals/authentication/oauth-2-0/authorization-code):
   the host must arrange user-context `tweet.read`, `tweet.write`, `users.read`,

@@ -7,16 +7,16 @@
       "source_blob": "70de89bab0ed564b588513d931aaaf452dd2f1cc",
       "source_sha256": "2b23043197e957e160435c905b684cb1e766fda6bcaa2dc7e5bf2f27bf462cfe",
       "destination_path": "src/zeo_integrations/publishing/__init__.py",
-      "destination_blob": "c09413f8a2dc4f466ff3180beed40e24da7b1335",
-      "destination_sha256": "46f47b239febd3c539068e7f0c9e7f5b6be12e73e1c0cb3ee00bff92602c2fbe",
+      "destination_blob": "56f9e2ae4f0c7caff34a673b4c06956231fe2684",
+      "destination_sha256": "1426e607bdb14f62a9fa56eae36ef746417b7bbafb03d3cce18434e70a0a22d6",
       "adaptation": "Extract direct X model/client, not RapidAPI discovery; retain reviewed shared transport, add selected-subject and known-post author checks, one reply step, numeric IDs, partial-response refusal, created receipt, conservative structured failure metadata; other provider implementations retained."
     }
   ],
   "new_controls": [
     {
       "path": "tests/test_integrations/publishing/test_x.py",
-      "blob": "4dc248ba52ccecd7e3d0407de57fed425acfe2f7",
-      "sha256": "edd26929d6dc0b5c289a2b595af736e1fa1101462b7c051f4a36bf24059727b7",
+      "blob": "4ea1a7bf6f3932a0fe74391302576e6923450fb4",
+      "sha256": "8ce10e4a10a27be15109b87582fc8319b9f2ec76d6affb2f8f3713ceb6952970",
       "origin": "Original synthetic composition/regression tests; no provider responses or credentials copied."
     }
   ]
