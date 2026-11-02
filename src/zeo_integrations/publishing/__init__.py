@@ -250,6 +250,7 @@ class _Client:
         headers=None,
         form=False,
         expected_status=None,
+        raw_body=None,
     ):
         if effect and admitted is not True:
             raise IntegrationError("EFFECT_ADMISSION_REQUIRED")
@@ -259,6 +260,13 @@ class _Client:
         ):
             raise IntegrationError("IDEMPOTENCY_KEY")
         _bounded(body, 1048576)
+        if raw_body is not None:
+            if body is not None or form:
+                raise IntegrationError("BODY_CONFLICT")
+            if type(raw_body) is not bytes or len(raw_body) > 1048576:
+                raise IntegrationError("SIZE_LIMIT")
+            if getattr(self.transport, "supports_raw_body", False) is not True:
+                raise IntegrationError("RAW_BODY_UNSUPPORTED")
         failure = "PUBLISH_UNCONFIRMED"
         # A dispatched write remains uncertain on any invalid or missing receipt.
         try:
@@ -276,6 +284,7 @@ class _Client:
                     timeout_seconds=30,
                     max_response_bytes=1048576,
                     effect=effect,
+                    raw_body=raw_body,
                 )
             )
             if _url(response.url) != self.origin or len(response.body) > 1048576:
@@ -359,6 +368,13 @@ def _x_id(value, *, effect=False):
     return value
 
 
+def _x_outbound_id(value):
+    value = _x_id(value)
+    if len(value) > 19:
+        raise IntegrationError("OUTBOUND_ID_RANGE")
+    return value
+
+
 def _x_failure(response, *, effect):
     document = {}
     try:
@@ -429,14 +445,14 @@ class XPublisher(_Client):
         post = XPost.model_validate(post.model_dump())
         if not post.text.strip() and not post.media_ids:
             raise IntegrationError("POST_CONTENT")
-        media_ids = [_x_id(value) for value in post.media_ids]
+        media_ids = [_x_outbound_id(value) for value in post.media_ids]
         if len(set(media_ids)) != len(media_ids):
             raise IntegrationError("DUPLICATE_MEDIA")
         body = {"text": post.text}
         if media_ids:
             body["media"] = {"media_ids": media_ids}
         if post.reply_to_id is not None:
-            body["reply"] = {"in_reply_to_tweet_id": _x_id(post.reply_to_id)}
+            body["reply"] = {"in_reply_to_tweet_id": _x_outbound_id(post.reply_to_id)}
         document, _ = self._call(
             "publish",
             "/2/tweets",
@@ -470,7 +486,7 @@ class XPublisher(_Client):
         return {"account_id": self.account_id, "username": username}
 
     def read_post(self, post_id, *, key):
-        post_id = _x_id(post_id)
+        post_id = _x_outbound_id(post_id)
         document, _ = self._call(
             "read_post",
             "/2/tweets/" + post_id,

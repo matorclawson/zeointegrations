@@ -16,7 +16,7 @@ import math
 import re
 import threading
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Protocol, get_type_hints
 from urllib.parse import unquote, urlsplit
 
@@ -44,6 +44,7 @@ class Request:
     timeout_seconds: float
     max_response_bytes: int
     effect: bool
+    raw_body: bytes | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True)

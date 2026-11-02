@@ -14,7 +14,7 @@ import time
 
 import httpx
 
-from .runtime import IntegrationError, Request, Response, _url
+from .runtime import IntegrationError, Request, Response, _bounded, _url
 
 
 class HttpxTransport:
@@ -27,11 +27,22 @@ class HttpxTransport:
     transport: give each instance its own transport or a host-owned lease wrapper.
     """
 
-    def __init__(self, *, transport: httpx.BaseTransport, origins: tuple[str, ...]):
+    supports_raw_body = True
+
+    def __init__(
+        self,
+        *,
+        transport: httpx.BaseTransport,
+        origins: tuple[str, ...],
+        max_request_bytes: int = 1048576,
+    ):
         if not isinstance(transport, httpx.BaseTransport):
             raise IntegrationError("TRANSPORT_REQUIRED")
         if not origins or any(_url(origin) != origin for origin in origins):
             raise IntegrationError("ORIGIN")
+        if type(max_request_bytes) is not int or not 1 <= max_request_bytes <= 16777216:
+            raise IntegrationError("SIZE_LIMIT")
+        self._max_request_bytes = max_request_bytes
         self._origins = frozenset(origins)
         self._http = httpx.Client(
             transport=transport, trust_env=False, follow_redirects=False
@@ -47,6 +58,17 @@ class HttpxTransport:
         self.close()
 
     def request(self, request: Request) -> Response:
+        bodies = (request.json_body, request.form_body, request.raw_body)
+        if sum(value is not None for value in bodies) > 1:
+            raise IntegrationError("BODY_CONFLICT")
+        if request.raw_body is not None and type(request.raw_body) is not bytes:
+            raise IntegrationError("RAW_BODY")
+        metadata = _bounded(
+            [request.query, request.headers, request.json_body, request.form_body],
+            self._max_request_bytes,
+        )
+        if len(metadata) + len(request.raw_body or b"") > self._max_request_bytes:
+            raise IntegrationError("SIZE_LIMIT")
         if _url(request.url) not in self._origins:
             raise IntegrationError("ORIGIN")
         if request.method not in {"GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"}:
@@ -75,6 +97,7 @@ class HttpxTransport:
                 headers=headers,
                 json=request.json_body,
                 data=request.form_body,
+                content=request.raw_body,
                 extensions={
                     "timeout": httpx.Timeout(request.timeout_seconds).as_dict()
                 },
