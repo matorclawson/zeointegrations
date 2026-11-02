@@ -24,6 +24,10 @@ this library does not infer its units. Finalize and status interpret explicit
 processing states; only confirmed finalize may treat absent processing_info as
 ready. No status polling happens implicitly. Expired media is never ready.
 Provider readiness is not proof that the account may attach it to a post.
+This client deliberately requires `media_key` and `expires_after_secs` even
+though the provider schema marks them optional. An otherwise valid answer that
+omits either field is unconfirmed here; an upload may consequently be abandoned.
+This stricter receipt policy avoids inventing asset identity or expiry facts.
 
 `XThread` contains immutable ordered posts: the root has no reply link and every
 later post links exactly to the immediately preceding index. Branching to an
@@ -40,9 +44,20 @@ returned ID or UNKNOWN. Each step digest binds the whole thread, index, account
 and resolved reply ID. `next_index` advances only through a contiguous confirmed
 prefix and stops after any unknown or unconfirmed step. It performs no I/O,
 creates no approval and provides no cross-call durable deduplication. Callers
-must supply all trusted persisted records; omitting a record or inventing an ID
-cannot be detected by a pure value helper. Hosts must never discard uncertain
-steps and reconstruct an empty history to resend a thread.
+must supply the complete trusted execution prefix; omitting a record or
+inventing an ID cannot be detected by a pure value helper. Hosts must never
+discard uncertain steps and reconstruct an empty history to resend a thread.
+
+The step value has no REFUSED state. A host may exclude a definitely refused
+final attempt from the planning prefix only when it retains the attempt and its
+definite-refusal evidence in its durable audit. Such evidence must prove no
+write occurred: an explicit pre-dispatch refusal or the client's validated
+`definite_refusal` result, never a generic HTTP status or missing receipt. The
+host must still perform fresh admission and approval checks before any later
+attempt. This is no automatic retry instruction. Never exclude an UNKNOWN,
+timeout, lost answer, partial result or otherwise unconfirmed attempt; stop and
+reconcile it. All confirmed prior steps remain bound to their recorded IDs and
+request digests. The helper cannot itself authenticate this external evidence.
 
 Incoming IDs retain the full uint64 decimal representation. Outbound post,
 reply and media-ID parameters follow the endpoint schema's 19-digit limit;
@@ -61,6 +76,6 @@ Primary protocol references (read 2 November 2026):
 
 Original MIT implementation by Zero Employee Organizations. No vendor SDK,
 credential code or provider source was copied. Existing shared HTTP and X code
-is extended in place with its provenance retained. The binary seam was agreed
-with Core and Connect in ans_1280ae75895d087c and ans_dbcaaaf611b8f38f. The pure
-thread boundary follows Connect ans_e65bae4be4f3ee76; host design remains Connect's.
+is extended in place with its provenance retained. The binary seam and pure
+thread boundary were agreed with the receiving host maintainers; host design
+and credential custody remain their responsibility.
