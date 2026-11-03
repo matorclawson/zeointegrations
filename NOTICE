@@ -117,3 +117,10 @@ by Zero Employee Organizations in publishing/x_media.py and x_thread.py, with
 synthetic tests and docs/x-media-thread.md. Shared HTTP and X publishing code is
 extended in place, retaining its prior notices. Official X documentation informs
 protocol behavior; no vendor implementation or credential store is copied.
+
+Facebook Page publishing first increment (3 November 2026): original MIT code
+by Zero Employee Organizations in publishing/facebook.py and its travelling
+synthetic tests. Protocol field/edge facts checked against Meta's official
+facebook-python-business-sdk at the commit in docs/facebook-provenance.json;
+no vendor implementation copied or imported. docs/facebook-publishing.md states
+host duties, conservative receipt/error policy and remaining Page/media scope.
