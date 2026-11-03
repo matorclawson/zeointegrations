@@ -1,0 +1,39 @@
+{
+  "repo": "meta/facebook-python-business-sdk",
+  "commit": "efd8423a2e595ea8d4c04eb824ce113f2f1d68cd",
+  "sources": {
+    "facebook_business/adobjects/page.py": {
+      "commit": "efd8423a2e595ea8d4c04eb824ce113f2f1d68cd",
+      "blob": "b521094b576235da3d1b7680646b88bef288f337",
+      "sha256": "0d08e317fe078de5ad2805ab5501423fe51fea39ef90ae4a0160122a5914ee51",
+      "url": "https://github.com/meta/facebook-python-business-sdk/blob/efd8423a2e595ea8d4c04eb824ce113f2f1d68cd/facebook_business/adobjects/page.py"
+    },
+    "facebook_business/adobjects/post.py": {
+      "commit": "efd8423a2e595ea8d4c04eb824ce113f2f1d68cd",
+      "blob": "a48f41f4b94a0732cdfc45f95926b1ba33bd324b",
+      "sha256": "1730fda312769d13be0d861d8c271eeb0cf786eeb934a692638b0b11a5b22da3",
+      "url": "https://github.com/meta/facebook-python-business-sdk/blob/efd8423a2e595ea8d4c04eb824ce113f2f1d68cd/facebook_business/adobjects/post.py"
+    },
+    "facebook_business/adobjects/photo.py": {
+      "commit": "efd8423a2e595ea8d4c04eb824ce113f2f1d68cd",
+      "blob": "0918a4d4ba5c59faa1486578584c227161fd48f9",
+      "sha256": "552109ac5287dcea807c0a14ed7a312c7850f4f54c8089cf61bcaeb49efb7c43",
+      "url": "https://github.com/meta/facebook-python-business-sdk/blob/efd8423a2e595ea8d4c04eb824ce113f2f1d68cd/facebook_business/adobjects/photo.py"
+    }
+  },
+  "use": "protocol field/endpoint facts only; no implementation copying or execution",
+  "meta_docs": "Four official doc URLs returned429; not retried/bypassed",
+  "implementation": "Original Zero Employee Organizations MIT code; protocol field/edge facts only, no vendor implementation copied",
+  "scope": "First explicit Page text/link/photo/readback increment; not full Facebook or host adoption",
+  "local_files": [
+    "src/zeo_integrations/publishing/facebook.py",
+    "tests/test_integrations/publishing/test_facebook.py",
+    "docs/facebook-publishing.md"
+  ],
+  "blocked_doc_urls": [
+    "https://developers.facebook.com/docs/pages-api/posts/",
+    "https://developers.facebook.com/docs/graph-api/reference/page/feed/",
+    "https://developers.facebook.com/docs/graph-api/reference/page/photos/",
+    "https://developers.facebook.com/docs/graph-api/changelog/versions/"
+  ]
+}
