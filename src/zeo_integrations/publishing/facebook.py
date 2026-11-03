@@ -211,7 +211,14 @@ class FacebookPagePublisher(_Client):
             if any(
                 any(
                     word in name.lower()
-                    for word in ("token", "secret", "password", "authorization")
+                    for word in (
+                        "token",
+                        "secret",
+                        "password",
+                        "authorization",
+                        "api_key",
+                        "signed_request",
+                    )
                 )
                 for name, _ in parse_qsl(urlsplit(link).query)
             ):

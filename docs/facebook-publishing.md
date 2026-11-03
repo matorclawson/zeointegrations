@@ -44,7 +44,7 @@ unlinked. `read_post` checks the exact stored post ID and Page author and report
 only the provider's `is_published` fact and a bounded Facebook permalink. That
 fact is not proof of visibility outside the Page's actual audience or of delivery.
 Readbacks are for already-bound IDs, not a search for an uncertain creation.
-Provider error prose, raw responses and credential-bearing permalink queries
+Provider error prose, raw responses and known credential-bearing permalink queries
 are not returned as metadata.
 
 The protocol facts were checked against Meta's public generated business SDK

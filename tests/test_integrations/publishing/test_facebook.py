@@ -290,7 +290,15 @@ def test_post_read_reports_provider_fact_without_claiming_external_visibility():
 
 
 @pytest.mark.parametrize(
-    "name", ["access_token", "client_secret", "password", "authorization"]
+    "name",
+    [
+        "access_token",
+        "client_secret",
+        "password",
+        "authorization",
+        "api_key",
+        "signed_request",
+    ],
 )
 def test_permalink_does_not_return_provider_echoed_credentials(name):
     body = {
