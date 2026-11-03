@@ -139,6 +139,9 @@ def test_unmodeled_options_or_oversize_content_are_not_silently_dropped(changes)
     [
         {},
         {"id": 123},
+        {"id": "456"},
+        {"id": "123_456", "error": {"message": "PRIVATE"}},
+        {"id": "123_456", "error": None},
         {"id": "124_456"},
         {"id": "123_456", "errors": [{"detail": "PRIVATE"}]},
         {"id": "123_456", "success": False},

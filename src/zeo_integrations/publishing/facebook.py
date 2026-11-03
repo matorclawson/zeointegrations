@@ -68,9 +68,11 @@ class FacebookPagePublisher(_Client):
 
     @staticmethod
     def _document(document, *, effect):
-        if ("errors" in document and document["errors"] != []) or document.get(
-            "success"
-        ) is False:
+        if (
+            "error" in document
+            or ("errors" in document and document["errors"] != [])
+            or document.get("success") is False
+        ):
             raise IntegrationError("FACEBOOK_RECEIPT", outcome_unknown=effect)
         return document
 
@@ -132,10 +134,10 @@ class FacebookPagePublisher(_Client):
             expected_status=200,
         )
         self._document(doc, effect=True)
-        return {
-            "post_id": self._post_id(doc.get("id"), effect=True),
-            "stage": "created",
-        }
+        post_id = self._post_id(doc.get("id"), effect=True)
+        if "_" not in post_id:
+            raise IntegrationError("PAGE_BINDING", outcome_unknown=True)
+        return {"post_id": post_id, "stage": "created"}
 
     def publish_photo(self, photo: FacebookPagePhoto, *, key, allow_effect=False):
         photo = FacebookPagePhoto.model_validate(photo.model_dump())

@@ -30,8 +30,8 @@ Inputs are strict, frozen, closed models. Message/caption (10,000 characters),
 alt text (1,000), links (4,096) and decimal object IDs (40 digits per component)
 have conservative local bounds; they are not provider limits or promises of
 eligibility. IDs stay strings with no integer/float coercion. A composite post
-ID must name the selected Page; a bare post ID is opaque and needs the later
-author check. Link posts require host-allowed link origins. Hosted images
+ID must name the selected Page. Feed creation requires that composite form;
+a bare post ID is accepted only by later reads with the required author check. Link posts require host-allowed link origins. Hosted images
 require separately host-allowed media origins. The host owns exact-content and
 URL approval, asset identity/type/expiry/availability and any signed fetch URL;
 the library fetches no asset itself. Captions and alt text travel unchanged.
