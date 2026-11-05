@@ -124,3 +124,9 @@ synthetic tests. Protocol field/edge facts checked against Meta's official
 facebook-python-business-sdk at the commit in docs/facebook-provenance.json;
 no vendor implementation copied or imported. docs/facebook-publishing.md states
 host duties, conservative receipt/error policy and remaining Page/media scope.
+
+Facebook hosted-video increment: original Zero Employee Organizations MIT code.
+Protocol facts only from meta/facebook-python-business-sdk at
+efd8423a2e595ea8d4c04eb824ce113f2f1d68cd: Page videos edge, AdVideo fields,
+video uploader origin/status vocabulary. No SDK implementation copied or imported.
+Exact source identities are in docs/facebook-provenance.json.

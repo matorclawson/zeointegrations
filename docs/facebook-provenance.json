@@ -19,12 +19,24 @@
       "blob": "0918a4d4ba5c59faa1486578584c227161fd48f9",
       "sha256": "552109ac5287dcea807c0a14ed7a312c7850f4f54c8089cf61bcaeb49efb7c43",
       "url": "https://github.com/meta/facebook-python-business-sdk/blob/efd8423a2e595ea8d4c04eb824ce113f2f1d68cd/facebook_business/adobjects/photo.py"
+    },
+    "facebook_business/adobjects/advideo.py": {
+      "commit": "efd8423a2e595ea8d4c04eb824ce113f2f1d68cd",
+      "blob": "72bedd8b89b52f7a56bda0d8f4fa498e305a4e8d",
+      "sha256": "d41f1809df46228820fb3c54b63df4cfa088000f08645fe95a32811d71a232df",
+      "url": "https://github.com/meta/facebook-python-business-sdk/blob/efd8423a2e595ea8d4c04eb824ce113f2f1d68cd/facebook_business/adobjects/advideo.py"
+    },
+    "facebook_business/video_uploader.py": {
+      "commit": "efd8423a2e595ea8d4c04eb824ce113f2f1d68cd",
+      "blob": "1c926563489da3a1c03be345e940793a16f25a9d",
+      "sha256": "a5b0609c34d762169b70c75d873be7529dce89970d6b2a804fd2bd727570f2cb",
+      "url": "https://github.com/meta/facebook-python-business-sdk/blob/efd8423a2e595ea8d4c04eb824ce113f2f1d68cd/facebook_business/video_uploader.py"
     }
   },
   "use": "protocol field/endpoint facts only; no implementation copying or execution",
   "meta_docs": "Four official doc URLs returned429; not retried/bypassed",
   "implementation": "Original Zero Employee Organizations MIT code; protocol field/edge facts only, no vendor implementation copied",
-  "scope": "First explicit Page text/link/photo/readback increment; not full Facebook or host adoption",
+  "scope": "Page text/link/photo/readback plus hosted Page video submit/readback; Reels/resumable/multiphoto and host adoption remain",
   "local_files": [
     "src/zeo_integrations/publishing/facebook.py",
     "tests/test_integrations/publishing/test_facebook.py",
@@ -35,5 +47,11 @@
     "https://developers.facebook.com/docs/graph-api/reference/page/feed/",
     "https://developers.facebook.com/docs/graph-api/reference/page/photos/",
     "https://developers.facebook.com/docs/graph-api/changelog/versions/"
-  ]
+  ],
+  "protocol_notes": {
+    "page_create_video": "Page.create_video: POST /videos, file_url/title/description/published",
+    "upload_origin": "video_uploader.VideoUploadTransferRequestManager uses graph-video.facebook.com",
+    "status": "video_uploader.VideoEncodingStatusChecker: GET video fields=status, video_status processing/ready; error/unknown never treated as success",
+    "video_read_fields": "AdVideo.Field id/from/status/published; optional published is only provider fact"
+  }
 }
