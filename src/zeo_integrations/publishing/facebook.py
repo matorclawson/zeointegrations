@@ -27,6 +27,13 @@ class FacebookPagePhoto(Input):
     alt_text: str = Field(default="", max_length=1000)
 
 
+class FacebookPageVideo(Input):
+    # Local input bounds; media format, byte size and approval belong to the host.
+    video_url: str = Field(min_length=1, max_length=4096)
+    title: str = Field(default="", max_length=255)
+    description: str = Field(default="", max_length=10000)
+
+
 def _object_id(value, *, effect=False):
     if type(value) is not str or re.fullmatch(r"[1-9][0-9]{0,39}", value) is None:
         raise IntegrationError("FACEBOOK_ID", outcome_unknown=effect)
@@ -164,6 +171,69 @@ class FacebookPagePublisher(_Client):
             "stage": "photo_created",
         }
 
+    def publish_video(self, video: FacebookPageVideo, *, key, allow_effect=False):
+        """Submit one hosted video; receipt alone does not prove readiness."""
+        video = FacebookPageVideo.model_validate(video.model_dump())
+        body = {
+            "file_url": self._media(video.video_url),
+            "title": video.title,
+            "description": video.description,
+            "published": "true",
+        }
+        # Meta's video uploader uses a separate, fixed Graph video origin.
+        # It needs explicit admission/credential injection by the same host.
+        uploader = _FacebookVideoUpload(
+            self.transport, page_id=self.page_id, api_version=self.prefix[1:]
+        )
+        doc, _ = uploader._call(
+            "publish_video",
+            f"{self.prefix}/{self.page_id}/videos",
+            key=key,
+            effect=True,
+            admitted=allow_effect,
+            body=body,
+            form=True,
+            expected_status=200,
+        )
+        self._document(doc, effect=True)
+        return {
+            "video_id": _object_id(doc.get("id"), effect=True),
+            "stage": "submitted",
+        }
+
+    def read_video(self, video_id, *, key):
+        """Read a stored, host-bound video once; do not poll or infer public reach."""
+        video_id = _object_id(video_id)
+        doc, _ = self._call(
+            "read_video",
+            f"{self.prefix}/{video_id}",
+            key=key,
+            effect=False,
+            method="GET",
+            query={"fields": "id,from,status,published"},
+            expected_status=200,
+        )
+        self._document(doc, effect=False)
+        if _object_id(doc.get("id")) != video_id:
+            raise IntegrationError("VIDEO_BINDING")
+        self._author(doc)
+        status = doc.get("status")
+        if (
+            not isinstance(status, dict)
+            or type(status.get("video_status")) is not str
+            or status["video_status"] not in {"processing", "ready", "error"}
+        ):
+            raise IntegrationError("VIDEO_STATUS")
+        published = doc.get("published")
+        if published is not None and type(published) is not bool:
+            raise IntegrationError("FACEBOOK_RECEIPT")
+        return {
+            "video_id": video_id,
+            "page_id": self.page_id,
+            "video_status": status["video_status"],
+            "provider_published": published,
+        }
+
     def read_photo(self, photo_id, *, key):
         """Resolve a host-bound photo's Page story, without guessing from its ID."""
         photo_id = _object_id(photo_id)
@@ -237,3 +307,9 @@ class FacebookPagePublisher(_Client):
             "provider_is_published": published,
             "permalink": link,
         }
+
+
+class _FacebookVideoUpload(FacebookPagePublisher):
+    """Private fixed-origin request helper; inherits conservative write failures."""
+
+    origin = "https://graph-video.facebook.com"

@@ -3,8 +3,8 @@
 `zeo_integrations.publishing.facebook` provides explicit Page-token identity,
 feed post, hosted-photo publish, photo-story lookup and known-post read steps.
 It creates no registration, Broker operation, credential flow, grant or UI.
-This is a first Page client increment. Video, Reels, multi-photo orchestration,
-scheduling, targeted audiences and the rest of Facebook/host acceptance remain
+Hosted Page video submission/readback is added below. Reels, resumable video,
+multi-photo orchestration, scheduling, targeted audiences and host acceptance remain
 required follow-up scope. Unmodeled options are refused, not silently dropped.
 
 The host selects `page_id` and an explicitly supported `api_version` (no default),
@@ -57,3 +57,38 @@ live provider call; host design/review and real-account acceptance remain separa
 The synthetic fixture version is an example of host selection, not a statement
 that it is the newest supported Graph release. No production install or account
 activation is part of this source increment.
+
+
+## Hosted Page video increment
+
+`FacebookPageVideo` takes an approved `video_url`, optional title and description.
+`publish_video` submits exactly one form request to the fixed
+`https://graph-video.facebook.com/{version}/{page_id}/videos` edge with
+`file_url`, title, description and `published=true`. The host must explicitly
+admit this additional origin and inject its Page credential inside custody;
+there is no fallback to another origin or retry. The supplied asset must have a
+host-allowed media origin. This library fetches no video or local file.
+
+The receipt contains only a numeric `video_id` and `stage=submitted`. Store it
+with the selected Page/credential and original claim. It is not a feed post ID,
+processing readiness, audience visibility or delivery proof. An invalid/lost
+receipt or any dispatched write failure remains outcome-unknown; never resend
+it just to obtain an ID. Host exact-content approval covers the complete URL,
+title and description plus immutable media bytes, type, duration and availability.
+The local title/description/URL caps are not provider format/size limits.
+
+`read_video` performs one explicit Graph read of that already-bound ID, checks
+both returned ID and Page author, then returns only the closed `video_status`
+(processing/ready/error) and optional strict-boolean `provider_published` fact.
+Unknown/missing status fails closed; missing published remains unknown (`None`).
+Encoding-ready does not establish public visibility. No provider status prose,
+raw response, permalink or media URL is returned. Scheduling follow-up reads,
+retaining claims and handling failed/ambiguous publication belong to the host.
+No automatic polling or second write follows a status result.
+
+This increment is hosted Page video only. Reels' separate start/upload/finish
+flow, resumable byte upload, multi-photo and live account/host adoption remain
+required follow-up scope. Meta SDK Page/AdVideo fields and the video uploader's
+fixed origin/status vocabulary were read as protocol facts at the same pinned
+source commit; no SDK code was copied, imported or executed. Current Page token
+permissions, supported version, media eligibility and actual reach are unverified.
