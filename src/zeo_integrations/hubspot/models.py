@@ -222,7 +222,7 @@ class PublishRequest(RequestModel):
 
 
 class CampaignProperties(RequestModel):
-    """Writable campaign properties; unknown property names are provider-validated."""
+    "Writable campaign properties; unknown property names are provider-validated."
 
     properties: dict[str, str] = Field(min_length=1, max_length=100)
 

@@ -1,0 +1,4 @@
+MIT; Copyright Zero Employee Organizations.
+Copied from operator-supplied zeocore-improved-20261031(1).zip.
+Exact old/new Git blob identities: docs/migration-provenance.json.
+Only internal provider import paths relocated; shared contracts remain Core-owned.

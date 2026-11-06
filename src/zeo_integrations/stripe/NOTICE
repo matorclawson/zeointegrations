@@ -1,0 +1,5 @@
+Original implementation, Copyright 2026 Zero Employee Organizations, MIT.
+Endpoint sources, read 2026-10-31:
+https://docs.stripe.com/api/customers/list
+https://docs.stripe.com/api/balance/balance_retrieve
+Read-only scope: no payment, refund, transfer or customer mutation authority.

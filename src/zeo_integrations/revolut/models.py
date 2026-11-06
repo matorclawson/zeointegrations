@@ -310,7 +310,7 @@ class Label(_Normalized):
 
 
 class LabelQuery(BaseModel):
-    """One page of labels or label groups; ``page_token`` comes from the last page."""
+    "One page of labels or label groups; ``page_token`` comes from the last page."
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 

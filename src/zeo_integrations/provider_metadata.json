@@ -1,0 +1,1177 @@
+{
+  "airbnb": {
+    "auth": "none",
+    "upstream_action_names": {
+      "search": "Search Data",
+      "listing_details": "View Listing Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "airtable": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "list_records": "Retrieve Filtered Records",
+      "get_record": "Retrieve Record Data",
+      "create_record": "Create New Record",
+      "create_records": "Add New Records",
+      "update_record": "Update Record Details",
+      "update_records": "Update Record Fields",
+      "delete_record": "Delete Table Record",
+      "delete_records": "Delete Table Records",
+      "upload_attachment": "Upload File Attachment",
+      "sync_csv": "Sync CSV To Table",
+      "create_field": "Add New Field",
+      "update_field": "Rename Field",
+      "create_table": "Create New Table",
+      "update_table": "Update Table Data",
+      "list_bases": "List All Bases",
+      "create_base": "Create New Database",
+      "list_webhooks": "List All Webhooks",
+      "create_webhook": "Create Webhook Notification",
+      "delete_webhook": "Remove Webhook",
+      "get_user_info": "Retrieve User Information"
+    },
+    "upstream_scopes": {
+      "data.records:read": "See the data in records",
+      "data.records:write": "Create, edit, and delete records",
+      "data.recordComments:read": "See comments in records",
+      "data.recordComments:write": "Create, edit, and delete record comments",
+      "schema.bases:read": "See the structure of a base, like table names or field types",
+      "schema.bases:write": "Edit the structure of a base, like adding new fields or tables",
+      "user.email:read": "See the user's email address",
+      "webhook:manage": "View, create, delete webhooks for a base, as well as fetch webhook payloads"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "apollo": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "search_people": "Find People",
+      "search_people_by_url": "Find People By URL",
+      "search_organizations_by_url": "Find Organizations by URL",
+      "get_person_details": "Retrieve Person Details",
+      "get_organization_details": "View Organization Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "asana": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_tasks": "Fetch Task List",
+      "get_task": "Retrieve Task Details",
+      "update_task": "Update Task Status",
+      "get_subtasks": "Retrieve Subtasks",
+      "get_workspaces": "List Workspaces",
+      "get_projects": "Retrieve Project List",
+      "get_project": "Retrieve Project Details",
+      "get_tags": "Retrieve Workspace Tags",
+      "get_tag": "Retrieve Tag Details",
+      "get_teams": "List Workspace Teams",
+      "get_team": "Retrieve Team Details",
+      "get_users": "Fetch User List",
+      "get_user": "Retrieve User Details",
+      "get_workspace": "Retrieve Workspace Details",
+      "get_goals": "Retrieve Goal Details",
+      "get_goal": "View Goal Details",
+      "update_goal": "Update Goal Status",
+      "get_sections": "Retrieve Project Sections",
+      "get_section": "Retrieve Section Details",
+      "get_section_tasks": "List Section Tasks",
+      "get_time_periods": "Fetch Time Periods"
+    },
+    "upstream_scopes": {
+      "full_access": "Full Access"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "bannerbear": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "retrieve_account_status": "Check Account Status",
+      "retrieve_image": "Fetch Image Details",
+      "list_all_images": "Fetch All Images",
+      "create_video": "Create Custom Video",
+      "retrieve_video": "Get Video Details",
+      "update_video": "Update Video Details",
+      "retrieve_collection": "Fetch Collection Data",
+      "create_animated_gif": "Create Animated GIF",
+      "retrieve_animated_gif": "Fetch Animated GIF",
+      "list_all_animated_gifs": "Fetch Animated GIFs",
+      "create_screenshot": "Capture Website Screenshot",
+      "retrieve_screenshot": "Fetch Screenshot Details",
+      "create_template": "Create Design Template",
+      "duplicate_template": "Copy Template",
+      "retrieve_template": "Get Template Details",
+      "update_template": "Update Template Details",
+      "retrieve_template_set": "Fetch Template Set",
+      "list_all_template_sets": "List Template Sets",
+      "retrieve_video_template": "Get Video Template",
+      "list_all_video_templates": "List Video Templates",
+      "create_session": "Start New Session",
+      "retrieve_session": "Get Session Details",
+      "create_webhook": "Register New Webhook",
+      "retrieve_webhook": "Get Webhook Details",
+      "create_movie": "Create Video Montage",
+      "retrieve_movie": "Fetch Movie Details",
+      "list_all_movies": "List Rendered Movies",
+      "create_diagnosis": "Create Image Diagnosis",
+      "retrieve_diagnosis": "Get Diagnosis Details",
+      "create_signed_base": "Generate Signed URL",
+      "list_signed_bases": "Retrieve Signed Bases",
+      "create_project": "Create New Project",
+      "retrieve_project": "Retrieve Project Details",
+      "hydrate_project": "Populate Project Templates",
+      "list_all_projects": "View All Projects",
+      "list_fonts": "List Available Fonts",
+      "list_effects": "List Available Effects",
+      "join_pdf": "Merge PDF Files",
+      "retrieve_joined_pdf": "Download Merged PDF",
+      "rasterize_pdf": "Convert PDF to Images",
+      "retrieve_rasterized_pdf": "Download Rasterized PDF"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "binance_p2p": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "get_p2p_offers": "View P2P Offers"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "brave": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "web_search": "Search Web Results",
+      "images_search": "Search Images",
+      "videos_search": "Search Videos",
+      "news_search": "Search News Articles"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "browser_use": {
+    "auth": "api_key",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "browserbase": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "get_session": "Retrieve Session Details",
+      "create_session": "Start New Session",
+      "update_session": "Update Session Status",
+      "list_sessions": "List Active Sessions",
+      "get_context": "Retrieve Context Details",
+      "create_context": "Create Browser Context",
+      "delete_context": "Delete Browser Context",
+      "session_logs": "Retrieve Session Logs",
+      "session_recording": "Retrieve Session Recording",
+      "session_debug": "Debug Session Pages",
+      "session_downloads": "Download Session Data",
+      "session_uploads": "Upload File to Session",
+      "list_projects": "View All Projects",
+      "get_project": "Retrieve Project Details",
+      "get_project_usage": "View Project Usage",
+      "get_extension": "Retrieve Extension Details",
+      "delete_extension": "Remove Extension",
+      "upload_extension": "Upload Browser Extension"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "bybit_p2p": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "get_p2p_offers": "View P2P Offers"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "cal": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "get_bookings": "View Bookings",
+      "get_booking": "Retrieve Booking Details",
+      "get_profile": "Retrieve User Profile",
+      "get_schedules": "Retrieve Schedules",
+      "get_schedule": "View Schedule",
+      "get_event_types": "Fetch Event Types"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "cloudinary": {
+    "auth": "custom",
+    "upstream_action_names": {
+      "upload": "Upload Image File",
+      "explicit": "Set Image Transformation",
+      "list_assets": "List Available Assets",
+      "get_asset_details": "Fetch Asset Details",
+      "delete_asset": "Remove Asset And Invalidate"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "coda": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "list_docs": "List Documents",
+      "get_doc": "Fetch Document Details",
+      "list_pages": "Retrieve Document Pages",
+      "get_page": "Retrieve Page Details",
+      "create_page": "Add New Page",
+      "update_page": "Edit Page Details",
+      "delete_page": "Remove Document Page",
+      "export_page": "Export Page as PDF",
+      "get_export_status": "Check Export Status",
+      "list_tables": "List Document Tables",
+      "get_table": "Fetch Table Data",
+      "list_columns": "List Table Columns",
+      "get_column": "Fetch Column Details",
+      "list_rows": "List Table Rows",
+      "get_row": "Fetch Table Row",
+      "create_rows": "Add Table Rows",
+      "delete_rows": "Delete Table Rows",
+      "delete_row": "Delete Table Row",
+      "push_button": "Trigger Column Button",
+      "list_formulas": "List Document Formulas",
+      "get_formula": "Retrieve Formula Details",
+      "list_controls": "Retrieve Document Controls",
+      "get_control": "Retrieve Control Details",
+      "whoami": "Get User Identity",
+      "update_row": "Update Table Row"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "confluence": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_spaces": "List All Spaces",
+      "get_pages": "Retrieve Space Pages",
+      "get_page": "Get Page Content",
+      "create_page": "Create New Page",
+      "update_page": "Update Page Content"
+    },
+    "upstream_scopes": {
+      "read:confluence-space.summary": "View Space Summary",
+      "read:confluence-content.summary": "View Content Summary",
+      "write:confluence-content": "Manage Content",
+      "read:confluence-props": "View Properties",
+      "write:confluence-props": "Manage Properties",
+      "search:confluence": "Search Confluence"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "docusign": {
+    "auth": "OAuth (unregistered; route uses TokenService)",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "dropbox": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "list_files": "List Files In Directory",
+      "get_file": "Retrieve File",
+      "create_folder": "Create New Folder",
+      "read_file": "Read File Content",
+      "search": "Find Active Documents",
+      "search_continue": "Resume Search Results"
+    },
+    "upstream_scopes": {
+      "files.metadata.read": "View File Metadata",
+      "files.metadata.write": "Edit File Metadata",
+      "files.content.read": "View File Content",
+      "files.content.write": "Upload and Edit Files",
+      "sharing.read": "View Sharing Settings",
+      "sharing.write": "Edit Sharing Settings",
+      "account_info.read": "View Account Info"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "dub": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "create_link": "Create Shortened Link",
+      "update_link": "Edit Link Information",
+      "upsert_link": "Save or Update Link",
+      "delete_link": "Remove Short Link",
+      "get_link": "Retrieve Shortened Link",
+      "get_links": "Retrieve URL Links",
+      "get_links_count": "Count Workspace Links",
+      "bulk_create_links": "Batch Create Links",
+      "get_qr_code": "Generate QR Code",
+      "get_analytics": "Retrieve Link Analytics",
+      "get_events": "Retrieve Event Logs",
+      "get_customer": "Retrieve Customer Details",
+      "get_customers": "Retrieve Customer List",
+      "update_customer": "Update Customer Details",
+      "delete_customer": "Remove Customer Record",
+      "track_lead": "Track Customer Lead",
+      "track_sale": "Record Sale Transaction",
+      "create_tag": "Create New Tag",
+      "get_tags": "Retrieve Tags List",
+      "update_tag": "Edit Existing Tag",
+      "update_domain": "Update Domain Information",
+      "delete_domain": "Remove Domain",
+      "get_domains": "List Domains",
+      "get_workspace": "Retrieve Workspace Details",
+      "update_workspace": "Modify Workspace Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "duckduckgo": {
+    "auth": "none",
+    "upstream_action_names": {
+      "search": "Search Database",
+      "fetch_content": "Retrieve Content"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "exa": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "search": "Search Articles",
+      "contents": "Fetch Document Contents",
+      "find_similar": "Find Similar Content"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "facebook": {
+    "auth": "custom",
+    "upstream_action_names": {
+      "search_locations": "Find Locations",
+      "search_posts": "Search Blog Posts",
+      "search_places": "Find Locations",
+      "search_pages": "Search Web Pages",
+      "get_page_id": "Fetch Page ID",
+      "get_page_posts": "Fetch Page Posts",
+      "get_page_reviews": "Fetch Page Reviews",
+      "get_post_comments": "Retrieve Post Comments",
+      "get_post_details": "View Post Details",
+      "get_group_posts": "Fetch Group Posts",
+      "get_group_details": "View Group Details",
+      "get_group_id": "Get Group ID",
+      "get_profile_posts": "View Profile Posts",
+      "get_profile_details_id": "Retrieve Profile Details",
+      "get_profile_details_url": "View Profile Details",
+      "get_profile_id": "Fetch Profile ID",
+      "get_me": "Retrieve User Info"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "falai": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "get_models": "List Available Models",
+      "search_models": "Find Models",
+      "get_schema": "Retrieve Data Schema",
+      "generate": "Create Content",
+      "get_result": "Retrieve Result",
+      "get_status": "Check Status",
+      "cancel": "Cancel Action",
+      "upload": "Upload File"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "figma": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_file": "Download File Data",
+      "get_file_nodes": "Retrieve File Nodes",
+      "get_image": "Download Image Node",
+      "get_file_components": "Retrieve File Components",
+      "get_component_sets": "Retrieve Component Sets",
+      "get_styles": "Retrieve Style Information",
+      "get_me": "Retrieve User Details",
+      "get_team_projects": "Fetch Team Projects",
+      "get_team_components": "Fetch Team Components",
+      "get_team_component_sets": "Fetch Team Component Sets",
+      "get_team_styles": "Retrieve Team Styles",
+      "get_project_files": "Fetch Project Files",
+      "get_all_nodes": "Retrieve All Nodes"
+    },
+    "upstream_scopes": {
+      "files:read": "Read Files",
+      "file_variables:read": "Read Variables",
+      "file_variables:write": "Write Variables",
+      "library_analytics:read": "Read Library Analytics"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "firecrawl": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "scrape": "Extract Web Content",
+      "batch_scrape": "Batch Webpage Scrape",
+      "get_batch_status": "Check Batch Status",
+      "get_batch_errors": "Fetch Batch Errors",
+      "crawl": "Website Content Crawl",
+      "get_crawl_status": "Check Crawl Status",
+      "cancel_crawl": "Cancel Crawl Job",
+      "get_crawl_errors": "Retrieve Crawl Errors",
+      "map_site": "Discover Website Links",
+      "extract": "Extract Web Data",
+      "get_extract_status": "Check Extract Status",
+      "search": "Search Websites",
+      "get_credit_usage": "Check Credit Usage"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "google_maps": {
+    "auth": "api_key",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "hacker_news": {
+    "auth": "none",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "heygen": {
+    "auth": "api_key",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "hilvl": {
+    "auth": "API key (unregistered; validate_provider_api_key)",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "http_request": {
+    "auth": "none",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "hunterio": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "email_finder": "Find Email Address",
+      "email_verifier": "Verify Email Address",
+      "email_count": "Count Emails",
+      "email_enrichment": "Email Data Enrichment",
+      "company_enrichment": "Company Data Enrichment",
+      "combined_enrichment": "Data Enrichment Combination",
+      "account_information": "View Account Information"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "instagram": {
+    "auth": "custom",
+    "upstream_action_names": {
+      "get_user_details": "Retrieve User Details",
+      "get_me": "Get My Profile",
+      "get_user_posts": "Retrieve User Posts",
+      "get_user_following": "View User Following",
+      "get_post_details": "View Post Details",
+      "get_post_comments": "Retrieve Post Comments"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "ipinfo": {
+    "auth": "server API token (catalog says none)",
+    "upstream_action_names": {
+      "get_ip_info": "Get IP Information",
+      "get_bulk_info": "Fetch Bulk Information",
+      "get_asn_info": "Retrieve ASN Information"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "jira": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_issues": "Fetch Project Issues",
+      "get_issue": "Retrieve Issue Details",
+      "create_issue": "Create New Issue",
+      "update_issue": "Update Issue Details",
+      "get_projects": "List All Projects",
+      "get_project": "Retrieve Project Details",
+      "get_statuses": "Fetch Status List",
+      "get_priorities": "Retrieve Priority List",
+      "get_issue_types": "Fetch Issue Types",
+      "get_fields": "Fetch Field Details",
+      "get_users": "Retrieve User List",
+      "get_transitions": "View Issue Transitions"
+    },
+    "upstream_scopes": {
+      "read:jira-work": "View Jira Issues",
+      "write:jira-work": "Manage Jira Issues",
+      "read:jira-user": "View Jira Users"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "linear": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "comment_issue": "Add Issue Comment",
+      "list_projects": "List All Projects",
+      "get_project": "Retrieve Project Details",
+      "list_users": "List All Users",
+      "list_teams": "List All Teams",
+      "get_team": "Get Team Details",
+      "list_workflow_states": "View Workflow States",
+      "list_labels": "List All Labels"
+    },
+    "upstream_scopes": {
+      "read": "Read Access",
+      "write": "Write Access",
+      "issues:create": "Create Issues",
+      "comments:create": "Create Comments"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "linkedin": {
+    "auth": "custom",
+    "upstream_action_names": {
+      "get_me": "Retrieve User Info",
+      "get_profile": "View User Profile",
+      "search_people": "Find People",
+      "get_profile_posts": "View Profile Posts",
+      "get_connection_count": "Retrieve Connection Count",
+      "get_post_comments": "View Post Comments",
+      "similar_profiles": "Find Similar Profiles",
+      "get_company_details": "Retrieve Company Details",
+      "search_companies": "Find Companies",
+      "company_jobs": "List Company Jobs",
+      "get_company_posts": "View Company Posts",
+      "get_company_post_comments": "View Post Comments",
+      "search_posts": "Search Blog Posts",
+      "get_post": "View Blog Post",
+      "get_job_details": "View Job Details",
+      "search_jobs": "Find Job Listings",
+      "search_locations": "Find Locations"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "motion": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "create_comment": "Add Comment",
+      "get_comments": "Retrieve Task Comments",
+      "create_project": "Create New Project",
+      "get_project": "Retrieve Project Details",
+      "list_projects": "View Project List",
+      "delete_recurring_task": "Remove Recurring Task",
+      "get_schedules": "Retrieve Schedules",
+      "get_statuses": "Retrieve Status List",
+      "list_users": "List Workspace Users",
+      "get_my_user": "Retrieve Current User",
+      "list_workspaces": "List All Workspaces",
+      "create_task": "Create New Task",
+      "get_task": "Retrieve Task Details",
+      "list_tasks": "View Tasks In Workspace",
+      "update_task": "Edit Task Information"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "n8n": {
+    "auth": "api_key_with_base",
+    "upstream_action_names": {
+      "list_users": "List All Users",
+      "get_user": "Retrieve User Details",
+      "create_users": "Add New Users",
+      "delete_user": "Remove User Account",
+      "list_executions": "View Workflow Executions",
+      "get_execution": "Retrieve Execution Data",
+      "list_workflows": "View All Workflows",
+      "get_workflow": "Retrieve Workflow Details",
+      "update_workflow": "Update Workflow Configuration",
+      "delete_workflow": "Remove Workflow",
+      "copy_workflow": "Clone Workflow",
+      "list_tags": "Retrieve Tag List",
+      "create_credential": "Create Cloud Credential",
+      "delete_credential": "Remove Credential",
+      "get_credential_type": "Fetch Credential Type",
+      "create_tag": "Create New Tag",
+      "delete_tag": "Remove Tag",
+      "update_tag": "Edit Tag Name",
+      "pull_from_source_control": "Retrieve From Source Control",
+      "list_variables": "Retrieve Variable List",
+      "create_variable": "Create Environment Variable",
+      "delete_variable": "Delete Environment Variable",
+      "list_projects": "View Project List",
+      "create_project": "Create New Project",
+      "update_project": "Edit Project Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "okx_p2p": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "get_p2p_offers": "View Peer Offers"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "openweather": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "forecast": "Get Weather Forecast"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "outlook": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_messages": "Retrieve Messages",
+      "get_message": "Retrieve Message Content",
+      "create_draft": "Create Email Draft",
+      "send_message": "Send Email Message",
+      "delete_message": "Delete Email Message",
+      "list_calendars": "List User Calendars",
+      "list_events": "Fetch Event List",
+      "get_event": "Fetch Event Details",
+      "create_event": "Create Calendar Event",
+      "update_event": "Update Event Details",
+      "delete_event": "Remove Calendar Event"
+    },
+    "upstream_scopes": {
+      "Mail.Read": "Read Emails",
+      "Mail.ReadWrite": "Read and Write Emails",
+      "Mail.Send": "Send Emails",
+      "Mail.ReadBasic": "Read Basic Email Data",
+      "Calendars.Read": "View Calendar Events",
+      "Calendars.ReadWrite": "Manage Calendar Events",
+      "Calendars.ReadBasic": "View Basic Calendar Data"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "perplexity": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "create_completion": "Generate Text Response"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "posthog": {
+    "auth": "api_key_with_base",
+    "upstream_action_names": {
+      "execute_query": "Run Database Query",
+      "get_query": "Retrieve Query Results",
+      "delete_query": "Remove Specific Query",
+      "list_insights": "View Project Insights",
+      "create_insight": "Create Data Insight",
+      "get_insight": "Retrieve Insight Data",
+      "update_insight": "Update Insight Details",
+      "list_dashboards": "View All Dashboards",
+      "create_dashboard": "Create Marketing Dashboard",
+      "get_dashboard": "View Dashboard Details",
+      "update_dashboard": "Update Dashboard Settings",
+      "list_events": "View Event List",
+      "get_event": "Fetch Event Details",
+      "list_projects": "View Project List",
+      "get_project": "View Project Details",
+      "list_organizations": "View Organizations List",
+      "get_organization": "Retrieve Organization Details",
+      "list_persons": "List People",
+      "get_person": "Retrieve Person Details",
+      "update_person": "Update Person Details",
+      "delete_person": "Remove Person Record",
+      "list_actions": "List Project Actions",
+      "create_action": "Create User Engagement Action",
+      "get_action": "Retrieve Action Details",
+      "update_action": "Update Signup Action",
+      "list_feature_flags": "View Feature Flags",
+      "get_feature_flag": "Retrieve Feature Flag",
+      "delete_feature_flag": "Remove Feature Flag"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "postman": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "get_collections": "Retrieve Collections List",
+      "get_collection": "Fetch Collection Details",
+      "update_collection": "Update Collection Details",
+      "delete_collection": "Delete Collection by ID",
+      "create_collection": "Create API Collection",
+      "get_environments": "List Environments",
+      "get_environment": "Fetch Environment Details",
+      "create_environment": "Create New Environment",
+      "update_environment": "Update Environment Settings",
+      "fork_collection": "Duplicate Collection",
+      "get_workspaces": "List Workspaces",
+      "get_workspace": "Retrieve Workspace Details",
+      "create_workspace": "Create New Workspace",
+      "update_workspace": "Update Workspace Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "readwise": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "save": "Save Web Content",
+      "list": "Fetch Articles List",
+      "update": "Update Document Info",
+      "delete": "Delete Document"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "reddit": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_posts": "Fetch Subreddit Posts",
+      "submit_comment": "Post Comment",
+      "submit_post": "Create New Post",
+      "get_comment": "Retrieve Comment Details",
+      "get_comments": "Display Post Comments",
+      "delete_post": "Remove Reddit Post",
+      "delete_comment": "Remove Comment",
+      "edit_post": "Edit Post Content",
+      "search": "Reddit Post Search",
+      "get_user_info": "Retrieve User Details",
+      "get_my_info": "Get My User Info",
+      "vote_post": "Upvote Post",
+      "vote_comment": "Upvote Comment",
+      "save_post": "Save Reddit Post",
+      "save_comment": "Save Reddit Comment",
+      "unsave_post": "Unsave Reddit Post",
+      "unsave_comment": "Remove Saved Comment",
+      "get_my_subreddits": "List My Subreddits",
+      "get_link_flairs": "Retrieve Subreddit Flairs"
+    },
+    "upstream_scopes": {
+      "read": "Read Content",
+      "submit": "Submit Posts and Comments",
+      "identity": "User Identity",
+      "history": "Read User History",
+      "edit": "Edit Posts and Comments",
+      "mysubreddits": "Access My Subreddits",
+      "privatemessages": "Access Private Messages",
+      "save": "Save Content",
+      "subscribe": "Manage Subscriptions",
+      "vote": "Vote on Content",
+      "flair": "Manage and see Flairs"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "replicate": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "get_account": "Retrieve Account Information",
+      "create_prediction_by_version_id": "Generate Prediction By Version",
+      "list_predictions": "View Predictions List",
+      "cancel_prediction": "Cancel Forecast",
+      "create_deployment_prediction": "Create Deployment Forecast",
+      "list_deployments": "View All Deployments",
+      "get_deployment": "Retrieve Deployment Details",
+      "create_deployment": "Create New Deployment",
+      "update_deployment": "Update Deployment Settings",
+      "create_prediction_by_model_name": "Create Prediction By Model",
+      "list_models": "List Available Models",
+      "create_model": "Create New Model",
+      "get_model": "Retrieve Model Data",
+      "search_models": "Search Available Models",
+      "get_model_readme": "Retrieve Model Guide",
+      "list_model_versions": "View Model Versions",
+      "get_model_version": "Retrieve Model Version",
+      "create_training": "Create Training Session",
+      "list_trainings": "List All Trainings",
+      "get_training": "Retrieve Training Data",
+      "cancel_training": "Cancel Training Process",
+      "list_collections": "View All Collections",
+      "get_collection": "Fetch Collection Data",
+      "list_hardware": "List Hardware Items",
+      "get_webhook_secret": "Retrieve Webhook Secret",
+      "create_kling_prediction": "Create Prediction Data",
+      "create_flux_pro_prediction": "Create Flux Pro Forecast",
+      "create_flux_schnell_prediction": "Create Flux Prediction",
+      "create_minimax_video_prediction": "Generate Video Prediction",
+      "create_stable_diffusion_prediction": "Generate Image Prediction",
+      "create_trellis_prediction": "Generate Trellis Prediction",
+      "create_remove_bg_prediction": "Remove Background Prediction",
+      "create_real_esrgan_prediction": "Generate Image Prediction",
+      "create_logo_ai_prediction": "Create Logo Prediction",
+      "generate_image": "Create Image",
+      "generate_video": "Create Video Content",
+      "generate_3d_asset": "Create 3D Asset",
+      "remove_background_best_model": "Remove Background"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "resend": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "send_email": "Send Email Message",
+      "send_batch_emails": "Send Bulk Emails",
+      "get_email": "Retrieve Email Details",
+      "update_email": "Update Email Schedule",
+      "cancel_email": "Cancel Scheduled Email",
+      "get_domain": "Retrieve Domain Details",
+      "verify_domain": "Verify Domain Records",
+      "update_domain": "Update Domain Settings",
+      "list_domains": "List All Domains",
+      "delete_domain": "Remove Domain",
+      "create_api_key": "Create API Key",
+      "list_api_keys": "View API Keys",
+      "delete_api_key": "Remove API Key",
+      "create_broadcast": "Create Email Broadcast",
+      "get_broadcast": "Retrieve Broadcast Details",
+      "send_broadcast": "Send Or Schedule Broadcast",
+      "list_broadcasts": "View Broadcast List",
+      "get_audience": "Retrieve Audience Details",
+      "list_audiences": "View All Audiences",
+      "create_contact": "Add New Contact",
+      "get_contact": "Retrieve Contact Details",
+      "update_contact": "Update Contact Details",
+      "delete_contact": "Remove Audience Contact",
+      "list_contacts": "Retrieve Contact List"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "revid": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "create_video": "Create Video Content",
+      "video_status": "Check Video Status",
+      "projects_list": "List Projects",
+      "add_to_queue": "Add Video To Queue",
+      "publish_now": "Publish Content Now"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "sentry": {
+    "auth": "custom",
+    "upstream_action_names": {
+      "list_teams": "View Team List",
+      "create_team": "Create New Team",
+      "list_projects": "View Project List",
+      "list_issues": "View Issues List",
+      "get_issue_details": "View Issue Details",
+      "list_releases": "List Project Releases",
+      "create_release": "Create Software Release",
+      "list_user_feedback": "View User Feedback",
+      "create_service_hook": "Create Service Webhook",
+      "get_dsn": "Retrieve Project DSN"
+    },
+    "upstream_scopes": {
+      "project:read": "Read Project",
+      "team:read": "Read Team",
+      "project:admin": "Admin Release",
+      "event:read": "Read Issue & Event",
+      "event:write": "Write Issue & Event",
+      "org:read": "Read Organization",
+      "org:write": "Write Organization",
+      "member:read": "Read Member",
+      "member:write": "Write Member",
+      "project:write": "Write Alerts"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "skyscanner": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "search_everywhere": "Search Globally",
+      "search_roundtrip": "Search Round Trip",
+      "search_one_way": "Search One-Way Flights",
+      "get_flight_detail": "View Flight Details",
+      "get_price_calendar": "View Price Calendar",
+      "get_price_calendar_return": "Retrieve Price Calendar",
+      "get_cheapest_one_way": "Find Cheapest One-Way",
+      "search_hotels": "Find Hotels",
+      "get_hotel_detail": "View Hotel Details",
+      "get_hotel_reviews": "Fetch Hotel Reviews"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "slack": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "list_channels": "List Communication Channels",
+      "list_channel_members": "View Channel Members",
+      "list_direct_messages": "View Direct Messages",
+      "post_message": "Post Announcement",
+      "send_dm": "Send Direct Message",
+      "list_thread_messages": "View Thread Messages",
+      "list_channel_messages": "View Channel Messages",
+      "list_direct_messages_with_user": "View User Messages"
+    },
+    "upstream_scopes": {
+      "channels:read": "Read Public Channels",
+      "channels:history": "View Channel History",
+      "chat:write": "Send Messages as User",
+      "im:read": "View Direct Messages",
+      "im:write": "Send Direct Messages",
+      "im:history": "View Direct Message History",
+      "users:read": "View User Profiles",
+      "groups:read": "Read Private Channels",
+      "mpim:read": "Read Group Messages",
+      "reactions:read": "Read Message Reactions",
+      "channels:write": "Send Channel Message"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "stripe": {
+    "auth": "unknown",
+    "upstream_action_names": {},
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "svgl": {
+    "auth": "none",
+    "upstream_action_names": {
+      "get_svgs": "Fetch SVG Icons",
+      "get_svg_by_category": "Fetch SVGs By Category",
+      "get_categories": "Fetch All Categories",
+      "search_svgs": "Find SVG Icons"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "tavily": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "search": "Search Articles",
+      "extract": "Extract Content"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "ticktick": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "tasks-get": "Get Task Details",
+      "tasks-create": "Create New Task",
+      "tasks-update": "Update Task Priority",
+      "tasks-complete": "Mark Task Complete",
+      "projects-list": "List All Projects",
+      "projects-get": "Get Project Details",
+      "projects-create": "Create Project",
+      "projects-update": "Update Project Color",
+      "tasks-list": "List Project Tasks"
+    },
+    "upstream_scopes": {
+      "tasks:read": "Read Tasks",
+      "tasks:write": "Edit Tasks"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "todoist": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_projects": "List Projects",
+      "create_project": "Create Shopping List",
+      "get_project": "Retrieve Project Details",
+      "update_project": "Edit Project Details",
+      "get_collaborators": "List Project Collaborators",
+      "get_sections": "Retrieve Project Sections",
+      "get_section": "Get Section Details",
+      "create_section": "Create Project Section",
+      "update_section": "Update Section Name",
+      "delete_section": "Remove Section",
+      "get_tasks": "List Project Tasks",
+      "get_task": "Retrieve Task Details",
+      "create_task": "Add New Task",
+      "update_task": "Edit Task Details",
+      "close_task": "Mark Task Complete",
+      "get_comments": "Retrieve Task Comments",
+      "get_comment": "Fetch Comment Details",
+      "create_comment": "Add Task Comment",
+      "update_comment": "Edit Comment Content",
+      "delete_comment": "Remove Comment",
+      "get_personal_labels": "Retrieve Personal Labels",
+      "get_personal_label": "Retrieve Personal Label",
+      "delete_personal_label": "Remove Personal Label",
+      "get_shared_labels": "Retrieve Shared Labels"
+    },
+    "upstream_scopes": {
+      "task:add": "Add new tasks (cannot read or modify existing data)",
+      "data:read": "Read-only access to tasks, projects, labels, and filters",
+      "data:read_write": "Full access to read and write tasks, projects, labels, and filters",
+      "data:delete": "Delete tasks, labels, and filters",
+      "project:delete": "Delete projects"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "trello": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "get_cards": "Retrieve Board Cards",
+      "get_card": "Fetch Card Details",
+      "create_card": "Create Task Card",
+      "update_card": "Edit Card Details",
+      "delete_card": "Remove Card",
+      "get_boards": "Retrieve All Boards",
+      "get_board": "Retrieve Board Details",
+      "get_lists": "Get Board Lists",
+      "get_list": "Get List Details",
+      "get_card_checklists": "Retrieve Card Checklists",
+      "create_checklist": "Create New Checklist",
+      "create_checklist_item": "Add Checklist Item",
+      "get_organizations": "List Organizations",
+      "get_organization": "Get Organization Details",
+      "get_organization_boards": "List Organization Boards",
+      "get_organization_members": "List Organization Members"
+    },
+    "upstream_scopes": {
+      "read": "Read Access",
+      "write": "Write Access",
+      "account": "Account Information"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "twentyfirst_dev": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "search": "Search Items",
+      "generate_prompt": "Create Text Prompt"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "typeform": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "get_forms": "Retrieve Forms List",
+      "get_form": "Retrieve Form Details",
+      "get_form_responses": "Retrieve Form Responses",
+      "get_webhooks": "Retrieve Webhooks List",
+      "get_workspaces": "List Workspaces",
+      "create_form": "Create New Form",
+      "update_form": "Update Survey Form",
+      "delete_webhook": "Remove Webhook Configuration",
+      "create_workspace": "Create New Workspace"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "uploadthing": {
+    "auth": "api_key",
+    "upstream_action_names": {
+      "list_files": "View File List",
+      "poll_upload": "Check Upload Status",
+      "get_server_callback": "Check Callback Status",
+      "prepare_upload": "Prepare File Upload",
+      "upload_from_url": "Upload File From URL",
+      "debug_upload": "Upload Debug Data",
+      "get_app_info": "App Information Retrieval",
+      "get_usage_info": "Check Usage Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "vercel": {
+    "auth": "oauth",
+    "upstream_action_names": {
+      "list_deployments": "View Deployments List",
+      "get_deployment": "Fetch Deployment Details",
+      "delete_deployment": "Remove Deployment",
+      "get_deployment_events": "Fetch Deployment Events",
+      "create_project": "Create New Project",
+      "create_env_vars": "Add Environment Variables",
+      "edit_env_var": "Update Environment Variable",
+      "get_project": "Retrieve Project Details",
+      "get_project_domain": "Fetch Project Domain",
+      "remove_env_var": "Remove Environment Variable",
+      "get_project_domains": "Fetch Project Domains",
+      "update_project": "Update Project Details",
+      "get_project_env_vars": "Retrieve Project Environment Variables",
+      "create_deployment": "Deploy New Project"
+    },
+    "upstream_scopes": {
+      "integration-configuration": "Interact with the installation of your integration",
+      "deployment": "Interact with deployments",
+      "deployment-check": "Verify deployments with Checks",
+      "edge-config": "Create and manage Edge Configs and their tokens",
+      "project": "Access project details and settings",
+      "project-env-vars": "Create and manage integration-owned project environment variables",
+      "global-project-env-vars": "Create and manage all account project environment variables",
+      "team": "Access team details",
+      "user": "Get information about the current user",
+      "log-drain": "Create and manage log drains to forward logs",
+      "domain": "Manage and interact with domains and certificates"
+    },
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "x": {
+    "auth": "custom",
+    "upstream_action_names": {
+      "get_user_profile": "View User Profile",
+      "get_me": "Retrieve User Profile",
+      "get_user_timeline": "View User Timeline",
+      "get_user_following": "View User Following",
+      "get_user_followers": "Retrieve User Followers",
+      "get_tweet": "Fetch Tweet Details",
+      "get_tweet_retweets": "View Tweet Retweets",
+      "get_tweet_thread": "Fetch Tweet Thread",
+      "get_latest_replies": "Get Recent Replies",
+      "get_list_timeline": "Retrieve Timeline List",
+      "get_community_timeline": "View Community Timeline",
+      "get_list_followers": "Retrieve Followers List",
+      "get_list_members": "Retrieve List Members",
+      "get_space": "Retrieve Space Details"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "yelp": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "search_businesses": "Find Businesses",
+      "get_business_details": "Retrieve Business Details",
+      "get_business_reviews": "Retrieve Business Reviews",
+      "get_business_menus": "Fetch Business Menus"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "zillow": {
+    "auth": "server RapidAPI key (catalog says none)",
+    "upstream_action_names": {
+      "get_property": "Retrieve Property Details",
+      "get_zestimate": "Get Property Estimate",
+      "get_zestimate_history": "Zestimate Price History",
+      "get_price_and_tax_history": "Retrieve Price Tax History",
+      "get_property_comps": "Get Property Comparisons",
+      "get_property_value_range": "Retrieve Property Value Range",
+      "get_similar_properties": "Find Similar Properties",
+      "get_similar_sales": "Find Similar Sales",
+      "get_similar_rentals": "Find Similar Rentals",
+      "get_market_location": "Fetch Market Location",
+      "get_market_data": "Fetch Market Data"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  },
+  "zip_code": {
+    "auth": "none",
+    "upstream_action_names": {
+      "get_by_zipcode": "Retrieve By Zipcode",
+      "get_by_city": "Get Data By City"
+    },
+    "upstream_scopes": {},
+    "scope_note": "Discovery metadata only. No grant or permission is inferred from this catalogue."
+  }
+}

@@ -149,7 +149,7 @@ class VideoSessionRequest(BaseModel):
 
 
 class ThumbnailSessionRequest(BaseModel):
-    """Open a resumable session for a custom thumbnail (JPEG or PNG, at most 2 MB)."""
+    "Open a resumable session for a custom thumbnail (JPEG or PNG, at most 2 MB)."
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 

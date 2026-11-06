@@ -1,4 +1,4 @@
-"""Read-only Revolut Business client; credential custody belongs to the caller."""
+"Read-only Revolut Business client; credential custody belongs to the caller."
 
 from .client import RevolutBusinessClient
 from .hosted import HostedRevolutBusinessClient

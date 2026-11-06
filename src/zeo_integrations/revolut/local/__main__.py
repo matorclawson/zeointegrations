@@ -63,7 +63,7 @@ class _ClientIdError(_InputRefusedError):
 
 
 def _looks_like_address(value: str) -> bool:
-    """True if a client id holds ``://``, ``?`` or ``=``, plain or percent-encoded."""
+    "True if a client id holds ``://``, ``?`` or ``=``, plain or percent-encoded."
     decoded = value
     for _ in range(4):  # a few layers of encoding; never loops on its own output
         if any(mark in decoded for mark in ("://", "?", "=")):
@@ -121,7 +121,7 @@ def _from_descriptor(descriptor: int) -> bytes:
 
 
 def _from_stream() -> bytes:
-    """The first line of a stream with no descriptor (a test double or embedding)."""
+    "The first line of a stream with no descriptor (a test double or embedding)."
     raw = sys.stdin.readline(MAX_URL_BYTES + 2)  # room for a CRLF
     ended = raw.endswith("\n")
     if not ended and len(raw) > MAX_URL_BYTES:
@@ -130,7 +130,7 @@ def _from_stream() -> bytes:
 
 
 def _first_line() -> str:
-    """The first line of stdin, which must fit in ``MAX_URL_BYTES`` before any strip."""
+    "The first line of stdin, which must fit in ``MAX_URL_BYTES`` before any strip."
     try:
         descriptor = sys.stdin.fileno()
     except (AttributeError, OSError, ValueError):
@@ -143,7 +143,7 @@ def _first_line() -> str:
 
 
 def _redirect_url() -> str:
-    """The redirect URL: hidden prompt on a terminal, else the first line of stdin."""
+    "The redirect URL: hidden prompt on a terminal, else the first line of stdin."
     if sys.stdin is None:  # file descriptor 0 is closed
         raise _NoRedirectUrlError(f"there is no stdin; {_ONE_LINE}")
     try:

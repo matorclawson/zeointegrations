@@ -1,0 +1,12 @@
+2026-10-31 — additional offline checks on supplied Core 0.44 / Python 3.12
+
+PASS: real ffmpeg portrait MP4 conversion of a 0.4-second synthetic 64x32 input.
+Output inspected with ffprobe: video/mp4, H.264, 1080x1920, duration 0.4 seconds,
+3090 bytes. Source bytes and staged original preserved; no duration trimming.
+
+PASS: workflow preview serialized as zeo.ui-result/v1 and accepted by Core's
+canonical UI validator. Card action_refs is empty; rendering conveys no authority.
+
+Image conversion and full carousel operation sequencing are also covered by the
+publishing pytest suite in verification.log and core044-compatibility.log.
+No provider credentials, account writes or real content publication were used.

@@ -69,3 +69,18 @@ Copyright (c) 2026 Zero Employee Organizations, MIT.
 Primary API references: docs.joinmastodon.org methods/instance, media, statuses
 and api/rate-limits; no implementation copied.
 See src/zeo_integrations/mastodon/NOTICE for full primary URLs.
+
+Shared Telegram receive/ACK client:
+Original MIT implementation, Copyright 2026 Zero Employee Organizations.
+Protocol provenance and client/Core boundaries: src/zeo_integrations/telegram/NOTICE.
+
+Additional Core provider migrations: github, notion, ffmpeg, pandoc, jupytext, notebook, llms, gemini, social/bluesky. MIT notices preserved; see docs/migration-provenance.json.
+Loops aggregate copy comes from packages/loops in the supplied collection archive.
+
+VeyraX HTTP operation ports and discovery metadata are derived from
+VeyraX/veyrax-platform@1cdddde9d5d76b9891896ca78a95e069647e81df,
+aci_server/integrations/*/client.py and aci_server/db/scripts/catalog.json.
+Copyright VeyraX contributors, MIT; full license in VeyraX-LICENSE and
+provider NOTICE files. Credential custody, auth server and frontend are excluded.
+Original bounded transport, DB/SDK adapters, catalogue and UI projection:
+Copyright 2026 Zero Employee Organizations, MIT.

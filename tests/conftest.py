@@ -344,3 +344,16 @@ def mock_normalize_path(monkeypatch: MonkeyPatch) -> None:
 
     # Fix: Use the correct import path for normalize_path
     monkeypatch.setattr(fs_standalone, "normalize_path", mock_normalize)
+
+
+@pytest.fixture(autouse=True)
+def deny_live_provider_network(monkeypatch):
+    """Provider verification must never connect to a real service."""
+    import socket
+
+    def refuse(*args, **kwargs):
+        raise OSError("Live network is forbidden in provider verification")
+
+    monkeypatch.setattr(socket.socket, "connect", refuse)
+    monkeypatch.setattr(socket.socket, "connect_ex", refuse)
+    monkeypatch.setattr(socket, "getaddrinfo", refuse)

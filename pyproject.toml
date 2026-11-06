@@ -12,6 +12,7 @@ license = "MIT"
 dependencies = ["zeocore>=0.43.0,<1", "httpx>=0.28.1,<1", "pydantic>=2.13.4,<3"]
 
 [project.optional-dependencies]
+airbnb = ["beautifulsoup4"]
 github = ["requests"]
 google = ["google-api-python-client>=2", "google-auth-httplib2>=0.1", "google-auth-oauthlib>=0.4", "platformdirs>=4"]
 gmail = ["zeo-integrations[google]"]
@@ -33,16 +34,17 @@ llms = ["tiktoken", "openai", "anthropic"]
 [dependency-groups]
 # Lock the existing build backend and its closure for CI reproducibility.
 release = ["hatchling==1.27.0"]
-dev = ["ruff==0.15.5", "pytest>=7", "pytest-asyncio>=0.21", "hypothesis"]
+dev = ["python-docx>=1.2", "ruff==0.15.5", "pytest>=7", "pytest-asyncio>=0.21", "hypothesis"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/zeo_integrations"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "NOTICE" = "zeo_integrations/NOTICE"
+"VeyraX-LICENSE" = "zeo_integrations/VeyraX-LICENSE"
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "pyproject.toml", "README.md", "LICENSE", "NOTICE"]
+include = ["src", "pyproject.toml", "README.md", "LICENSE", "NOTICE", "VeyraX-LICENSE"]
 
 [tool.uv]
 required-version = ">=0.12.2"
@@ -62,6 +64,9 @@ select = ["E", "F", "I", "UP", "B"]
 "tests/test_integrations/google/mail/mocks.py" = ["UP047"]
 "src/zeo_integrations/llms/models.py" = ["UP042"]
 "src/zeo_integrations/supabase/auth.py" = ["UP037"]
+"src/zeo_integrations/github/models.py" = ["UP042"]
+"src/zeo_integrations/notion/models.py" = ["UP046"]
+"src/zeo_integrations/dropbox/schema.py" = ["UP042"]
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"

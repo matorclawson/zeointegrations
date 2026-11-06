@@ -1,4 +1,4 @@
-"""Fixed-origin, read-only Revolut Business HTTP boundary with no implicit retries."""
+"Fixed-origin, read-only Revolut Business HTTP boundary with no implicit retries."
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def _protect_http_logs() -> None:
 
 
 class RevolutAPIError(RuntimeError):
-    """Safe diagnostic: never retain provider bodies, request URLs or credentials."""
+    "Safe diagnostic: never retain provider bodies, request URLs or credentials."
 
     def __init__(
         self,

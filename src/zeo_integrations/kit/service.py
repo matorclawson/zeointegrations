@@ -1,4 +1,4 @@
-"""Kit credential configuration without implicit network or authentication claims."""
+"Kit credential configuration without implicit network or authentication claims."
 
 from __future__ import annotations
 

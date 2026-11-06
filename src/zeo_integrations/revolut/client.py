@@ -1,4 +1,4 @@
-"""Revolut Business reads only: accounts, transactions, expenses, receipts, labels."""
+"Revolut Business reads only: accounts, transactions, expenses, receipts, labels."
 
 from __future__ import annotations
 

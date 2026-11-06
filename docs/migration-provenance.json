@@ -1,0 +1,1682 @@
+[
+  {
+    "source": "src/zeo_core/integrations/github/auth.py",
+    "destination": "src/zeo_integrations/github/auth.py",
+    "old_blob": "6f53e1dfb5849ea57c81caaec9bf170ca2d2bc63",
+    "new_blob": "efb71d4b91e4ab8bc5a7f63f6d76df47f97c34aa",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/service.py",
+    "destination": "src/zeo_integrations/github/service.py",
+    "old_blob": "aa8eef8ca63031903215d8a5223892b9e5ac15e2",
+    "new_blob": "aa8eef8ca63031903215d8a5223892b9e5ac15e2",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/config.py",
+    "destination": "src/zeo_integrations/github/config.py",
+    "old_blob": "1b13da371d9a3eec263197d046aa84e09afd8bd6",
+    "new_blob": "1b13da371d9a3eec263197d046aa84e09afd8bd6",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/__init__.py",
+    "destination": "src/zeo_integrations/github/__init__.py",
+    "old_blob": "0a33474038bd06cf69381038a87e83c36d3b640a",
+    "new_blob": "0a33474038bd06cf69381038a87e83c36d3b640a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/client.py",
+    "destination": "src/zeo_integrations/github/client.py",
+    "old_blob": "125159e4f72387dad6432a7822a672c07417dada",
+    "new_blob": "3989561b86253de4424469682f3d44f489fc346f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/models.py",
+    "destination": "src/zeo_integrations/github/models.py",
+    "old_blob": "f8d902447a1c5ef30cfbbd362b2837e7192ab75a",
+    "new_blob": "f8d902447a1c5ef30cfbbd362b2837e7192ab75a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/protocols.py",
+    "destination": "src/zeo_integrations/github/protocols.py",
+    "old_blob": "7d85f29ce49349a8a874730b26d5c66e06f5220c",
+    "new_blob": "7d85f29ce49349a8a874730b26d5c66e06f5220c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/app_tokens.py",
+    "destination": "src/zeo_integrations/github/app_tokens.py",
+    "old_blob": "3a7dcc0c845cda9b5d1afd9ab1213beafd33b16e",
+    "new_blob": "d48c47d0a9d558df71cf3042cf0ab5c02a9c0b15",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/utils/__init__.py",
+    "destination": "src/zeo_integrations/github/utils/__init__.py",
+    "old_blob": "8cbc91e5a26ac858c256c91bcba08d1724aacb6a",
+    "new_blob": "8cbc91e5a26ac858c256c91bcba08d1724aacb6a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/utils/api.py",
+    "destination": "src/zeo_integrations/github/utils/api.py",
+    "old_blob": "17dacf5bb0b39d909a979d4fdf5e667a9d25e69e",
+    "new_blob": "ceeb33bb2f214146617ef7500c33759f063c4c4e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/operations/issues.py",
+    "destination": "src/zeo_integrations/github/operations/issues.py",
+    "old_blob": "2964333d63fbbfefc9ffb02318b177010beca7aa",
+    "new_blob": "f2c7e6e90ebbec2aeacb48e20882f5803aa216e3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/operations/repositories.py",
+    "destination": "src/zeo_integrations/github/operations/repositories.py",
+    "old_blob": "6b27a4cb31f6650a6a5f47a7b33435a6c3a9767a",
+    "new_blob": "cea53a54d48aa4e474d38ff0c03c16b33c7dfcbe",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/operations/pull_requests.py",
+    "destination": "src/zeo_integrations/github/operations/pull_requests.py",
+    "old_blob": "abc3b5442208e2b762a8f2a9d1fd97d23dac434c",
+    "new_blob": "1f1df1985cab73caea7abfa64a31890eef9b2ca6",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/operations/__init__.py",
+    "destination": "src/zeo_integrations/github/operations/__init__.py",
+    "old_blob": "14b8bd696a62998a83408caf81f71d5c744680dc",
+    "new_blob": "14b8bd696a62998a83408caf81f71d5c744680dc",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/github/operations/users.py",
+    "destination": "src/zeo_integrations/github/operations/users.py",
+    "old_blob": "e0a1aa315fff108172c3a1d091778a9143bef068",
+    "new_blob": "70877da025daef27558eda9af68523e56859977b",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_config.py",
+    "destination": "tests/test_integrations/github/test_config.py",
+    "old_blob": "d7ca49e71ac811d498abeefdb1569c7a76f3507f",
+    "new_blob": "f99ec54229e3ca6b05ad5166152cb4d690210816",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_client.py",
+    "destination": "tests/test_integrations/github/test_client.py",
+    "old_blob": "41e271142edf49ba79f8b904acbe1bbcfa89380c",
+    "new_blob": "2cf09ad587030143843b4ca4d197e679d9add90f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_protocols.py",
+    "destination": "tests/test_integrations/github/test_protocols.py",
+    "old_blob": "596cc46f5db121fdcc32417f47531064b24a2da0",
+    "new_blob": "41c3fe0042a9fed4f212833264d051bac8c3e70e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_api.py",
+    "destination": "tests/test_integrations/github/test_api.py",
+    "old_blob": "057016c4ebc5b5ab1fe1f06387f796549569bc7f",
+    "new_blob": "65b8d15edf434217d460fe961e6e22fc77e342c4",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_models.py",
+    "destination": "tests/test_integrations/github/test_models.py",
+    "old_blob": "5b605ba9b5ba4aa741b1c3f5129c41f24164b2e6",
+    "new_blob": "5bff7dd5037dff4a74ca7fb4616c424dd3430d6e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_effects_sent_once.py",
+    "destination": "tests/test_integrations/github/test_effects_sent_once.py",
+    "old_blob": "203bc21bd525b3a7dc12dd0bb607253334313edb",
+    "new_blob": "042298f5ef18f54f26515107a5e42d50731e2e98",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/conftest.py",
+    "destination": "tests/test_integrations/github/conftest.py",
+    "old_blob": "6a2ecd4c0768663c0ad2815de270fab27f384f66",
+    "new_blob": "d3aca8b489d62298a510cd5e941fc4842814c9b2",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_github_init.py",
+    "destination": "tests/test_integrations/github/test_github_init.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_integration.py",
+    "destination": "tests/test_integrations/github/test_integration.py",
+    "old_blob": "42d0a38ab6a8c197f057e741068f5f541421b931",
+    "new_blob": "8078b81d1984c11b5c29d4bb7fea5977c2fc1e74",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_service.py",
+    "destination": "tests/test_integrations/github/test_service.py",
+    "old_blob": "73434a2969e9090de91bb351b6882af3349c9014",
+    "new_blob": "78a6e8008e15f1ae059377bb804f13465a33f438",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/__init__.py",
+    "destination": "tests/test_integrations/github/__init__.py",
+    "old_blob": "fac4bb639f711ef616aea37803f02663c2dae847",
+    "new_blob": "fac4bb639f711ef616aea37803f02663c2dae847",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_auth.py",
+    "destination": "tests/test_integrations/github/test_auth.py",
+    "old_blob": "8f0408a97eff41a341e95a45efa886b1326274c8",
+    "new_blob": "07f48bd26633bdf417dc41c50889ca5484ddc466",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_auth_provider.py",
+    "destination": "tests/test_integrations/github/test_auth_provider.py",
+    "old_blob": "50c6f15016be457eef0c6a2590b79203b0a7f77e",
+    "new_blob": "75fe428e7b3384daeb0c14984484809731b51b4c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/test_operations.py",
+    "destination": "tests/test_integrations/github/test_operations.py",
+    "old_blob": "d186464360810f81c06e25dbbd09c74960c418da",
+    "new_blob": "fa3d171f3cfe57e6b026317304829f7edac8739f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/utils/__init__.py",
+    "destination": "tests/test_integrations/github/utils/__init__.py",
+    "old_blob": "4641beb74f998085c502e9ca76766fba8a6c60a7",
+    "new_blob": "4641beb74f998085c502e9ca76766fba8a6c60a7",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/github/operations/__init__.py",
+    "destination": "tests/test_integrations/github/operations/__init__.py",
+    "old_blob": "208ac3eb8f0b65cae41560b3192c45094f294318",
+    "new_blob": "208ac3eb8f0b65cae41560b3192c45094f294318",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/auth.py",
+    "destination": "src/zeo_integrations/notion/auth.py",
+    "old_blob": "f8245a0c4d45f4389e0bd50aef1354a96c1751b2",
+    "new_blob": "f8245a0c4d45f4389e0bd50aef1354a96c1751b2",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/transport.py",
+    "destination": "src/zeo_integrations/notion/transport.py",
+    "old_blob": "7ec4f5d75f9edccd5c18ea310a02aceafd4aea9d",
+    "new_blob": "7ec4f5d75f9edccd5c18ea310a02aceafd4aea9d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/upsert.py",
+    "destination": "src/zeo_integrations/notion/upsert.py",
+    "old_blob": "248507ebfe463ac38592705e14ada07d2b05107c",
+    "new_blob": "39840c2432ee478a055dab34c4dd190ae032275b",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/service.py",
+    "destination": "src/zeo_integrations/notion/service.py",
+    "old_blob": "207cb7286127cf7de4e7f0f8c7763a145a932609",
+    "new_blob": "207cb7286127cf7de4e7f0f8c7763a145a932609",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/config.py",
+    "destination": "src/zeo_integrations/notion/config.py",
+    "old_blob": "e701079c8a697d28f4daf9ec412271f990b07549",
+    "new_blob": "68a1855c5349f8e45b1f91d878da4912d362cb2d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/__init__.py",
+    "destination": "src/zeo_integrations/notion/__init__.py",
+    "old_blob": "0c3fe0fa74bbb89b7fca33d8f686ed03ec40949d",
+    "new_blob": "7dd7f9405bd3a88e786534de04982527adc18de0",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/client.py",
+    "destination": "src/zeo_integrations/notion/client.py",
+    "old_blob": "d765bb51409006a14541857795e3e8cbc60f091b",
+    "new_blob": "d765bb51409006a14541857795e3e8cbc60f091b",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/oauth.py",
+    "destination": "src/zeo_integrations/notion/oauth.py",
+    "old_blob": "7a73094237c98fceb734e5b0fb9761d5093e0cb6",
+    "new_blob": "a621b6382068284c17f3cfd2d0b826310573b0ef",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/models.py",
+    "destination": "src/zeo_integrations/notion/models.py",
+    "old_blob": "63a48b7761df94e80f51a86d2389a09c5cb1ece0",
+    "new_blob": "63a48b7761df94e80f51a86d2389a09c5cb1ece0",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notion/protocols.py",
+    "destination": "src/zeo_integrations/notion/protocols.py",
+    "old_blob": "4a3431b57c59eb5e629b071da1411779cccb2c44",
+    "new_blob": "4a3431b57c59eb5e629b071da1411779cccb2c44",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_transport.py",
+    "destination": "tests/test_integrations/notion/test_transport.py",
+    "old_blob": "0c53474365a827854fa876092491f4650ac27dca",
+    "new_blob": "a4d3a7c555602823ad62470b86f1be3a611ac230",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_oauth.py",
+    "destination": "tests/test_integrations/notion/test_oauth.py",
+    "old_blob": "d39696cad4b1ff4c765bf67c3c0ae0a0c3f61fb9",
+    "new_blob": "993a79a54add22f9d72ac4dde34a87db1af034dc",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_client.py",
+    "destination": "tests/test_integrations/notion/test_client.py",
+    "old_blob": "757158fe3a33c2e7f37c2116350ef121bc503fc2",
+    "new_blob": "05639e71292233be66a51d5922767170dfbb0398",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_models.py",
+    "destination": "tests/test_integrations/notion/test_models.py",
+    "old_blob": "f10d97ad8243d230703cac54d9c636f1b4592617",
+    "new_blob": "b9179f790cade71e96d69f2c261981244a8f184c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_registration.py",
+    "destination": "tests/test_integrations/notion/test_registration.py",
+    "old_blob": "59bf30f381a39ac72749f7046af3af0dea237189",
+    "new_blob": "5cdf9a3ed82a065b5ac7f2b025cc7e7a6c8bcba8",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_service.py",
+    "destination": "tests/test_integrations/notion/test_service.py",
+    "old_blob": "d8d3a5c4109ec1d839b9f7fee0cb1a1a6f377c87",
+    "new_blob": "2eb0a0c756a0e99a46e7be0fd66d1a786dcdf09a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/__init__.py",
+    "destination": "tests/test_integrations/notion/__init__.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_upsert.py",
+    "destination": "tests/test_integrations/notion/test_upsert.py",
+    "old_blob": "de621c13937f8b18600414b152c8d6a9e2e3ce6a",
+    "new_blob": "a3250c1e897caafa1eb8c47cb030a9666a0e9518",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_config_current.py",
+    "destination": "tests/test_integrations/notion/test_config_current.py",
+    "old_blob": "3c5bff40dbee867ee472f5bf1dbdc4c3af4f9831",
+    "new_blob": "2d896f01849911d312cb60b2eeb7f48ae6c7037a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_auth.py",
+    "destination": "tests/test_integrations/notion/test_auth.py",
+    "old_blob": "d54443db57f277ac389b38506209000c8a3a626c",
+    "new_blob": "8c493a196bb8aafb58bff7dae13e050c5b03e609",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/notion/test_current_api.py",
+    "destination": "tests/test_integrations/notion/test_current_api.py",
+    "old_blob": "5297f6f9191d60932b8c82e52268dd7601ee8b03",
+    "new_blob": "f9e325ab4e5a37e0e39cf9bbca1bb82ee1d586dd",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/ffmpeg/service.py",
+    "destination": "src/zeo_integrations/ffmpeg/service.py",
+    "old_blob": "93fc776112873b7698638484aad8d751562d1af6",
+    "new_blob": "ba036086c3abc391d61b73d7a336c882c3026bc7",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/ffmpeg/config.py",
+    "destination": "src/zeo_integrations/ffmpeg/config.py",
+    "old_blob": "48a74f0045243a5ad71560ad08e48474b7fac0db",
+    "new_blob": "4e356828417585781b68eb9fc293f035da516ece",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/ffmpeg/__init__.py",
+    "destination": "src/zeo_integrations/ffmpeg/__init__.py",
+    "old_blob": "535eeb5719807bc403c9170cb950fa5ee8b02b66",
+    "new_blob": "fdca090cba26c37404d1aed916d289f53f96617c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/ffmpeg/models.py",
+    "destination": "src/zeo_integrations/ffmpeg/models.py",
+    "old_blob": "337d528eba812e6230252bec14f6e1448d31c5af",
+    "new_blob": "337d528eba812e6230252bec14f6e1448d31c5af",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/ffmpeg/protocols.py",
+    "destination": "src/zeo_integrations/ffmpeg/protocols.py",
+    "old_blob": "26ecc7cfbfd07bbfbfd655437ba7b1babde55f77",
+    "new_blob": "0d2f4035968f694f64baf5d22970f2e638d836b3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/ffmpeg/test_config.py",
+    "destination": "tests/test_integrations/ffmpeg/test_config.py",
+    "old_blob": "d407b4ab69e986dce41fd043c82c392eaf2448cb",
+    "new_blob": "933d1e4d75f5adaf26d88c3ce3c9a70930842f0c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/ffmpeg/test_service_live.py",
+    "destination": "tests/test_integrations/ffmpeg/test_service_live.py",
+    "old_blob": "3102305ba5459ffc5095516db3ba1ed294b46a8e",
+    "new_blob": "c7383e8c2f3877cc50589456f15b797812189a52",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/ffmpeg/conftest.py",
+    "destination": "tests/test_integrations/ffmpeg/conftest.py",
+    "old_blob": "2f0124fd7e73871f4d15cf76b97050c4ba2e5665",
+    "new_blob": "b250c69cf0c204c16734e5437511b46ee0e83936",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/ffmpeg/test_service.py",
+    "destination": "tests/test_integrations/ffmpeg/test_service.py",
+    "old_blob": "c802616246a4540068e93c566a7ff3ad6f19d655",
+    "new_blob": "3066b0d348547850b3cbfd1308de34d66974d473",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/ffmpeg/__init__.py",
+    "destination": "tests/test_integrations/ffmpeg/__init__.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/converter.py",
+    "destination": "src/zeo_integrations/pandoc/converter.py",
+    "old_blob": "398ea25bc5b979a464edd6535b7ea2a999566f0d",
+    "new_blob": "0ac7b6c64d6a8d186682fe4ee951642d8e86c8b2",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/_mime.py",
+    "destination": "src/zeo_integrations/pandoc/_mime.py",
+    "old_blob": "ae74716d0901a33cad98ddf41fc26bc8f89c8400",
+    "new_blob": "016dd718ebb3397250673f8bc5db8ce184970e11",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/_cleaning.py",
+    "destination": "src/zeo_integrations/pandoc/_cleaning.py",
+    "old_blob": "bfb892256d954a1a04f611902cf44d4d73496879",
+    "new_blob": "e99563368c8aa28f5b9b0f07100b0277513dddc8",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/_noise.py",
+    "destination": "src/zeo_integrations/pandoc/_noise.py",
+    "old_blob": "06b357d67f03467ff9903d1a979323bf7c84a099",
+    "new_blob": "2f6c5d3c4ca6611c4234a0472714db1c876b7514",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/render.py",
+    "destination": "src/zeo_integrations/pandoc/render.py",
+    "old_blob": "2334725487e4fd7b2c1490133a7862a57c946430",
+    "new_blob": "37a37805d7ec25a7095d3d96f5890449b016ae43",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/service.py",
+    "destination": "src/zeo_integrations/pandoc/service.py",
+    "old_blob": "7ac698dcf8e7befd5ef8b4883deb04cc35e7e3d7",
+    "new_blob": "c6f4bbd2e224e35228f7c8e642aeac4d56e39533",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/_hidden.py",
+    "destination": "src/zeo_integrations/pandoc/_hidden.py",
+    "old_blob": "2d88f8b8ce275bdb3dfda3760e871d59cefec762",
+    "new_blob": "0221b662aeac4d555dadc34a2db921ad764a0b5a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/newsletter.py",
+    "destination": "src/zeo_integrations/pandoc/newsletter.py",
+    "old_blob": "579b471ae7e8b3e8528c2141612b3fc690cffad3",
+    "new_blob": "6ba3e066f87fd5bea46d8f4cbd38a1be32c3f061",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/config.py",
+    "destination": "src/zeo_integrations/pandoc/config.py",
+    "old_blob": "536b2fcb3af2ebe52098e50ecaf0a7eac95d7e5e",
+    "new_blob": "4aa6ed39919b3bcbc4094185cfc4611395272637",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/_runner.py",
+    "destination": "src/zeo_integrations/pandoc/_runner.py",
+    "old_blob": "5d04febfb89d1026adc4ad8568d8327a7eb91262",
+    "new_blob": "441afb5f2dae752f7b91b4127407ef10dda01610",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/__init__.py",
+    "destination": "src/zeo_integrations/pandoc/__init__.py",
+    "old_blob": "ac1b3c411a3782e45cc12ce69a7648e46f34e793",
+    "new_blob": "450c68b00a14ab4a983d056b51109766b2274253",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/models.py",
+    "destination": "src/zeo_integrations/pandoc/models.py",
+    "old_blob": "40dc2e47a784095d1482186fa9ba73ca943a3175",
+    "new_blob": "40dc2e47a784095d1482186fa9ba73ca943a3175",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/protocols.py",
+    "destination": "src/zeo_integrations/pandoc/protocols.py",
+    "old_blob": "868da0b7c3d0e995c6d5fbd9a42322aec9a3d0eb",
+    "new_blob": "d2050a73ec35bb2398560f646dbb6551713866d6",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/refusals.py",
+    "destination": "src/zeo_integrations/pandoc/refusals.py",
+    "old_blob": "cfb42d51290508ec9c9dd98df7be641155588d2f",
+    "new_blob": "cfb42d51290508ec9c9dd98df7be641155588d2f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/data/email_subset.lua",
+    "destination": "src/zeo_integrations/pandoc/data/email_subset.lua",
+    "old_blob": "660e9d6cf2cbc57b7709f50f599c4c10050799fc",
+    "new_blob": "660e9d6cf2cbc57b7709f50f599c4c10050799fc",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/data/newsletter_noise.json",
+    "destination": "src/zeo_integrations/pandoc/data/newsletter_noise.json",
+    "old_blob": "eda1e608958e8750f6b5a927b548b16afbf6799d",
+    "new_blob": "eda1e608958e8750f6b5a927b548b16afbf6799d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/operations/utils.py",
+    "destination": "src/zeo_integrations/pandoc/operations/utils.py",
+    "old_blob": "5b6bd58522e46916029236d734afd538c72557b1",
+    "new_blob": "1e00704b828b3fcdd459c3163fc479cd77c68e08",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/operations/md_to_docx.py",
+    "destination": "src/zeo_integrations/pandoc/operations/md_to_docx.py",
+    "old_blob": "01efa69d3af1bd8875309d5e0dcbeb4ae26993c9",
+    "new_blob": "9c99509f3424c07d33e378ec794aa7a7ce64c715",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/operations/html_to_md.py",
+    "destination": "src/zeo_integrations/pandoc/operations/html_to_md.py",
+    "old_blob": "3244ba7d958033b8672554d554d54f752b47fe82",
+    "new_blob": "2bd98d910f7ab9408ed3ef6b97dc89cbe0d4a9e9",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/pandoc/operations/__init__.py",
+    "destination": "src/zeo_integrations/pandoc/operations/__init__.py",
+    "old_blob": "597fa072e450cde4754019d613bbf391aba1000d",
+    "new_blob": "c39cabce8c1e6037564a0c9ef873ef8d8961875a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_config.py",
+    "destination": "tests/test_integrations/pandoc/test_config.py",
+    "old_blob": "662316583c119454e7d502d224e9bd50ea90f09e",
+    "new_blob": "605fd32539944e3f4d1c43f3bdae96f95ced30fa",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_models.py",
+    "destination": "tests/test_integrations/pandoc/test_models.py",
+    "old_blob": "6ca891d47e017da890ef1c28010cae555befe1d8",
+    "new_blob": "76867f70ac91bd0caff2a31f1f4226afe943459d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_pandoc_integration.py",
+    "destination": "tests/test_integrations/pandoc/test_pandoc_integration.py",
+    "old_blob": "519eb93788f03666bcf8e122bcf95abcb31f8e88",
+    "new_blob": "ff1eda16f73f297df05dd66906fe71edd175f154",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_converter.py",
+    "destination": "tests/test_integrations/pandoc/test_converter.py",
+    "old_blob": "90dad2634645492fdb2d0fa42dffbf043f5ba513",
+    "new_blob": "a5dd6637fcbf1c5fe525b0a6af3696a7dd271505",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/conftest.py",
+    "destination": "tests/test_integrations/pandoc/conftest.py",
+    "old_blob": "df67fb4a80357789df524c24c1b534246c66f552",
+    "new_blob": "7059077ace4b3b4847f605bd69be3615a48bf466",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_newsletter_decode.py",
+    "destination": "tests/test_integrations/pandoc/test_newsletter_decode.py",
+    "old_blob": "c95b7b004e7bb585bb730d8eee1ea9b0d7c023e6",
+    "new_blob": "bd309cc7166df74c584d57840377e3fffc1bbf5e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/mocks.py",
+    "destination": "tests/test_integrations/pandoc/mocks.py",
+    "old_blob": "6ec756bc0ae9649ba6b6a09fd0255b6812d70178",
+    "new_blob": "6ec756bc0ae9649ba6b6a09fd0255b6812d70178",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_email_render.py",
+    "destination": "tests/test_integrations/pandoc/test_email_render.py",
+    "old_blob": "05b09c36f6587b79499ad41c1fe1ab11b9347376",
+    "new_blob": "1b85a9b2245554b0c5e48522200011c254960495",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_service.py",
+    "destination": "tests/test_integrations/pandoc/test_service.py",
+    "old_blob": "dac2111e81a9de77e68cf3a9d0a6b8447a1eb232",
+    "new_blob": "c7ee69e5d286aeb1bb6e54613f424eba25eec3dc",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_newsletter_hidden.py",
+    "destination": "tests/test_integrations/pandoc/test_newsletter_hidden.py",
+    "old_blob": "8199b11c15de22fd4020b27fef71f07561f9182a",
+    "new_blob": "255a2b1a15899f7d016e9c59989f50c9c20d6fad",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_pandoc_integration_edge_cases.py",
+    "destination": "tests/test_integrations/pandoc/test_pandoc_integration_edge_cases.py",
+    "old_blob": "df98e1f7139b24f9138b32bf43573913e57ae270",
+    "new_blob": "300de57d33a0366707bd0c1585588c1e569350a9",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/__init__.py",
+    "destination": "tests/test_integrations/pandoc/__init__.py",
+    "old_blob": "b93588639ba3c1a2b829eef5a0b37dabe3b9f62e",
+    "new_blob": "b93588639ba3c1a2b829eef5a0b37dabe3b9f62e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_pandoc_integration_full.py",
+    "destination": "tests/test_integrations/pandoc/test_pandoc_integration_full.py",
+    "old_blob": "740c530f1e3fb1d5678bc3ec800e28e48e89b3f3",
+    "new_blob": "78b561e650664c5153cffad6fd08827e2740502a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_newsletter_convert.py",
+    "destination": "tests/test_integrations/pandoc/test_newsletter_convert.py",
+    "old_blob": "3f56c13ebaf7cff202b75345c3ddde730208c9f4",
+    "new_blob": "f66f5e8511f244a2badb0e8bd09fd29c8a8671b4",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/test_pandoc_utils.py",
+    "destination": "tests/test_integrations/pandoc/test_pandoc_utils.py",
+    "old_blob": "e992f84dfbacabcc3e3b83d32696a21727c72056",
+    "new_blob": "84903c1b2d762dc091000ecb247841d894159d14",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/operations/test_utils_fix.py",
+    "destination": "tests/test_integrations/pandoc/operations/test_utils_fix.py",
+    "old_blob": "31f1d4da6a0af4f12e09e936c04eff694da5da26",
+    "new_blob": "08c35d4b4ed9e60b58311e9aa30dbd9a52a0cdf0",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/operations/test_utils.py",
+    "destination": "tests/test_integrations/pandoc/operations/test_utils.py",
+    "old_blob": "4627cfbad15e0fa8ee3e3e4d10a02189bd95ce8f",
+    "new_blob": "8fd4160f723d5244b791c4722691bc22a2bd504f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/operations/test_md_to_docx.py",
+    "destination": "tests/test_integrations/pandoc/operations/test_md_to_docx.py",
+    "old_blob": "8e3fe04aead561b66eec64046c079be15248fcd9",
+    "new_blob": "4be7b8c24f7c07348cb0cde3a5bc7ff2148e18dd",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/operations/test_html_to_md.py",
+    "destination": "tests/test_integrations/pandoc/operations/test_html_to_md.py",
+    "old_blob": "d2f43807231bd6db0c297e56b8f0567439ae064d",
+    "new_blob": "4b3fe2334eb49bde4bc7ae594213a4e2d750f94e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/operations/__init__.py",
+    "destination": "tests/test_integrations/pandoc/operations/__init__.py",
+    "old_blob": "39ce953758a72a3ccc5a9f93e5175e91fe1c52ce",
+    "new_blob": "39ce953758a72a3ccc5a9f93e5175e91fe1c52ce",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/issue-five-picks.expected.json",
+    "destination": "tests/test_integrations/pandoc/fixtures/issue-five-picks.expected.json",
+    "old_blob": "6c0af78308c7dae835b342a4e79c3a0ab7ce4196",
+    "new_blob": "6c0af78308c7dae835b342a4e79c3a0ab7ce4196",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/issue-five-picks.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/issue-five-picks.md",
+    "old_blob": "8636fbb98430df70287e0b80d0ef0219ea7c6a3e",
+    "new_blob": "8636fbb98430df70287e0b80d0ef0219ea7c6a3e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/issue-five-picks.expected.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/issue-five-picks.expected.html",
+    "old_blob": "99f4e5c9c56fbe3cc9aa6f9177e6745a1f990d69",
+    "new_blob": "99f4e5c9c56fbe3cc9aa6f9177e6745a1f990d69",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/04-hidden-text.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/04-hidden-text.html",
+    "old_blob": "347b6e3192720cd1295d37dbb2314ebdc403578a",
+    "new_blob": "347b6e3192720cd1295d37dbb2314ebdc403578a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/expected.json",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/expected.json",
+    "old_blob": "ec0802552f96d74c80df272aa1548f7b7caab401",
+    "new_blob": "ec0802552f96d74c80df272aa1548f7b7caab401",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/12-gfm-extensions.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/12-gfm-extensions.html",
+    "old_blob": "f75005a38c9fe8c67a8d303c99a188e74550b075",
+    "new_blob": "f75005a38c9fe8c67a8d303c99a188e74550b075",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/12-gfm-extensions.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/12-gfm-extensions.expected.md",
+    "old_blob": "88b6703817074991dafd3082ae41d684e11be901",
+    "new_blob": "88b6703817074991dafd3082ae41d684e11be901",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/10-malformed.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/10-malformed.expected.md",
+    "old_blob": "848d9d5c98642ba1c6e8ea57e17fb3edf008ed9b",
+    "new_blob": "848d9d5c98642ba1c6e8ea57e17fb3edf008ed9b",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/08-non-ascii.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/08-non-ascii.html",
+    "old_blob": "9ff4ba3899d8f52c417583a347f60aa60e451fcd",
+    "new_blob": "9ff4ba3899d8f52c417583a347f60aa60e451fcd",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/09-redirect-links.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/09-redirect-links.html",
+    "old_blob": "8ea5cb89dcc5bfe439e905bc23d1f397b0a11d6e",
+    "new_blob": "8ea5cb89dcc5bfe439e905bc23d1f397b0a11d6e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/11-hidden-kinds.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/11-hidden-kinds.expected.md",
+    "old_blob": "4d8f13d563c9d3ea87544d1ce5d15b6817cd60f6",
+    "new_blob": "4d8f13d563c9d3ea87544d1ce5d15b6817cd60f6",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/06-hostile-text.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/06-hostile-text.expected.md",
+    "old_blob": "c7b6238451d6b4dc2ca5e407193a2d9c11720c76",
+    "new_blob": "c7b6238451d6b4dc2ca5e407193a2d9c11720c76",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/08-non-ascii.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/08-non-ascii.expected.md",
+    "old_blob": "01d0253909e094e650b66cfb81873d3d6978ee50",
+    "new_blob": "01d0253909e094e650b66cfb81873d3d6978ee50",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/01-simple-article.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/01-simple-article.html",
+    "old_blob": "8a72f4ad120c60299c9fa2b63492c71383ee06b7",
+    "new_blob": "8a72f4ad120c60299c9fa2b63492c71383ee06b7",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/03-unsubscribe-footer.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/03-unsubscribe-footer.html",
+    "old_blob": "2aa5a2369a5ce8ebbdb0c73e7ba6e4a117d6254c",
+    "new_blob": "2aa5a2369a5ce8ebbdb0c73e7ba6e4a117d6254c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/09-redirect-links.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/09-redirect-links.expected.md",
+    "old_blob": "a150c632f153d35e83fd152efc9cf1bde3998451",
+    "new_blob": "a150c632f153d35e83fd152efc9cf1bde3998451",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/04-hidden-text.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/04-hidden-text.expected.md",
+    "old_blob": "c99c7b8bbc7320411d64ae1c274f0664ec80d814",
+    "new_blob": "c99c7b8bbc7320411d64ae1c274f0664ec80d814",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/03-unsubscribe-footer.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/03-unsubscribe-footer.expected.md",
+    "old_blob": "45983963cfa293c18a79d5560298a462b076b3b3",
+    "new_blob": "45983963cfa293c18a79d5560298a462b076b3b3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/02-tracking-pixels.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/02-tracking-pixels.html",
+    "old_blob": "cdd9b6d7ef6ff7390ecbdfa074f9bc15846a6d9d",
+    "new_blob": "cdd9b6d7ef6ff7390ecbdfa074f9bc15846a6d9d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/01-simple-article.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/01-simple-article.expected.md",
+    "old_blob": "1ec379c2922938d3eeed66ad424b9a82fc2a5572",
+    "new_blob": "1ec379c2922938d3eeed66ad424b9a82fc2a5572",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/02-tracking-pixels.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/02-tracking-pixels.expected.md",
+    "old_blob": "25f4178a436a81ec8c3e202b27af464db4ed217a",
+    "new_blob": "25f4178a436a81ec8c3e202b27af464db4ed217a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/07-table-layout.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/07-table-layout.html",
+    "old_blob": "70638c2d4cc32839c566ee290d75619647da8959",
+    "new_blob": "70638c2d4cc32839c566ee290d75619647da8959",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/05-scripts-and-forms.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/05-scripts-and-forms.expected.md",
+    "old_blob": "5f5a23d5fcb8bf07bed58e14e53de493e39a079c",
+    "new_blob": "5f5a23d5fcb8bf07bed58e14e53de493e39a079c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/06-hostile-text.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/06-hostile-text.html",
+    "old_blob": "a8a26693838c45a17a3efa5be72233ed923b72c5",
+    "new_blob": "a8a26693838c45a17a3efa5be72233ed923b72c5",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/07-table-layout.expected.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/07-table-layout.expected.md",
+    "old_blob": "16b0f167d3d78e148a7c21b1255c0b30437c3065",
+    "new_blob": "16b0f167d3d78e148a7c21b1255c0b30437c3065",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/05-scripts-and-forms.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/05-scripts-and-forms.html",
+    "old_blob": "27df1786ea912861618af597ff015d48fea30c2f",
+    "new_blob": "27df1786ea912861618af597ff015d48fea30c2f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/11-hidden-kinds.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/11-hidden-kinds.html",
+    "old_blob": "dbc2f44f4e2fd88670e3856181916926c91b6b87",
+    "new_blob": "dbc2f44f4e2fd88670e3856181916926c91b6b87",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/newsletters/10-malformed.html",
+    "destination": "tests/test_integrations/pandoc/fixtures/newsletters/10-malformed.html",
+    "old_blob": "c8528da9d9b5f13d60a53d7e7219bf629ae70165",
+    "new_blob": "c8528da9d9b5f13d60a53d7e7219bf629ae70165",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/webkit/sow41-differential.json",
+    "destination": "tests/test_integrations/pandoc/fixtures/webkit/sow41-differential.json",
+    "old_blob": "2c8e2a618638276e7bfc69dbbc3fa13c6c5ee9fb",
+    "new_blob": "2c8e2a618638276e7bfc69dbbc3fa13c6c5ee9fb",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/pandoc/fixtures/webkit/README.md",
+    "destination": "tests/test_integrations/pandoc/fixtures/webkit/README.md",
+    "old_blob": "cf056e3076cce262f7835d48e2832353733d5b1f",
+    "new_blob": "cf056e3076cce262f7835d48e2832353733d5b1f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/converter.py",
+    "destination": "src/zeo_integrations/jupytext/converter.py",
+    "old_blob": "55ae9da1f1acbf188aa4271e5e6ef6e6154ddf1e",
+    "new_blob": "1164ccbffd7022a2ae01280a34803f4571fbbb22",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/parity.py",
+    "destination": "src/zeo_integrations/jupytext/parity.py",
+    "old_blob": "2566c0de20e1b1da4ed9c19108f6a570aad4a987",
+    "new_blob": "762456d0f09fd7fbb6c41e98e916be2ff4fdcc60",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/service.py",
+    "destination": "src/zeo_integrations/jupytext/service.py",
+    "old_blob": "0019c07162a8192adce71b3f59f2c94b85a5f884",
+    "new_blob": "f187f0b9e321197f085d6e9517e11f0d83ac99fc",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/config.py",
+    "destination": "src/zeo_integrations/jupytext/config.py",
+    "old_blob": "940c567b42fe72f93a56c08c31043d6e91049506",
+    "new_blob": "329da2a1c42e322b958b4c95e47ef680329ec188",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/__init__.py",
+    "destination": "src/zeo_integrations/jupytext/__init__.py",
+    "old_blob": "3ffae4e1c1802aaf43953123c50fbf8f13c62b88",
+    "new_blob": "513479b98b08adb9c616d36c2ee771786db5cce1",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/models.py",
+    "destination": "src/zeo_integrations/jupytext/models.py",
+    "old_blob": "11e81b9d1c4be8314aa14826196fab1cc6df007b",
+    "new_blob": "11e81b9d1c4be8314aa14826196fab1cc6df007b",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/protocols.py",
+    "destination": "src/zeo_integrations/jupytext/protocols.py",
+    "old_blob": "2d87c52f52a6342ca831d8c0b806f6aa6fa0b2a1",
+    "new_blob": "3cfc357e7acf24f89263a41decac0ce64ae9eb8d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/operations/utils.py",
+    "destination": "src/zeo_integrations/jupytext/operations/utils.py",
+    "old_blob": "5aea4bfad51f3f4dd8281dcae70a46d8448de8bc",
+    "new_blob": "27bd43833f0233997183e1f8e34c46cfca8e59dc",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/operations/to_notebook.py",
+    "destination": "src/zeo_integrations/jupytext/operations/to_notebook.py",
+    "old_blob": "cec013536bda40e1c10047b5576a2d08fbc85d0e",
+    "new_blob": "a43045b2db2f888bf93e9501084a8f0d4ada71b0",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/operations/__init__.py",
+    "destination": "src/zeo_integrations/jupytext/operations/__init__.py",
+    "old_blob": "b027c599edc004b59939e462ddadba21b517e4d9",
+    "new_blob": "ad36e5eb171e747b040b67d40a1c7cc75c1c7d23",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/jupytext/operations/to_script.py",
+    "destination": "src/zeo_integrations/jupytext/operations/to_script.py",
+    "old_blob": "98ffaaa533c94aef74797e43a6ee04a628fb6dc3",
+    "new_blob": "8ce3c5c18566c175765f4bc9c8d7c3cec248f5da",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/test_config.py",
+    "destination": "tests/test_integrations/jupytext/test_config.py",
+    "old_blob": "483c00a63476bbc3cf669174b5027ffb849d675f",
+    "new_blob": "617b4abb7e1c5511d586f7a9a6838a6d15cc2121",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/test_models.py",
+    "destination": "tests/test_integrations/jupytext/test_models.py",
+    "old_blob": "71c7b0a165db4658d4d1bdf508df0e13b7d9d67b",
+    "new_blob": "431d92df03e41af70b0df1eb7f3c489bab8bc683",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/test_converter.py",
+    "destination": "tests/test_integrations/jupytext/test_converter.py",
+    "old_blob": "88a7d1520fb2785ae8decdcb8d06eeeb7a972d98",
+    "new_blob": "bc2f8c5b9b5ccbc9afc9ac8a6f35713c31833189",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/conftest.py",
+    "destination": "tests/test_integrations/jupytext/conftest.py",
+    "old_blob": "04f93ebd27cf9f2aa9dd7eea3c934a0d384bff1b",
+    "new_blob": "57333ff5777080c1a6d907347fe73385b1f9c3b4",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/test_service.py",
+    "destination": "tests/test_integrations/jupytext/test_service.py",
+    "old_blob": "0731bcf5b3ef45160e09d04867a0eeb72771df85",
+    "new_blob": "aac4d607ad7087fe90483f0ff31ad5c19cf3aae7",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/__init__.py",
+    "destination": "tests/test_integrations/jupytext/__init__.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/operations/test_to_script.py",
+    "destination": "tests/test_integrations/jupytext/operations/test_to_script.py",
+    "old_blob": "9653aeae8651ddb4798b70ff8a70aa2339629964",
+    "new_blob": "06e6e39521c23ff6654fccde816f2fd897d324f9",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/operations/test_utils.py",
+    "destination": "tests/test_integrations/jupytext/operations/test_utils.py",
+    "old_blob": "c8298540e2d49df787f33ca40fbd0e95b62195d2",
+    "new_blob": "cc8e8391a2530686889db942619736d2b6eb2060",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/operations/test_to_notebook.py",
+    "destination": "tests/test_integrations/jupytext/operations/test_to_notebook.py",
+    "old_blob": "c3ae492187e5bb4008b20cfc0b4e0cb885ca418d",
+    "new_blob": "2aa24a739187ffb9e8c3f009f36db4dbb89b0ddb",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/jupytext/operations/__init__.py",
+    "destination": "tests/test_integrations/jupytext/operations/__init__.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/bounded_client.py",
+    "destination": "src/zeo_integrations/notebook/bounded_client.py",
+    "old_blob": "d8c9ea2c8fe78c0e2e1217d447136881d620e5c1",
+    "new_blob": "b3dca3d722e8f2e3b5b536c756f8841969255e92",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/identity.py",
+    "destination": "src/zeo_integrations/notebook/identity.py",
+    "old_blob": "8d2913d9eb37b22391fe1ec2fc882e8edee45c24",
+    "new_blob": "fac6e360e9244ebc54917219c7e5e0ae110abcf1",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/processes.py",
+    "destination": "src/zeo_integrations/notebook/processes.py",
+    "old_blob": "c85774412284c1980364ef0ec6dd6092e3b61807",
+    "new_blob": "c85774412284c1980364ef0ec6dd6092e3b61807",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/service.py",
+    "destination": "src/zeo_integrations/notebook/service.py",
+    "old_blob": "81cb71c3599f067acecc6deefbbc7f353a58b8a7",
+    "new_blob": "649374d1a7ebcca24883b32b4ddd424a1e8c5ec3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/worker.py",
+    "destination": "src/zeo_integrations/notebook/worker.py",
+    "old_blob": "0afa328cffebb0e4c4aebe160809673501ff1dbd",
+    "new_blob": "dcfa562127b71fbb960a7cceb3ea704cd29f4104",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/__init__.py",
+    "destination": "src/zeo_integrations/notebook/__init__.py",
+    "old_blob": "82e8b5c1eeb2a3373c150aeac3128024b8157287",
+    "new_blob": "55e38348c800c543066b16b7b088e24f134ff4e8",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/notebook/models.py",
+    "destination": "src/zeo_integrations/notebook/models.py",
+    "old_blob": "82a7700afd5298fdc246d2fafb2217bed4aef3e9",
+    "new_blob": "f24a560a52699728b37ef3e56b466e0a26339b89",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/fallback.py",
+    "destination": "src/zeo_integrations/llms/fallback.py",
+    "old_blob": "119edbc2029a6630edd430d74b0b2320d1d27353",
+    "new_blob": "a90befc9797eeb12bdfcc53c26c7a2bdb46880b8",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/errors.py",
+    "destination": "src/zeo_integrations/llms/errors.py",
+    "old_blob": "87cf6694fd6c17c0edd052f7533ee3e1ee49eaec",
+    "new_blob": "87cf6694fd6c17c0edd052f7533ee3e1ee49eaec",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/config.py",
+    "destination": "src/zeo_integrations/llms/config.py",
+    "old_blob": "4f2653e98a7cfc66ef68a6e76542bf62113e0393",
+    "new_blob": "47045c079fa8a58cdf68b25a618fb5528b5567cd",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/registry.py",
+    "destination": "src/zeo_integrations/llms/registry.py",
+    "old_blob": "91e733b5e038af70e2de0907a8e2067049c2ed22",
+    "new_blob": "4fa73b9042a4c470479331d1fcd187ba1b09a570",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/__init__.py",
+    "destination": "src/zeo_integrations/llms/__init__.py",
+    "old_blob": "016507e1104df46f6967bcd0cf9cfc80ec4e9f53",
+    "new_blob": "7f62dae140df403cb0325041c73f7e2817eaafb4",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/models.py",
+    "destination": "src/zeo_integrations/llms/models.py",
+    "old_blob": "9f9a2f1c304cc700cee7d414f3f18ae4e5c616a6",
+    "new_blob": "9f9a2f1c304cc700cee7d414f3f18ae4e5c616a6",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/protocols.py",
+    "destination": "src/zeo_integrations/llms/protocols.py",
+    "old_blob": "6abe5cd64502a509283b5952547b61affadfc188",
+    "new_blob": "3cc8a8001230d2428e29d92488a978a7b9049a56",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/execution.py",
+    "destination": "src/zeo_integrations/llms/execution.py",
+    "old_blob": "c7dc4bcf2b9e59d07b8aa6fc2fd601aa3e87a582",
+    "new_blob": "f97bdc6c6277655fd6f908400041d9f603fa3046",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/service/integration.py",
+    "destination": "src/zeo_integrations/llms/service/integration.py",
+    "old_blob": "df769d9b06827a7162986952e0303f95de1fd1cb",
+    "new_blob": "c50834a7033c19898ff907893a61c441c6ba64a8",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/service/operations.py",
+    "destination": "src/zeo_integrations/llms/service/operations.py",
+    "old_blob": "2c944c7733fdecf0fa6e183f462b87f59a12af25",
+    "new_blob": "4963d71ab76111c4c8e6b36908af606a18cc7767",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/service/initialization.py",
+    "destination": "src/zeo_integrations/llms/service/initialization.py",
+    "old_blob": "4774bd33cf9c5aba85cf596e7c267c151906d41c",
+    "new_blob": "76b4f114ece27102235c8252f399b622ef1c1d2c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/service/__init__.py",
+    "destination": "src/zeo_integrations/llms/service/__init__.py",
+    "old_blob": "53b5f671ea3a5d9734e1791c246c9981a06edd56",
+    "new_blob": "c1006ea458091fb01ec72121086c9549b5cdc113",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/service/managed.py",
+    "destination": "src/zeo_integrations/llms/service/managed.py",
+    "old_blob": "9d2ee16e2a633d2b36dab51dd9328b5b927b4e21",
+    "new_blob": "a3d7212509773fd4be84befdd3c77535b6517781",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/service/dependencies.py",
+    "destination": "src/zeo_integrations/llms/service/dependencies.py",
+    "old_blob": "9c28f8c8c66671fcc6d6107eba4975cd2fc5611c",
+    "new_blob": "9c28f8c8c66671fcc6d6107eba4975cd2fc5611c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/moonshot.py",
+    "destination": "src/zeo_integrations/llms/clients/moonshot.py",
+    "old_blob": "12cc1b8c61451f303e46fa89fdc0cc4f40245262",
+    "new_blob": "3f17ebc6bdc080188d1768929213ddb7a411f23f",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/openai.py",
+    "destination": "src/zeo_integrations/llms/clients/openai.py",
+    "old_blob": "6e9ff6629ee09ee322afb41c2c896744fb10ffe2",
+    "new_blob": "39b2b7e206912e345866bbc01618c079c62ba8ad",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/mock.py",
+    "destination": "src/zeo_integrations/llms/clients/mock.py",
+    "old_blob": "dd8cf0030d95aa9a67f28a2c94b662092ede27b3",
+    "new_blob": "f34005e8d9178eebb847c2b2e1ea23aa30f66865",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/base.py",
+    "destination": "src/zeo_integrations/llms/clients/base.py",
+    "old_blob": "5494f1485d8ae56bf8ca82beec992f77298e920a",
+    "new_blob": "bc83f0a10446641a25f1d5e40cbce91181a44083",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/__init__.py",
+    "destination": "src/zeo_integrations/llms/clients/__init__.py",
+    "old_blob": "1bda111556095e38c89715cc5c49490fd3b0840e",
+    "new_blob": "70a02f7c597a4bde6656d95e1a773123dfbd1880",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/anthropic.py",
+    "destination": "src/zeo_integrations/llms/clients/anthropic.py",
+    "old_blob": "998796de9e16c984fda56e455ddaed9350304198",
+    "new_blob": "58484ab02523c93bd8228eca0039047b577d5955",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/llms/clients/ollama.py",
+    "destination": "src/zeo_integrations/llms/clients/ollama.py",
+    "old_blob": "9a6635b091f80f936925572dc9cd3a7e74d2e79b",
+    "new_blob": "8b3e3f5f38c14ff15135d8ae2425d07ef28affc3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_config.py",
+    "destination": "tests/test_integrations/llms/test_config.py",
+    "old_blob": "c590e603fbd7484e046c3a86b66603f36516ff41",
+    "new_blob": "87abfb2674ed8568e6660bdb41e98d2e1d2a2652",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_protocols.py",
+    "destination": "tests/test_integrations/llms/test_protocols.py",
+    "old_blob": "fd458339e554d29aabe4f3dfb8456a88611a1149",
+    "new_blob": "4a9106a1709efec47bbd6f9f4ae3731f82b78a1e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_registry.py",
+    "destination": "tests/test_integrations/llms/test_registry.py",
+    "old_blob": "558c95b8be9e0d3697788f658abdf79052441a0b",
+    "new_blob": "94e86c96e44856d2b0b361f90d6759461910f2ad",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_models.py",
+    "destination": "tests/test_integrations/llms/test_models.py",
+    "old_blob": "2c81cd4db9ddb968985ac3d980d18317a9e9c8cb",
+    "new_blob": "7f6486d49fea9bf5f058c6ac73e833c3eb82b934",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_config_provider.py",
+    "destination": "tests/test_integrations/llms/test_config_provider.py",
+    "old_blob": "80544a39652f0020862951a436a6b9faa2e088e1",
+    "new_blob": "e7da630d8fbadeec66632e617b2658f807b6984d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_integration.py",
+    "destination": "tests/test_integrations/llms/test_integration.py",
+    "old_blob": "09de799d65129006d96219385a909758f1a0db65",
+    "new_blob": "6e414d173ee0b08de92a43b1bb9c30e61f76eef3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_llms.py",
+    "destination": "tests/test_integrations/llms/test_llms.py",
+    "old_blob": "2b20b52b6a0f8325cc587096f35698cc3bfe4405",
+    "new_blob": "2b20b52b6a0f8325cc587096f35698cc3bfe4405",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_service.py",
+    "destination": "tests/test_integrations/llms/test_service.py",
+    "old_blob": "115591c4ae1cb9a118aa19bd401e709b6b603daf",
+    "new_blob": "c26bf6f0e2c0589cb79ddaf60aaec80e2c9bfb18",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/__init__.py",
+    "destination": "tests/test_integrations/llms/__init__.py",
+    "old_blob": "45ee39990e71721682dfbb292066d2b731ae66cd",
+    "new_blob": "cebb9ae4a1f4d3da89762c53d8f8abbda8371eea",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/test_fallback.py",
+    "destination": "tests/test_integrations/llms/test_fallback.py",
+    "old_blob": "8fae1461fd7909b554caf3ffed26a76e65b9540a",
+    "new_blob": "9581379b3e8f68dc27946013e24ddd9809af54ce",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/service/test_init_module.py",
+    "destination": "tests/test_integrations/llms/service/test_init_module.py",
+    "old_blob": "2fc73e422c6c13e65c58c59686a16da5fdec26a6",
+    "new_blob": "f3167b219e3a6c7efa6aad8849d9d4f09e8b2b7b",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/service/test_integration.py",
+    "destination": "tests/test_integrations/llms/service/test_integration.py",
+    "old_blob": "d6af5c3ed214a9d7b9788bbad0c5540c8e982ece",
+    "new_blob": "bf319f097fecdfc3e2baa000a6664e1ed881c2c3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/service/__init__.py",
+    "destination": "tests/test_integrations/llms/service/__init__.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/service/test_dependencies.py",
+    "destination": "tests/test_integrations/llms/service/test_dependencies.py",
+    "old_blob": "b3f2c3c056397e5d2be75d9302316f442bdc7da9",
+    "new_blob": "45bbefadad2360ff8ed5d9a77efed8553f4195b3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/service/test_initialization.py",
+    "destination": "tests/test_integrations/llms/service/test_initialization.py",
+    "old_blob": "22e143640a5873cb2bf325eb140c752a0fcc9a42",
+    "new_blob": "aa60f03b89b81efc4e662319a8ac0831a25e7af9",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/service/test_operations.py",
+    "destination": "tests/test_integrations/llms/service/test_operations.py",
+    "old_blob": "05d1ab998f92e42385c47227ba7009e3fd63cafa",
+    "new_blob": "a78413c2bc9149c1479066f8ad153741fa181db3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/mocks/clients.py",
+    "destination": "tests/test_integrations/llms/mocks/clients.py",
+    "old_blob": "54ac617b0a49558fa17f3ef7c7416a0fbb9e9974",
+    "new_blob": "87c9b1453b473ad6a8a4a63603cd6a6021f82942",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/mocks/openai.py",
+    "destination": "tests/test_integrations/llms/mocks/openai.py",
+    "old_blob": "91e6815185ffd69abd32669cefca6e77df257eea",
+    "new_blob": "91e6815185ffd69abd32669cefca6e77df257eea",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/mocks/base.py",
+    "destination": "tests/test_integrations/llms/mocks/base.py",
+    "old_blob": "ef0838520499eecff408ef283b4be56c16b95281",
+    "new_blob": "ef0838520499eecff408ef283b4be56c16b95281",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/mocks/__init__.py",
+    "destination": "tests/test_integrations/llms/mocks/__init__.py",
+    "old_blob": "5d49d6a3f68a85996a2061db27cc7b14a7367fd6",
+    "new_blob": "5d49d6a3f68a85996a2061db27cc7b14a7367fd6",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/mocks/anthropic.py",
+    "destination": "tests/test_integrations/llms/mocks/anthropic.py",
+    "old_blob": "49cefdd6bc50b205752e9688826e5e789cfd85ab",
+    "new_blob": "49cefdd6bc50b205752e9688826e5e789cfd85ab",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_clients.py",
+    "destination": "tests/test_integrations/llms/clients/test_clients.py",
+    "old_blob": "c2f3057397c61112d7bb921468f3bc9bd864cc4d",
+    "new_blob": "76a4680a00c0c9549ad448b7ce97013da755f610",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_base.py",
+    "destination": "tests/test_integrations/llms/clients/test_base.py",
+    "old_blob": "396f4eb2d26640a9955c4df5563213f996242e52",
+    "new_blob": "dce82dca8a31b2dc639d5a8af2147c8248a903ef",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_anthropic.py",
+    "destination": "tests/test_integrations/llms/clients/test_anthropic.py",
+    "old_blob": "e3066be32260437178605d7f2a66e73a87cda832",
+    "new_blob": "aa7163e094da4eb325c094ac7762a0482aa6a070",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_mock.py",
+    "destination": "tests/test_integrations/llms/clients/test_mock.py",
+    "old_blob": "67439dd6e50981ac0256296f5a55b057d680cfc6",
+    "new_blob": "986ddfe22feb0f82b82e9afe2ba10d9f98e93136",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/__init__.py",
+    "destination": "tests/test_integrations/llms/clients/__init__.py",
+    "old_blob": "a8446ffe79faefd7960cc321a14fae3436ffa4cf",
+    "new_blob": "b620249ee2e639adc7ccf70b6cfbfc4d430132cf",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_moonshot.py",
+    "destination": "tests/test_integrations/llms/clients/test_moonshot.py",
+    "old_blob": "d1ef22926c8585b46a5b8127581513914bd6dde5",
+    "new_blob": "0f9984906c6d4c836ebb1a96f60d1ebd9a514f81",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_ollama.py",
+    "destination": "tests/test_integrations/llms/clients/test_ollama.py",
+    "old_blob": "02ebde4b9e2ccdb23d4b6c8e02b8070f67f51962",
+    "new_blob": "ad28a3af3930349c4be940aa9c5d26cf6c1f70d7",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/llms/clients/test_openai.py",
+    "destination": "tests/test_integrations/llms/clients/test_openai.py",
+    "old_blob": "15842182d80b738bfa10406a8629a38f5267d3f2",
+    "new_blob": "c8f33a552d90bbdd5b8b970e4b005c28a9190e30",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/gemini/operation.py",
+    "destination": "src/zeo_integrations/gemini/operation.py",
+    "old_blob": "c9c107427211954edf681cab38bc6fe56038733a",
+    "new_blob": "1c139034316216bd0bfc9b5709fcbc26d8771bfa",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/gemini/transport.py",
+    "destination": "src/zeo_integrations/gemini/transport.py",
+    "old_blob": "bbab333395723ece8c1734a7f0327c8554a56539",
+    "new_blob": "836188320afd040920992e482d817860def846c8",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/gemini/service.py",
+    "destination": "src/zeo_integrations/gemini/service.py",
+    "old_blob": "c531d1407fd83fa5e6d534452fe29372ce93ea09",
+    "new_blob": "37edd0408c4e93594c4b28c28c7ed54b497c849c",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/gemini/artifacts.py",
+    "destination": "src/zeo_integrations/gemini/artifacts.py",
+    "old_blob": "5f7512270772447236b6c4efdbe31c61fd0abf15",
+    "new_blob": "5f7512270772447236b6c4efdbe31c61fd0abf15",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/gemini/__init__.py",
+    "destination": "src/zeo_integrations/gemini/__init__.py",
+    "old_blob": "4946a2d0cf2173f804c6cb0cf38a20b34f2a08df",
+    "new_blob": "4946a2d0cf2173f804c6cb0cf38a20b34f2a08df",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/gemini/models.py",
+    "destination": "src/zeo_integrations/gemini/models.py",
+    "old_blob": "2b7a8c0a288b5a9b7c2556c4a8ca144305117f85",
+    "new_blob": "2b7a8c0a288b5a9b7c2556c4a8ca144305117f85",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/auth.py",
+    "destination": "src/zeo_integrations/social/bluesky/auth.py",
+    "old_blob": "ef7f279ccc1506638e754ef3c0d49dac9b6062f4",
+    "new_blob": "0c54aa50f507f58631c759b865b418e6f46554d4",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/facets.py",
+    "destination": "src/zeo_integrations/social/bluesky/facets.py",
+    "old_blob": "e851ae55ed132b927db8ca33e5f857e0a2f68bea",
+    "new_blob": "e851ae55ed132b927db8ca33e5f857e0a2f68bea",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/service.py",
+    "destination": "src/zeo_integrations/social/bluesky/service.py",
+    "old_blob": "17c3fd49fdbbc0517d906492ee29bde1538f4cd5",
+    "new_blob": "9f1dfe3d68202e2ddade2e239bdbcb88e349cfd1",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/config.py",
+    "destination": "src/zeo_integrations/social/bluesky/config.py",
+    "old_blob": "8107a6bac5bdb382f15f0ca9b7160f0c4f9a99b8",
+    "new_blob": "80dc49b6a684de808746ee8177f67eff58d5929d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/__init__.py",
+    "destination": "src/zeo_integrations/social/bluesky/__init__.py",
+    "old_blob": "d74bc2fb9adcf298e2d8735af11a7c140d7d0dd2",
+    "new_blob": "aea87737844e978c34aff876b40eb8fbc3b02e40",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/client.py",
+    "destination": "src/zeo_integrations/social/bluesky/client.py",
+    "old_blob": "277bd16370a029151b19d83427a70726cc98d11c",
+    "new_blob": "16821b46cd3e8bf17ca424f66a6d170c8b9d1879",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/credential_paths.py",
+    "destination": "src/zeo_integrations/social/bluesky/credential_paths.py",
+    "old_blob": "6268ea1db96371ef41ad370be05ec052f90bee05",
+    "new_blob": "d73db3d73ca0271616fa31a7c6f2115fa3395872",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "src/zeo_core/integrations/social/bluesky/protocols.py",
+    "destination": "src/zeo_integrations/social/bluesky/protocols.py",
+    "old_blob": "10e9e09e1694c01b273258b9c9fd128fdc2f491d",
+    "new_blob": "10e9e09e1694c01b273258b9c9fd128fdc2f491d",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_config.py",
+    "destination": "tests/test_integrations/social/bluesky/test_config.py",
+    "old_blob": "61102a97fed0c0232694d6b94c6764bf8cadf4ba",
+    "new_blob": "eda909ae5a9bfb5c3a747703bbf4d90b909fca1a",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_client.py",
+    "destination": "tests/test_integrations/social/bluesky/test_client.py",
+    "old_blob": "1a9f3d0dafd44d31acf800a37182cc93dc75229d",
+    "new_blob": "136da40919d0f06aa4ec0f21d4fd4461b49a25cf",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_credential_paths.py",
+    "destination": "tests/test_integrations/social/bluesky/test_credential_paths.py",
+    "old_blob": "e6215371871ae2e5352c92a87261bcf0211f9214",
+    "new_blob": "3a9474e319dfb436b17aba2390b69881705f81da",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_facets.py",
+    "destination": "tests/test_integrations/social/bluesky/test_facets.py",
+    "old_blob": "aa9aad04cf68bf2b88594ccd1df844d3a07179d8",
+    "new_blob": "4105bdb69f872ae5e7b5208f919ca632adb8134e",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_service.py",
+    "destination": "tests/test_integrations/social/bluesky/test_service.py",
+    "old_blob": "acfdc43eb72f26ec5b4463f975d9c17a14107903",
+    "new_blob": "d792b571806d9d19ec36f880f059b58b431ea8a9",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/__init__.py",
+    "destination": "tests/test_integrations/social/bluesky/__init__.py",
+    "old_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "new_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_auth.py",
+    "destination": "tests/test_integrations/social/bluesky/test_auth.py",
+    "old_blob": "3d36f0cb436ddd9f3e48f9048e14f6ee7be1f27f",
+    "new_blob": "0b6dd8487014378fa1e114df5ccaa3175307fab3",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source": "tests/test_integrations/social/bluesky/test_fresh_directory.py",
+    "destination": "tests/test_integrations/social/bluesky/test_fresh_directory.py",
+    "old_blob": "34a2e2cd9a1447d22e223c65e6915df618b3583f",
+    "new_blob": "a935e41f4252ed5594a72ee3b55a9cd8023379fe",
+    "source_archive": "zeocore-improved-20261031(1).zip"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/src/zeo_integrations/loops/transport.py",
+    "destination": "src/zeo_integrations/loops/transport.py",
+    "old_blob": "50043bdd0e088e647ead454374294b3b1dea910b",
+    "new_blob": "d7a8380f1ef83426a3ee40b4282cc2cf30a4fc96"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/src/zeo_integrations/loops/webhooks.py",
+    "destination": "src/zeo_integrations/loops/webhooks.py",
+    "old_blob": "e9c45ea3adc395661353d3771081b3df4b2d4b3b",
+    "new_blob": "b14ba9da97e6490bc2f41ed036ceadb3ef7a73d9"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/src/zeo_integrations/loops/__init__.py",
+    "destination": "src/zeo_integrations/loops/__init__.py",
+    "old_blob": "9df4c51ba2657b11228e54692b3afe4518884d74",
+    "new_blob": "7ece0f5ba186d985866b1d4cbe03dc56de458341"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/src/zeo_integrations/loops/contacts.py",
+    "destination": "src/zeo_integrations/loops/contacts.py",
+    "old_blob": "1c33a08b63c7dcc6da27685e6f4777577e8f06ba",
+    "new_blob": "1c33a08b63c7dcc6da27685e6f4777577e8f06ba"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/src/zeo_integrations/loops/client.py",
+    "destination": "src/zeo_integrations/loops/client.py",
+    "old_blob": "6d358b5ac3d4aa7773c07c02b9f8fa0383fb5983",
+    "new_blob": "6d358b5ac3d4aa7773c07c02b9f8fa0383fb5983"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/src/zeo_integrations/loops/models.py",
+    "destination": "src/zeo_integrations/loops/models.py",
+    "old_blob": "c70992c837c41ea6fac16a1388a60f9ddca04698",
+    "new_blob": "c70992c837c41ea6fac16a1388a60f9ddca04698"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/tests/test_client.py",
+    "destination": "tests/test_integrations/loops/test_client.py",
+    "old_blob": "298cd8476492c44ed0404df6b75c66b99c4fb650",
+    "new_blob": "c88d99b9cf6d54000afe74e6a27891f29e1ad29c"
+  },
+  {
+    "source_archive": "zeointegrations-for-external-council-20261031.zip",
+    "source": "packages/loops/tests/test_webhooks.py",
+    "destination": "tests/test_integrations/loops/test_webhooks.py",
+    "old_blob": "18cc5b8ec50ef37ff170f829e25301162d6b4d83",
+    "new_blob": "18cc5b8ec50ef37ff170f829e25301162d6b4d83"
+  }
+]

@@ -1,4 +1,4 @@
-"""Fail closed on provider workflows outside the supported linear drip subset."""
+"Fail closed on provider workflows outside the supported linear drip subset."
 
 from __future__ import annotations
 

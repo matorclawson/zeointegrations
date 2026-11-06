@@ -266,7 +266,7 @@ class Receipt(BaseModel):
 
 
 class ProviderRecord(BaseModel):
-    """``youtube.json``: what YouTube said about the video, and when we last asked."""
+    "``youtube.json``: what YouTube said about the video, and when we last asked."
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 

@@ -1,0 +1,442 @@
+[
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/dub/client.py",
+    "destination": "src/zeo_integrations/dub/_ported.py",
+    "old_blob": "ad8b3b37f0fb94437456a3821d47a98fd508689f",
+    "new_blob": "c42b3fd91cbd561959a6ad8f132bdf8b87193c6d"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/reddit/client.py",
+    "destination": "src/zeo_integrations/reddit/_ported.py",
+    "old_blob": "cc62a7ee03243de4d5b619cafb8823f98452524a",
+    "new_blob": "daab4871e423cce7e2236b7b895be6b8691b7846"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/posthog/client.py",
+    "destination": "src/zeo_integrations/posthog/_ported.py",
+    "old_blob": "11e604923b392dcc4c02e79b67897f3613108ff1",
+    "new_blob": "424b360698f0caa5cd3d08b2ca302e64b6da9bd7"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/docusign/client.py",
+    "destination": "src/zeo_integrations/docusign/_ported.py",
+    "old_blob": "4fd3c84c6776bf41556c0e61c58a22b1b241bcee",
+    "new_blob": "8af47ef67ff82c31987be058fc3eff526ca3fd52"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/airbnb/client.py",
+    "destination": "src/zeo_integrations/airbnb/_ported.py",
+    "old_blob": "138bf300fa3c4297e0f095979dc5344e9916b7ab",
+    "new_blob": "fc0f73b37adc008c8c88ec735d8a24e253355539"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/trello/client.py",
+    "destination": "src/zeo_integrations/trello/_ported.py",
+    "old_blob": "a12236003406572dc0048124bd17068b417e3889",
+    "new_blob": "ccd6be6c14ee158cbd08289da614c1b9c5aaef90"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/duckduckgo/client.py",
+    "destination": "src/zeo_integrations/duckduckgo/_ported.py",
+    "old_blob": "e0be246360b1f5d6c3ed6777a0d7ca9d432c5572",
+    "new_blob": "594ce291938cfda2b3630d47a44c85e22e7de6fb"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/hilvl/client.py",
+    "destination": "src/zeo_integrations/hilvl/_ported.py",
+    "old_blob": "c7e9c28143a5d600a59c2a716d38e871e81d7678",
+    "new_blob": "d0b80fc49c3ec1d6e2b9f35d9c5d43ab82e7cc2f"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/motion/client.py",
+    "destination": "src/zeo_integrations/motion/_ported.py",
+    "old_blob": "6595dfd4bb5a4f4da9553d2b63fa4cefd10010f3",
+    "new_blob": "7f3c8e79eeebff6632783eeb2de36fad7cc155a0"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/jira/client.py",
+    "destination": "src/zeo_integrations/jira/_ported.py",
+    "old_blob": "6cb4be67b0bba16b6541357a02378a9fba3702a4",
+    "new_blob": "30775d515381d85671c9f375abe19832fa25bd10"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/zip_code/client.py",
+    "destination": "src/zeo_integrations/zip_code/_ported.py",
+    "old_blob": "49d8a4c029cdff3aad60010d265eecafe64fd239",
+    "new_blob": "c3d425c5eccc3cfd77204967f6e66619dab18754"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/linkedin/client.py",
+    "destination": "src/zeo_integrations/linkedin/_ported.py",
+    "old_blob": "1331ea5bdd998850b2b68f40d72b278869739c49",
+    "new_blob": "4e3b5405d7333ca398ccb76c76ef46aff812dab6"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/google_maps/client.py",
+    "destination": "src/zeo_integrations/google_maps/_ported.py",
+    "old_blob": "558009ca5cc1e91d3cafb00d3231801772fd85bb",
+    "new_blob": "2bb0a7e83ad30d68d214c9620e519d331928468a"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/linear/client.py",
+    "destination": "src/zeo_integrations/linear/_ported.py",
+    "old_blob": "7907f7e7044d0c7acdfc39ce61b64cdf9b9f6314",
+    "new_blob": "6edc5f7653099acc767a51a1a1677194b3c1ee78"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/twentyfirst_dev/client.py",
+    "destination": "src/zeo_integrations/twentyfirst_dev/_ported.py",
+    "old_blob": "9000527bd67a65a6087b062efd6a6e69230134ab",
+    "new_blob": "1d85b22e4b179cec6b9fa0d721770aed363ce384"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/yelp/client.py",
+    "destination": "src/zeo_integrations/yelp/_ported.py",
+    "old_blob": "49455050a7eec119344a37ea9b88030cc1c2cda7",
+    "new_blob": "8fda99c04824c5ffcaec113891cb2857bf438ba3"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/firecrawl/client.py",
+    "destination": "src/zeo_integrations/firecrawl/_ported.py",
+    "old_blob": "f184ab5f2b07916053964a542f485202727bccb9",
+    "new_blob": "d14194bd7b2089226f84bbb8614a8ebe9152882c"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/uploadthing/client.py",
+    "destination": "src/zeo_integrations/uploadthing/_ported.py",
+    "old_blob": "a16ae09c958bb0554c9bba0882b1220ad88d993b",
+    "new_blob": "152aedacd1662f6b8a4ac065dcb5d52d55027d8a"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/svgl/client.py",
+    "destination": "src/zeo_integrations/svgl/_ported.py",
+    "old_blob": "b744d337e51ac0f42be3faf86390d457ad7d8f95",
+    "new_blob": "1b3f0705bb1ef5aa975e7eb736d1c5d4fde39229"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/replicate/client.py",
+    "destination": "src/zeo_integrations/replicate/_ported.py",
+    "old_blob": "95711d71c0801588a50631e738c4ceba19ff0af8",
+    "new_blob": "bf8c0b3b0141504f5cee94ded4f3d96e455ede22"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/ipinfo/client.py",
+    "destination": "src/zeo_integrations/ipinfo/_ported.py",
+    "old_blob": "a105e2d31dd04177f24f6d55f4833630c2c765d8",
+    "new_blob": "ced991cd41010685944a4e25b6165fd53123beaa"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/bannerbear/client.py",
+    "destination": "src/zeo_integrations/bannerbear/_ported.py",
+    "old_blob": "ed56577809ece1b1b565de180298cd0a5a0b8d18",
+    "new_blob": "88913fe0473bbb047925f77ae4bbed1e02683c42"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/openweather/client.py",
+    "destination": "src/zeo_integrations/openweather/_ported.py",
+    "old_blob": "048f316c908b116b5a30f201bfa698d6963a7751",
+    "new_blob": "5804c4d591b3f4568310596f7f1dd974c522ff7f"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/vercel/client.py",
+    "destination": "src/zeo_integrations/vercel/_ported.py",
+    "old_blob": "398c3be974f4a4bbacdc67518ea06c42876be4d0",
+    "new_blob": "6bf18f6f6c9a0fd93531402136474bb7f1774e44"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/x/client.py",
+    "destination": "src/zeo_integrations/x/_ported.py",
+    "old_blob": "0c1f55b6b1a81e331359c133ed6de38feaa807ba",
+    "new_blob": "120d772c7014fe514a2c7ca613c1293a50a2ba37"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/figma/client.py",
+    "destination": "src/zeo_integrations/figma/_ported.py",
+    "old_blob": "fac454b41bc6f44e52373321b66ee58071a55884",
+    "new_blob": "009759c15ae1aac3d35fc0d9bb2bca80698c8ccc"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/brave/client.py",
+    "destination": "src/zeo_integrations/brave/_ported.py",
+    "old_blob": "01db1586096fd49e02243d6348b84b50fd6d5ace",
+    "new_blob": "93d5f96924c78ae1191c3f245c36405b1a8a450f"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/dropbox/client.py",
+    "destination": "src/zeo_integrations/dropbox/_ported.py",
+    "old_blob": "24b2b498603337973fc4fa35d90b105727038deb",
+    "new_blob": "37c7c310d2d675c38372bd5b0bcd7a308772c7e4"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/airtable/client.py",
+    "destination": "src/zeo_integrations/airtable/_ported.py",
+    "old_blob": "c92d171613db70f4abb8d26e3ff5f760b484f5f2",
+    "new_blob": "9ef2eaf3505d8201eb328a0a36d13d530cc1b494"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/resend/client.py",
+    "destination": "src/zeo_integrations/resend/_ported.py",
+    "old_blob": "856c140beb696e671ee1d580201a6f4c549a9772",
+    "new_blob": "16e7e774a5065cfd825906be728cebce7ae8ef48"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/cal/client.py",
+    "destination": "src/zeo_integrations/cal/_ported.py",
+    "old_blob": "a6c114737e93defcc70f3c670e7d9fc1e016cc42",
+    "new_blob": "dc396a415004a5aa7625b939ea69ef79bb0bf057"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/todoist/client.py",
+    "destination": "src/zeo_integrations/todoist/_ported.py",
+    "old_blob": "670dabbfeadc64fd4b36f7efeae04eb9e6e326ef",
+    "new_blob": "1f0f9e1973f590d398cc1966775d01e4c1daa52c"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/hacker_news/client.py",
+    "destination": "src/zeo_integrations/hacker_news/_ported.py",
+    "old_blob": "6233e8a660c5f29f195e484487e3af4c58f9f923",
+    "new_blob": "33110ce390aa598922753af79a80833fcbb2d93a"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/ticktick/client.py",
+    "destination": "src/zeo_integrations/ticktick/_ported.py",
+    "old_blob": "ae761a3c922f575d6aceb57ba42a9b2d199ad030",
+    "new_blob": "6d9c594fff667f9acbb124f70860f794fec8a856"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/revid/client.py",
+    "destination": "src/zeo_integrations/revid/_ported.py",
+    "old_blob": "16ef231da58196b368ce619083b308f1fa82a126",
+    "new_blob": "51107376b9fc400a2624683d2dd5cc219841714e"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/sentry/client.py",
+    "destination": "src/zeo_integrations/sentry/_ported.py",
+    "old_blob": "e6d77ebe13d8c49f01cb711cdccdd8665696b421",
+    "new_blob": "b82578942c41035f6d80b2f238968fa9d6292cf3"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/instagram/client.py",
+    "destination": "src/zeo_integrations/instagram/_ported.py",
+    "old_blob": "73dadc87f0f1d1e003fc4b28e2e28f358be7cfbb",
+    "new_blob": "29ba6602ad0636e7abc82865936cdba195e0f80f"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/postman/client.py",
+    "destination": "src/zeo_integrations/postman/_ported.py",
+    "old_blob": "e151f5a505a4d8c9060f226dbc9497b2680f8d94",
+    "new_blob": "ff716390756ee57faa28b4de0668f82da201c035"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/browserbase/client.py",
+    "destination": "src/zeo_integrations/browserbase/_ported.py",
+    "old_blob": "feb3d0e0944a0b09060b77ec7cf6729f7cc28600",
+    "new_blob": "56dad6a4a5ddd7184aeda97d4de14e6d0bcb5bb6"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/outlook/client.py",
+    "destination": "src/zeo_integrations/outlook/_ported.py",
+    "old_blob": "6742c5700a6a699b591388e53efcf9b34a989a0a",
+    "new_blob": "218748de0dcb701cee1f9dc187f9087d0c049061"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/tavily/client.py",
+    "destination": "src/zeo_integrations/tavily/_ported.py",
+    "old_blob": "40e72df03de0c392c9d7f1506d0721e8a22a79de",
+    "new_blob": "b7f2c2bf13d0b87145b495547ced982b91f89b51"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/readwise/client.py",
+    "destination": "src/zeo_integrations/readwise/_ported.py",
+    "old_blob": "5a40e162664903f58f0f878ac04b0cf86b7301ec",
+    "new_blob": "afd1be2b5392bd470a1a6e7a69202f4bc991336c"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/browser_use/client.py",
+    "destination": "src/zeo_integrations/browser_use/_ported.py",
+    "old_blob": "0d37aa72a82367bd50e73aaba5c87a640107307e",
+    "new_blob": "5311337ca027ef23061485ff7a7ed661a2cad7b3"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/perplexity/client.py",
+    "destination": "src/zeo_integrations/perplexity/_ported.py",
+    "old_blob": "6667fd42d9fa98464be1ab7e130b9bd44b419d47",
+    "new_blob": "07ac13610bf5efca2cb581282bb4b5f4db6ffd62"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/heygen/client.py",
+    "destination": "src/zeo_integrations/heygen/_ported.py",
+    "old_blob": "4ab5e8860bd4eb350e8dd69b706afea32dbb73fa",
+    "new_blob": "509d40ba105faa77d145188d8afdd64f3f4afee4"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/skyscanner/client.py",
+    "destination": "src/zeo_integrations/skyscanner/_ported.py",
+    "old_blob": "da97fedc43d1b28e6a310d0e0ec61010cea4b523",
+    "new_blob": "046dd331b4aa0bb9c631ff3f64ab90fba07091ee"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/typeform/client.py",
+    "destination": "src/zeo_integrations/typeform/_ported.py",
+    "old_blob": "268af8875165715c962a3a1a62600d8bc052cee3",
+    "new_blob": "ddf2187749fb51b54e052064e1de27ee7f114975"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/coda/client.py",
+    "destination": "src/zeo_integrations/coda/_ported.py",
+    "old_blob": "5958ca318f88eeb3bea29223ebdaa95ff7216b0e",
+    "new_blob": "9ee623445acb5c72a71f841ced7db96aaf3c6be6"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/zillow/client.py",
+    "destination": "src/zeo_integrations/zillow/_ported.py",
+    "old_blob": "f30521841d02d719960d225270640b686df51838",
+    "new_blob": "27aa1d6b49b2eaf49dfa63c78b995b7e0def26ad"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/exa/client.py",
+    "destination": "src/zeo_integrations/exa/_ported.py",
+    "old_blob": "40d629b0b2971a59b8e970056cbc7eed8472b159",
+    "new_blob": "6e1dc2a6c3e9d6713a95066d9350edee5fc1a338"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/hunterio/client.py",
+    "destination": "src/zeo_integrations/hunterio/_ported.py",
+    "old_blob": "346df405b770da084e5d3a062865f63f0be61a5f",
+    "new_blob": "a94f7393c7deadebfe1f712f86186456960de07b"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/apollo/client.py",
+    "destination": "src/zeo_integrations/apollo/_ported.py",
+    "old_blob": "401f06b47d2a3b541a12d4062d0210500c7c3b6a",
+    "new_blob": "485d94d983a0d3316f6629b11012f575c26d204c"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/facebook/client.py",
+    "destination": "src/zeo_integrations/facebook/_ported.py",
+    "old_blob": "8a7dee004a0af27c89ec87724b73cceec94eb563",
+    "new_blob": "e0d72952776a31ef052852a0d1449c414e127817"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/confluence/client.py",
+    "destination": "src/zeo_integrations/confluence/_ported.py",
+    "old_blob": "4f5bab27a0a08f6c30cbdf8ec32f85a631236d7a",
+    "new_blob": "0dcc12db57c3fe49b921e4398603cc59c2c08e72"
+  },
+  {
+    "upstream": "VeyraX/veyrax-platform",
+    "commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+    "source": "aci_server/integrations/asana/client.py",
+    "destination": "src/zeo_integrations/asana/_ported.py",
+    "old_blob": "5f2db2544650032d2736974abdea6000c0dada30",
+    "new_blob": "094f8fac1c1c49c3d6d9f6894d806e5b173575c6"
+  }
+]

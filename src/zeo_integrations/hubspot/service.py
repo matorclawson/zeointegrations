@@ -1,4 +1,4 @@
-"""Explicit integration loading; initialization does not claim live authentication."""
+"Explicit integration loading; initialization does not claim live authentication."
 
 from __future__ import annotations
 

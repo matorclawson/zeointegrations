@@ -39,7 +39,7 @@ def _protect_http_logs() -> None:
 
 
 class HubSpotAPIError(RuntimeError):
-    """Safe diagnostic: never retain provider bodies, request URLs or credentials."""
+    "Safe diagnostic: never retain provider bodies, request URLs or credentials."
 
     def __init__(
         self,

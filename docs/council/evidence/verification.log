@@ -1,0 +1,396 @@
+uv run --frozen ruff check .
+All checks passed!
+uv run --frozen ruff format --check .
+612 files already formatted
+uv run --frozen python -m unittest discover -s tests -v
+test_build_joins_registry_auth_overlap_and_entry_point_source (test_inventory.InventoryTests.test_build_joins_registry_auth_overlap_and_entry_point_source) ... ok
+test_build_refuses_catalog_router_mismatch (test_inventory.InventoryTests.test_build_refuses_catalog_router_mismatch) ... ok
+test_invalid_source_is_reported_instead_of_disappearing (test_inventory.InventoryTests.test_invalid_source_is_reported_instead_of_disappearing) ... ok
+test_missing_router_registry_is_an_error (test_inventory.InventoryTests.test_missing_router_registry_is_an_error) ... ok
+test_router_alias_determines_directory_not_catalog_spelling (test_inventory.InventoryTests.test_router_alias_determines_directory_not_catalog_spelling) ... ok
+test_size_and_dependencies_separate_tests_and_prefix_siblings (test_inventory.InventoryTests.test_size_and_dependencies_separate_tests_and_prefix_siblings) ... ok
+test_source_output_refused_before_any_inventory_read (test_inventory.InventoryTests.test_source_output_refused_before_any_inventory_read) ... ok
+test_static_import_scan_never_executes_source (test_inventory.InventoryTests.test_static_import_scan_never_executes_source) ... ok
+test_preserved_mit_notice_matches_reviewed_source_digest (test_inventory_artifacts.InventoryArtifactTests.test_preserved_mit_notice_matches_reviewed_source_digest) ... ok
+test_veyrax_table_matches_all_snapshot_rows (test_inventory_artifacts.InventoryArtifactTests.test_veyrax_table_matches_all_snapshot_rows) ... ok
+test_zeocore_table_names_paths_dependencies_and_sizes_match_snapshot (test_inventory_artifacts.InventoryArtifactTests.test_zeocore_table_names_paths_dependencies_and_sizes_match_snapshot) ... ok
+test_archive_stamping_preserves_source_and_other_metadata (test_release_integrations.ReleaseTests.test_archive_stamping_preserves_source_and_other_metadata) ... ok
+test_exact_artifact_pair_and_metadata (test_release_integrations.ReleaseTests.test_exact_artifact_pair_and_metadata) ... ok
+test_mainline_versions_increase_and_retries_keep_commit_identity (test_release_integrations.ReleaseTests.test_mainline_versions_increase_and_retries_keep_commit_identity) ... Switched to a new branch 'feature'
+Switched to branch 'main'
+Switched to a new branch 'feature-two'
+Switched to branch 'main'
+Cloning into '/tmp/tmpc2kq4t_c/shallow'...
+HEAD is now at 42a64cd sow: zeointegrations-SOW-02
+Previous HEAD position was 42a64cd sow: zeointegrations-SOW-02
+HEAD is now at fdbdb00 sow: zeointegrations-SOW-02
+Previous HEAD position was fdbdb00 sow: zeointegrations-SOW-02
+HEAD is now at d37a0f5 sow: zeointegrations-SOW-02
+ok
+test_only_complete_matching_release_can_skip_publication (test_release_integrations.ReleaseTests.test_only_complete_matching_release_can_skip_publication) ... ok
+test_pypi_absence_and_service_failure_are_distinct (test_release_integrations.ReleaseTests.test_pypi_absence_and_service_failure_are_distinct) ... ok
+test_serialized_same_version_decisions_never_mix_builds (test_release_integrations.ReleaseTests.test_serialized_same_version_decisions_never_mix_builds) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.230s
+
+OK
+uv run --frozen python -m unittest discover -s tests_installed -v
+test_installed_distribution_has_no_duplicate_provider_registration (test_package_boundary.PackageBoundaryTests.test_installed_distribution_has_no_duplicate_provider_registration) ... ok
+test_m1_core_import_never_loads_the_aggregate (test_package_boundary.PackageBoundaryTests.test_m1_core_import_never_loads_the_aggregate) ... ok
+test_one_distribution_and_core_dependency (test_package_boundary.PackageBoundaryTests.test_one_distribution_and_core_dependency) ... ok
+test_sdk_dependencies_are_extras (test_package_boundary.PackageBoundaryTests.test_sdk_dependencies_are_extras) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.430s
+
+OK
+uv run --frozen python tools/verify_provider_tests.py
+........................................................................ [  1%]
+........................................................................ [  3%]
+.............s.......................................................... [  5%]
+........................................................................ [  7%]
+........................................................................ [  9%]
+........................................................................ [ 10%]
+........................................................................ [ 12%]
+........................................................................ [ 14%]
+........................................................................ [ 16%]
+........................................................................ [ 18%]
+........................................................................ [ 19%]
+........................................................................ [ 21%]
+........................................................................ [ 23%]
+........................................................................ [ 25%]
+........................................................................ [ 27%]
+........................................................................ [ 28%]
+........................................................................ [ 30%]
+........................................................................ [ 32%]
+........................................................................ [ 34%]
+........................................................................ [ 36%]
+........................................................................ [ 38%]
+........................................................................ [ 39%]
+........................................................................ [ 41%]
+........................................................................ [ 43%]
+........................................................................ [ 45%]
+........................................................................ [ 47%]
+........................................................................ [ 48%]
+........................................................................ [ 50%]
+........................................................................ [ 52%]
+........................................................................ [ 54%]
+........................................................................ [ 56%]
+........................................................................ [ 57%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+........................................................................ [ 63%]
+........................................................................ [ 65%]
+........................................................................ [ 67%]
+..................................................................................................... [ 69%]
+........................................................................ [ 71%]
+........................................................................ [ 73%]
+........................................................................ [ 74%]
+........................................................................ [ 76%]
+........................................................................ [ 78%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+.......x................................................................ [ 84%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+........................................................................ [ 89%]
+........................................................................ [ 91%]
+........................................................................ [ 93%]
+........................................................................ [ 94%]
+........................................................................ [ 96%]
+................................................................. [ 98%]
+.................................................................                                             [100%]
+=============================== warnings summary ===============================
+tests/test_integrations/http_collection/test_boundary.py::test_every_catalogued_operation_has_closed_schema[dropbox]
+  /workspace/scratch/d2516a389166/zeointegrations/src/zeo_integrations/dropbox/schema.py:43: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    class FileMove(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3973 passed, 1 skipped, 1 xfailed, 1 warning, 85 subtests passed in 73.40s (0:01:13)
+uv run --frozen python tools/verify_python_floor.py
+FLOOR_PYTHON /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12
+FLOOR_VERSION Python 3.12.14
+FLOOR_SHA256_BEFORE fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7
+Checked 103 packages in 7ms
+test_build_joins_registry_auth_overlap_and_entry_point_source (test_inventory.InventoryTests.test_build_joins_registry_auth_overlap_and_entry_point_source) ... ok
+test_build_refuses_catalog_router_mismatch (test_inventory.InventoryTests.test_build_refuses_catalog_router_mismatch) ... ok
+test_invalid_source_is_reported_instead_of_disappearing (test_inventory.InventoryTests.test_invalid_source_is_reported_instead_of_disappearing) ... ok
+test_missing_router_registry_is_an_error (test_inventory.InventoryTests.test_missing_router_registry_is_an_error) ... ok
+test_router_alias_determines_directory_not_catalog_spelling (test_inventory.InventoryTests.test_router_alias_determines_directory_not_catalog_spelling) ... ok
+test_size_and_dependencies_separate_tests_and_prefix_siblings (test_inventory.InventoryTests.test_size_and_dependencies_separate_tests_and_prefix_siblings) ... ok
+test_source_output_refused_before_any_inventory_read (test_inventory.InventoryTests.test_source_output_refused_before_any_inventory_read) ... ok
+test_static_import_scan_never_executes_source (test_inventory.InventoryTests.test_static_import_scan_never_executes_source) ... ok
+test_preserved_mit_notice_matches_reviewed_source_digest (test_inventory_artifacts.InventoryArtifactTests.test_preserved_mit_notice_matches_reviewed_source_digest) ... ok
+test_veyrax_table_matches_all_snapshot_rows (test_inventory_artifacts.InventoryArtifactTests.test_veyrax_table_matches_all_snapshot_rows) ... ok
+test_zeocore_table_names_paths_dependencies_and_sizes_match_snapshot (test_inventory_artifacts.InventoryArtifactTests.test_zeocore_table_names_paths_dependencies_and_sizes_match_snapshot) ... ok
+test_archive_stamping_preserves_source_and_other_metadata (test_release_integrations.ReleaseTests.test_archive_stamping_preserves_source_and_other_metadata) ... ok
+test_exact_artifact_pair_and_metadata (test_release_integrations.ReleaseTests.test_exact_artifact_pair_and_metadata) ... ok
+test_mainline_versions_increase_and_retries_keep_commit_identity (test_release_integrations.ReleaseTests.test_mainline_versions_increase_and_retries_keep_commit_identity) ... Switched to a new branch 'feature'
+Switched to branch 'main'
+Switched to a new branch 'feature-two'
+Switched to branch 'main'
+Cloning into '/tmp/tmpy18kldsw/shallow'...
+HEAD is now at de9e300 sow: zeointegrations-SOW-02
+Previous HEAD position was de9e300 sow: zeointegrations-SOW-02
+HEAD is now at e538b1e sow: zeointegrations-SOW-02
+Previous HEAD position was e538b1e sow: zeointegrations-SOW-02
+HEAD is now at a33e8ba sow: zeointegrations-SOW-02
+ok
+test_only_complete_matching_release_can_skip_publication (test_release_integrations.ReleaseTests.test_only_complete_matching_release_can_skip_publication) ... ok
+test_pypi_absence_and_service_failure_are_distinct (test_release_integrations.ReleaseTests.test_pypi_absence_and_service_failure_are_distinct) ... ok
+test_serialized_same_version_decisions_never_mix_builds (test_release_integrations.ReleaseTests.test_serialized_same_version_decisions_never_mix_builds) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.247s
+
+OK
+test_installed_distribution_has_no_duplicate_provider_registration (test_package_boundary.PackageBoundaryTests.test_installed_distribution_has_no_duplicate_provider_registration) ... ok
+test_m1_core_import_never_loads_the_aggregate (test_package_boundary.PackageBoundaryTests.test_m1_core_import_never_loads_the_aggregate) ... ok
+test_one_distribution_and_core_dependency (test_package_boundary.PackageBoundaryTests.test_one_distribution_and_core_dependency) ... ok
+test_sdk_dependencies_are_extras (test_package_boundary.PackageBoundaryTests.test_sdk_dependencies_are_extras) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.347s
+
+OK
+........................................................................ [  1%]
+........................................................................ [  3%]
+.............s.......................................................... [  5%]
+........................................................................ [  7%]
+........................................................................ [  9%]
+........................................................................ [ 10%]
+........................................................................ [ 12%]
+........................................................................ [ 14%]
+........................................................................ [ 16%]
+........................................................................ [ 18%]
+........................................................................ [ 19%]
+........................................................................ [ 21%]
+........................................................................ [ 23%]
+........................................................................ [ 25%]
+........................................................................ [ 27%]
+........................................................................ [ 28%]
+........................................................................ [ 30%]
+........................................................................ [ 32%]
+........................................................................ [ 34%]
+........................................................................ [ 36%]
+........................................................................ [ 38%]
+........................................................................ [ 39%]
+........................................................................ [ 41%]
+........................................................................ [ 43%]
+........................................................................ [ 45%]
+........................................................................ [ 47%]
+........................................................................ [ 48%]
+........................................................................ [ 50%]
+........................................................................ [ 52%]
+........................................................................ [ 54%]
+........................................................................ [ 56%]
+........................................................................ [ 57%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+........................................................................ [ 63%]
+........................................................................ [ 65%]
+........................................................................ [ 67%]
+..................................................................................................... [ 69%]
+........................................................................ [ 71%]
+........................................................................ [ 73%]
+........................................................................ [ 74%]
+........................................................................ [ 76%]
+........................................................................ [ 78%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+.......x................................................................ [ 84%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+........................................................................ [ 89%]
+........................................................................ [ 91%]
+........................................................................ [ 93%]
+........................................................................ [ 94%]
+........................................................................ [ 96%]
+................................................................. [ 98%]
+.................................................................                                             [100%]
+=============================== warnings summary ===============================
+tests/test_integrations/http_collection/test_boundary.py::test_every_catalogued_operation_has_closed_schema[dropbox]
+  /workspace/scratch/d2516a389166/zeointegrations/src/zeo_integrations/dropbox/schema.py:43: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    class FileMove(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3973 passed, 1 skipped, 1 xfailed, 1 warning, 85 subtests passed in 79.80s (0:01:19)
+FLOOR_SHA256_AFTER fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7
+FLOOR_EXIT 0
+uv build --offline --no-sources
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/zeo_integrations-0.1.0.tar.gz
+Successfully built dist/zeo_integrations-0.1.0-py3-none-any.whl
+make -C packages/loops verify
+make[1]: Entering directory '/workspace/scratch/d2516a389166/zeointegrations/packages/loops'
+uv sync --frozen --offline --no-editable
+Checked 13 packages in 0.59ms
+uv run --frozen --offline --no-sync ruff check .
+All checks passed!
+uv run --frozen --offline --no-sync ruff format --check .
+8 files already formatted
+uv run --frozen --offline --no-sync python -m unittest discover -s tests -v
+test_account_and_fixed_origin (test_client.ClientTests.test_account_and_fixed_origin) ... ok
+test_audience_condition_count_is_bounded (test_client.ClientTests.test_audience_condition_count_is_bounded) ... ok
+test_audience_null_opt_in_and_value_less_property_are_distinct (test_client.ClientTests.test_audience_null_opt_in_and_value_less_property_are_distinct) ... ok
+test_audience_payload_contains_only_selected_fields (test_client.ClientTests.test_audience_payload_contains_only_selected_fields) ... ok
+test_audience_update_refuses_non_draft_result (test_client.ClientTests.test_audience_update_refuses_non_draft_result) ... ok
+test_contact_find_and_suppression_bind_requested_email (test_client.ClientTests.test_contact_find_and_suppression_bind_requested_email) ... ok
+test_contact_properties_cannot_override_subscription (test_client.ClientTests.test_contact_properties_cannot_override_subscription) ... ok
+test_contacts_are_separate_from_draft_surface (test_client.ClientTests.test_contacts_are_separate_from_draft_surface) ... ok
+test_create_is_explicit_draft_payload (test_client.ClientTests.test_create_is_explicit_draft_payload) ... ok
+test_definite_refusals_and_unknown_outcomes_are_separate (test_client.ClientTests.test_definite_refusals_and_unknown_outcomes_are_separate) ... ok
+test_distribution_is_installed_not_source_path (test_client.ClientTests.test_distribution_is_installed_not_source_path) ... ok
+test_encoding_timeout_and_proxy_guards (test_client.ClientTests.test_encoding_timeout_and_proxy_guards) ... ok
+test_invalid_provider_shape_is_sanitized (test_client.ClientTests.test_invalid_provider_shape_is_sanitized) ... ok
+test_lmx_limit_is_utf8_bytes_and_rejected_before_call (test_client.ClientTests.test_lmx_limit_is_utf8_bytes_and_rejected_before_call) ... ok
+test_local_limit_does_not_silently_sleep_or_retry (test_client.ClientTests.test_local_limit_does_not_silently_sleep_or_retry) ... ok
+test_mismatched_provider_identity_refused (test_client.ClientTests.test_mismatched_provider_identity_refused) ... ok
+test_no_dangerous_or_generic_public_method (test_client.ClientTests.test_no_dangerous_or_generic_public_method) ... ok
+test_path_injection_refused_before_request (test_client.ClientTests.test_path_injection_refused_before_request) ... ok
+test_request_bound_counts_actual_escaped_json (test_client.ClientTests.test_request_bound_counts_actual_escaped_json) ... ok
+test_response_cap_and_invalid_json_have_no_exception_context (test_client.ClientTests.test_response_cap_and_invalid_json_have_no_exception_context) ... ok
+test_revision_bound_message_and_sender_local_part (test_client.ClientTests.test_revision_bound_message_and_sender_local_part) ... ok
+test_scheduling_is_rejected_before_transport (test_client.ClientTests.test_scheduling_is_rejected_before_transport) ... ok
+test_slow_unbuffered_stream_expires_without_retry (test_client.ClientTests.test_slow_unbuffered_stream_expires_without_retry) ... ok
+test_theme_page_retains_cursor_and_mailing_lists_are_typed (test_client.ClientTests.test_theme_page_retains_cursor_and_mailing_lists_are_typed) ... ok
+test_transport_failure_is_not_retried_or_exposed (test_client.ClientTests.test_transport_failure_is_not_retried_or_exposed) ... ok
+test_typed_statuses_are_one_attempt_and_sanitized (test_client.ClientTests.test_typed_statuses_are_one_attempt_and_sanitized) ... ok
+test_upload_completion_binds_returned_asset (test_client.ClientTests.test_upload_completion_binds_returned_asset) ... ok
+test_upload_size_and_credential_containment (test_client.ClientTests.test_upload_size_and_credential_containment) ... ok
+test_upload_urls_refuse_unapproved_authorities_and_paths (test_client.ClientTests.test_upload_urls_refuse_unapproved_authorities_and_paths) ... ok
+test_raw_body_binding_and_returned_digest (test_webhooks.WebhookTests.test_raw_body_binding_and_returned_digest) ... ok
+test_timestamp_boundaries_and_future (test_webhooks.WebhookTests.test_timestamp_boundaries_and_future) ... ok
+test_two_secret_rotation_and_multiple_signatures (test_webhooks.WebhookTests.test_two_secret_rotation_and_multiple_signatures) ... ok
+test_webhook_input_caps_and_ambiguous_id (test_webhooks.WebhookTests.test_webhook_input_caps_and_ambiguous_id) ... ok
+test_wrong_headers_and_malformed_secret_refused (test_webhooks.WebhookTests.test_wrong_headers_and_malformed_secret_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.090s
+
+OK
+uv build --offline --no-sources
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/zeo_integration_loops-0.1.0.tar.gz
+Successfully built dist/zeo_integration_loops-0.1.0-py3-none-any.whl
+make[1]: Leaving directory '/workspace/scratch/d2516a389166/zeointegrations/packages/loops'
+make -C packages/kit verify
+make[1]: Entering directory '/workspace/scratch/d2516a389166/zeointegrations/packages/kit'
+uv sync --frozen --offline --no-editable --reinstall-package zeo-integration-kit
+   Building zeo-integration-kit @ file:///workspace/scratch/d2516a389166/zeointegrations/packages/kit
+      Built zeo-integration-kit @ file:///workspace/scratch/d2516a389166/zeointegrations/packages/kit
+Prepared 1 package in 502ms
+Uninstalled 1 package in 0.97ms
+Installed 1 package in 3ms
+ ~ zeo-integration-kit==0.1.0 (from file:///workspace/scratch/d2516a389166/zeointegrations/packages/kit)
+uv run --frozen --offline --no-sync ruff check .
+All checks passed!
+uv run --frozen --offline --no-sync ruff format --check .
+8 files already formatted
+uv run --frozen --offline --no-sync python -m unittest discover -s tests -v
+test_all_subscriber_states_and_fields_survive (test_client.ClientReads.test_all_subscriber_states_and_fields_survive) ... ok
+test_cursor_and_completeness (test_client.ClientReads.test_cursor_and_completeness) ... ok
+test_filters_fail_before_request (test_client.ClientReads.test_filters_fail_before_request) ... ok
+test_four_exact_get_reads (test_client.ClientReads.test_four_exact_get_reads) ... ok
+test_invalid_pages_fail_closed (test_client.ClientReads.test_invalid_pages_fail_closed) ... ok
+test_missing_and_null_provider_dates_preserve_compatible_pages (test_client.ClientReads.test_missing_and_null_provider_dates_preserve_compatible_pages) ... ok
+test_missing_or_invalid_subscriber_state_refused (test_client.ClientReads.test_missing_or_invalid_subscriber_state_refused) ... ok
+test_present_invalid_provider_date_refuses_the_page_safely (test_client.ClientReads.test_present_invalid_provider_date_refuses_the_page_safely) ... ok
+test_provider_model_error_does_not_retain_validation_context (test_client.ClientReads.test_provider_model_error_does_not_retain_validation_context) ... ok
+test_terminal_page_can_finish_cursor_chain_with_complete_false (test_client.ClientReads.test_terminal_page_can_finish_cursor_chain_with_complete_false) ... ok
+test_installed_modules_match_current_source_bytes (test_compatibility.PackageScope.test_installed_modules_match_current_source_bytes) ... ok
+test_no_core_back_edge_or_environment_discovery (test_compatibility.PackageScope.test_no_core_back_edge_or_environment_discovery) ... ok
+test_no_registry_or_write_models (test_compatibility.PackageScope.test_no_registry_or_write_models) ... ok
+test_only_read_client_surface (test_compatibility.PackageScope.test_only_read_client_surface) ... ok
+test_bounded_closed_page_request (test_models.ReadModels.test_bounded_closed_page_request) ... ok
+test_identity_and_state_are_not_coerced (test_models.ReadModels.test_identity_and_state_are_not_coerced) ... ok
+test_invalid_provider_dates_fail_without_coercion (test_models.ReadModels.test_invalid_provider_dates_fail_without_coercion) ... ok
+test_missing_and_null_provider_dates_remain_unknown (test_models.ReadModels.test_missing_and_null_provider_dates_remain_unknown) ... ok
+test_provider_creation_timestamp_is_preserved_in_json (test_models.ReadModels.test_provider_creation_timestamp_is_preserved_in_json) ... ok
+test_encoding_and_declared_size_refused_before_body (test_transport.StreamBounds.test_encoding_and_declared_size_refused_before_body) ... ok
+test_identity_encoding_and_bounded_query_on_wire (test_transport.StreamBounds.test_identity_encoding_and_bounded_query_on_wire) ... ok
+test_invalid_credential_or_timeout_before_http_client (test_transport.StreamBounds.test_invalid_credential_or_timeout_before_http_client) ... ok
+test_json_depth_bound_respects_strings_and_escapes (test_transport.StreamBounds.test_json_depth_bound_respects_strings_and_escapes) ... ok
+test_normalized_errors_drop_original_context (test_transport.StreamBounds.test_normalized_errors_drop_original_context) ... ok
+test_oversize_stops_stream_and_closes (test_transport.StreamBounds.test_oversize_stops_stream_and_closes) ... ok
+test_raw_query_bounds_before_http (test_transport.StreamBounds.test_raw_query_bounds_before_http) ... ok
+test_unbuffered_slow_trickle_exceeds_whole_deadline (test_transport.StreamBounds.test_unbuffered_slow_trickle_exceeds_whole_deadline) ... ok
+test_malformed_json_and_http_failure (test_transport.TransportBoundary.test_malformed_json_and_http_failure) ... ok
+test_no_write_or_unallocated_read_reaches_http (test_transport.TransportBoundary.test_no_write_or_unallocated_read_reaches_http) ... ok
+test_redirect_is_not_followed (test_transport.TransportBoundary.test_redirect_is_not_followed) ... ok
+test_safe_errors_without_retries (test_transport.TransportBoundary.test_safe_errors_without_retries) ... ok
+test_unknown_query_cannot_override_read_method (test_transport.TransportBoundary.test_unknown_query_cannot_override_read_method) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.050s
+
+OK
+uv build --offline --no-sources
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/zeo_integration_kit-0.1.0.tar.gz
+Successfully built dist/zeo_integration_kit-0.1.0-py3-none-any.whl
+make[1]: Leaving directory '/workspace/scratch/d2516a389166/zeointegrations/packages/kit'
+make -C packages/hubspot verify
+make[1]: Entering directory '/workspace/scratch/d2516a389166/zeointegrations/packages/hubspot'
+uv sync --frozen --offline --no-editable --reinstall-package zeo-integration-hubspot
+   Building zeo-integration-hubspot @ file:///workspace/scratch/d2516a389166/zeointegrations/packages/hubspot
+      Built zeo-integration-hubspot @ file:///workspace/scratch/d2516a389166/zeointegrations/packages/hubspot
+Prepared 1 package in 402ms
+Uninstalled 1 package in 1ms
+Installed 1 package in 1ms
+ ~ zeo-integration-hubspot==0.1.0 (from file:///workspace/scratch/d2516a389166/zeointegrations/packages/hubspot)
+uv run --frozen --offline --no-sync ruff check .
+All checks passed!
+uv run --frozen --offline --no-sync ruff format --check .
+10 files already formatted
+uv run --frozen --offline --no-sync python -m unittest discover -s tests -v
+test_changed_revision_audience_or_digest_never_mutates (test_client.Client.test_changed_revision_audience_or_digest_never_mutates) ... ok
+test_enable_and_enroll_require_confirmation_before_provider_calls (test_client.Client.test_enable_and_enroll_require_confirmation_before_provider_calls) ... ok
+test_invalid_final_schedule_drops_provider_context_and_never_publishes (test_client.Client.test_invalid_final_schedule_drops_provider_context_and_never_publishes) ... ok
+test_invalid_page_and_immediate_cursor_repeat_refused (test_client.Client.test_invalid_page_and_immediate_cursor_repeat_refused) ... ok
+test_old_private_helper_and_constant (test_client.Client.test_old_private_helper_and_constant) ... ok
+test_publish_requires_explicit_confirmation_before_any_request (test_client.Client.test_publish_requires_explicit_confirmation_before_any_request) ... ok
+test_race_after_configuration_never_publishes (test_client.Client.test_race_after_configuration_never_publishes) ... ok
+test_reviewed_publish_preserves_check_patch_recheck_publish_order (test_client.Client.test_reviewed_publish_preserves_check_patch_recheck_publish_order) ... ok
+test_existing_built_wheels_preserve_notices_when_available (test_compatibility.Compatibility.test_existing_built_wheels_preserve_notices_when_available) ... ok
+test_fresh_import_has_no_credential_discovery_network_or_core (test_compatibility.Compatibility.test_fresh_import_has_no_credential_discovery_network_or_core) ... ok
+test_implicit_namespace_and_provider_only_files (test_compatibility.Compatibility.test_implicit_namespace_and_provider_only_files) ... ok
+test_installed_modules_are_current_source_bytes (test_compatibility.Compatibility.test_installed_modules_are_current_source_bytes) ... ok
+test_audience_conflicts_and_empty_publish_refused (test_models.Models.test_audience_conflicts_and_empty_publish_refused) ... ok
+test_closed_fields_and_invalid_addresses (test_models.Models.test_closed_fields_and_invalid_addresses) ... ok
+test_consent_cannot_be_created_by_subscription_request (test_models.Models.test_consent_cannot_be_created_by_subscription_request) ... ok
+test_digest_binds_reviewed_content_and_schedule (test_models.Models.test_digest_binds_reviewed_content_and_schedule) ... ok
+test_draft_and_reply_to_wire_compatibility (test_models.Models.test_draft_and_reply_to_wire_compatibility) ... ok
+test_dynamic_audience_requires_policy (test_models.Models.test_dynamic_audience_requires_policy) ... ok
+test_actual_size_limit_closes_stream_and_marks_mutation_unknown (test_transport.TransportBoundary.test_actual_size_limit_closes_stream_and_marks_mutation_unknown) ... ok
+test_empty_response_and_normal_json (test_transport.TransportBoundary.test_empty_response_and_normal_json) ... ok
+test_encoding_and_declared_size_refused_without_body (test_transport.TransportBoundary.test_encoding_and_declared_size_refused_without_body) ... ok
+test_fixed_origin_auth_and_private_logs (test_transport.TransportBoundary.test_fixed_origin_auth_and_private_logs) ... ok
+test_invalid_json_and_shape_drop_exception_context (test_transport.TransportBoundary.test_invalid_json_and_shape_drop_exception_context) ... ok
+test_invalid_timeout_and_credential_before_http_initialization (test_transport.TransportBoundary.test_invalid_timeout_and_credential_before_http_initialization) ... ok
+test_late_clean_eof_refuses_success_without_overriding_provider_failure (test_transport.TransportBoundary.test_late_clean_eof_refuses_success_without_overriding_provider_failure) ... ok
+test_read_only_post_preserves_ambiguity_classification (test_transport.TransportBoundary.test_read_only_post_preserves_ambiguity_classification) ... ok
+test_redirect_and_auth_failure_are_not_retried (test_transport.TransportBoundary.test_redirect_and_auth_failure_are_not_retried) ... ok
+test_rejected_routes_never_reach_transport (test_transport.TransportBoundary.test_rejected_routes_never_reach_transport) ... ok
+test_whole_deadline_counts_unbuffered_chunks (test_transport.TransportBoundary.test_whole_deadline_counts_unbuffered_chunks) ... ok
+test_branch_unknown_action_and_dangling_delay_refused (test_workflow.Workflow.test_branch_unknown_action_and_dangling_delay_refused) ... ok
+test_null_optional_decorations_only (test_workflow.Workflow.test_null_optional_decorations_only) ... ok
+test_supported_graph_round_trip (test_workflow.Workflow.test_supported_graph_round_trip) ... ok
+test_unknown_trigger_setting_and_reenrollment_refused (test_workflow.Workflow.test_unknown_trigger_setting_and_reenrollment_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.337s
+
+OK
+uv build --offline --no-sources
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/zeo_integration_hubspot-0.1.0.tar.gz
+Successfully built dist/zeo_integration_hubspot-0.1.0-py3-none-any.whl
+make[1]: Leaving directory '/workspace/scratch/d2516a389166/zeointegrations/packages/hubspot'
+git diff --check 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD
+git diff --check

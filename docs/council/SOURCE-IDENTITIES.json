@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "filename": "zeocore-improved-20261031(1).zip",
+      "sha256": "b648d185e64e1cd7b3b94b2bf97f468fec594a73f69b4ddcc0610ff01f90dc65"
+    },
+    {
+      "filename": "integrations-brief-and-list-for-external-council-20261031.zip",
+      "sha256": "374202ffb6336f765b099f8969f53db4966cb3c60595b958a7f2475923a0d48e"
+    },
+    {
+      "filename": "veyrax-integrations-source-1cdddde9-for-external-council-20261031.zip",
+      "sha256": "80c4c21858813bf08a148429716b4662d1e923df32c8b1af7337c1516c2f24b9"
+    },
+    {
+      "filename": "zeointegrations-for-external-council-20261031.zip",
+      "sha256": "0f05aebeaadad8b0e9a2a059b7b31d405ddeabe9df65701ace58037207297bad"
+    },
+    {
+      "filename": "integrations-brief-and-list-for-external-council-20261031_v2.zip",
+      "sha256": "61b4c01dea71cbda867833b31b2d4265d4f214b9b17c432c782e43b38e326be9"
+    },
+    {
+      "filename": "zeoconnect-improved-20261031(1).zip",
+      "sha256": "1319ba2c4453acc872a2f68f8877ae689a26638c24abb08b8014df889f7439a5",
+      "use": "interface reference only; proprietary implementation not redistributed"
+    }
+  ],
+  "veyrax_commit": "1cdddde9d5d76b9891896ca78a95e069647e81df",
+  "attached_veyrax_files_compared": 550,
+  "differences": 0,
+  "integrations_base": "29d303262f620d6c97bfc3c5fdf5bc975fc1175b",
+  "telegram_source": "933d55a6711bf54ac4233f86cc0e41a821995b83"
+}

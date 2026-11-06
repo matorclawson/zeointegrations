@@ -1,4 +1,4 @@
-"""HubSpot marketing only: emails, campaigns, preferences and email workflows."""
+"HubSpot marketing only: emails, campaigns, preferences and email workflows."
 
 from __future__ import annotations
 

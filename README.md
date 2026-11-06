@@ -39,3 +39,18 @@ make verify
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for layout, qualification, migration and
 review rules; [NOTICE](NOTICE) records source attribution.
+
+## Expanded collection
+
+The bounded HTTP catalogue and Core provider migrations are described in
+[usage and transport requirements](docs/council/USAGE.md). The
+[111-row coverage table](docs/council/COVERAGE.md) distinguishes HTTP ports,
+selected native adapters, migrations, held work and production qualification.
+Use `zeo_integrations.catalogue.providers()` for lazy discovery and closed input
+schemas. This collection registers no duplicate Core plugins.
+
+Social publishing product scope and provider capabilities: [publishing matrix](docs/council/PUBLISHING.md).
+
+Durable drafts, exact approvals, per-target publishing, media staging/conversion
+and recovery: [workflow and media guide](docs/council/WORKFLOW.md). The guide
+separates implemented local capabilities from Connect and application wiring.

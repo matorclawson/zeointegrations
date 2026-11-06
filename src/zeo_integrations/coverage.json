@@ -1,0 +1,890 @@
+[
+  {
+    "name": "airbnb",
+    "source": "VeyraX",
+    "module": "zeo_integrations.airbnb",
+    "status": "HTTP source port",
+    "auth": "none",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "airtable",
+    "source": "VeyraX",
+    "module": "zeo_integrations.airtable",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "21 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "amazon",
+    "source": "VeyraX",
+    "module": "zeo_integrations.amazon",
+    "status": "selected injected-adapter operations",
+    "auth": "custom",
+    "scope": "Injected product search, item lookup, variations, browse nodes; local product URL parsing."
+  },
+  {
+    "name": "apollo",
+    "source": "VeyraX",
+    "module": "zeo_integrations.apollo",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "6 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "asana",
+    "source": "VeyraX",
+    "module": "zeo_integrations.asana",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "26 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "bannerbear",
+    "source": "VeyraX",
+    "module": "zeo_integrations.bannerbear",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "53 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "binance_p2p",
+    "source": "VeyraX",
+    "module": "zeo_integrations.binance_p2p",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "brave",
+    "source": "VeyraX",
+    "module": "zeo_integrations.brave",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "4 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "browser_use",
+    "source": "VeyraX",
+    "module": "zeo_integrations.browser_use",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "11 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "browserbase",
+    "source": "VeyraX",
+    "module": "zeo_integrations.browserbase",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "17 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "bybit_p2p",
+    "source": "VeyraX",
+    "module": "zeo_integrations.bybit_p2p",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "cal",
+    "source": "VeyraX",
+    "module": "zeo_integrations.cal",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "10 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "clickhouse",
+    "source": "VeyraX",
+    "module": "zeo_integrations.clickhouse",
+    "status": "DB-API adapter",
+    "auth": "db_access",
+    "scope": "Bounded parameterized SQL transaction execution; injected connection; explicit effect admission."
+  },
+  {
+    "name": "cloudinary",
+    "source": "VeyraX",
+    "module": "zeo_integrations.cloudinary",
+    "status": "HTTP source port",
+    "auth": "custom",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "coda",
+    "source": "VeyraX",
+    "module": "zeo_integrations.coda",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "25 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "common",
+    "source": "VeyraX",
+    "module": null,
+    "status": "excluded by brief",
+    "auth": "shared auth/custody support; not a provider",
+    "scope": "Not a provider; auth/custody not copied."
+  },
+  {
+    "name": "confluence",
+    "source": "VeyraX",
+    "module": "zeo_integrations.confluence",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "4 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "docusign",
+    "source": "VeyraX",
+    "module": "zeo_integrations.docusign",
+    "status": "HTTP source port",
+    "auth": "OAuth (unregistered; route uses TokenService)",
+    "scope": "7 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "dropbox",
+    "source": "VeyraX",
+    "module": "zeo_integrations.dropbox",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "8 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "dub",
+    "source": "VeyraX",
+    "module": "zeo_integrations.dub",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "28 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "duckduckgo",
+    "source": "VeyraX",
+    "module": "zeo_integrations.duckduckgo",
+    "status": "HTTP source port",
+    "auth": "none",
+    "scope": "1 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "e2b",
+    "source": "VeyraX",
+    "module": "zeo_integrations.e2b",
+    "status": "selected injected-adapter operations",
+    "auth": "api_key",
+    "scope": "Injected foreground commands and code execution returning text/logs."
+  },
+  {
+    "name": "exa",
+    "source": "VeyraX",
+    "module": "zeo_integrations.exa",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "3 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "facebook",
+    "source": "VeyraX",
+    "module": "zeo_integrations.facebook",
+    "status": "HTTP source port",
+    "auth": "custom",
+    "scope": "13 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "falai",
+    "source": "VeyraX",
+    "module": "zeo_integrations.falai",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "figma",
+    "source": "VeyraX",
+    "module": "zeo_integrations.figma",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "12 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "firecrawl",
+    "source": "VeyraX",
+    "module": "zeo_integrations.firecrawl",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "7 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "github",
+    "source": "VeyraX",
+    "module": "zeo_integrations.github",
+    "status": "existing or migrated source",
+    "auth": "oauth",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "gmail",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google.mail",
+    "status": "existing or migrated source",
+    "auth": "OAuth (imported but unregistered in router registry/catalog)",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google_calendar",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google.calendar",
+    "status": "existing or migrated source",
+    "auth": "oauth",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google_docs",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google.docs",
+    "status": "existing or migrated source",
+    "auth": "oauth",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google_drive",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google.drive",
+    "status": "existing or migrated source",
+    "auth": "oauth",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google_maps",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google_maps",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "7 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "google_sheets",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google.sheets",
+    "status": "existing or migrated source",
+    "auth": "oauth",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "hacker_news",
+    "source": "VeyraX",
+    "module": "zeo_integrations.hacker_news",
+    "status": "HTTP source port",
+    "auth": "none",
+    "scope": "9 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "heygen",
+    "source": "VeyraX",
+    "module": "zeo_integrations.heygen",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "25 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "hilvl",
+    "source": "VeyraX",
+    "module": "zeo_integrations.hilvl",
+    "status": "HTTP source port",
+    "auth": "API key (unregistered; validate_provider_api_key)",
+    "scope": "51 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "http_request",
+    "source": "VeyraX",
+    "module": "zeo_integrations.http_request",
+    "status": "HTTP source port",
+    "auth": "none",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "hunterio",
+    "source": "VeyraX",
+    "module": "zeo_integrations.hunterio",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "8 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "instagram",
+    "source": "VeyraX",
+    "module": "zeo_integrations.instagram",
+    "status": "HTTP source port",
+    "auth": "custom",
+    "scope": "7 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "ipinfo",
+    "source": "VeyraX",
+    "module": "zeo_integrations.ipinfo",
+    "status": "HTTP source port",
+    "auth": "server API token (catalog says none)",
+    "scope": "3 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "jira",
+    "source": "VeyraX",
+    "module": "zeo_integrations.jira",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "19 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "linear",
+    "source": "VeyraX",
+    "module": "zeo_integrations.linear",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "14 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "linkedin",
+    "source": "VeyraX",
+    "module": "zeo_integrations.linkedin",
+    "status": "HTTP source port",
+    "auth": "custom",
+    "scope": "15 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "mail",
+    "source": "VeyraX",
+    "module": "zeo_integrations.mail",
+    "status": "selected injected-adapter operations",
+    "auth": "custom",
+    "scope": "Injected SMTP send plus read-only IMAP UID listing and UIDVALIDITY-fenced message reads."
+  },
+  {
+    "name": "motion",
+    "source": "VeyraX",
+    "module": "zeo_integrations.motion",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "20 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "n8n",
+    "source": "VeyraX",
+    "module": "zeo_integrations.n8n",
+    "status": "HTTP source port",
+    "auth": "api_key_with_base",
+    "scope": "4 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "neondb",
+    "source": "VeyraX",
+    "module": "zeo_integrations.neondb",
+    "status": "DB-API adapter",
+    "auth": "database credentials; delegates to postgresql",
+    "scope": "Bounded parameterized SQL transaction execution; injected connection; explicit effect admission."
+  },
+  {
+    "name": "notion",
+    "source": "VeyraX",
+    "module": "zeo_integrations.notion",
+    "status": "existing or migrated source",
+    "auth": "oauth",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "okx_p2p",
+    "source": "VeyraX",
+    "module": "zeo_integrations.okx_p2p",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "openweather",
+    "source": "VeyraX",
+    "module": "zeo_integrations.openweather",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "outlook",
+    "source": "VeyraX",
+    "module": "zeo_integrations.outlook",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "10 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "perplexity",
+    "source": "VeyraX",
+    "module": "zeo_integrations.perplexity",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "0 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "postgresql",
+    "source": "VeyraX",
+    "module": "zeo_integrations.postgresql",
+    "status": "DB-API adapter",
+    "auth": "db_access",
+    "scope": "Bounded parameterized SQL transaction execution; injected connection; explicit effect admission."
+  },
+  {
+    "name": "posthog",
+    "source": "VeyraX",
+    "module": "zeo_integrations.posthog",
+    "status": "HTTP source port",
+    "auth": "api_key_with_base",
+    "scope": "34 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "postman",
+    "source": "VeyraX",
+    "module": "zeo_integrations.postman",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "16 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "readwise",
+    "source": "VeyraX",
+    "module": "zeo_integrations.readwise",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "4 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "reddit",
+    "source": "VeyraX",
+    "module": "zeo_integrations.reddit",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "20 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "replicate",
+    "source": "VeyraX",
+    "module": "zeo_integrations.replicate",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "28 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "resend",
+    "source": "VeyraX",
+    "module": "zeo_integrations.resend",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "25 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "revid",
+    "source": "VeyraX",
+    "module": "zeo_integrations.revid",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "5 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "sentry",
+    "source": "VeyraX",
+    "module": "zeo_integrations.sentry",
+    "status": "HTTP source port",
+    "auth": "custom",
+    "scope": "17 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "skyscanner",
+    "source": "VeyraX",
+    "module": "zeo_integrations.skyscanner",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "11 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "slack",
+    "source": "VeyraX",
+    "module": "zeo_integrations.slack",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "5 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "snowflake",
+    "source": "VeyraX",
+    "module": "zeo_integrations.snowflake",
+    "status": "DB-API adapter",
+    "auth": "db_access",
+    "scope": "Bounded parameterized SQL transaction execution; injected connection; explicit effect admission."
+  },
+  {
+    "name": "supabase",
+    "source": "VeyraX",
+    "module": "zeo_integrations.supabase.sql",
+    "status": "DB-API adapter",
+    "auth": "database credentials; delegates to postgresql",
+    "scope": "Bounded parameterized SQL transaction execution; injected connection; explicit effect admission."
+  },
+  {
+    "name": "svgl",
+    "source": "VeyraX",
+    "module": "zeo_integrations.svgl",
+    "status": "HTTP source port",
+    "auth": "none",
+    "scope": "4 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "tavily",
+    "source": "VeyraX",
+    "module": "zeo_integrations.tavily",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "ticktick",
+    "source": "VeyraX",
+    "module": "zeo_integrations.ticktick",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "11 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "todoist",
+    "source": "VeyraX",
+    "module": "zeo_integrations.todoist",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "31 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "trello",
+    "source": "VeyraX",
+    "module": "zeo_integrations.trello",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "20 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "twentyfirst_dev",
+    "source": "VeyraX",
+    "module": "zeo_integrations.twentyfirst_dev",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "typeform",
+    "source": "VeyraX",
+    "module": "zeo_integrations.typeform",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "42 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "uploadthing",
+    "source": "VeyraX",
+    "module": "zeo_integrations.uploadthing",
+    "status": "HTTP source port",
+    "auth": "api_key",
+    "scope": "10 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "vercel",
+    "source": "VeyraX",
+    "module": "zeo_integrations.vercel",
+    "status": "HTTP source port",
+    "auth": "oauth",
+    "scope": "17 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "veyrax",
+    "source": "VeyraX",
+    "module": null,
+    "status": "excluded by brief",
+    "auth": "VeyraX per-user memory store (server Supabase); not a provider port",
+    "scope": "Not a provider; auth/custody not copied."
+  },
+  {
+    "name": "veyrax-mcp",
+    "source": "VeyraX",
+    "module": null,
+    "status": "excluded by brief",
+    "auth": "bearer plus server Upstash token (unregistered)",
+    "scope": "Not a provider; auth/custody not copied."
+  },
+  {
+    "name": "veyrax_auth",
+    "source": "VeyraX",
+    "module": null,
+    "status": "excluded by brief",
+    "auth": "VeyraX credential store (Supabase/encryption); not a provider port",
+    "scope": "Not a provider; auth/custody not copied."
+  },
+  {
+    "name": "whatsapp",
+    "source": "VeyraX",
+    "module": "zeo_integrations.whatsapp",
+    "status": "selected injected-adapter operations",
+    "auth": "whatsapp-qr",
+    "scope": "Injected send and account-bound chat/history/contact reads."
+  },
+  {
+    "name": "x",
+    "source": "VeyraX",
+    "module": "zeo_integrations.x",
+    "status": "HTTP source port",
+    "auth": "custom",
+    "scope": "15 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "yelp",
+    "source": "VeyraX",
+    "module": "zeo_integrations.yelp",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "4 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "youtube",
+    "source": "VeyraX",
+    "module": "zeo_integrations.google.youtube",
+    "status": "existing or migrated source",
+    "auth": "api_key",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "zillow",
+    "source": "VeyraX",
+    "module": "zeo_integrations.zillow",
+    "status": "HTTP source port",
+    "auth": "server RapidAPI key (catalog says none)",
+    "scope": "12 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "zip_code",
+    "source": "VeyraX",
+    "module": "zeo_integrations.zip_code",
+    "status": "HTTP source port",
+    "auth": "none",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "github",
+    "source": "zeocore",
+    "module": "zeo_integrations.github",
+    "status": "Core source migrated",
+    "auth": "token / GitHub App (signer stays in core)",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "google.mail",
+    "source": "zeocore",
+    "module": "zeo_integrations.google.mail",
+    "status": "existing or migrated source",
+    "auth": "OAuth 2",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google.drive",
+    "source": "zeocore",
+    "module": "zeo_integrations.google.drive",
+    "status": "existing or migrated source",
+    "auth": "OAuth 2",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google.calendar",
+    "source": "zeocore",
+    "module": "zeo_integrations.google.calendar",
+    "status": "existing or migrated source",
+    "auth": "OAuth 2",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google.docs",
+    "source": "zeocore",
+    "module": "zeo_integrations.google.docs",
+    "status": "existing or migrated source",
+    "auth": "OAuth 2",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google.sheets",
+    "source": "zeocore",
+    "module": "zeo_integrations.google.sheets",
+    "status": "existing or migrated source",
+    "auth": "OAuth 2",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "google.slides",
+    "source": "zeocore",
+    "module": "zeo_integrations.google.slides",
+    "status": "existing or migrated source",
+    "auth": "OAuth 2",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "pandoc",
+    "source": "zeocore",
+    "module": "zeo_integrations.pandoc",
+    "status": "Core source migrated",
+    "auth": "local; no provider credential",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "llms",
+    "source": "zeocore",
+    "module": "zeo_integrations.llms",
+    "status": "Core source migrated",
+    "auth": "provider API keys",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "ffmpeg",
+    "source": "zeocore",
+    "module": "zeo_integrations.ffmpeg",
+    "status": "Core source migrated",
+    "auth": "local; no provider credential",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "notion",
+    "source": "zeocore",
+    "module": "zeo_integrations.notion",
+    "status": "Core source migrated",
+    "auth": "bearer / OAuth 2",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "supabase",
+    "source": "zeocore",
+    "module": "zeo_integrations.supabase",
+    "status": "existing or migrated source",
+    "auth": "service/API key",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "hubspot.marketing",
+    "source": "zeocore",
+    "module": "zeo_integrations.hubspot",
+    "status": "existing or migrated source",
+    "auth": "bearer access token",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "kit.marketing",
+    "source": "zeocore",
+    "module": "zeo_integrations.kit",
+    "status": "existing or migrated source",
+    "auth": "access token / API key",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "jupytext",
+    "source": "zeocore",
+    "module": "zeo_integrations.jupytext",
+    "status": "Core source migrated",
+    "auth": "local; no provider credential",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "social.bluesky",
+    "source": "zeocore",
+    "module": "zeo_integrations.social.bluesky",
+    "status": "Core source migrated",
+    "auth": "app password / session",
+    "scope": "Provider source and travelling tests; Core registrations unchanged; legacy APIs retain credential behavior."
+  },
+  {
+    "name": "revolut.business",
+    "source": "zeocore",
+    "module": "zeo_integrations.revolut",
+    "status": "existing or migrated source",
+    "auth": "OAuth refresh; separate local enrollment key/cert",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "loops",
+    "source": "new",
+    "module": "zeo_integrations.loops",
+    "status": "existing or migrated source",
+    "auth": "API key via Broker",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "mastodon",
+    "source": "new",
+    "module": "zeo_integrations.mastodon",
+    "status": "existing or migrated source",
+    "auth": "token",
+    "scope": "See provider tests and API; module presence does not prove full VeyraX action parity."
+  },
+  {
+    "name": "telegram",
+    "source": "new",
+    "module": "zeo_integrations.telegram",
+    "status": "Telegram client imported and tested",
+    "auth": "bot token via ZEOconnect",
+    "scope": "Receive, durable-prefix ACK, send and callback client; Connect server not included."
+  },
+  {
+    "name": "substack",
+    "source": "new",
+    "module": null,
+    "status": "not implemented",
+    "auth": "see seat status",
+    "scope": "Notes requested by operator; unofficial client and distributed 1rps emission fence remain to implement."
+  },
+  {
+    "name": "stripe",
+    "source": "new",
+    "module": "zeo_integrations.stripe",
+    "status": "HTTP source port",
+    "auth": "unknown",
+    "scope": "2 executable catalogue operations; synthetic request vectors; not live-qualified."
+  },
+  {
+    "name": "voice router",
+    "source": "zeocore direction",
+    "module": null,
+    "status": "Core-owned dependency",
+    "auth": "provider keys",
+    "scope": "Shared MediaSource/router successor was not supplied as merged code. No competing router or migration created."
+  },
+  {
+    "name": "cloudflare",
+    "source": "new",
+    "module": null,
+    "status": "held by brief",
+    "auth": "via ZEOconnect provider",
+    "scope": "Waits on ZEOconnect; seats do not run cf."
+  },
+  {
+    "name": "storage box media sink",
+    "source": "new",
+    "module": null,
+    "status": "held by brief",
+    "auth": "see direction",
+    "scope": "directions/DIRECTION-operator-storage-box-media-sink-2026-10-29.md"
+  },
+  {
+    "name": "tiktok",
+    "source": "publishing decision",
+    "module": "zeo_integrations.publishing",
+    "status": "selected publishing operations",
+    "auth": "OAuth, inbox flow",
+    "scope": "Original official publishing client; see docs/council/PUBLISHING.md for supported operations and deployment gaps."
+  },
+  {
+    "name": "x publishing",
+    "source": "publishing decision",
+    "module": "zeo_integrations.publishing",
+    "status": "selected publishing operations",
+    "auth": "copy-paste by decision",
+    "scope": "Original official publishing client; see docs/council/PUBLISHING.md for supported operations and deployment gaps."
+  }
+]
