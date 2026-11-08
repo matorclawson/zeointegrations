@@ -1,0 +1,33 @@
+zeo-integrations: jupytext
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; the full permission notice is in the repository LICENSE.
+
+Source: zeroemployeeorg/zeocore
+Commit: 7c9923e6fd93cabb8601040f3e431760be3a18ee
+Source prefix: src/zeo_core/integrations/jupytext/ and tests/test_integrations/jupytext/
+Destination prefix: src/zeo_integrations/jupytext/ and tests/test_integrations/jupytext/
+Method: frozen implementation and travelling-test copy. Import/module-name
+relocations are intentional differences, not a byte-identity claim. Shared Core
+framework/contracts and signer custody remain in Core. Source blobs follow.
+
+src/zeo_core/integrations/jupytext/__init__.py -> src/zeo_integrations/jupytext/__init__.py; source blob 3ffae4e1c1802aaf43953123c50fbf8f13c62b88
+src/zeo_core/integrations/jupytext/config.py -> src/zeo_integrations/jupytext/config.py; source blob 940c567b42fe72f93a56c08c31043d6e91049506
+src/zeo_core/integrations/jupytext/converter.py -> src/zeo_integrations/jupytext/converter.py; source blob 55ae9da1f1acbf188aa4271e5e6ef6e6154ddf1e
+src/zeo_core/integrations/jupytext/models.py -> src/zeo_integrations/jupytext/models.py; source blob 11e81b9d1c4be8314aa14826196fab1cc6df007b
+src/zeo_core/integrations/jupytext/operations/__init__.py -> src/zeo_integrations/jupytext/operations/__init__.py; source blob b027c599edc004b59939e462ddadba21b517e4d9
+src/zeo_core/integrations/jupytext/operations/to_notebook.py -> src/zeo_integrations/jupytext/operations/to_notebook.py; source blob cec013536bda40e1c10047b5576a2d08fbc85d0e
+src/zeo_core/integrations/jupytext/operations/to_script.py -> src/zeo_integrations/jupytext/operations/to_script.py; source blob 98ffaaa533c94aef74797e43a6ee04a628fb6dc3
+src/zeo_core/integrations/jupytext/operations/utils.py -> src/zeo_integrations/jupytext/operations/utils.py; source blob 5aea4bfad51f3f4dd8281dcae70a46d8448de8bc
+src/zeo_core/integrations/jupytext/parity.py -> src/zeo_integrations/jupytext/parity.py; source blob 2566c0de20e1b1da4ed9c19108f6a570aad4a987
+src/zeo_core/integrations/jupytext/protocols.py -> src/zeo_integrations/jupytext/protocols.py; source blob 2d87c52f52a6342ca831d8c0b806f6aa6fa0b2a1
+src/zeo_core/integrations/jupytext/service.py -> src/zeo_integrations/jupytext/service.py; source blob 0019c07162a8192adce71b3f59f2c94b85a5f884
+tests/test_integrations/jupytext/__init__.py -> tests/test_integrations/jupytext/__init__.py; source blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+tests/test_integrations/jupytext/conftest.py -> tests/test_integrations/jupytext/conftest.py; source blob 04f93ebd27cf9f2aa9dd7eea3c934a0d384bff1b
+tests/test_integrations/jupytext/operations/__init__.py -> tests/test_integrations/jupytext/operations/__init__.py; source blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+tests/test_integrations/jupytext/operations/test_to_notebook.py -> tests/test_integrations/jupytext/operations/test_to_notebook.py; source blob c3ae492187e5bb4008b20cfc0b4e0cb885ca418d
+tests/test_integrations/jupytext/operations/test_to_script.py -> tests/test_integrations/jupytext/operations/test_to_script.py; source blob 9653aeae8651ddb4798b70ff8a70aa2339629964
+tests/test_integrations/jupytext/operations/test_utils.py -> tests/test_integrations/jupytext/operations/test_utils.py; source blob c8298540e2d49df787f33ca40fbd0e95b62195d2
+tests/test_integrations/jupytext/test_config.py -> tests/test_integrations/jupytext/test_config.py; source blob 483c00a63476bbc3cf669174b5027ffb849d675f
+tests/test_integrations/jupytext/test_converter.py -> tests/test_integrations/jupytext/test_converter.py; source blob 88a7d1520fb2785ae8decdcb8d06eeeb7a972d98
+tests/test_integrations/jupytext/test_models.py -> tests/test_integrations/jupytext/test_models.py; source blob 71c7b0a165db4658d4d1bdf508df0e13b7d9d67b
+tests/test_integrations/jupytext/test_service.py -> tests/test_integrations/jupytext/test_service.py; source blob 0731bcf5b3ef45160e09d04867a0eeb72771df85

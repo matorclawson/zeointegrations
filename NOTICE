@@ -130,3 +130,16 @@ Protocol facts only from meta/facebook-python-business-sdk at
 efd8423a2e595ea8d4c04eb824ce113f2f1d68cd: Page videos edge, AdVideo fields,
 video uploader origin/status vocabulary. No SDK implementation copied or imported.
 Exact source identities are in docs/facebook-provenance.json.
+
+Whole-provider GitHub/Jupytext/FFmpeg source and travelling tests from
+zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee,
+Copyright (c) 2026 Rod Rivera, MIT.
+Source/destination paths and frozen source Git blobs are retained in
+src/zeo_integrations/github/NOTICE, src/zeo_integrations/jupytext/NOTICE
+and src/zeo_integrations/ffmpeg/NOTICE.
+Namespace relocations include eleven executable module-reference sites in
+tests/test_integrations/github/test_auth.py; these are not byte-identical
+import/string-only rewrites. Core framework/contracts and App signer custody
+remain in zeocore; existing Core entry points are unchanged.
+Current-main integration applies import grouping/formatting and preserves the
+inherited status-enum string contract with an explicit compatibility check.

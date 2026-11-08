@@ -1,0 +1,51 @@
+zeo-integrations: github
+Copyright (c) 2026 Rod Rivera
+Licensed under the MIT License; the full permission notice is in the repository LICENSE.
+
+Source: zeroemployeeorg/zeocore
+Commit: 7c9923e6fd93cabb8601040f3e431760be3a18ee
+Source prefix: src/zeo_core/integrations/github/ and tests/test_integrations/github/
+Destination prefix: src/zeo_integrations/github/ and tests/test_integrations/github/
+Method: frozen implementation and travelling-test copy. Import/module-name
+relocations are intentional differences, not a byte-identity claim. Shared Core
+framework/contracts and signer custody remain in Core. Source blobs follow.
+Additionally tests/test_integrations/github/test_auth.py relocates eleven
+executable qualified-module references at lines104,118,121,123,129,131,139,153,
+160,164,166. These are disclosed namespace-expression changes, not string-only
+rewrites; independent M2 receiving remains required.
+
+Current-main receiving additionally groups and formats imports with Ruff.
+The inherited str/Enum status representation is retained, with an explicit
+lint annotation and a travelling public-string compatibility assertion.
+
+src/zeo_core/integrations/github/__init__.py -> src/zeo_integrations/github/__init__.py; source blob 0a33474038bd06cf69381038a87e83c36d3b640a
+src/zeo_core/integrations/github/app_tokens.py -> src/zeo_integrations/github/app_tokens.py; source blob 3a7dcc0c845cda9b5d1afd9ab1213beafd33b16e
+src/zeo_core/integrations/github/auth.py -> src/zeo_integrations/github/auth.py; source blob 6f53e1dfb5849ea57c81caaec9bf170ca2d2bc63
+src/zeo_core/integrations/github/client.py -> src/zeo_integrations/github/client.py; source blob 125159e4f72387dad6432a7822a672c07417dada
+src/zeo_core/integrations/github/config.py -> src/zeo_integrations/github/config.py; source blob 1b13da371d9a3eec263197d046aa84e09afd8bd6
+src/zeo_core/integrations/github/models.py -> src/zeo_integrations/github/models.py; source blob f8d902447a1c5ef30cfbbd362b2837e7192ab75a
+src/zeo_core/integrations/github/operations/__init__.py -> src/zeo_integrations/github/operations/__init__.py; source blob 14b8bd696a62998a83408caf81f71d5c744680dc
+src/zeo_core/integrations/github/operations/issues.py -> src/zeo_integrations/github/operations/issues.py; source blob 2964333d63fbbfefc9ffb02318b177010beca7aa
+src/zeo_core/integrations/github/operations/pull_requests.py -> src/zeo_integrations/github/operations/pull_requests.py; source blob abc3b5442208e2b762a8f2a9d1fd97d23dac434c
+src/zeo_core/integrations/github/operations/repositories.py -> src/zeo_integrations/github/operations/repositories.py; source blob 6b27a4cb31f6650a6a5f47a7b33435a6c3a9767a
+src/zeo_core/integrations/github/operations/users.py -> src/zeo_integrations/github/operations/users.py; source blob e0a1aa315fff108172c3a1d091778a9143bef068
+src/zeo_core/integrations/github/protocols.py -> src/zeo_integrations/github/protocols.py; source blob 7d85f29ce49349a8a874730b26d5c66e06f5220c
+src/zeo_core/integrations/github/service.py -> src/zeo_integrations/github/service.py; source blob aa8eef8ca63031903215d8a5223892b9e5ac15e2
+src/zeo_core/integrations/github/utils/__init__.py -> src/zeo_integrations/github/utils/__init__.py; source blob 8cbc91e5a26ac858c256c91bcba08d1724aacb6a
+src/zeo_core/integrations/github/utils/api.py -> src/zeo_integrations/github/utils/api.py; source blob 17dacf5bb0b39d909a979d4fdf5e667a9d25e69e
+tests/test_integrations/github/__init__.py -> tests/test_integrations/github/__init__.py; source blob fac4bb639f711ef616aea37803f02663c2dae847
+tests/test_integrations/github/conftest.py -> tests/test_integrations/github/conftest.py; source blob 6a2ecd4c0768663c0ad2815de270fab27f384f66
+tests/test_integrations/github/operations/__init__.py -> tests/test_integrations/github/operations/__init__.py; source blob 208ac3eb8f0b65cae41560b3192c45094f294318
+tests/test_integrations/github/test_api.py -> tests/test_integrations/github/test_api.py; source blob 057016c4ebc5b5ab1fe1f06387f796549569bc7f
+tests/test_integrations/github/test_auth.py -> tests/test_integrations/github/test_auth.py; source blob 8f0408a97eff41a341e95a45efa886b1326274c8
+tests/test_integrations/github/test_auth_provider.py -> tests/test_integrations/github/test_auth_provider.py; source blob 50c6f15016be457eef0c6a2590b79203b0a7f77e
+tests/test_integrations/github/test_client.py -> tests/test_integrations/github/test_client.py; source blob 41e271142edf49ba79f8b904acbe1bbcfa89380c
+tests/test_integrations/github/test_config.py -> tests/test_integrations/github/test_config.py; source blob d7ca49e71ac811d498abeefdb1569c7a76f3507f
+tests/test_integrations/github/test_effects_sent_once.py -> tests/test_integrations/github/test_effects_sent_once.py; source blob 203bc21bd525b3a7dc12dd0bb607253334313edb
+tests/test_integrations/github/test_github_init.py -> tests/test_integrations/github/test_github_init.py; source blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+tests/test_integrations/github/test_integration.py -> tests/test_integrations/github/test_integration.py; source blob 42d0a38ab6a8c197f057e741068f5f541421b931
+tests/test_integrations/github/test_models.py -> tests/test_integrations/github/test_models.py; source blob 5b605ba9b5ba4aa741b1c3f5129c41f24164b2e6
+tests/test_integrations/github/test_operations.py -> tests/test_integrations/github/test_operations.py; source blob d186464360810f81c06e25dbbd09c74960c418da
+tests/test_integrations/github/test_protocols.py -> tests/test_integrations/github/test_protocols.py; source blob 596cc46f5db121fdcc32417f47531064b24a2da0
+tests/test_integrations/github/test_service.py -> tests/test_integrations/github/test_service.py; source blob 73434a2969e9090de91bb351b6882af3349c9014
+tests/test_integrations/github/utils/__init__.py -> tests/test_integrations/github/utils/__init__.py; source blob 4641beb74f998085c502e9ca76766fba8a6c60a7
