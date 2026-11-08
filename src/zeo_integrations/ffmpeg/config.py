@@ -12,7 +12,6 @@ import os
 from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field
-
 from zeo_core.config.models import LoggingConfig
 from zeo_core.core.logging import LOG_LEVELS, LogLevel, get_logger
 from zeo_core.integrations.core.base import BaseConfigProvider

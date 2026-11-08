@@ -19,6 +19,7 @@ from typing import Any
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.core.logging import get_logger
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.jupytext.config import JupytextConfig
 from zeo_integrations.jupytext.models import ConversionDetails
 from zeo_integrations.jupytext.operations.utils import detect_format

@@ -19,6 +19,7 @@ from zeo_core.core.logging import LOG_LEVELS, LogLevel
 from zeo_core.core.paths.service import PathService
 from zeo_core.integrations.core.base import BaseIntegrationService
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.ffmpeg.config import FFmpegConfig, FFmpegConfigProvider
 from zeo_integrations.ffmpeg.models import RenderMetrics
 

@@ -3,6 +3,7 @@
 from unittest.mock import MagicMock
 
 from zeo_core.integrations.core import IntegrationProtocol, IntegrationResult
+
 from zeo_integrations.github.models import GitHubRepo, GitHubUser, PullRequest
 from zeo_integrations.github.protocols import GitHubIntegrationProtocol
 from zeo_integrations.github.service import GitHubIntegration

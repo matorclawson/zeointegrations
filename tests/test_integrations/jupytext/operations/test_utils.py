@@ -2,8 +2,8 @@ from types import SimpleNamespace
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-
 from zeo_core.core.errors import ZeoIntegrationError
+
 from zeo_integrations.jupytext.operations.utils import (
     detect_format,
     get_file_info,

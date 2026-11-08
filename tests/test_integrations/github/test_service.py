@@ -4,13 +4,13 @@ from typing import cast
 from unittest.mock import MagicMock, create_autospec, patch
 
 import pytest
-
 from zeo_core.integrations.core import (
     AuthProviderProtocol,
     AuthResult,
     ConfigProviderProtocol,
     IntegrationResult,
 )
+
 from zeo_integrations.github.auth import GitHubAuthProvider
 from zeo_integrations.github.config import GitHubConfigProvider
 from zeo_integrations.github.models import GitHubRepo, GitHubUser, PullRequest
@@ -95,9 +95,7 @@ class TestGitHubIntegration:
             "token": "test_token"
         }
 
-        with patch(
-            "zeo_integrations.github.service.GitHubClient"
-        ) as mock_client_class:
+        with patch("zeo_integrations.github.service.GitHubClient") as mock_client_class:
             result = github_service.initialize()
 
             assert result.success is True

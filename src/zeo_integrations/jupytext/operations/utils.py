@@ -12,6 +12,7 @@ from typing import Any
 
 from zeo_core.core.errors import ZeoIntegrationError
 from zeo_core.core.logging import get_logger
+
 from zeo_integrations.jupytext.models import NotebookInfo
 
 logger = get_logger(__name__)

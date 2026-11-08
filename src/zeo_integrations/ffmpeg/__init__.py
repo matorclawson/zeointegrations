@@ -10,6 +10,7 @@ zeocore's `IntegrationProtocol`/`IntegrationResult` conventions.
 """
 
 from zeo_core.integrations.core.protocols import IntegrationProtocol
+
 from zeo_integrations.ffmpeg.config import FFmpegConfig, FFmpegConfigProvider
 from zeo_integrations.ffmpeg.models import RenderMetrics
 from zeo_integrations.ffmpeg.service import FFmpegIntegration

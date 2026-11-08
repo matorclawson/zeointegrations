@@ -8,8 +8,8 @@ from unittest.mock import MagicMock
 
 import pytest
 import requests
-
 from zeo_core.core.errors import ZeoApiError
+
 from zeo_integrations.github.operations.pull_requests import merge_pull_request
 from zeo_integrations.github.utils.api import make_request
 

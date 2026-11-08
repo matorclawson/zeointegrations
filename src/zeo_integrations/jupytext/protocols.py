@@ -16,6 +16,7 @@ from zeo_core.integrations.core.artifacts import (
     RequiredConversionTask,
 )
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.jupytext.models import ConversionTask
 from zeo_integrations.jupytext.parity import NotebookParityReceipt
 

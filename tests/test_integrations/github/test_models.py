@@ -22,6 +22,10 @@ class TestGitHubModels:
         assert PullRequestStatus.CLOSED == "closed"
         assert PullRequestStatus.MERGED == "merged"
 
+        # StrEnum would change this public display contract while retaining
+        # the equality assertions above. Keep the existing Core behavior.
+        assert str(PullRequestStatus.OPEN) == "PullRequestStatus.OPEN"
+
         # Test enum values
         assert list(PullRequestStatus) == [
             PullRequestStatus.OPEN,

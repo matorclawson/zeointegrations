@@ -141,3 +141,5 @@ Namespace relocations include eleven executable module-reference sites in
 tests/test_integrations/github/test_auth.py; these are not byte-identical
 import/string-only rewrites. Core framework/contracts and App signer custody
 remain in zeocore; existing Core entry points are unchanged.
+Current-main integration applies import grouping/formatting and preserves the
+inherited status-enum string contract with an explicit compatibility check.

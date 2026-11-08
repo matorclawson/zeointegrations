@@ -6,7 +6,7 @@ from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl
 
 
-class PullRequestStatus(str, Enum):
+class PullRequestStatus(str, Enum):  # noqa: UP042 -- preserve the Core enum string contract
     """Status of a pull request."""
 
     OPEN = "open"

@@ -11,13 +11,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 import requests
-
 from zeo_core.core.errors import ZeoQuotaExceededError
 from zeo_core.integrations.core import (
     AuthProviderProtocol,
     AuthResult,
     ConfigProviderProtocol,
 )
+
 from zeo_integrations.github.auth import GitHubAuthProvider
 from zeo_integrations.github.client import GitHubClient
 from zeo_integrations.github.config import GitHubConfigProvider
@@ -435,9 +435,7 @@ def patch_requests_get() -> Generator[MagicMock]:
 @pytest.fixture
 def patch_make_request() -> Generator[MagicMock]:
     """Patch the make_request function for testing."""
-    with patch(
-        "zeo_integrations.github.api.api.make_request"
-    ) as mock_make_request:
+    with patch("zeo_integrations.github.api.api.make_request") as mock_make_request:
         mock_response = MagicMock(spec=requests.Response)
         mock_response.status_code = 200
         mock_response.json.return_value = {"success": True}
@@ -448,9 +446,7 @@ def patch_make_request() -> Generator[MagicMock]:
 @pytest.fixture
 def patch_make_request_rate_limited() -> Generator[MagicMock]:
     """Patch the make_request function to simulate rate limiting."""
-    with patch(
-        "zeo_integrations.github.api.api.make_request"
-    ) as mock_make_request:
+    with patch("zeo_integrations.github.api.api.make_request") as mock_make_request:
         mock_make_request.side_effect = ZeoQuotaExceededError(
             message="GitHub API rate limit exceeded", service="GitHub", resource="/test"
         )

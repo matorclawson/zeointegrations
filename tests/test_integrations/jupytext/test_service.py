@@ -2,8 +2,8 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock
 
 from _pytest.monkeypatch import MonkeyPatch
-
 from zeo_core.integrations.core.results import ConfigResult, IntegrationResult
+
 from zeo_integrations.jupytext.service import (
     JupytextIntegration,
     create_integration,

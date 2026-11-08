@@ -5,12 +5,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 import requests
-
 from zeo_core.core.errors import (
     ZeoApiError,
     ZeoAuthenticationError,
     ZeoQuotaExceededError,
 )
+
 from zeo_integrations.github.utils.api import (
     _handle_http_error,
     _is_rate_limited_response,

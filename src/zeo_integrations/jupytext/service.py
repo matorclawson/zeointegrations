@@ -23,6 +23,7 @@ from zeo_core.integrations.core.artifacts import (
 from zeo_core.integrations.core.base import BaseIntegrationService
 from zeo_core.integrations.core.protocols import ConfigProviderProtocol
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.jupytext.config import JupytextConfig, JupytextConfigProvider
 from zeo_integrations.jupytext.converter import NotebookConverter
 from zeo_integrations.jupytext.operations.utils import verify_jupytext

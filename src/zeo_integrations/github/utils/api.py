@@ -6,7 +6,6 @@ from datetime import datetime
 from typing import Any
 
 import requests
-
 from zeo_core.core.errors import (
     ZeoApiError,
     ZeoAuthenticationError,

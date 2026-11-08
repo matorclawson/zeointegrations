@@ -24,6 +24,7 @@ from zeo_core.integrations.core.artifacts import (
 from zeo_core.integrations.core.conversion_receipts import convert_with_receipt
 from zeo_core.integrations.core.results import IntegrationResult
 from zeo_core.integrations.core.strict_batch import convert_batch_strict
+
 from zeo_integrations.jupytext.config import JupytextConfig
 from zeo_integrations.jupytext.models import ConversionDetails, ConversionTask
 from zeo_integrations.jupytext.operations.to_notebook import convert_to_notebook

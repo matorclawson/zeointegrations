@@ -14,6 +14,10 @@ executable qualified-module references at lines104,118,121,123,129,131,139,153,
 160,164,166. These are disclosed namespace-expression changes, not string-only
 rewrites; independent M2 receiving remains required.
 
+Current-main receiving additionally groups and formats imports with Ruff.
+The inherited str/Enum status representation is retained, with an explicit
+lint annotation and a travelling public-string compatibility assertion.
+
 src/zeo_core/integrations/github/__init__.py -> src/zeo_integrations/github/__init__.py; source blob 0a33474038bd06cf69381038a87e83c36d3b640a
 src/zeo_core/integrations/github/app_tokens.py -> src/zeo_integrations/github/app_tokens.py; source blob 3a7dcc0c845cda9b5d1afd9ab1213beafd33b16e
 src/zeo_core/integrations/github/auth.py -> src/zeo_integrations/github/auth.py; source blob 6f53e1dfb5849ea57c81caaec9bf170ca2d2bc63

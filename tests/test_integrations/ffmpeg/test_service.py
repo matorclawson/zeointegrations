@@ -14,8 +14,8 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.ffmpeg.protocols import (
     MediaConversionProtocol,
     MediaProbeProtocol,

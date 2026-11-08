@@ -21,6 +21,7 @@ from zeo_core.integrations.core.artifacts import (
     RequiredConversionTask,
 )
 from zeo_core.integrations.core.protocols import IntegrationProtocol
+
 from zeo_integrations.jupytext.config import JupytextConfig, JupytextConfigProvider
 from zeo_integrations.jupytext.converter import NotebookConverter
 from zeo_integrations.jupytext.models import (

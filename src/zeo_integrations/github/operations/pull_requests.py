@@ -5,9 +5,9 @@ from datetime import datetime
 from typing import Any, Literal
 
 import requests
-
 from zeo_core.core.errors import ZeoError
 from zeo_core.core.logging import get_logger
+
 from zeo_integrations.github.models import (
     GitHubUser,
     PullRequest,

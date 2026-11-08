@@ -7,9 +7,9 @@ from pathlib import Path
 from typing import Any, Literal
 
 from pydantic import BaseModel
-
 from zeo_core.integrations.core.artifacts import NotebookCellFact
 from zeo_core.integrations.core.results import IntegrationResult
+
 from zeo_integrations.jupytext.operations.utils import detect_format
 
 
