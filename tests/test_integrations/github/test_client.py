@@ -160,9 +160,7 @@ class TestGitHubClient:
     def test_unstar_repo(self, github_client: GitHubClient) -> None:
         """Test unstarring a repository."""
         # Mock unstar_repo operation
-        with patch(
-            "zeo_integrations.github.client.unstar_repo"
-        ) as mock_unstar_repo:
+        with patch("zeo_integrations.github.client.unstar_repo") as mock_unstar_repo:
             mock_unstar_repo.return_value = True
 
             # Call the method
@@ -182,9 +180,7 @@ class TestGitHubClient:
     def test_is_repo_starred(self, github_client: GitHubClient) -> None:
         """Test checking if a repository is starred."""
         # Mock is_repo_starred operation
-        with patch(
-            "zeo_integrations.github.client.is_repo_starred"
-        ) as mock_is_starred:
+        with patch("zeo_integrations.github.client.is_repo_starred") as mock_is_starred:
             mock_is_starred.return_value = True
 
             # Call the method
@@ -341,9 +337,7 @@ class TestGitHubClient:
     def test_get_pull_request(self, github_client: GitHubClient) -> None:
         """Test getting a pull request."""
         # Mock get_pull_request operation
-        with patch(
-            "zeo_integrations.github.client.get_pull_request"
-        ) as mock_get_pr:
+        with patch("zeo_integrations.github.client.get_pull_request") as mock_get_pr:
             author = GitHubUser(
                 username="test_user", url="https://github.com/test_user"
             )
@@ -577,9 +571,7 @@ class TestGitHubClient:
     def test_get_pull_request_files(self, github_client: GitHubClient) -> None:
         """Test getting files from a pull request."""
         # Mock get_pull_request_files operation
-        with patch(
-            "zeo_integrations.github.client.get_pull_request_files"
-        ) as mock_get:
+        with patch("zeo_integrations.github.client.get_pull_request_files") as mock_get:
             mock_get.return_value = [
                 {
                     "filename": "GET-STARTED.md",
