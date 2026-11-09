@@ -33,7 +33,6 @@ from datetime import UTC, datetime
 from typing import Any
 
 import requests
-
 from zeo_core.core.logging import get_logger
 
 logger = get_logger(__name__)

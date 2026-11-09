@@ -8,8 +8,8 @@ NotionClient injected after initialize() so no real network/token is used.
 from unittest.mock import MagicMock
 
 import pytest
-
 from zeo_core.integrations.core.results import ConfigResult, IntegrationResult
+
 from zeo_integrations.notion.client import NotionClient
 from zeo_integrations.notion.models import NotionBlock, NotionDatabase, NotionPage
 from zeo_integrations.notion.service import NotionIntegration

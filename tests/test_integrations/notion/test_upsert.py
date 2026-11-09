@@ -9,8 +9,6 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from pydantic import ValidationError
-
-from tests.connections.adapters.fake_subprocess_runner import FakeSubprocessRunner
 from zeo_core.connections import (
     DispatchDisposition,
     EffectDispatchRequest,
@@ -35,6 +33,8 @@ from zeo_core.contracts.connections import (
     OrganizationId,
     SecretRef,
 )
+
+from tests.test_integrations.gemini.fake_subprocess_runner import FakeSubprocessRunner
 from zeo_integrations.notion import (
     NOTION_PAGE_UPSERT_OPERATION_ID,
     CitedText,

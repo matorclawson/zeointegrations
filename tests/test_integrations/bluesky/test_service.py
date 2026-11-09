@@ -9,8 +9,8 @@ function under test (RULING-235).
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.integrations.core.results import AuthResult, ConfigResult
+
 from zeo_integrations.bluesky.facets import LinkSpan, MentionSpan
 from zeo_integrations.bluesky.service import BlueskyIntegration
 

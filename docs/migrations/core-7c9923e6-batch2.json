@@ -34,9 +34,11 @@
       "old_path": "src/zeo_core/integrations/notion/config.py",
       "new_path": "src/zeo_integrations/notion/config.py",
       "old_blob": "e701079c8a697d28f4daf9ec412271f990b07549",
-      "new_blob": "e701079c8a697d28f4daf9ec412271f990b07549",
+      "new_blob": "68a1855c5349f8e45b1f91d878da4912d362cb2d",
       "old_bytes": 3498,
-      "new_bytes": 3498
+      "new_bytes": 3497,
+      "recovered_preformat_blob": "e701079c8a697d28f4daf9ec412271f990b07549",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/notion/models.py",
@@ -50,9 +52,11 @@
       "old_path": "src/zeo_core/integrations/notion/oauth.py",
       "new_path": "src/zeo_integrations/notion/oauth.py",
       "old_blob": "7a73094237c98fceb734e5b0fb9761d5093e0cb6",
-      "new_blob": "7a73094237c98fceb734e5b0fb9761d5093e0cb6",
+      "new_blob": "392b0f9fd6f0285f9bd972e472f66635385d44f0",
       "old_bytes": 9694,
-      "new_bytes": 9694
+      "new_bytes": 9693,
+      "recovered_preformat_blob": "7a73094237c98fceb734e5b0fb9761d5093e0cb6",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/notion/protocols.py",
@@ -82,9 +86,11 @@
       "old_path": "src/zeo_core/integrations/notion/upsert.py",
       "new_path": "src/zeo_integrations/notion/upsert.py",
       "old_blob": "248507ebfe463ac38592705e14ada07d2b05107c",
-      "new_blob": "248507ebfe463ac38592705e14ada07d2b05107c",
+      "new_blob": "0c5d160322ad4a73bf50ab14dcc679a92e0048c9",
       "old_bytes": 16778,
-      "new_bytes": 16778
+      "new_bytes": 16777,
+      "recovered_preformat_blob": "248507ebfe463ac38592705e14ada07d2b05107c",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "tests/test_integrations/notion/__init__.py",
@@ -138,17 +144,21 @@
       "old_path": "tests/test_integrations/notion/test_oauth.py",
       "new_path": "tests/test_integrations/notion/test_oauth.py",
       "old_blob": "d39696cad4b1ff4c765bf67c3c0ae0a0c3f61fb9",
-      "new_blob": "02a85741976cd8121228b4f17260855e843e7bf1",
+      "new_blob": "993a79a54add22f9d72ac4dde34a87db1af034dc",
       "old_bytes": 8736,
-      "new_bytes": 8726
+      "new_bytes": 8726,
+      "recovered_preformat_blob": "02a85741976cd8121228b4f17260855e843e7bf1",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "tests/test_integrations/notion/test_service.py",
       "new_path": "tests/test_integrations/notion/test_service.py",
       "old_blob": "d8d3a5c4109ec1d839b9f7fee0cb1a1a6f377c87",
-      "new_blob": "4be6e55b661f54dfd4740546b16681d8eff59233",
+      "new_blob": "2eb0a0c756a0e99a46e7be0fd66d1a786dcdf09a",
       "old_bytes": 19395,
-      "new_bytes": 19380
+      "new_bytes": 19380,
+      "recovered_preformat_blob": "4be6e55b661f54dfd4740546b16681d8eff59233",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "tests/test_integrations/notion/test_transport.py",
@@ -162,9 +172,11 @@
       "old_path": "tests/test_integrations/notion/test_upsert.py",
       "new_path": "tests/test_integrations/notion/test_upsert.py",
       "old_blob": "de621c13937f8b18600414b152c8d6a9e2e3ce6a",
-      "new_blob": "a43cf648c7e9190172e4b9a94fa9d4e423731b16",
+      "new_blob": "5332c956ac28736fc6ffff8c5b4125e47f4ae784",
       "old_bytes": 17323,
-      "new_bytes": 17303
+      "new_bytes": 17307,
+      "recovered_preformat_blob": "a43cf648c7e9190172e4b9a94fa9d4e423731b16",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/social/bluesky/__init__.py",
@@ -178,33 +190,41 @@
       "old_path": "src/zeo_core/integrations/social/bluesky/auth.py",
       "new_path": "src/zeo_integrations/bluesky/auth.py",
       "old_blob": "ef7f279ccc1506638e754ef3c0d49dac9b6062f4",
-      "new_blob": "9c46361aef4f3f5d92e1de07951b7688c32830ce",
+      "new_blob": "fe77137635a5040e02f8792d160997b3efea9a81",
       "old_bytes": 14472,
-      "new_bytes": 14448
+      "new_bytes": 14449,
+      "recovered_preformat_blob": "9c46361aef4f3f5d92e1de07951b7688c32830ce",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/social/bluesky/client.py",
       "new_path": "src/zeo_integrations/bluesky/client.py",
       "old_blob": "277bd16370a029151b19d83427a70726cc98d11c",
-      "new_blob": "277bd16370a029151b19d83427a70726cc98d11c",
+      "new_blob": "16821b46cd3e8bf17ca424f66a6d170c8b9d1879",
       "old_bytes": 6507,
-      "new_bytes": 6507
+      "new_bytes": 6506,
+      "recovered_preformat_blob": "277bd16370a029151b19d83427a70726cc98d11c",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/social/bluesky/config.py",
       "new_path": "src/zeo_integrations/bluesky/config.py",
       "old_blob": "8107a6bac5bdb382f15f0ca9b7160f0c4f9a99b8",
-      "new_blob": "1f5e49e7d2b9a6fba4ce2ceb80c67ce201b376d4",
+      "new_blob": "2fa8988398d536908fd2919149cd220045d0abad",
       "old_bytes": 5198,
-      "new_bytes": 5186
+      "new_bytes": 5187,
+      "recovered_preformat_blob": "1f5e49e7d2b9a6fba4ce2ceb80c67ce201b376d4",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/social/bluesky/credential_paths.py",
       "new_path": "src/zeo_integrations/bluesky/credential_paths.py",
       "old_blob": "6268ea1db96371ef41ad370be05ec052f90bee05",
-      "new_blob": "6268ea1db96371ef41ad370be05ec052f90bee05",
+      "new_blob": "d73db3d73ca0271616fa31a7c6f2115fa3395872",
       "old_bytes": 5368,
-      "new_bytes": 5368
+      "new_bytes": 5367,
+      "recovered_preformat_blob": "6268ea1db96371ef41ad370be05ec052f90bee05",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "src/zeo_core/integrations/social/bluesky/facets.py",
@@ -226,9 +246,11 @@
       "old_path": "src/zeo_core/integrations/social/bluesky/service.py",
       "new_path": "src/zeo_integrations/bluesky/service.py",
       "old_blob": "17c3fd49fdbbc0517d906492ee29bde1538f4cd5",
-      "new_blob": "e744092837f7884fb838690c70807fe2ef62baf5",
+      "new_blob": "4ade4fd79691486894b10112e0f5587ffecbc7a8",
       "old_bytes": 11213,
-      "new_bytes": 11165
+      "new_bytes": 11166,
+      "recovered_preformat_blob": "e744092837f7884fb838690c70807fe2ef62baf5",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     },
     {
       "old_path": "tests/test_integrations/social/bluesky/__init__.py",
@@ -290,9 +312,11 @@
       "old_path": "tests/test_integrations/social/bluesky/test_service.py",
       "new_path": "tests/test_integrations/bluesky/test_service.py",
       "old_blob": "acfdc43eb72f26ec5b4463f975d9c17a14107903",
-      "new_blob": "d17ba2dfe7b9572c89cf6fd3e8c0f253a3013ded",
+      "new_blob": "faa4ff16102c2ea7c912d167529915474e091473",
       "old_bytes": 10956,
-      "new_bytes": 10920
+      "new_bytes": 10920,
+      "recovered_preformat_blob": "d17ba2dfe7b9572c89cf6fd3e8c0f253a3013ded",
+      "change": "module-reference relocation and root Ruff import sorting/format"
     }
   ],
   "test_membership": {
@@ -2981,5 +3005,10 @@
       "moved_assert_statements": 480,
       "core_owned_assert_statements": 0
     }
+  },
+  "cleanup_recovery": {
+    "source_branch_tip": "037476fa",
+    "base": "c5317a50625e410771258982b9a332534d07eabf",
+    "changes": "Root Ruff import sorting/format only; Notion upsert fake-runner import relocated to existing byte-identical Gemini test support. Original generic syntax retained by narrow UP046 lint policy; no provider behavior or test assertion removed."
   }
 }

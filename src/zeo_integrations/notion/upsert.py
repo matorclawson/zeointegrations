@@ -9,7 +9,6 @@ from collections.abc import Callable
 from typing import Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
-
 from zeo_core.connections.orchestration import (
     DispatchDisposition,
     EffectDispatchRequest,

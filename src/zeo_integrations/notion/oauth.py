@@ -6,7 +6,6 @@ import os
 from typing import Any, Protocol, runtime_checkable
 
 from pydantic import BaseModel, ConfigDict
-
 from zeo_core.contracts.connections import OrganizationId, SecretRef, SecretStore
 
 from .client import NOTION_API_VERSION, NotionAPIError

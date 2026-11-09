@@ -11,9 +11,6 @@ from pathlib import Path
 import httpx
 import pytest
 from pydantic import ValidationError
-
-from tests.test_integrations.gemini.fake_subprocess_runner import FakeSubprocessRunner
-from tests.test_integrations.gemini.signature_verifier import AcceptingSignatureVerifier
 from zeo_core.connections import (
     EffectExecutionResult,
     EffectOrchestrator,
@@ -38,6 +35,9 @@ from zeo_core.integrations.gemini import (
     ImageGenerationService,
     image_generation_revision,
 )
+
+from tests.test_integrations.gemini.fake_subprocess_runner import FakeSubprocessRunner
+from tests.test_integrations.gemini.signature_verifier import AcceptingSignatureVerifier
 from zeo_integrations.gemini import ImageArtifactStore, ImageGenerationRequest
 from zeo_integrations.gemini.models import digest_bytes
 from zeo_integrations.gemini.transport import (

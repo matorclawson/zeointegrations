@@ -4,8 +4,8 @@ import os
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from zeo_core.contracts.connections import OrganizationId, SecretRef
+
 from zeo_integrations.notion import (
     NotionAPIError,
     NotionOAuthBroker,

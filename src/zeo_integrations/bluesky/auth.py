@@ -30,6 +30,7 @@ from typing import Any, Protocol
 
 from zeo_core.core.logging import LOG_LEVELS, LogLevel, get_logger
 from zeo_core.integrations.core import AuthResult, BaseAuthProvider
+
 from zeo_integrations.bluesky.credential_paths import (
     create_directory_with_fallback,
     get_file_info_with_fallback,

@@ -22,6 +22,7 @@ from zeo_core.integrations.core import (
     ConfigProviderProtocol,
     IntegrationResult,
 )
+
 from zeo_integrations.bluesky.auth import BlueskyAuthProvider
 from zeo_integrations.bluesky.config import BlueskyConfigProvider
 from zeo_integrations.bluesky.facets import (

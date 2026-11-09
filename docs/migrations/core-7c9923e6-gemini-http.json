@@ -81,10 +81,11 @@
       "old_path": "tests/test_integrations/test_gemini_images.py",
       "new_path": "tests/test_integrations/gemini/test_gemini_images.py",
       "old_blob": "3ea585b7b2c08449d844cd6c0df44bcdd469f96b",
-      "new_blob": "74084182d1c5e2c2759687e800f1f8e2d34f35c5",
+      "new_blob": "365934ea13babeefe43cddd298512269bfbb426a",
       "old_bytes": 11639,
       "new_bytes": 11666,
-      "change": "imports only; orchestration stays Core"
+      "change": "module-reference relocation and root Ruff import sorting/format",
+      "recovered_preformat_blob": "74084182d1c5e2c2759687e800f1f8e2d34f35c5"
     }
   ],
   "new_files": [
@@ -135,5 +136,10 @@
     "class": "AcceptingSignatureVerifier",
     "destination": "tests/test_integrations/gemini/signature_verifier.py"
   },
-  "qualification": "NOT_RUN; requires Scheduler GO and exact-head full gate"
+  "qualification": "Recorded separately in exact-head gate receipts; original a064 attempt failed root lint, repaired successor requires full gate.",
+  "cleanup_recovery": {
+    "source_branch_tip": "9467a185",
+    "base": "c5317a50625e410771258982b9a332534d07eabf",
+    "changes": "Root Ruff import sorting/format only; Notion upsert fake-runner import relocated to existing byte-identical Gemini test support. Original generic syntax retained by narrow UP046 lint policy; no provider behavior or test assertion removed."
+  }
 }

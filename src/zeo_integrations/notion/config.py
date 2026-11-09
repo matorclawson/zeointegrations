@@ -6,7 +6,6 @@ import os
 from typing import Any
 
 from pydantic import BaseModel, Field, SecretStr
-
 from zeo_core.core.logging import LOG_LEVELS, LogLevel
 from zeo_core.integrations.core import BaseConfigProvider, ConfigResult
 

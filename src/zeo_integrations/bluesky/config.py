@@ -16,6 +16,7 @@ from typing import Any
 
 from zeo_core.core.logging import get_logger
 from zeo_core.integrations.core import BaseConfigProvider, ConfigResult
+
 from zeo_integrations.bluesky.credential_paths import (
     default_credentials_path,
 )
