@@ -1,5 +1,5 @@
 {
-  "sow": "zeointegrations-SOW-02",
+  "sow": "public",
   "source_repo": "zeroemployeeorg/zeocore",
   "source_commit": "7c9923e6fd93cabb8601040f3e431760be3a18ee",
   "batch": "briefing-http",
