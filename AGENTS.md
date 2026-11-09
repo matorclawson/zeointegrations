@@ -1,26 +1,30 @@
 # zeointegrations
 
-This seat owns this repository. Coordinate package moves with zeocore and Broker
-execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
+This repository owns the integration collection. Coordinate package moves with
+the Core project and execution with the Broker project. Core edits belong to
+the Core repository.
 
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing packaging.
-- Run `make setup`, then full local `make verify`. Council repeats the exact-head
-  gate until pomar CI supplies its signed gate; public Actions is one optional
-  three-minute smoke job under DECISION-local-ci-on-pomar-actions-minimal-v1-2026-10-18.
+- Run `make setup`, then full local `make verify`. Independent review repeats
+  the exact-head gate until pomar CI supplies its signed gate. Public Actions is one optional
+  three-minute smoke job, not the full gate.
 - Work on a `zeointegrations/<slug>` branch in the fork; one open non-draft PR
   per repository. Open a new PR only when the work is ready and its full gate
   has passed on the exact head, including new draft PRs. Existing drafts stay
   draft until their gate passes. See CONTRIBUTING.md for the
   own-fork `zeointegrations/wip/<topic>` backup and quick-check policy.
-  The lane derives the seat from the prefix before `/`. The first PR body line and
-  a line in every commit must be `sow: <runtime-minted id>`. Never invent an id.
+  The project prefix before `/` is required; keep the branch topic neutral.
+  This public repository uses exactly `sow: public` as the first PR body line
+  and in every commit. Do not include internal work identifiers, role names,
+  session trailers or message identifiers in public files or PR metadata.
+  Keep those records in the private governance repository.
 - Test regularly on the work branch in your own lane; PR creation or updates
   must never trigger the heavy suite. Keep PR checks light.
 - Full exact-head verification is required before every non-WIP push and before
   final approval, signing or merge. Record HEAD, DIRTY, host, EXIT and the full
   log SHA256 in the PR body. Never skip baseline failures or bypass a hook.
-- Council reviews, the Architect signs, and the merging app merges. Keep the
-  upstream push URL disabled. No direct main pushes or developer tags. The
+- Independent review and required signing precede merging-app integration.
+  Keep the upstream push URL disabled. No direct main pushes or developer tags. The
   operator's 26 October 03:51 ruling supersedes the per-provider PyPI route:
   one `zeo-integrations` distribution depends on published `zeocore>=0.43`;
   Core must not import this collection at import time. No per-provider PyPI
@@ -37,12 +41,12 @@ execution with zeoconnect-tools. The zeocore seat owns all zeocore edits.
   for its six current entry points; other provider SDKs are optional extras.
 - Contracts belong to zeocore; UI components are data only, without provider HTML
   or JavaScript. Coordinate the machine manifest contract before implementing it.
-- Send seat mail as `zeointegrations` through the zeo-messenger skill. Send the
-  Architect completed slices or concrete blockers.
+- Keep internal coordination and work records in the private governance system;
+  report completed changes or concrete blockers through that system.
 
 All builds/tests/gates run on ENG-UK in the seat-gates workspace, maximum20GB.
 Mat is for authoring/commits/push/mail. The required org-records metadata hook
-may run unchanged under taskpolicy -b at push time by the Architect's explicit
+may run unchanged under taskpolicy -b at push time by the explicit metadata-hook
 exception; do not extend that exception to source gates. Each contributing seat
 uses its own seat branch prefix and at most one open PR per repository. WIP
 backup branches are never PR heads. Provider moves include travelling tests and
