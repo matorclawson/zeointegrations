@@ -172,9 +172,9 @@
       "old_path": "tests/test_integrations/notion/test_upsert.py",
       "new_path": "tests/test_integrations/notion/test_upsert.py",
       "old_blob": "de621c13937f8b18600414b152c8d6a9e2e3ce6a",
-      "new_blob": "5332c956ac28736fc6ffff8c5b4125e47f4ae784",
+      "new_blob": "e057d0f74504e5ba4b8745e5101136ecf283603d",
       "old_bytes": 17323,
-      "new_bytes": 17307,
+      "new_bytes": 17308,
       "recovered_preformat_blob": "a43cf648c7e9190172e4b9a94fa9d4e423731b16",
       "change": "module-reference relocation and root Ruff import sorting/format"
     },
@@ -3009,6 +3009,6 @@
   "cleanup_recovery": {
     "source_branch_tip": "037476fa",
     "base": "c5317a50625e410771258982b9a332534d07eabf",
-    "changes": "Root Ruff import sorting/format only; Notion upsert fake-runner import relocated to existing byte-identical Gemini test support. Original generic syntax retained by narrow UP046 lint policy; no provider behavior or test assertion removed."
+    "changes": "Root Ruff import sorting/format only; Notion upsert fake-runner import relocated to shared byte-identical frozen Core test support. Original generic syntax retained by narrow UP046 lint policy; no provider behavior or test assertion removed."
   }
 }

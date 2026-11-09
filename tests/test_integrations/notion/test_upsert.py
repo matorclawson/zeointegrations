@@ -34,7 +34,7 @@ from zeo_core.contracts.connections import (
     SecretRef,
 )
 
-from tests.test_integrations.gemini.fake_subprocess_runner import FakeSubprocessRunner
+from tests.test_integrations.support.fake_subprocess_runner import FakeSubprocessRunner
 from zeo_integrations.notion import (
     NOTION_PAGE_UPSERT_OPERATION_ID,
     CitedText,

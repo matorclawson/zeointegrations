@@ -144,10 +144,12 @@ remain in zeocore; existing Core entry points are unchanged.
 Current-main integration applies import grouping/formatting and preserves the
 inherited status-enum string contract with an explicit compatibility check.
 
-Recovered portable Gemini models/artifacts/transport and briefing HTTP source/tests
-from zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee,
-MIT Copyright (c) 2026 Rod Rivera. Per-file provenance and retained Core orchestration:
-docs/migrations/core-7c9923e6-gemini-http.json; full terms in each provider NOTICE.
+Recovered briefing HTTP source/tests from
+zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee,
+MIT Copyright (c) 2026 Rod Rivera; full terms in briefing_sources/NOTICE.
+Per-file provenance: docs/migrations/core-7c9923e6-briefing-http.json.
+The byte-identical tests/connections/adapters/fake_subprocess_runner.py supports
+Notion at tests/test_integrations/support/fake_subprocess_runner.py.
 
 Recovered Notion and Bluesky source/tests from the same frozen Core commit.
 Exact per-file blobs and travelling test ownership:
