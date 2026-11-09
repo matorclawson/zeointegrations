@@ -33,3 +33,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Security follow-up of 9 November 2026 after the source recovery.
+Local hardening changes and regression controls are documented in
+docs/bluesky-recovery-security.md.
+Original source attribution and MIT terms above remain intact.

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import Any, Protocol, runtime_checkable
 
@@ -10,6 +11,8 @@ from zeo_core.contracts.connections import OrganizationId, SecretRef, SecretStor
 
 from .client import NOTION_API_VERSION, NotionAPIError
 from .transport import build_notion_http_client
+
+logger = logging.getLogger(__name__)
 
 
 class NotionOAuthGrant(BaseModel):
@@ -181,9 +184,15 @@ class NotionOAuthBroker:
             )
         except Exception:
             if access_ref is not None:
-                self._secret_store.delete(
-                    ref=access_ref, organization_id=self._organization_id
-                )
+                try:
+                    self._secret_store.delete(
+                        ref=access_ref, organization_id=self._organization_id
+                    )
+                except Exception:
+                    logger.warning(
+                        "OAuth credential cleanup failed for reference %s",
+                        access_ref.handle,
+                    )
             raise NotionAPIError(
                 "Notion OAuth credentials could not be placed in custody",
                 code="oauth_custody_failed",
