@@ -1,0 +1,37 @@
+MIT Copyright(c)2026 Rod Rivera.
+Copied from https://github.com/zeroemployeeorg/zeocore at
+7c9923e6fd93cabb8601040f3e431760be3a18ee; import/module references relocated.
+Core remains the framework dependency; no execution permission is granted.
+Per-file provenance (source -> destination; old Git blob):
+src/zeo_core/integrations/notion/__init__.py -> src/zeo_integrations/notion/__init__.py; 0c3fe0fa74bbb89b7fca33d8f686ed03ec40949d
+src/zeo_core/integrations/notion/auth.py -> src/zeo_integrations/notion/auth.py; f8245a0c4d45f4389e0bd50aef1354a96c1751b2
+src/zeo_core/integrations/notion/client.py -> src/zeo_integrations/notion/client.py; d765bb51409006a14541857795e3e8cbc60f091b
+src/zeo_core/integrations/notion/config.py -> src/zeo_integrations/notion/config.py; e701079c8a697d28f4daf9ec412271f990b07549
+src/zeo_core/integrations/notion/models.py -> src/zeo_integrations/notion/models.py; 63a48b7761df94e80f51a86d2389a09c5cb1ece0
+src/zeo_core/integrations/notion/oauth.py -> src/zeo_integrations/notion/oauth.py; 7a73094237c98fceb734e5b0fb9761d5093e0cb6
+src/zeo_core/integrations/notion/protocols.py -> src/zeo_integrations/notion/protocols.py; 4a3431b57c59eb5e629b071da1411779cccb2c44
+src/zeo_core/integrations/notion/service.py -> src/zeo_integrations/notion/service.py; 207cb7286127cf7de4e7f0f8c7763a145a932609
+src/zeo_core/integrations/notion/transport.py -> src/zeo_integrations/notion/transport.py; 7ec4f5d75f9edccd5c18ea310a02aceafd4aea9d
+src/zeo_core/integrations/notion/upsert.py -> src/zeo_integrations/notion/upsert.py; 248507ebfe463ac38592705e14ada07d2b05107c
+
+MIT License
+
+Copyright (c) 2026 Rod Rivera
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

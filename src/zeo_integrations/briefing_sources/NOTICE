@@ -1,0 +1,28 @@
+MIT License
+
+Copyright (c) 2026 Rod Rivera
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Copied portions from zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee.
+Core remains the framework dependency; no execution permission is granted.
+Per-file provenance:
+src/zeo_core/integrations/briefing_sources/http.py -> src/zeo_integrations/briefing_sources/http.py; dd236fdd57c9b16af47ee1e73afa6833147c09d1 (byte-identical)
+tests/test_integrations/briefing_sources/test_http.py -> tests/test_integrations/briefing_sources/test_http.py; 35fc1af2ef84d4b818e8d878d284478ef0662555 (import relocation only)
+tests/test_integrations/briefing_sources/test_http_locks.py -> tests/test_integrations/briefing_sources/test_http_locks.py; 892089f9ef990e8fbf8f97b3c176aeffc5257ce6 (import relocation only)
