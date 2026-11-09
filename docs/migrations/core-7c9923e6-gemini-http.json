@@ -1,0 +1,139 @@
+{
+  "sow": "zeointegrations-SOW-02",
+  "source_repo": "zeroemployeeorg/zeocore",
+  "source_commit": "7c9923e6fd93cabb8601040f3e431760be3a18ee",
+  "batch": "gemini-http",
+  "allowed_changes": "portable source unchanged; test imports relocated; new exports/support classified separately",
+  "retained_in_core": [
+    "gemini/operation.py",
+    "gemini/service.py",
+    "briefing_sources/flight.py",
+    "briefing_sources/market.py",
+    "briefing_sources/timeline.py",
+    "briefing_sources/weather.py",
+    "briefing_sources/__init__.py"
+  ],
+  "files": [
+    {
+      "old_path": "src/zeo_core/integrations/gemini/models.py",
+      "new_path": "src/zeo_integrations/gemini/models.py",
+      "old_blob": "2b7a8c0a288b5a9b7c2556c4a8ca144305117f85",
+      "new_blob": "2b7a8c0a288b5a9b7c2556c4a8ca144305117f85",
+      "old_bytes": 3448,
+      "new_bytes": 3448,
+      "change": "byte-identical"
+    },
+    {
+      "old_path": "src/zeo_core/integrations/gemini/artifacts.py",
+      "new_path": "src/zeo_integrations/gemini/artifacts.py",
+      "old_blob": "5f7512270772447236b6c4efdbe31c61fd0abf15",
+      "new_blob": "5f7512270772447236b6c4efdbe31c61fd0abf15",
+      "old_bytes": 4717,
+      "new_bytes": 4717,
+      "change": "byte-identical"
+    },
+    {
+      "old_path": "src/zeo_core/integrations/gemini/transport.py",
+      "new_path": "src/zeo_integrations/gemini/transport.py",
+      "old_blob": "bbab333395723ece8c1734a7f0327c8554a56539",
+      "new_blob": "bbab333395723ece8c1734a7f0327c8554a56539",
+      "old_bytes": 4606,
+      "new_bytes": 4606,
+      "change": "byte-identical"
+    },
+    {
+      "old_path": "src/zeo_core/integrations/briefing_sources/http.py",
+      "new_path": "src/zeo_integrations/briefing_sources/http.py",
+      "old_blob": "dd236fdd57c9b16af47ee1e73afa6833147c09d1",
+      "new_blob": "dd236fdd57c9b16af47ee1e73afa6833147c09d1",
+      "old_bytes": 15162,
+      "new_bytes": 15162,
+      "change": "byte-identical"
+    },
+    {
+      "old_path": "tests/test_integrations/briefing_sources/test_http.py",
+      "new_path": "tests/test_integrations/briefing_sources/test_http.py",
+      "old_blob": "35fc1af2ef84d4b818e8d878d284478ef0662555",
+      "new_blob": "9bdb32884a8170aa72c9534525d845e319edbee1",
+      "old_bytes": 13804,
+      "new_bytes": 13799,
+      "change": "import relocation only"
+    },
+    {
+      "old_path": "tests/test_integrations/briefing_sources/test_http_locks.py",
+      "new_path": "tests/test_integrations/briefing_sources/test_http_locks.py",
+      "old_blob": "892089f9ef990e8fbf8f97b3c176aeffc5257ce6",
+      "new_blob": "695a9c833cd9d2cd8806d63505e6d5820909cbc2",
+      "old_bytes": 6082,
+      "new_bytes": 6077,
+      "change": "import relocation only"
+    },
+    {
+      "old_path": "tests/connections/adapters/fake_subprocess_runner.py",
+      "new_path": "tests/test_integrations/gemini/fake_subprocess_runner.py",
+      "old_blob": "2fa87799cc8bd5fa65d75cad0836afff03707550",
+      "new_blob": "2fa87799cc8bd5fa65d75cad0836afff03707550",
+      "old_bytes": 6607,
+      "new_bytes": 6607,
+      "change": "byte-identical"
+    },
+    {
+      "old_path": "tests/test_integrations/test_gemini_images.py",
+      "new_path": "tests/test_integrations/gemini/test_gemini_images.py",
+      "old_blob": "3ea585b7b2c08449d844cd6c0df44bcdd469f96b",
+      "new_blob": "74084182d1c5e2c2759687e800f1f8e2d34f35c5",
+      "old_bytes": 11639,
+      "new_bytes": 11666,
+      "change": "imports only; orchestration stays Core"
+    }
+  ],
+  "new_files": [
+    {
+      "path": "src/zeo_integrations/gemini/__init__.py",
+      "blob": "af0f4f8a534395b248a6a135a18f615a572b3804",
+      "bytes": 406
+    },
+    {
+      "path": "src/zeo_integrations/briefing_sources/__init__.py",
+      "blob": "c3b951f654970b5c558425d3dffe806da71379ef",
+      "bytes": 70
+    },
+    {
+      "path": "src/zeo_integrations/gemini/py.typed",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "src/zeo_integrations/briefing_sources/py.typed",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "tests/test_integrations/gemini/__init__.py",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "tests/test_integrations/gemini/signature_verifier.py",
+      "blob": "100a4d95cb3bec15068b2510759396a260a8129c",
+      "bytes": 307
+    },
+    {
+      "path": "src/zeo_integrations/gemini/NOTICE",
+      "blob": "0ec7cc2fceda68436268e3509c0f2c38205e6be2",
+      "bytes": 2211
+    },
+    {
+      "path": "src/zeo_integrations/briefing_sources/NOTICE",
+      "blob": "d03b2a47852b0ded1b6b78c825d3ced3412b5ac1",
+      "bytes": 1778
+    }
+  ],
+  "test_support_excerpt": {
+    "source": "tests/connections/test_effect_orchestration.py",
+    "source_blob": "747498a1bfe7771d7eb6d289fb36021aa5bd3b2b",
+    "class": "AcceptingSignatureVerifier",
+    "destination": "tests/test_integrations/gemini/signature_verifier.py"
+  },
+  "qualification": "NOT_RUN; requires Scheduler GO and exact-head full gate"
+}

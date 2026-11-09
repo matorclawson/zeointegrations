@@ -143,3 +143,12 @@ import/string-only rewrites. Core framework/contracts and App signer custody
 remain in zeocore; existing Core entry points are unchanged.
 Current-main integration applies import grouping/formatting and preserves the
 inherited status-enum string contract with an explicit compatibility check.
+
+Recovered portable Gemini models/artifacts/transport and briefing HTTP source/tests
+from zeroemployeeorg/zeocore@7c9923e6fd93cabb8601040f3e431760be3a18ee,
+MIT Copyright (c) 2026 Rod Rivera. Per-file provenance and retained Core orchestration:
+docs/migrations/core-7c9923e6-gemini-http.json; full terms in each provider NOTICE.
+
+Recovered Notion and Bluesky source/tests from the same frozen Core commit.
+Exact per-file blobs and travelling test ownership:
+docs/migrations/core-7c9923e6-batch2.json and packaged provider NOTICE files.
