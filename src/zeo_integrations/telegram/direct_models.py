@@ -8,6 +8,7 @@ from pydantic import (
     Field,
     JsonValue,
     SecretStr,
+    ValidationError,
     field_validator,
     model_validator,
 )
@@ -100,15 +101,38 @@ class Update(ResponseModel):
     # a business action from these untrusted values without caller admission.
     raw_payload: dict[str, JsonValue] = Field(default_factory=dict, repr=False)
 
+    unsupported_reason: (
+        Literal["invalid_message", "invalid_callback_query", "conflicting_kinds"] | None
+    ) = Field(default=None, repr=False)
+
     @model_validator(mode="before")
     @classmethod
     def preserve_payload(cls, value):
-        if isinstance(value, dict):
-            return {
-                **value,
-                "raw_payload": {k: v for k, v in value.items() if k != "raw_payload"},
-            }
-        return value
+        if not isinstance(value, dict):
+            return value
+        raw = dict(value)
+        parsed = {**raw, "raw_payload": raw, "unsupported_reason": None}
+        if raw.get("message") is not None and raw.get("callback_query") is not None:
+            parsed.update(
+                message=None,
+                callback_query=None,
+                unsupported_reason="conflicting_kinds",
+            )
+            return parsed
+        # A supported kind with a future/malformed shape must not hide other
+        # updates. Keep its strictly validated update_id plus full raw JSON for
+        # caller quarantine. Never reinterpret malformed content as text.
+        for name, model in (("message", Message), ("callback_query", CallbackQuery)):
+            if raw.get(name) is not None:
+                try:
+                    model.model_validate(raw[name])
+                except (ValidationError, TypeError, ValueError, RecursionError):
+                    parsed.update(
+                        message=None,
+                        callback_query=None,
+                        unsupported_reason=f"invalid_{name}",
+                    )
+        return parsed
 
     update_id: Annotated[int, Field(ge=0, le=2**53)]
     message: Message | None = Field(default=None, repr=False)

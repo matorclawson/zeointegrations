@@ -185,7 +185,12 @@ class TelegramClient:
         # Raise outside the handler so neither __context__ nor a raw HTTP URL
         # with its token is attached to the safe public exception.
         if cancelled:
-            raise TelegramError("request_cancelled", outcome_unknown=effect)
+            # Python 3.12 asyncio.timeout checks exact CancelledError identity,
+            # so a subclass would break its TimeoutError conversion. Replace
+            # the original exception with the same standard type and safe note.
+            error = asyncio.CancelledError("request_cancelled")
+            error.add_note(f"outcome_unknown={str(effect).lower()}")
+            raise error
         if failed:
             raise TelegramError("transport_unavailable", outcome_unknown=effect)
         envelope = None

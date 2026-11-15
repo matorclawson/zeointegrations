@@ -36,8 +36,15 @@ explicitly handled or durably quarantined, never silently skipped. Treat all
 provider payloads and callback data as untrusted input.
 
 The request subscribes to messages and callback queries. Previously queued
-other update types may still arrive. A response that cannot be validated fails
-as a whole; no partial page or implicit acknowledgement is returned. The client
+other update types may still arrive. A message or callback that cannot be
+typed is returned as an `unsupported`
+row with a fixed `unsupported_reason`, its strictly validated `update_id`,
+and the complete `raw_payload`. Persist it in a restricted quarantine before
+confirming past it; alert the operator rather than treating malformed content
+as a business instruction. Other rows in the page remain available. Invalid
+JSON, invalid/missing IDs, duplicate or out-of-order IDs, and oversized pages
+still fail as a whole: no safe confirmation boundary is available. Pause and
+escalate these failures; never advance the offset by guessing an ID. The client
 never stores or advances offsets. Passing an offset confirms earlier updates
 at Telegram, so persist the complete preceding page and its disposition before
 advancing. A failed offset-bearing call may still have confirmed earlier updates.
@@ -59,9 +66,14 @@ Responses have a default 1 MiB cap, configurable up to 4 MiB through
 
 `TelegramError` exposes a fixed `code`, `outcome_unknown`, and optional
 `retry_after_seconds`, with no provider description or raw HTTP exception attached.
-A transport failure, timeout, malformed send receipt, or cancellation after a
-write starts has an unknown outcome: do not blindly retry the send. The API has
-no caller-supplied idempotency key for these sends. Explicit native 4xx refusals
+A transport failure, timeout or malformed send receipt has an unknown outcome:
+do not blindly retry the send. External cancellation propagates as the standard
+`asyncio.CancelledError` with safe text and an `outcome_unknown=true` note for
+writes or offset confirmations. It is not an ordinary `TelegramError`: allow
+cancellation to stop the polling/controller task. TaskGroup cancellation and
+an outer `asyncio.timeout` retain their standard behavior, including on Python
+3.12. A cancelled or timed-out write may have completed; never automatically
+retry it. The API has no caller-supplied idempotency key for these sends. Explicit native 4xx refusals
 are distinguished from uncertain outcomes. Rate-limit hints never trigger a retry.
 A successful send is API acceptance, not proof of customer delivery or consent.
 Caller-injected transports must preserve these no-retry and no-URL-logging rules.

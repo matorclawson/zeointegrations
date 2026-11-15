@@ -260,7 +260,6 @@ class ClientTests(unittest.IsolatedAsyncioTestCase):
             [{"update_id": 1, "message": message()}, {"update_id": "bad"}],
             [{"update_id": 2}, {"update_id": 1}],
             [{"update_id": 1}, {"update_id": 1}],
-            [{"update_id": 1, "message": message(date="bad")}],
         ]:
             with self.subTest(result=result):
                 client = self.client(
@@ -365,10 +364,12 @@ class ClientTests(unittest.IsolatedAsyncioTestCase):
         task = asyncio.create_task(client.send_message(CHAT, "hello"))
         await dispatched.wait()
         task.cancel()
-        with self.assertRaises(TelegramError) as caught:
+        with self.assertRaises(asyncio.CancelledError) as caught:
             await task
-        self.assertEqual(caught.exception.code, "request_cancelled")
-        self.assertTrue(caught.exception.outcome_unknown)
+        self.assertTrue(task.cancelled())
+        self.assertIs(type(caught.exception), asyncio.CancelledError)
+        self.assertEqual(str(caught.exception), "request_cancelled")
+        self.assertIn("outcome_unknown=true", caught.exception.__notes__)
         self.assertIsNone(caught.exception.__context__)
         self.assertEqual(len(calls), 1)
 
@@ -384,3 +385,68 @@ class ClientTests(unittest.IsolatedAsyncioTestCase):
                 await client.answer_callback_query("opaque")
             self.assertTrue(caught.exception.outcome_unknown)
             self.assertIsNone(caught.exception.__context__)
+
+    async def test_malformed_message_preserves_page_for_explicit_quarantine(self):
+        result = [
+            {"update_id": 1, "message": message(date="bad")},
+            {"update_id": 2, "message": message()},
+        ]
+        client = self.client(
+            lambda request: httpx.Response(200, json={"ok": True, "result": result})
+        )
+        rows = await client.get_updates()
+        self.assertEqual([row.update_id for row in rows], [1, 2])
+        self.assertEqual(rows[0].kind, "unsupported")
+        self.assertEqual(rows[0].unsupported_reason, "invalid_message")
+        self.assertEqual(rows[0].raw_payload, result[0])
+        self.assertEqual(rows[1].message.message_id, 5)
+
+    async def test_taskgroup_cancellation_remains_cancellation(self):
+        dispatched = asyncio.Event()
+
+        async def handle(request):
+            dispatched.set()
+            await asyncio.Event().wait()
+
+        client = self.client(handle)
+        with self.assertRaises(ExceptionGroup):
+            async with asyncio.TaskGroup() as group:
+                task = group.create_task(client.send_message(CHAT, "hello"))
+                await dispatched.wait()
+                raise RuntimeError("fixture stops group")
+        self.assertTrue(task.cancelled())
+
+    async def test_outer_timeout_keeps_timeout_semantics(self):
+        async def handle(request):
+            await asyncio.Event().wait()
+
+        client = self.client(handle)
+        with self.assertRaises(TimeoutError):
+            async with asyncio.timeout(0.01):
+                await client.send_message(CHAT, "hello")
+
+    async def test_bad_callback_and_conflicting_kinds_are_opaque(self):
+        cases = [
+            ({"callback_query": {"id": "missing-fields"}}, "invalid_callback_query"),
+            (
+                {"message": message(), "callback_query": {"id": "bad"}},
+                "conflicting_kinds",
+            ),
+        ]
+        for content, reason in cases:
+            payload = {
+                "update_id": 7,
+                **content,
+                "unsupported_reason": "untrusted-provider-field",
+            }
+            client = self.client(
+                lambda request, payload=payload: httpx.Response(
+                    200, json={"ok": True, "result": [payload]}
+                )
+            )
+            rows = await client.get_updates()
+            self.assertEqual(rows[0].kind, "unsupported")
+            self.assertEqual(rows[0].unsupported_reason, reason)
+            self.assertEqual(rows[0].raw_payload, payload)
+            self.assertIsNone(rows[0].message)
+            self.assertIsNone(rows[0].callback_query)
