@@ -72,7 +72,7 @@ do not blindly retry the send. External cancellation propagates as the standard
 writes or offset confirmations. It is not an ordinary `TelegramError`: allow
 cancellation to stop the polling/controller task. TaskGroup cancellation and
 an outer `asyncio.timeout` retain their standard behavior, including on Python
-3.12. A cancelled or timed-out write may have completed; never automatically
+3.12. A canceled or timed-out write may have completed; never automatically
 retry it. The API has no caller-supplied idempotency key for these sends. Explicit native 4xx refusals
 are distinguished from uncertain outcomes. Rate-limit hints never trigger a retry.
 A successful send is API acceptance, not proof of customer delivery or consent.
