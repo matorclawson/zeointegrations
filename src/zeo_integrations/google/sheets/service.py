@@ -144,8 +144,60 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
         # mock class. See docs/service.py's own docstring for the full
         # reasoning (3 of the now-4 sibling services use `Any` here; mail is
         # the sole outlier with a real Protocol type).
+        self._injected_credentials = False
         self.sheets_service: Any = None
         self.config: dict[str, object] = {}
+
+    @classmethod
+    def from_credentials(
+        cls,
+        credentials: GoogleCredentials,
+        *,
+        log_level: int = logging.INFO,
+    ) -> "GoogleSheetsService":
+        """Build from an explicit google-auth object already held by the host.
+
+        No default credential lookup, config files, browser authorization,
+        discovery download, or credential persistence is performed here.
+        The host supplies scopes and owns refresh-token/service-account custody.
+        Install the Google optional extra before using this constructor.
+        """
+        if credentials is None:
+            raise ZeoApiError(
+                "Explicit Google credentials are required",
+                service="Google Sheets",
+                api_method="build",
+            )
+        service = cls(log_level=log_level)
+        failed = False
+        try:
+            from googleapiclient.discovery import build
+
+            service.sheets_service = build(
+                "sheets",
+                "v4",
+                credentials=credentials,
+                cache_discovery=False,
+                static_discovery=True,
+                num_retries=0,
+            )
+        except Exception:
+            failed = True
+        # Raise outside the handler: do not attach a secret-bearing SDK error.
+        if failed:
+            raise ZeoApiError(
+                "Unable to build Google Sheets from injected credentials",
+                service="Google Sheets",
+                api_method="build",
+            )
+        service._injected_credentials = True
+        service._initialized = True
+        return service
+
+    def _error_text(self, error: Exception) -> str:
+        # Existing file-based callers retain their diagnostic contract. The
+        # memory-credential path must not expose secret-bearing SDK exceptions.
+        return "Sheets request failed" if self._injected_credentials else str(error)
 
     @property
     def name(self) -> str:
@@ -200,7 +252,9 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
         except ZeoIntegrationError:
             raise
         except Exception as e:
-            self.logger.error(f"Failed to initialize configuration: {e}")
+            self.logger.error(
+                f"Failed to initialize configuration: {self._error_text(e)}"
+            )
             return None
 
     def initialize(self) -> IntegrationResult[NoneType]:
@@ -210,6 +264,10 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
         Returns:
             IntegrationResult indicating success or failure.
         """
+        if self._initialized and self.sheets_service is not None:
+            return IntegrationResult.success_result(
+                message="Google Sheets service already initialized"
+            )
         init_result: IntegrationResult[NoneType] = super().initialize()
         if not init_result.success:
             return init_result
@@ -240,9 +298,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
             try:
                 credentials = self.auth_provider.get_credentials()
             except ZeoBaseAuthError as auth_error:
-                self.logger.error(f"Authentication failed: {auth_error}")
+                self.logger.error(
+                    f"Authentication failed: {self._error_text(auth_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to authenticate with Google Sheets: {auth_error}"
+                    "Failed to authenticate with Google Sheets: "
+                    f"{self._error_text(auth_error)}"
                 )
 
             try:
@@ -258,7 +319,8 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 )
             except Exception as api_error:
                 raise ZeoApiError(
-                    f"Failed to initialize Google Sheets API: {api_error}",
+                    "Failed to initialize Google Sheets API: "
+                    f"{self._error_text(api_error)}",
                     service="Google Sheets",
                     api_method="build",
                     original_error=api_error,
@@ -270,17 +332,23 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
             )
         except ZeoApiError as e:
             self._initialized = False
-            self.logger.error(f"API error during initialization: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(f"API error during initialization: {self._error_text(e)}")
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
             self._initialized = False
-            self.logger.error(f"Authentication error during initialization: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
+            self.logger.error(
+                f"Authentication error during initialization: {self._error_text(e)}"
+            )
+            return IntegrationResult.error_result(
+                f"Authentication error: {self._error_text(e)}"
+            )
         except Exception as e:
             self._initialized = False
-            self.logger.error(f"Failed to initialize Google Sheets service: {e}")
+            self.logger.error(
+                f"Failed to initialize Google Sheets service: {self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to initialize Google Sheets service: {e}"
+                f"Failed to initialize Google Sheets service: {self._error_text(e)}"
             )
 
     # ------------------------------------------------------------------
@@ -315,9 +383,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     .execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to get spreadsheet: {api_error}")
+                self.logger.error(
+                    f"Failed to get spreadsheet: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to get spreadsheet from Google Sheets: {api_error}"
+                    "Failed to get spreadsheet from Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -325,15 +396,22 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 message=f"Retrieved spreadsheet {spreadsheet_id}",
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during getting spreadsheet: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(
+                f"API error during getting spreadsheet: {self._error_text(e)}"
+            )
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during getting spreadsheet: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to get spreadsheet: {e}")
+            self.logger.error(
+                "Authentication error during getting spreadsheet: "
+                f"{self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to get spreadsheet from Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to get spreadsheet: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to get spreadsheet from Google Sheets: {self._error_text(e)}"
             )
 
     def create_spreadsheet(self, title: str) -> IntegrationResult[dict[str, Any]]:
@@ -363,9 +441,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     self.sheets_service.spreadsheets().create(body=body).execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to create spreadsheet: {api_error}")
+                self.logger.error(
+                    f"Failed to create spreadsheet: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to create spreadsheet in Google Sheets: {api_error}"
+                    "Failed to create spreadsheet in Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -373,15 +454,22 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 message=f"Created spreadsheet '{title}'",
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during creating spreadsheet: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(
+                f"API error during creating spreadsheet: {self._error_text(e)}"
+            )
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during creating spreadsheet: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to create spreadsheet: {e}")
+            self.logger.error(
+                "Authentication error during creating spreadsheet: "
+                f"{self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to create spreadsheet in Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to create spreadsheet: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to create spreadsheet in Google Sheets: {self._error_text(e)}"
             )
 
     # ------------------------------------------------------------------
@@ -421,9 +509,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     .execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to get values: {api_error}")
+                self.logger.error(
+                    f"Failed to get values: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to get values from Google Sheets: {api_error}"
+                    "Failed to get values from Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -431,15 +522,19 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 message=f"Retrieved values from {spreadsheet_id}!{range_a1}",
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during getting values: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(f"API error during getting values: {self._error_text(e)}")
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during getting values: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to get values: {e}")
+            self.logger.error(
+                f"Authentication error during getting values: {self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to get values from Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to get values: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to get values from Google Sheets: {self._error_text(e)}"
             )
 
     def update_values(
@@ -487,9 +582,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     .execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to update values: {api_error}")
+                self.logger.error(
+                    f"Failed to update values: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to update values in Google Sheets: {api_error}"
+                    "Failed to update values in Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -497,15 +595,21 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 message=f"Updated values at {spreadsheet_id}!{range_a1}",
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during updating values: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(
+                f"API error during updating values: {self._error_text(e)}"
+            )
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during updating values: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to update values: {e}")
+            self.logger.error(
+                f"Authentication error during updating values: {self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to update values in Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to update values: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to update values in Google Sheets: {self._error_text(e)}"
             )
 
     def append_values(
@@ -557,9 +661,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     .execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to append values: {api_error}")
+                self.logger.error(
+                    f"Failed to append values: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to append values in Google Sheets: {api_error}"
+                    "Failed to append values in Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -567,15 +674,21 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 message=f"Appended values after {spreadsheet_id}!{range_a1}",
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during appending values: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(
+                f"API error during appending values: {self._error_text(e)}"
+            )
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during appending values: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to append values: {e}")
+            self.logger.error(
+                f"Authentication error during appending values: {self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to append values in Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to append values: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to append values in Google Sheets: {self._error_text(e)}"
             )
 
     def clear_values(
@@ -609,9 +722,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     .execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to clear values: {api_error}")
+                self.logger.error(
+                    f"Failed to clear values: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to clear values in Google Sheets: {api_error}"
+                    "Failed to clear values in Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -619,15 +735,21 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 message=f"Cleared values at {spreadsheet_id}!{range_a1}",
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during clearing values: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(
+                f"API error during clearing values: {self._error_text(e)}"
+            )
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during clearing values: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to clear values: {e}")
+            self.logger.error(
+                f"Authentication error during clearing values: {self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to clear values in Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to clear values: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to clear values in Google Sheets: {self._error_text(e)}"
             )
 
     # ------------------------------------------------------------------
@@ -679,9 +801,12 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                     .execute()
                 )
             except Exception as api_error:
-                self.logger.error(f"Failed to apply batch update: {api_error}")
+                self.logger.error(
+                    f"Failed to apply batch update: {self._error_text(api_error)}"
+                )
                 return IntegrationResult.error_result(
-                    f"Failed to apply batch update in Google Sheets: {api_error}"
+                    "Failed to apply batch update in Google Sheets: "
+                    f"{self._error_text(api_error)}"
                 )
 
             return IntegrationResult.success_result(
@@ -691,15 +816,19 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
                 ),
             )
         except ZeoApiError as e:
-            self.logger.error(f"API error during batch update: {e}")
-            return IntegrationResult.error_result(f"API error: {e}")
+            self.logger.error(f"API error during batch update: {self._error_text(e)}")
+            return IntegrationResult.error_result(f"API error: {self._error_text(e)}")
         except ZeoBaseAuthError as e:
-            self.logger.error(f"Authentication error during batch update: {e}")
-            return IntegrationResult.error_result(f"Authentication error: {e}")
-        except Exception as e:
-            self.logger.error(f"Failed to apply batch update: {e}")
+            self.logger.error(
+                f"Authentication error during batch update: {self._error_text(e)}"
+            )
             return IntegrationResult.error_result(
-                f"Failed to apply batch update in Google Sheets: {e}"
+                f"Authentication error: {self._error_text(e)}"
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to apply batch update: {self._error_text(e)}")
+            return IntegrationResult.error_result(
+                f"Failed to apply batch update in Google Sheets: {self._error_text(e)}"
             )
 
     def validate_config(self, config: dict[str, object]) -> tuple[bool, list[str]]:
@@ -719,5 +848,5 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
             GoogleSheetsConfig(**config)
             return True, []
         except Exception as e:
-            errors.append(f"Configuration validation failed: {e}")
+            errors.append(f"Configuration validation failed: {self._error_text(e)}")
             return False, errors
