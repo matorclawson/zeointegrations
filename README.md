@@ -48,6 +48,10 @@ provider's entire API.
 | [telegram](src/zeo_integrations/telegram) | Partial | Existing credentialless hosted read/ack/send API plus [direct async Bot API transport](docs/telegram-direct.md) for polling, text sends and callback answers with an injected token. |
 | [twilio](src/zeo_integrations/twilio) | Partial | Injected WhatsApp send/status transport and webhook signature/parsing primitives; no phone enrollment or application controller. |
 
+The [provider coverage inventory](docs/inventory/provider-coverage.md) lists
+planned services, auth inputs, dependency observations, current counterparts
+and the implementation order. Planned coverage is not implemented coverage.
+
 Credentials and execution policy belong to the host. Selecting a Python API
 or installing an extra does not grant provider permission or consent. Some
 legacy migrated services still use file/configuration-based authentication;
