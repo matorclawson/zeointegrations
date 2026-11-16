@@ -57,8 +57,9 @@ signer custody. Core runtime groups stay Core under the agreed module map.
 
 Preserve source copyright and MIT permission notices on every copied portion.
 Record upstream repository, full source commit, paths and local destinations in
-each package's NOTICE and the root NOTICE. The first VeyraX port requires independent
-license compatibility review. Do not copy its credential store or frontend code.
+each package's NOTICE and the root NOTICE. VeyraX is a service-coverage
+reference only: implement fresh code and tests rather than copying or adapting
+its source. Do not add attribution for code that was not copied.
 
 This public repository uses exactly `sow: public` in every commit and on line 1
 of the PR body. Keep internal work identifiers, role names, session trailers and
