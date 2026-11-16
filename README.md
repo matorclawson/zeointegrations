@@ -53,6 +53,8 @@ or installing an extra does not grant provider permission or consent. Some
 legacy migrated services still use file/configuration-based authentication;
 inspect the selected service's constructor before choosing it for a host that
 requires in-memory credential injection. Sheets also offers an additive [in-memory credentials constructor](docs/google-sheets-memory.md).
+Its additive [typed multi-range read](docs/google-sheets-batch-values.md) uses
+that explicit constructor and leaves the existing operation protocol unchanged.
 Direct Telegram reads no credential files or environment variables and never
 automatically retries sends.
 

@@ -2,12 +2,14 @@
 Google Sheets integration service for zeo_core.
 
 This module provides the main service class for Google Sheets integration,
-implementing the curated 7-of-17-method surface RULING-408 DESIGN-04
+retaining the legacy curated 7-of-17-method surface RULING-408 DESIGN-04
 approach B ruled: `spreadsheets.get`, `spreadsheets.create`,
 `spreadsheets.values.get`, `spreadsheets.values.update`,
 `spreadsheets.values.append`, `spreadsheets.values.clear`, and
-`spreadsheets.batchUpdate` -- no more, no less, no escape-hatch method (a
-separate, not-yet-built ruling item, same boundary as Docs).
+`spreadsheets.batchUpdate`, without an escape-hatch method.
+
+The additive `batch_get_values` method reads multiple ranges with typed models
+and explicitly injected credentials. It does not change the legacy protocol.
 
 THE SHEETS ASYMMETRY (why this file has two clearly separated halves):
 `spreadsheets.values.*` reads/writes a `ValueRange` body of exactly THREE
@@ -62,6 +64,10 @@ from zeo_integrations.google.sheets.protocols import (
     SheetsService,
 )
 from zeo_integrations.google.sheets.request_builder import SheetsRequestBuilder
+from zeo_integrations.google.sheets.values import (
+    SheetsBatchGetRequest,
+    SheetsBatchGetResponse,
+)
 
 # mypy's nonetype-type check rejects `types.NoneType` used as a type
 # expression directly; google/drive/service.py, google/mail/service.py, and
@@ -536,6 +542,65 @@ class GoogleSheetsService(BaseIntegrationService, SheetsIntegrationProtocol):
             return IntegrationResult.error_result(
                 f"Failed to get values from Google Sheets: {self._error_text(e)}"
             )
+
+    def batch_get_values(
+        self, request: SheetsBatchGetRequest
+    ) -> IntegrationResult[SheetsBatchGetResponse]:
+        """Read multiple ranges once, without auth discovery or automatic retries.
+
+        This additive typed operation requires ``from_credentials``. The legacy
+        operation protocol and its existing seven methods remain unchanged.
+        Request order is preserved by the API, including duplicate ranges.
+        Validation failures return a fixed diagnostic without sheet contents.
+        """
+        if not self._injected_credentials or self.sheets_service is None:
+            return IntegrationResult.error_result(
+                "Batch reads require explicitly injected Google credentials"
+            )
+        if not isinstance(request, SheetsBatchGetRequest):
+            return IntegrationResult.error_result("Invalid Sheets batch read request")
+        try:
+            # Snapshot and revalidate mutable lists and model_construct inputs
+            # before constructing an SDK request or performing any I/O.
+            request = SheetsBatchGetRequest.model_validate(request.model_dump())
+        except Exception:
+            return IntegrationResult.error_result("Invalid Sheets batch read request")
+        try:
+            raw = (
+                self.sheets_service.spreadsheets()
+                .values()
+                .batchGet(
+                    spreadsheetId=request.spreadsheet_id,
+                    ranges=list(request.ranges),
+                    majorDimension=request.major_dimension,
+                    valueRenderOption=request.value_render_option,
+                    dateTimeRenderOption=request.date_time_render_option,
+                )
+                .execute(num_retries=0)
+            )
+            response = SheetsBatchGetResponse.model_validate(raw)
+            if response.spreadsheet_id != request.spreadsheet_id:
+                return IntegrationResult.error_result(
+                    "Sheets batch read returned a different spreadsheet"
+                )
+            if len(response.value_ranges) != len(request.ranges):
+                return IntegrationResult.error_result(
+                    "Sheets batch read returned an unexpected range count"
+                )
+            if any(
+                item.major_dimension != request.major_dimension
+                for item in response.value_ranges
+            ):
+                return IntegrationResult.error_result(
+                    "Sheets batch read returned an unexpected dimension"
+                )
+        except Exception:
+            # SDK errors and validation errors can carry credentials or cells.
+            # Neither raw exceptions nor provider response data enter messages.
+            return IntegrationResult.error_result("Sheets batch read failed")
+        return IntegrationResult.success_result(
+            content=response, message="Retrieved spreadsheet ranges"
+        )
 
     def update_values(
         self,

@@ -22,6 +22,9 @@ config model in `google/config.py`, a service class implementing
 `zeo_core.integrations` entry-point group (see this repo's `pyproject.toml`,
 `[project.entry-points."zeo_core.integrations"]`, key `google.sheets`).
 
+The additive ``batch_get_values`` operation requires ``from_credentials`` and
+returns a typed multi-range read. It leaves the legacy protocol unchanged.
+
 Quickstart::
 
     from zeo_integrations.google.sheets import GoogleSheetsService
@@ -64,9 +67,17 @@ from zeo_integrations.google.sheets.protocols import (
 )
 from zeo_integrations.google.sheets.request_builder import SheetsRequestBuilder
 from zeo_integrations.google.sheets.service import GoogleSheetsService
+from zeo_integrations.google.sheets.values import (
+    SheetsBatchGetRequest,
+    SheetsBatchGetResponse,
+    SheetsValueRange,
+)
 
 __all__ = [
     "GoogleSheetsService",
+    "SheetsBatchGetRequest",
+    "SheetsBatchGetResponse",
+    "SheetsValueRange",
     "Color",
     "GridRange",
     "NumberFormat",
