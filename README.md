@@ -44,6 +44,7 @@ provider's entire API.
 | [notion](src/zeo_integrations/notion) | Partial | Pages, blocks, search, databases and upsert support; optional Notion SDK and host-controlled token initialization. |
 | [publishing](src/zeo_integrations/publishing) | Partial | Typed content/media composition and curated Facebook, Instagram, Threads, LinkedIn and X publication workflows; requires provider-specific transport and admission. |
 | [revolut](src/zeo_integrations/revolut) | Partial | Hosted and local read/custody lifecycle surfaces; no general money-transfer API is promised. |
+| [slack](src/zeo_integrations/slack) | Partial | [Typed conversation listing](docs/slack-read.md) through an explicit host-owned transport; no token discovery, message access or automatic pagination. |
 | [supabase](src/zeo_integrations/supabase) | Partial | Database, auth, storage, functions and realtime interfaces; optional Supabase SDK. |
 | [telegram](src/zeo_integrations/telegram) | Partial | Existing credentialless hosted read/ack/send API plus [direct async Bot API transport](docs/telegram-direct.md) for polling, text sends and callback answers with an injected token. |
 | [twilio](src/zeo_integrations/twilio) | Partial | Injected WhatsApp send/status transport and webhook signature/parsing primitives; no phone enrollment or application controller. |
