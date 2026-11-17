@@ -6,6 +6,7 @@ import logging
 import time
 from collections.abc import Callable
 from contextvars import ContextVar
+from typing import Literal
 
 import httpx
 from pydantic import SecretStr, TypeAdapter, ValidationError
@@ -227,15 +228,25 @@ class TelegramClient:
         *,
         limit: int = 100,
         timeout: int = 20,
+        allowed_updates: tuple[Literal["message", "callback_query"], ...] = (
+            "message",
+            "callback_query",
+        ),
     ) -> tuple[Update, ...]:
         """One page only. A passed offset confirms all earlier provider updates.
 
         Persist and process the complete previous page before advancing offset.
         This call never chooses, persists, or advances the offset on your behalf.
         A failed call cannot prove whether an explicitly passed offset took effect.
+        Select a nonempty unique tuple of supported types explicitly when needed;
+        the default remains messages plus callbacks. Selection is always sent.
         """
         request = _request(
-            GetUpdatesRequest, offset=offset, limit=limit, timeout=timeout
+            GetUpdatesRequest,
+            offset=offset,
+            limit=limit,
+            timeout=timeout,
+            allowed_updates=allowed_updates,
         )
         if request.timeout + 5 >= self._options.timeout_seconds:
             raise TelegramError("poll_timeout_exceeds_deadline")
