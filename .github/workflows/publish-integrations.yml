@@ -1,4 +1,4 @@
-name: Publish zeo-integrations on merge
+name: Check integration artifacts on merge
 
 on:
   push:
@@ -17,9 +17,6 @@ jobs:
     # Architect17:25 packaging-only hosted exception; full gates remain on ENG.
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    outputs:
-      wheel_sha256: ${{ steps.artifacts.outputs.wheel_sha256 }}
-      sdist_sha256: ${{ steps.artifacts.outputs.sdist_sha256 }}
     env:
       UV_PYTHON_DOWNLOADS: never
       UV_CONCURRENT_BUILDS: '1'
@@ -54,49 +51,3 @@ jobs:
           path: ${{ runner.temp }}/aggregate-${{ github.run_id }}-${{ github.run_attempt }}/
           if-no-files-found: error
           retention-days: 90
-
-  publish:
-    needs: build
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    # One-time server-side policy must restrict this environment to main.
-    # No per-release reviewers or secrets.
-    environment: pypi
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: aggregate-${{ github.run_id }}-${{ github.run_attempt }}
-          path: release/
-      - name: Verify bytes against independent build-job outputs
-        env:
-          EXPECTED_WHEEL: ${{ needs.build.outputs.wheel_sha256 }}
-          EXPECTED_SDIST: ${{ needs.build.outputs.sdist_sha256 }}
-        run: |
-          python3 - <<'PYHASH'
-          import hashlib, os, pathlib, re
-          root = pathlib.Path("release/dist")
-          wheels, sources = list(root.glob("*.whl")), list(root.glob("*.tar.gz"))
-          assert len(wheels) == len(sources) == 1
-          assert set(root.iterdir()) == set(wheels + sources)
-          for path, variable in ((wheels[0], "EXPECTED_WHEEL"), (sources[0], "EXPECTED_SDIST")):
-              expected = os.environ[variable]
-              assert re.fullmatch(r"[0-9a-f]{64}", expected)
-              assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
-          PYHASH
-      - name: Refuse partial or conflicting existing versions
-        id: plan
-        run: python3 tools/release_integrations.py plan --receipt release/release-receipt.json
-      - name: Publish the aggregate through PyPI OIDC
-        if: steps.plan.outputs.publish == 'true'
-        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
-        with:
-          packages-dir: release/dist/
-          skip-existing: false
-          attestations: true

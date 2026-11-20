@@ -113,12 +113,14 @@ PR smoke job, not the full gate. Required
 checks align with the smoke/review gate and later `zeo-ci/gate`; no removed full-CI
 job may remain required. See docs/ci-toolchain.md for exact inputs and limits.
 The per-provider HubSpot PyPI workflow/click list is superseded and must not
-be dispatched. The separate automatic publication PR will configure one
-`zeo-integrations` publisher, automatic versioning and main-only CI publication
-without a human release reviewer. GitHub settings are scripted; the one PyPI
-owner registration is a single bootstrap. That workflow PR uses the normal
-merger once its Workflows permission is granted; no hand-merge workaround.
-Source moves and repository installs do not wait for PyPI. All builds/tests/gates
+be dispatched. Public Actions perform checks only; the retained artifact-check workflow has
+no PyPI publisher job. Publication uses separately reviewed Linux-built candidate
+artifacts and no-rebuild promotion through the normal signature and merger path.
+Do not cut a release, alter publisher trust or change account/environment settings
+as part of source qualification. Workflow changes use the normal reviewed merger
+with its required Workflows permission; no hand-merge workaround. See
+[the publication boundary](docs/pypi-bootstrap.md). Source moves and repository
+installs do not wait for PyPI. All builds/tests/gates
 remain on ENG-UK with existing tooling and the20GB seat cap; missing tools go to
 the gate infrastructure owner, never a Mat fallback. This foundation performs no settings
 write, runner registration, pending-publisher creation or upload.
