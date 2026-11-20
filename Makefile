@@ -33,7 +33,7 @@ format: ## Format repository Python explicitly during development
 
 types: ## Strict static types for the maintenance tool (mypy 2.3.1)
 	$(MYPY) --version | grep -E '^mypy 2\.3\.1([ .]|$$)' >/dev/null
-	$(MYPY) --strict --no-incremental --follow-imports=skip tools/repo_maintenance.py
+	$(MYPY) --strict --no-incremental --cache-dir=/dev/null --follow-imports=skip tools/repo_maintenance.py
 
 test: ## Run root offline fixture and contract tests
 	$(UV) run --frozen python -m unittest discover -s tests -v
