@@ -103,6 +103,28 @@ def doctor() -> int:
             ]
         )
         report(installed == expected, f"{package} =={expected}", "run make setup")
+    requirements = command(
+        [
+            str(venv_python),
+            "-IB",
+            "-c",
+            "import importlib.metadata as m, pathlib, tomllib; "
+            "from packaging.requirements import Requirement; "
+            "p=tomllib.loads(pathlib.Path('pyproject.toml').read_text()); "
+            "roots=p['project']['dependencies']+"
+            "sum(p['project']['optional-dependencies'].values(), [])+"
+            "p['dependency-groups']['dev']+p['dependency-groups']['release']; "
+            "checks=[Requirement(s) for s in roots]; "
+            "ok=all(m.version(r.name) in r.specifier for r in checks "
+            "if r.marker is None or r.marker.evaluate()); "
+            "print('ready' if ok else 'missing')",
+        ]
+    )
+    report(
+        requirements == "ready",
+        "declared runtime, SDK, development and release requirements",
+        "run make setup with the complete approved dependency cache",
+    )
     mypy = command([os.environ.get("MYPY", "mypy"), "--version"])
     report(
         bool(re.match(r"mypy 2\.3\.1(?:[ .]|$)", mypy or "")),

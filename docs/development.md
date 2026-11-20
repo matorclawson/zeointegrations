@@ -9,7 +9,8 @@ it does not call a provider.
 
 1. `make doctor` checks prerequisites and prints PASS or an actionable FIX.
 2. `make hooks` installs the lightweight guard against pushes to `main`.
-3. On an admitted build host, `make setup` installs the frozen development extras.
+3. On an admitted build host, `make setup` installs the frozen development extras
+   and the existing locked `release` group (the build backend).
 4. `make test` runs root offline fixture tests.
 5. `make verify` runs the complete qualification gate, serially even under `-j`.
 
@@ -18,7 +19,10 @@ providers, create caches, install hooks or change configuration. It checks Git,
 Make, awk, grep, uv >=0.12.2, the development Python pin in `.python-version`,
 locked Ruff 0.15.5 and Hatchling 1.27.0, and the separately admitted mypy 2.3.1.
 `PYTHON` selects the diagnostic interpreter (3.12+); `UV` and `MYPY` can name
-existing tool executables. Doctor checks `.venv/bin/python`, which setup creates.
+existing tool executables. Doctor checks `.venv/bin/python`, which setup creates,
+or the environment named by `UV_PROJECT_ENVIRONMENT`. It checks declared direct
+runtime, optional SDK, development and release requirement versions without
+importing provider code.
 The full gate also needs an existing Python 3.12 interpreter selected by
 `FLOOR_PYTHON` or `python3.12` on PATH. `TMPDIR` must be writable and outside the
 checkout. Diagnostics mention environment variable names only, never values.

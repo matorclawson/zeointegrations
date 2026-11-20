@@ -19,8 +19,8 @@ doctor: ## Read-only prerequisite, hook and optional network diagnostics
 hooks: ## Install the main-push guard without replacing existing hooks
 	@$(PYTHON) -B tools/repo_maintenance.py hooks
 
-setup: ## Install development extras from the frozen uv.lock
-	$(UV) sync --frozen --all-extras
+setup: ## Install frozen development extras and the existing locked build backend
+	$(UV) sync --frozen --all-extras --group release
 
 lint: ## Check all repository Python with locked Ruff
 	$(UV) run --frozen ruff check .
