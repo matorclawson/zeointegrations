@@ -90,66 +90,6 @@ class ClientTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(rows[0].kind, "unsupported")
         self.assertEqual(len(seen), 1)
 
-    async def test_explicit_update_selection_recorded_on_each_poll(self):
-        requests = []
-
-        def handle(request):
-            requests.append(json.loads(request.content))
-            return httpx.Response(200, json={"ok": True, "result": []})
-
-        client = self.client(handle)
-        selections = (
-            ("message",),
-            ("callback_query",),
-            ("message", "callback_query"),
-            ("callback_query", "message"),
-        )
-        for selection in selections:
-            with self.subTest(selection=selection):
-                self.assertEqual(
-                    await client.get_updates(
-                        offset=12, limit=7, timeout=10, allowed_updates=selection
-                    ),
-                    (),
-                )
-                self.assertEqual(
-                    requests[-1],
-                    {
-                        "offset": 12,
-                        "limit": 7,
-                        "timeout": 10,
-                        "allowed_updates": list(selection),
-                    },
-                )
-        self.assertEqual(len(requests), len(selections))
-
-    async def test_invalid_update_selection_refused_before_transport(self):
-        requests = []
-
-        def handle(request):
-            requests.append(request)
-            return httpx.Response(200, json={"ok": True, "result": []})
-
-        client = self.client(handle)
-        for selection in (
-            (),
-            ("message", "message"),
-            ("callback_query", "callback_query"),
-            ("edited_message",),
-            ("message", "callback_query", "edited_message"),
-            ["message", "callback_query"],
-            "message",
-            None,
-            (True,),
-        ):
-            with self.subTest(selection=selection):
-                with self.assertRaises(TelegramError) as caught:
-                    await client.get_updates(allowed_updates=selection)
-                self.assertEqual(caught.exception.code, "invalid_request")
-                self.assertFalse(caught.exception.outcome_unknown)
-                self.assertIsNone(caught.exception.__context__)
-        self.assertEqual(requests, [])
-
     async def test_callback_sender_and_data_preserved(self):
         callback = {
             "id": "opaque",

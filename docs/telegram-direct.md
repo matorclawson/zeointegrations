@@ -23,12 +23,7 @@ from zeo_integrations.telegram.direct import TelegramClient
 
 async def poll_one_page(injected_token: str, persisted_offset: int | None):
     async with TelegramClient(injected_token) as client:
-        return await client.get_updates(
-            offset=persisted_offset,
-            limit=100,
-            timeout=20,
-            allowed_updates=("message", "callback_query"),
-        )
+        return await client.get_updates(offset=persisted_offset, limit=100, timeout=20)
 ```
 
 `get_updates` returns an ordered tuple of typed `Update` models. Each has an
@@ -40,14 +35,8 @@ updates retain their complete bounded JSON row in `raw_payload`; they must be
 explicitly handled or durably quarantined, never silently skipped. Treat all
 provider payloads and callback data as untrusted input.
 
-The keyword-only `allowed_updates` accepts a nonempty, unique tuple containing
-`"message"`, `"callback_query"`, or both. The default remains
-`("message", "callback_query")`. Every poll sends the selected types explicitly;
-it never relies on Telegram's remembered selection. Lists, empty tuples,
-duplicates, and unsupported names fail with `invalid_request` before transport.
-The example keeps callback delivery enabled. Receiving a callback does not grant
-admin rights or business authorization. Previously queued other update types may
-still arrive. A message or callback that cannot be
+The request subscribes to messages and callback queries. Previously queued
+other update types may still arrive. A message or callback that cannot be
 typed is returned as an `unsupported`
 row with a fixed `unsupported_reason`, its strictly validated `update_id`,
 and the complete `raw_payload`. Persist it in a restricted quarantine before
